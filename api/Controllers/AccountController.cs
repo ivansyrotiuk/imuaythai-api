@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MuaythaiSportManagementSystem.Models;
-using MuaythaiSportManagementSystem.Models.AccountViewModels;
-using MuaythaiSportManagementSystem.Services;
+using MuaythaiSportManagementSystem.Controllers;
+using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Models.AccountViewModels;
+using MuaythaiSportManagementSystemApi.Services;
 
-namespace MuaythaiSportManagementSystem.Controllers
+namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Authorize]
     public class AccountController : Controller

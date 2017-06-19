@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using MuaythaiSportManagementSystem.Models;
-using MuaythaiSportManagementSystem.Models.ManageViewModels;
-using MuaythaiSportManagementSystem.Services;
+using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Models.ManageViewModels;
+using MuaythaiSportManagementSystemApi.Services;
 
-namespace MuaythaiSportManagementSystem.Controllers
+namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Authorize]
     public class ManageController : Controller

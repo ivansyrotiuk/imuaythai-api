@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MuaythaiSportManagementSystem.Models;
+using MuaythaiSportManagementSystemApi.Models;
 
-namespace MuaythaiSportManagementSystem.Data
+namespace MuaythaiSportManagementSystemApi.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -22,5 +18,7 @@ namespace MuaythaiSportManagementSystem.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public virtual DbSet<Institution> Institutions { get; set; }
     }
 }
