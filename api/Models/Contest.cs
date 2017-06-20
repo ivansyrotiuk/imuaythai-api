@@ -22,6 +22,12 @@ namespace MuaythaiSportManagementSystemApi.Models
         [StringLength(500)]
         public string City { get; set; }
 
+        public virtual IEquatable<Fight> Fights { get; set; }
+        public virtual IEquatable<ContestCategory> ContestCategories { get; set; }
+        public virtual IEquatable<ContestRequest> ContestRequests { get; set; }
+
+        public virtual Institution Institution { get; set; }
+        public virtual Country Country { get; set; }
 
     }
 }

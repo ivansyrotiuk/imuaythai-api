@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MuaythaiSportManagementSystemApi.Models
 {
@@ -37,5 +38,11 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Twitter { get; set; }
         public int MembersCount { get; set; }
 
+        public virtual IEquatable<InstitutionDocumentsMapping> InstitutionDocumentsMappings { get; set; }
+        public virtual IEquatable<ContestRequest> ContestRequests { get; set; }
+        public virtual IEquatable<ApplicationUser> Users { get; set; }
+        public virtual IEquatable<ExecutionBoard> ExecutionBoards { get; set; }
+        public virtual IEquatable<Contest> Contests { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

@@ -23,8 +23,6 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string TimeKeeperId { get; set; }
         [StringLength(100)]
         public string RefereeId { get; set; }
-        [StringLength(100)]
-        public string Winner { get; set; }
         [Required]
         public byte KO { get; set;}
         [Required]
@@ -32,5 +30,16 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Ring { get; set; }
         [Required]
         public DateTime KOTime { get; set; }
+
+        public virtual IEquatable<FightPoint> FightPoints { get; set; }
+        public virtual IEquatable<FightJudgesMapping> FightJudgesMappings { get; set; }
+
+        public virtual Contest Contest { get; set; }
+        public virtual FightStructure Structure { get; set; }
+        public virtual ApplicationUser RedAthlete { get; set; }
+        public virtual ApplicationUser BlueAthlete { get; set; }
+        public virtual ApplicationUser TimeKeeper { get; set; }
+        public virtual ApplicationUser Referee { get; set; }
+        public virtual ApplicationUser Winner { get; set; }
     }
 }

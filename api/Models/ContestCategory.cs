@@ -6,12 +6,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MuaythaiSportManagementSystemApi.Models
 {
-    public class ContestCategorie
+    public class ContestCategory
     {
         [Key]
         public int Id { get; set;}
-        public int ContestsId { get; set; }
-        public int FightStructure { get; set; }
 
+        public virtual FightStructure FightStructure { get; set; }
+        public virtual IEnumerable<ContestRequest> ContestRequests { get; set; }
+        public virtual Contest Contest { get; set; }
     }
 }

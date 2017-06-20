@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Models
 {
-    public class Countrie
+    public class Country
     {
-        [Key]
         public int Id { get; set; }
-        [StringLength(500)]
         public string Name { get; set; }
-        [StringLength(3)]
         public string Code { get; set; }
-        [StringLength(50)]
         public string Continent { get; set; }
+
+        public virtual IEquatable<ApplicationUser> Users { get; set; }
+        public virtual IEquatable<Institution> Institutions { get; set; }
+        public virtual IEquatable<Contest> Contests { get; set; }
     }
 }

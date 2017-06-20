@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MuaythaiSportManagementSystemApi.Models
@@ -9,6 +10,8 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int Level { get; set; }
         [StringLength(500)]
         public string Name { get; set; }
+
+        public virtual IEquatable<ApplicationUser> Users { get; set; }
     }
     
 }

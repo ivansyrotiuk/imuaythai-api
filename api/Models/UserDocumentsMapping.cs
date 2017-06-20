@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Models
 {
-    public class UserDocimentsMapping
+    public class UserDocumentsMapping
     {
         [Key]
         public int Id { get; set; }
-        [StringLength(100)]
-        public string UserId { get; set; }
-        public int DocumentId  { get; set; }
+
+        public virtual Document Document { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
     }
 }
