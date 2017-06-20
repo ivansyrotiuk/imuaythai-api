@@ -20,5 +20,6 @@ namespace MuaythaiSportManagementSystemApi.Data
         }
 
         public virtual DbSet<Institution> Institutions { get; set; }
+        public virtual DbSet<Contests> Contests { get; set; }
     }
 }
