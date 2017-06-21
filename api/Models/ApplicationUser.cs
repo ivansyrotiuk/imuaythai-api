@@ -42,17 +42,17 @@ namespace MuaythaiSportManagementSystemApi.Models
 
 
         public virtual ICollection<Suspension> Suspensions { get; set; }
-        public virtual IEquatable<UserDocumentsMapping> UserDocimentsMappings { get; set; }
-        public virtual IEquatable<ExecutionBoard> ExecutionBoards { get; set; }
-        public virtual IEquatable<ContestRequest> ContestRequests { get; set; }
-        public virtual IEquatable<ContestRequest> AcceptedContestRequests { get; set; }
-        public virtual IEquatable<Fight> AsRedFights { get; set; }
-        public virtual IEquatable<Fight> AsBlueFights { get; set; }
-        public virtual IEquatable<Fight> AsTimeKeeperFights { get; set; }
-        public virtual IEquatable<Fight> AsRefereeFights { get; set; }
-        public virtual IEquatable<Fight> WonFights { get; set; }
-        public virtual IEquatable<FightJudgesMapping> FightJudgesMappings { get; set; }
-        public virtual IEquatable<FightPoint> FightPoints { get; set; }
+        public virtual ICollection<UserDocumentsMapping> UserDocimentsMappings { get; set; }
+        public virtual ICollection<ExecutionBoard> ExecutionBoards { get; set; }
+        public virtual ICollection<ContestRequest> ContestRequests { get; set; }
+        public virtual ICollection<ContestRequest> AcceptedContestRequests { get; set; }
+        public virtual ICollection<Fight> AsRedFights { get; set; }
+        public virtual ICollection<Fight> AsBlueFights { get; set; }
+        public virtual ICollection<Fight> AsTimeKeeperFights { get; set; }
+        public virtual ICollection<Fight> AsRefereeFights { get; set; }
+        public virtual ICollection<Fight> WonFights { get; set; }
+        public virtual ICollection<FightJudgesMapping> FightJudgesMappings { get; set; }
+        public virtual ICollection<FightPoint> FightPoints { get; set; }
         public virtual Institution Institution { get; set; }
         public virtual Country Country { get; set; }
         public virtual KhanLevel KhanLevel { get; set; }

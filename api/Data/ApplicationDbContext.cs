@@ -16,10 +16,50 @@ namespace MuaythaiSportManagementSystemApi.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>()
-                .HasMany(h => h.Suspensions)
-                .WithOne()
-                .HasForeignKey(p => p.Id);
+            builder.Entity<UserDocumentsMapping>()
+                .HasOne(h => h.User)
+                .WithMany(h => h.UserDocimentsMappings)
+                .HasForeignKey(p => p.UserId);
+
+            builder.Entity<ContestRequest>()
+                .HasOne(h => h.User)
+                .WithMany(h => h.ContestRequests)
+                .HasForeignKey(h => h.UserId);
+
+            builder.Entity<Suspension>()
+                .HasOne(h => h.User)
+                .WithMany(h => h.Suspensions)
+                .HasForeignKey(h => h.UserId);
+
+            builder.Entity<ContestRequest>()
+                .HasOne(h => h.User)
+                .WithMany(h => h.ContestRequests)
+                .HasForeignKey(h => h.UserId);
+
+            builder.Entity<ContestRequest>()
+                .HasOne(h => h.AcceptedByUser)
+                .WithMany(h => h.AcceptedContestRequests)
+                .HasForeignKey(h => h.AcceptedByUserId);
+
+            builder.Entity<Fight>()
+                .HasOne(h => h.BlueAthlete)
+                .WithMany(h => h.AsBlueFights)
+                .HasForeignKey(p => p.BlueAthleteId);
+
+            builder.Entity<Fight>()
+                .HasOne(h => h.RedAthlete)
+                .WithMany(h => h.AsRedFights)
+                .HasForeignKey(p => p.RedAthleteId);
+
+            builder.Entity<Fight>()
+                .HasOne(h => h.Referee)
+                .WithMany(h => h.AsRefereeFights)
+                .HasForeignKey(p => p.RefereeId);
+
+            builder.Entity<Fight>()
+                .HasOne(h => h.TimeKeeper)
+                .WithMany(h => h.AsTimeKeeperFights)
+                .HasForeignKey(p => p.TimeKeeperId);
 
         }
 

@@ -13,7 +13,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int WeightAgeCategoryId { get; set; }
         public int RoundlId { get; set; }
 
-        public ContestCategory[] ContestCategories { get; set; }
-        public Fight[] Fights { get; set; }
+        public ICollection<ContestCategory> ContestCategories { get; set; }
+        public ICollection<Fight> Fights { get; set; }
     }
 }

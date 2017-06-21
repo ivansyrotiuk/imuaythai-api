@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MuaythaiSportManagementSystemApi.Models
@@ -11,7 +12,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         [StringLength(500)]
         public string Name { get; set; }
 
-        public virtual IEquatable<ApplicationUser> Users { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
     }
     
 }

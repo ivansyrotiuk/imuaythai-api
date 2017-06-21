@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MuaythaiSportManagementSystemApi.Models
 {
@@ -8,7 +9,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Name { get; set; }
         public string Localization { get; set; }
 
-        public virtual IEquatable<Suspension> Suspensions { get; set; }
+        public virtual ICollection<Suspension> Suspensions { get; set; }
     }
 
 }
