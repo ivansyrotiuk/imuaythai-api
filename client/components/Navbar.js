@@ -19,7 +19,7 @@ export default class Navbar extends React.Component {
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Muay Thai</a>
+                        <a class="navbar-brand" href="#">MuayThai</a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

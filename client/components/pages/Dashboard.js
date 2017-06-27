@@ -1,5 +1,5 @@
 import React from "react"
-import Panel from "../components/Panel"
+import Panel from "../../components/Panel"
 
 export default class Dashboard extends React.Component {
     render() {

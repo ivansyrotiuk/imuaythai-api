@@ -1,16 +1,23 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import {Router, Route, IndexRoute, hashHistory} from "react-router";
+import React from "react"
+import ReactDOM from "react-dom"
+import {Router, Route, IndexRoute, hashHistory} from "react-router"
+import { Provider } from "react-redux"
 
-import Dashboard from "./pages/Dashboard";
-import Clients from "./pages/Clients";
-import Layout from "./pages/Layout";
+import store from "./store"
+import Layout from "./components/pages/Layout"
+import Dashboard from "./components/pages/Dashboard"
+import Clients from "./components/pages/Clients"
+
 
 const app = document.getElementById('app');
 ReactDOM.render(
+ <Provider store={store}>
     <Router history={hashHistory}>
     <Route path="/" component={Layout}>
         <IndexRoute component={Dashboard}></IndexRoute>
         <Route path="clients" name="clients" component={Clients}></Route>
     </Route>
-</Router>, app);
+</Router></Provider>, app);
+
+
+

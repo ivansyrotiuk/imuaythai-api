@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +45,14 @@ namespace MuaythaiSportManagementSystemApi
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
-     
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -72,6 +80,8 @@ namespace MuaythaiSportManagementSystemApi
 
 
             app.UseIdentity();
+
+            app.UseCors("MyPolicy");
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
