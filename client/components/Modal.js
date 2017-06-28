@@ -3,6 +3,8 @@ import Form from "./Form"
 
 export default class Modal extends React.Component {
     render() {
+        console.log(this.props);
+
         return (
             <div
                 class="modal fade"
