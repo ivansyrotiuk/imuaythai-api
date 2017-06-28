@@ -13,19 +13,24 @@ import {fetchDummyUsers} from "../../actions/dummyUsersActions"
 
 export default class Clients extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.fetchDummyUsers();
+    }
+
     fetchDummyUsers() {
         this.props.dispatch(fetchDummyUsers())
     }
 
     render() {
         const {dummyUsers, fetching} = this.props;
-
+    
         const content = <div>
             <Table dummyUsers={dummyUsers}/>
             <Modal/>
         </div>
 
-        if (dummyUsers.length === 0) {
+        if (fetching) {
             return <LoadButton text="Load users" loading={fetching} click={this.fetchDummyUsers.bind(this)}/>
         }
         
