@@ -12,6 +12,7 @@ export default class Table extends React.Component {
                 <table class="table table-striped table-hover ">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Id</th>
                             <th>Firstname</th>
                             <th>Surname</th>
