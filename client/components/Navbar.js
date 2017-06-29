@@ -4,6 +4,7 @@ import {IndexLink, Link} from "react-router";
 export default class Navbar extends React.Component {
     render() {
         const {location} = this.props;
+ 
         return (
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -30,6 +31,10 @@ export default class Navbar extends React.Component {
                             <li>
                                 <Link to="clients">Users</Link>
                             </li>
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li> <Link to="login">Login</Link></li>
                         </ul>
                     </div>
                 </div>

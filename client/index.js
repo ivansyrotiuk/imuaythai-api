@@ -5,6 +5,7 @@ import { Provider } from "react-redux"
 
 import store from "./store"
 import Layout from "./components/pages/Layout"
+import Login from "./components/pages/Login"
 import Dashboard from "./components/pages/Dashboard"
 import Clients from "./components/pages/Clients"
 import Modal from "./components/Modal"
@@ -17,8 +18,10 @@ ReactDOM.render(
         <IndexRoute component={Dashboard}></IndexRoute>
         <Route path="clients" name="clients" component={Clients}></Route>
         <Route path="dummyUsers(/:user)" name="users" component={Dashboard}></Route>
+        <Route path="login" name="login" component={Login}> </Route>
     </Route>
 </Router></Provider>, app);
 
 
 
+ 
