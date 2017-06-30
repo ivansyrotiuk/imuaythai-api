@@ -16,7 +16,12 @@ module.exports = {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: ['react-html-attrs', 'transform-decorators-legacy', 'transform-class-properties'],
         }
-      }
+      },
+
+		{
+			test: /\.scss$/,
+			loaders: ['style', 'css', 'sass']
+		}
     ]
   },
   output: {
@@ -27,5 +32,8 @@ module.exports = {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+	new ExtractTextPlugin('client/style.css', {
+            allChunks: true
+        })
   ],
 };
