@@ -24,6 +24,19 @@ class Sidebar extends Component {
             <li className="nav-item">
               <NavLink to={'/dashboard'} className="nav-link" activeClassName="active"><i className="icon-speedometer"></i> Dashboard <span className="badge badge-info">NEW</span></NavLink>
             </li>
+
+           
+            <li className={this.activeRoute("/institutions")}>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-puzzle"></i> Institutions</a>
+              <ul className="nav-dropdown-items">
+                <li className="nav-item">
+                  <NavLink to="/gyms" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Gyms</NavLink>
+                </li>
+
+              </ul>
+            </li>
+
+
             <li className="nav-title">
               UI Elements
             </li>

@@ -15,6 +15,7 @@ import Login from './views/Pages/Login/'
 import Register from './views/Pages/Register/'
 import Page404 from './views/Pages/Page404/'
 import Page500 from './views/Pages/Page500/'
+import GymsPage from './views/Institutions/GymsPage'
 
 const history = createBrowserHistory();
 
@@ -27,6 +28,7 @@ ReactDOM.render((
         <Route exact path="/404" name="Page 404" component={Page404}/>
         <Route exact path="/500" name="Page 500" component={Page500}/>
         <Route path="/home" name="Home" component={FrontPage}/>
+        <Route path="/gyms" name="Gyms" component={GymsPage}/>
         <Route path="/" name="Home" component={Full}/>
       </Switch>
     </HashRouter>

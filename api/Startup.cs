@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Services;
 
 namespace MuaythaiSportManagementSystemApi
@@ -57,6 +58,8 @@ namespace MuaythaiSportManagementSystemApi
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddSingleton<IInstitutionRepository, InstitutionRepository>();
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
