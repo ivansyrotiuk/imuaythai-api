@@ -10,7 +10,7 @@ class Login extends Component {
               <div className="card-group mb-0">
                 <div className="card p-4">
                   <div className="card-block">
-                    <h1>Login</h1>
+                    <h1>Login2</h1>
                     <p className="text-muted">Sign In to your account</p>
                     <div className="input-group mb-3">
                       <span className="input-group-addon"><i className="icon-user"></i></span>
