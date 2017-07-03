@@ -15,5 +15,6 @@ namespace MuaythaiSportManagementSystemApi.Models
 
         public UserDocumentsMapping[] UserDocumentsMappings { get; set; }
         public InstitutionDocumentsMapping[] InstitutionDocumentsMappings { get; set; }
+        public ContestDocumentsMapping[] ContestDocumentsMappings { get; set; }
     }
 }
