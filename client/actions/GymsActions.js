@@ -1,3 +1,4 @@
+import {host} from "../global"
 import axios from "axios";
 
 export function fetchGyms() {
@@ -6,7 +7,7 @@ export function fetchGyms() {
             type: "FETCH_GYMS"
         });
         axios
-            .get("http://localhost:65241/api/gyms/")
+            .get(host + "api/gyms/")
             .then((response) => {
                 dispatch({
                     type: "FETCH_GYMS_FULFILLED",

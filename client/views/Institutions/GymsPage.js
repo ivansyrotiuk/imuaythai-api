@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import {host} from "../../global"
 import {saveGym, fetchGyms, deleteGym} from "../../actions/GymsActions"
 import RemoveButton from "./RemoveButton"
 
@@ -41,7 +41,7 @@ export default class GymsPage extends Component {
     var self = this;
 
     axios
-      .post('http://localhost:65241/api/gyms/save', {
+      .post(host + 'api/gyms/save', {
         Id: this.refs.id.value,
         Name: this.refs.name.value
       })
@@ -56,7 +56,7 @@ export default class GymsPage extends Component {
   removeGym(id) {
     var self = this;
     axios
-      .post('http://localhost:65241/api/gyms/remove', {Id: id})
+      .post(host + 'api/gyms/remove', {Id: id})
       .then(function (response) {
         self.deleteGym(response.data)
       })
