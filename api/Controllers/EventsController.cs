@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace imuaythaiAPI.Controllers
+namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
