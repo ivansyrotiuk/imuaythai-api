@@ -6,7 +6,6 @@ import RemoveButton from "./RemoveButton"
 import {connect} from "react-redux"
 import axios from "axios";
 
-
 @connect((store) => {
   return {gyms: store.Gyms.gyms, fetching: store.Gyms.fetching, fetched: store.Gyms.fetched};
 })
@@ -20,44 +19,46 @@ export default class GymsPage extends Component {
   }
 
   fetchGyms() {
-    this.props.dispatch(fetchGyms())
+    this
+      .props
+      .dispatch(fetchGyms())
   }
 
   saveGym(gym) {
-    this.props.dispatch(saveGym(gym))
+    this
+      .props
+      .dispatch(saveGym(gym))
   }
 
   deleteGym(id) {
-    this.props.dispatch(deleteGym(id))
+    this
+      .props
+      .dispatch(deleteGym(id))
   }
-
 
   handleSubmit(e) {
     e.preventDefault();
     var self = this;
-    console.log(self);
 
     axios
-      .post('http://localhost:65240/api/gyms/save', { 
+      .post('http://localhost:65241/api/gyms/save', {
         Id: this.refs.id.value,
         Name: this.refs.name.value
       })
       .then(function (response) {
-           self.saveGym(response.data)
+        self.saveGym(response.data)
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  removeGym(id){
-      var self = this;
-     axios
-      .post('http://localhost:65240/api/gyms/remove', 
-       { Id:id }
-      )
+  removeGym(id) {
+    var self = this;
+    axios
+      .post('http://localhost:65241/api/gyms/remove', {Id: id})
       .then(function (response) {
-           self.deleteGym(response.data)
+        self.deleteGym(response.data)
       })
       .catch(function (error) {
         console.log(error);
@@ -67,13 +68,16 @@ export default class GymsPage extends Component {
   render() {
 
     const {gyms, fetching} = this.props;
-    const mappedGyms = gyms.map((gym, i) => 
-    <tr key={i}>
+    const mappedGyms = gyms.map((gym, i) => <tr key={i}>
       <td>{gym.id}</td>
       <td>{gym.name}</td>
-      <td><RemoveButton id={gym.id} text=" Remove" click={this.removeGym.bind(this, gym.id)}/></td>
+      <td><RemoveButton
+        id={gym.id}
+        text=" Remove"
+        click={this
+      .removeGym
+      .bind(this, gym.id)}/></td>
     </tr>);
-
 
     return (
       <div className="row">
@@ -118,35 +122,28 @@ export default class GymsPage extends Component {
                 <button type="button" type="submit" className="btn btn-primary">Save</button>
               </form>
             </div>
-
           </div>
-
           <div className="card">
-              <div className="card-header">
-                <i className="fa fa-align-justify"></i> Simple Table
-              </div>
-              <div className="card-block">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Name</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                   {mappedGyms}
-                   
-                  </tbody>
-                </table>
-                
-              </div>
+            <div className="card-header">
+              <i className="fa fa-align-justify"></i>
+              Simple Table
             </div>
-    
+            <div className="card-block">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mappedGyms}
 
-
-
-
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     );

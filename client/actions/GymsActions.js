@@ -6,7 +6,7 @@ export function fetchGyms() {
             type: "FETCH_GYMS"
         });
         axios
-            .get("http://localhost:65240/api/gyms/")
+            .get("http://localhost:65241/api/gyms/")
             .then((response) => {
                 dispatch({
                     type: "FETCH_GYMS_FULFILLED",
