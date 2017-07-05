@@ -1,4 +1,8 @@
 ﻿using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using Microsoft.Extensions.Options;
+using MimeKit;
 
 namespace MuaythaiSportManagementSystemApi.Services
 {
@@ -7,10 +11,30 @@ namespace MuaythaiSportManagementSystemApi.Services
     // For more details see this link https://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
+        public EmailConfiguration Options {get;}
+        public AuthMessageSender(IOptions<EmailConfiguration> emailOptionsAccessor)
+        {
+            Options = emailOptionsAccessor.Value;
+        }
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            MimeMessage emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress(subject, Options.SmtpEmail));
+            emailMessage.To.Add(new MailboxAddress(subject, email));
+            emailMessage.Subject = subject;
+
+            BodyBuilder bodyBuilder = new BodyBuilder{
+                HtmlBody = message
+            };
+
+            emailMessage.Body = bodyBuilder.ToMessageBody();
+
+            SmtpClient client = new SmtpClient();
+            client.Connect(Options.SmtpServer, 587, SecureSocketOptions.None);
+            client.AuthenticationMechanisms.Remove("XOAUTH2");
+            client.Authenticate(Options.SmtpUsername, Options.SmtpPassword);
+
+            return client.SendAsync(emailMessage);
         }
 
         public Task SendSmsAsync(string number, string message)

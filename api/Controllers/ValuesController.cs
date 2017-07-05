@@ -11,19 +11,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
-    [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class TokenProvider
     {
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        public static string GenerateToken(int id)
         {
 
             var claims = new Claim[]{
