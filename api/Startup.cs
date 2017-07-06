@@ -57,7 +57,8 @@ namespace MuaythaiSportManagementSystemApi
             services.AddIdentity<ApplicationUser, IdentityRole>(config => {
                 config.SignIn.RequireConfirmedEmail = true;
                 config.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {

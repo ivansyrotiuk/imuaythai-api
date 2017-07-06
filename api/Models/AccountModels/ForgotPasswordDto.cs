@@ -7,5 +7,6 @@ namespace MuaythaiSportManagementSystemApi.Models.AccountModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        public string CallbackUrl { get; set; }
     }
 }

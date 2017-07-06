@@ -30,11 +30,12 @@ namespace MuaythaiSportManagementSystemApi.Services
             emailMessage.Body = bodyBuilder.ToMessageBody();
 
             SmtpClient client = new SmtpClient();
-            client.Connect(Options.SmtpServer, 587, SecureSocketOptions.None);
+            client.Connect(Options.SmtpServer, 587);
             client.AuthenticationMechanisms.Remove("XOAUTH2");
             client.Authenticate(Options.SmtpUsername, Options.SmtpPassword);
-
-            return client.SendAsync(emailMessage);
+            var response = client.SendAsync(emailMessage);
+            client.Disconnect(true);
+            return response;
         }
 
         public Task SendSmsAsync(string number, string message)
