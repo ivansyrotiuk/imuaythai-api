@@ -19,7 +19,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        [Route("Figthers")]
+        [Route("Fighters")]
         public IActionResult GetFigthers()
         {
             try
