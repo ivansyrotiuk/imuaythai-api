@@ -1,7 +1,9 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading;
+using MuaythaiSportManagementSystemApi.Repositories;
+using System.Linq;
+using MuaythaiSportManagementSystemApi.Users;
+using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -9,44 +11,114 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     [Route("api/Users")]
     public class UsersController : Controller
     {
-        [HttpGet]
-        [Route("DummyUsers")]
-        public List<DummyUser> GetUsers()
+        private IUsersRepository _repository;
+
+        public UsersController(IUsersRepository repository)
         {
-            Thread.Sleep(2000);
-            return new List<DummyUser>
-            {
-                new DummyUser
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Firstname = "John",
-                    Surname = "Smith",
-                    ImageUrl = "https://www.shareicon.net/data/32x32/2016/01/12/702155_users_512x512.png"
-                },
-                new DummyUser
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Firstname = "Jan",
-                    Surname = "Kowalski",
-                    ImageUrl = "https://www.shareicon.net/data/32x32/2016/07/21/799335_user_512x512.png"
-                },
-                new DummyUser
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Firstname = "Jochan",
-                    Surname = "Schmidt",
-                    ImageUrl = "https://www.shareicon.net/data/32x32/2016/05/24/770116_people_512x512.png"
-                },
-            };
+            _repository = repository;
         }
 
-    }
+        [HttpGet]
+        [Route("Figthers")]
+        public IActionResult GetFigthers()
+        {
+            try
+            {
+                IUsersRepository fightersRepository = new FightersRepository(_repository);
+                var users = fightersRepository.GetAll().Select(u => (UserDto)u).ToList();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-    public class DummyUser
-    {
-        public string Id { get; set; }
-        public string Firstname { get; set; }
-        public string Surname { get; set; }
-        public string ImageUrl { get; set; }
+        [HttpGet]
+        [Route("Judges")]
+        public IActionResult GetJudges()
+        {
+            try
+            {
+                var users = _repository.GetAll().Select(u => (UserDto)u).ToList();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Coaches")]
+        public IActionResult GetCoaches()
+        {
+            try
+            {
+                var users = _repository.GetAll().Select(u => (UserDto)u).ToList();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Doctors")]
+        public IActionResult GetDoctors()
+        {
+            try
+            {
+                var users = _repository.GetAll().Select(u => (UserDto)u).ToList();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("Save")]
+        public IActionResult SaveUser([FromBody]UserDto user)
+        {
+            try
+            {
+                ApplicationUser userEntity = string.IsNullOrEmpty(user.Id) ? new ApplicationUser() : _repository.Get(user.Id);
+                userEntity.Id = user.Id;
+                userEntity.FirstName = user.Firstname;
+                userEntity.Surname = user.Surname;
+
+                _repository.Save(userEntity);
+
+                user.Id = userEntity.Id;
+
+                return Created("Add", user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("Remove")]
+        public IActionResult RemoveUser([FromBody]UserDto user)
+        {
+            try
+            {
+                _repository.Remove(user.Id);
+
+                return Ok(user.Id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

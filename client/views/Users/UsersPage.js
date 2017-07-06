@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {host} from "../../global"
-import {saveGym, fetchGyms, deleteGym} from "../../actions/GymsActions"
+import {saveUser, fetchUsers, deleteUser} from "../../actions/UsersActions"
 import RemoveButton from "./RemoveButton"
 import EditButton from "./EditButton"
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ import {connect} from "react-redux"
 import axios from "axios";
 
 @connect((store) => {
-  return {gyms: store.Gyms.gyms, fetching: store.Gyms.fetching, fetched: store.Gyms.fetched};
+  return {users: store.Users.users, fetching: store.Users.fetching, fetched: store.Users.fetched};
 })
 export default class GymsPage extends Component {
   constructor(props) {
