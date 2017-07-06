@@ -16,8 +16,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int RingsCount { get; set;}
         public int Institutionld { get; set; }
         public int CountryId { get; set; }
-        public int Rangeld { get; set; }
-        public int TypeyId { get; set; }
+
         [Required]
         [StringLength(500)]
         public string Address { get; set; }
@@ -35,14 +34,15 @@ namespace MuaythaiSportManagementSystemApi.Models
         [StringLength(500)]
         public string Twitter { get; set; }
 
+        public bool AllowUnassociated { get; set; }
+
         public virtual ICollection<Fight> Fights { get; set; }
         public virtual ICollection<ContestCategory> ContestCategories { get; set; }
         public virtual ICollection<ContestRequest> ContestRequests { get; set; }
         public virtual ICollection<ContestDocumentsMapping> ContestDocumentsMappings { get; set; }
         public virtual Institution Institution { get; set; }
         public virtual Country Country { get; set; }
-        public virtual ContestRange ContestRange { get; set; }
-        public virtual ContestType ContestType { get; set; }
+
 
     }
 }

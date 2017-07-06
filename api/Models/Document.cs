@@ -12,6 +12,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Url { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string Number { get; set; }
+        public int Type { get; set; }
 
         public UserDocumentsMapping[] UserDocumentsMappings { get; set; }
         public InstitutionDocumentsMapping[] InstitutionDocumentsMappings { get; set; }
