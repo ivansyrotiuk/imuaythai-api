@@ -22,9 +22,9 @@ namespace MuaythaiSportManagementSystemApi.Models
         [StringLength(60)]
         public string Phone { get; set; }
         public int Type { get; set; }
-        public int CountryId { get; set; }
-        public int InstitutionsId { get; set; }
-        public int KhanLevelId { get; set; }
+        public int? CountryId { get; set; }
+        public int? InstitutionsId { get; set; }
+        public int? KhanLevelId { get; set; }
         [StringLength(500)]
         public string Facebook { get; set; }
         [StringLength(500)]
@@ -35,11 +35,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string VK { get; set; }
         [StringLength(100)]
         public string CoachLevel { get; set; }
-        [StringLength(10)]
-        public int KhanLevelsId { get; set; }
-
         public bool Accepted { get; set; }
-
 
         public virtual ICollection<Suspension> Suspensions { get; set; }
         public virtual ICollection<UserDocumentsMapping> UserDocimentsMappings { get; set; }

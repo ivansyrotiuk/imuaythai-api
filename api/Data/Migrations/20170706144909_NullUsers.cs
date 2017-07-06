@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MuaythaiSportManagementSystemApi.Data.Migrations
 {
-    public partial class ContestTypes : Migration
+    public partial class NullUsers : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -125,6 +125,31 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reminders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Confirmed = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    SendDate = table.Column<DateTime>(nullable: false),
+                    Text = table.Column<string>(maxLength: 500, nullable: true),
+                    Title = table.Column<string>(maxLength: 500, nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reminders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reminders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ContestTypePoints",
                 columns: table => new
                 {
@@ -139,15 +164,15 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                 {
                     table.PrimaryKey("PK_ContestTypePoints", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContestTypePoints_ContestRange_ContestRangeId",
+                        name: "FK_ContestTypePoints_ContestRanges_ContestRangeId",
                         column: x => x.ContestRangeId,
-                        principalTable: "ContestRange",
+                        principalTable: "ContestRanges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ContestTypePoints_ContestType_ContestTypeId",
+                        name: "FK_ContestTypePoints_ContestTypes_ContestTypeId",
                         column: x => x.ContestTypeId,
-                        principalTable: "ContestType",
+                        principalTable: "ContestTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -198,19 +223,24 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                 table: "ContestTypePoints",
                 column: "InstitutionId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Reminders_UserId",
+                table: "Reminders",
+                column: "UserId");
+
             migrationBuilder.AddForeignKey(
-                name: "FK_Contests_ContestRange_ContestRangeId",
+                name: "FK_Contests_ContestRanges_ContestRangeId",
                 table: "Contests",
                 column: "ContestRangeId",
-                principalTable: "ContestRange",
+                principalTable: "ContestRanges",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Contests_ContestType_ContestTypeId",
+                name: "FK_Contests_ContestTypes_ContestTypeId",
                 table: "Contests",
                 column: "ContestTypeId",
-                principalTable: "ContestType",
+                principalTable: "ContestTypes",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
@@ -226,11 +256,11 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Contests_ContestRange_ContestRangeId",
+                name: "FK_Contests_ContestRanges_ContestRangeId",
                 table: "Contests");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Contests_ContestType_ContestTypeId",
+                name: "FK_Contests_ContestTypes_ContestTypeId",
                 table: "Contests");
 
             migrationBuilder.DropForeignKey(
@@ -244,10 +274,13 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                 name: "ContestTypePoints");
 
             migrationBuilder.DropTable(
-                name: "ContestRange");
+                name: "Reminders");
 
             migrationBuilder.DropTable(
-                name: "ContestType");
+                name: "ContestRanges");
+
+            migrationBuilder.DropTable(
+                name: "ContestTypes");
 
             migrationBuilder.DropIndex(
                 name: "IX_ContestCategories_ContestTypePointsId",
