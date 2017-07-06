@@ -6,11 +6,11 @@ using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
-    class GymsRepository : IInstitutionRepository
+    class GymsRepository : IInstitutionsRepository
     {
-        private readonly IInstitutionRepository _baseRepository;
+        private readonly IInstitutionsRepository _baseRepository;
 
-        public GymsRepository(IInstitutionRepository repository)
+        public GymsRepository(IInstitutionsRepository repository)
         {
             _baseRepository = repository;
         }
