@@ -21,6 +21,7 @@ import FontAwesome from '../../views/Icons/FontAwesome/'
 import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
 import GymsPage from "../../views/Institutions/GymsPage"
 import GymDetailsPage from "../../views/Institutions/GymDetailsPage"
+import ContestTypesPage from "../../views/Dictionaries/ContestTypes/ContestTypesPage"
 
 class Full extends Component {
   render() {
@@ -48,7 +49,8 @@ class Full extends Component {
                 <Route path="/charts" name="Charts" component={Charts}/>
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
-                <Redirect from="/" to="/home"/>
+                <Route path="/contest/types" name="ContestTypes" component={ContestTypesPage}/>
+                <Redirect from="/" to="/dashboard"/>
               </Switch>
             </div>
           </main>

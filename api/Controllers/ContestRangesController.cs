@@ -11,7 +11,7 @@ using MuaythaiSportManagementSystemApi.Repositories;
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/ContestRange")]
+    [Route("api/ContestRanges")]
     public class ContestRangesController : Controller
     {
         private readonly IContestRangesRepository _repository;

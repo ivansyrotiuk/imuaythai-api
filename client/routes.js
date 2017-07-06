@@ -15,6 +15,7 @@ const routes = {
   '/icons/font-awesome': 'Font Awesome',
   '/icons/simple-line-icons': 'Simple Line Icons',
   '/widgets': 'Widgets',
-  '/gyms':"Gyms"
+  '/gyms':"Gyms",
+  '/contest/types':"Contest type"
 };
 export default routes;
