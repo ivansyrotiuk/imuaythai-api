@@ -70,6 +70,9 @@ namespace MuaythaiSportManagementSystemApi
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddSingleton<IInstitutionsRepository, InstitutionsesRepository>();
+            //services.AddSingleton<IContestTypesRepository, ContestTypesRepository>();
+            //services.AddSingleton<IContestRangesRepository, ContestRangesRepository>();
             services.AddSingleton<IInstitutionRepository, InstitutionRepository>();
 
             services.Configure<EmailConfiguration>(Configuration);

@@ -84,5 +84,10 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<FightPoint> FightPoints { get; set; }
         public virtual DbSet<FightStructure> FightStructures { get; set; }
 
+        public virtual DbSet<ContestTypePoints> ContestTypePoints { get; set; }
+        public virtual DbSet<ContestRange> ContestRanges { get; set; }
+        public virtual DbSet<ContestType> ContestTypes { get; set; }
+        public virtual DbSet<Reminder> Reminders { get; set; }
+
     }
 }

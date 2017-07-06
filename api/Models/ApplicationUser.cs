@@ -35,11 +35,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string VK { get; set; }
         [StringLength(100)]
         public string CoachLevel { get; set; }
-        [StringLength(10)]
-        public int? KhanLevelsId { get; set; }
-
         public bool Accepted { get; set; }
-
 
         public virtual ICollection<Suspension> Suspensions { get; set; }
         public virtual ICollection<UserDocumentsMapping> UserDocimentsMappings { get; set; }

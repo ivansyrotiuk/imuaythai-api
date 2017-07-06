@@ -13,7 +13,6 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int Id { get; set; }
         public int ContestId { get; set; }
         public int StructureId { get; set; }
-  
         public string RedAthleteId { get; set; }
   
         public string BlueAthleteId { get; set; }
@@ -29,6 +28,8 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Ring { get; set; }
         [Required]
         public DateTime KOTime { get; set; }
+
+        public int? NextFightId { get; set; }
 
         public virtual ICollection<FightPoint> FightPoints { get; set; }
         public virtual ICollection<FightJudgesMapping> FightJudgesMappings { get; set; }

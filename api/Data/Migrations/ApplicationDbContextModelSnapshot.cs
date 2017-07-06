@@ -165,9 +165,6 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<int?>("KhanLevelId");
 
-                    b.Property<int?>("KhanLevelsId")
-                        .HasMaxLength(10);
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -238,15 +235,27 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500);
 
+                    b.Property<bool>("AllowUnassociated");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(500);
+
+                    b.Property<int?>("ContestRangeId");
+
+                    b.Property<int?>("ContestTypeId");
 
                     b.Property<int>("CountryId");
 
                     b.Property<DateTime>("Date");
 
                     b.Property<int>("Duration");
+
+                    b.Property<string>("Facebook")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Instagram")
+                        .HasMaxLength(500);
 
                     b.Property<int?>("InstitutionId");
 
@@ -258,7 +267,20 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<int>("RingsCount");
 
+                    b.Property<string>("Twitter")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("VK")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Website")
+                        .HasMaxLength(500);
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ContestRangeId");
+
+                    b.HasIndex("ContestTypeId");
 
                     b.HasIndex("CountryId");
 
@@ -274,15 +296,50 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<int?>("ContestId");
 
+                    b.Property<int>("ContestTypePointsId");
+
                     b.Property<int?>("FightStructureId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ContestId");
 
+                    b.HasIndex("ContestTypePointsId");
+
                     b.HasIndex("FightStructureId");
 
                     b.ToTable("ContestCategories");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestDocumentsMapping", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("DocumentId");
+
+                    b.Property<int?>("InstitutionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
+
+                    b.HasIndex("InstitutionId");
+
+                    b.ToTable("ContestDocumentsMapping");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContestRanges");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestRequest", b =>
@@ -321,6 +378,43 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.ToTable("ContestRequests");
                 });
 
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(500);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContestTypes");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestTypePoints", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ContestRangeId");
+
+                    b.Property<int?>("ContestTypeId");
+
+                    b.Property<int?>("InstitutionId");
+
+                    b.Property<decimal>("Points");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContestRangeId");
+
+                    b.HasIndex("ContestTypeId");
+
+                    b.HasIndex("InstitutionId");
+
+                    b.ToTable("ContestTypePoints");
+                });
+
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -347,6 +441,8 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("Number");
+
+                    b.Property<int>("Type");
 
                     b.Property<string>("Url");
 
@@ -387,6 +483,8 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<byte>("KO");
 
                     b.Property<DateTime>("KOTime");
+
+                    b.Property<int?>("NextFightId");
 
                     b.Property<string>("RedAthleteId");
 
@@ -577,6 +675,34 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.ToTable("KhanLevels");
                 });
 
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Reminder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Confirmed");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<DateTime>("SendDate");
+
+                    b.Property<string>("Text")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(500);
+
+                    b.Property<int>("Type");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reminders");
+                });
+
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Suspension", b =>
                 {
                     b.Property<int>("Id")
@@ -687,6 +813,14 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Contest", b =>
                 {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestRange")
+                        .WithMany("Contests")
+                        .HasForeignKey("ContestRangeId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestType")
+                        .WithMany("Contests")
+                        .HasForeignKey("ContestTypeId");
+
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
@@ -703,9 +837,25 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                         .WithMany("ContestCategories")
                         .HasForeignKey("ContestId");
 
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestTypePoints", "ContestTypePoints")
+                        .WithMany()
+                        .HasForeignKey("ContestTypePointsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.FightStructure", "FightStructure")
                         .WithMany("ContestCategories")
                         .HasForeignKey("FightStructureId");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestDocumentsMapping", b =>
+                {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Document", "Document")
+                        .WithMany("ContestDocumentsMappings")
+                        .HasForeignKey("DocumentId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Contest", "Institution")
+                        .WithMany("ContestDocumentsMappings")
+                        .HasForeignKey("InstitutionId");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestRequest", b =>
@@ -729,6 +879,21 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "User")
                         .WithMany("ContestRequests")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestTypePoints", b =>
+                {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestRange", "ContestRange")
+                        .WithMany()
+                        .HasForeignKey("ContestRangeId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestType", "ContestType")
+                        .WithMany()
+                        .HasForeignKey("ContestTypeId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
+                        .WithMany()
+                        .HasForeignKey("InstitutionId");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ExecutionBoard", b =>
@@ -814,6 +979,13 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
                         .WithMany("InstitutionDocumentsMappings")
                         .HasForeignKey("InstitutionId");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Reminder", b =>
+                {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Suspension", b =>

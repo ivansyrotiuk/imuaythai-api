@@ -14,9 +14,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     [Route("api/Gyms")]
     public class GymsController : Controller
     {
-        private readonly IInstitutionRepository _repository;
+        private readonly IInstitutionsRepository _repository;
 
-        public GymsController(IInstitutionRepository repository)
+        public GymsController(IInstitutionsRepository repository)
         {
             _repository = new GymsRepository(repository);
         }
@@ -26,7 +26,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var gyms = _repository.GetAll().ToList();
+                var gyms = _repository.GetAll().Select(i=>(GymDto)i).ToList();
                 return Ok(gyms);
             }
             catch (Exception ex)

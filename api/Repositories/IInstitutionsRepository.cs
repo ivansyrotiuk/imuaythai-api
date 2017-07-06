@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
-    public interface IInstitutionRepository
+    public interface IInstitutionsRepository
     {
         Institution Get(int id);
         IEnumerable<Institution> GetAll();

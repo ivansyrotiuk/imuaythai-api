@@ -8,7 +8,7 @@ class SocialButtons extends Component {
           <div className="col-12">
             <div className="card">
               <div className="card-header">
-                <strong>Social Media Button</strong> <small>Usage ex.</small><code style={{textTransform: 'lowercase'}}>&lt;button className="btn btn-facebook"&gt;&lt;span&gt;Facebook&lt;/span&gt;&lt;/button&gt;</code>
+                <strong>Gyms</strong>
               </div>
               <div className="card-block">
                 <h6>Size Small <small>Add this class <code>.btn-sm</code></small></h6>
