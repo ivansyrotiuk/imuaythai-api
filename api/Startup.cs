@@ -67,7 +67,9 @@ namespace MuaythaiSportManagementSystemApi
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddSingleton<IInstitutionRepository, InstitutionRepository>();
+            services.AddSingleton<IInstitutionsRepository, InstitutionsesRepository>();
+            //services.AddSingleton<IContestTypesRepository, ContestTypesRepository>();
+            //services.AddSingleton<IContestRangesRepository, ContestRangesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

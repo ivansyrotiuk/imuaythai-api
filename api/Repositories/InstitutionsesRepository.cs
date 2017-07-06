@@ -7,11 +7,11 @@ using System.Linq;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
-    class InstitutionRepository : IInstitutionRepository
+    class InstitutionsesRepository : IInstitutionsRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public InstitutionRepository(ApplicationDbContext context)
+        public InstitutionsesRepository(ApplicationDbContext context)
         {
             _context = context;
         }
