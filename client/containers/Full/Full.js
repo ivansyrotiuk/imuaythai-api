@@ -19,6 +19,8 @@ import Tables from '../../views/Components/Tables/'
 import Tabs from '../../views/Components/Tabs/'
 import FontAwesome from '../../views/Icons/FontAwesome/'
 import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
+import GymsPage from "../../views/Institutions/GymsPage"
+import GymDetailsPage from "../../views/Institutions/GymDetailsPage"
 
 class Full extends Component {
   render() {
@@ -44,6 +46,8 @@ class Full extends Component {
                 <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={SimpleLineIcons}/>
                 <Route path="/widgets" name="Widgets" component={Widgets}/>
                 <Route path="/charts" name="Charts" component={Charts}/>
+                <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
+                <Route path="/gyms/" name="Gyms" component={GymsPage}/>
                 <Redirect from="/" to="/home"/>
               </Switch>
             </div>
