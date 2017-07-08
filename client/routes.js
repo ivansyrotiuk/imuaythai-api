@@ -16,6 +16,6 @@ const routes = {
   '/icons/simple-line-icons': 'Simple Line Icons',
   '/widgets': 'Widgets',
   '/gyms':"Gyms",
-  '/contest/types':"Contest type"
+  '/contest/types':"Contest type",
 };
 export default routes;

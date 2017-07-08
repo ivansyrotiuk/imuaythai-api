@@ -63,6 +63,7 @@ export default function reducer(state = {
             .filter(t => t.id !== action.payload)
         }
       }
+    
   }
   return state
 }

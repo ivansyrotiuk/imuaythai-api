@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ using MuaythaiSportManagementSystemApi.Repositories;
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Contest/Types")]
+    [Route("api/contest/")]
     public class ContestTypesController : Controller
     {
         private readonly IContestTypesRepository _repository;
@@ -22,6 +23,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
+        [Route("types")]
         public IActionResult Index()
         {
             try
@@ -35,8 +37,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("types/{id}")]
+        public IActionResult Index([FromRoute] int id)
+        {
+            try
+            {
+                Thread.Sleep(1000);
+                var type = _repository.Get(id) ?? new ContestType
+                {
+                    Id = 0
+                };
+                return Ok((ContestTypeDto)type);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+
         [HttpPost]
-        [Route("Save")]
+        [Route("types/save")]
         public IActionResult SaveType([FromBody]ContestTypeDto type)
         {
             try
@@ -58,7 +80,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
 
         [HttpPost]
-        [Route("Remove")]
+        [Route("types/remove")]
         public IActionResult RemoveType([FromBody]ContestTypeDto type)
         {
             try

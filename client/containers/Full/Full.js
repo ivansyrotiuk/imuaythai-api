@@ -22,6 +22,7 @@ import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
 import GymsPage from "../../views/Institutions/GymsPage"
 import GymDetailsPage from "../../views/Institutions/GymDetailsPage"
 import ContestTypesPage from "../../views/Dictionaries/ContestTypes/ContestTypesPage"
+import ContestTypesDetailsPage from "../../views/Dictionaries/ContestTypes/ContestTypesDetailsPage"
 
 class Full extends Component {
   render() {
@@ -49,7 +50,8 @@ class Full extends Component {
                 <Route path="/charts" name="Charts" component={Charts}/>
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
-                <Route path="/contest/types" name="ContestTypes" component={ContestTypesPage}/>
+                <Route path="/contest/types/:id" name="ContestType" component={ContestTypesDetailsPage}/>
+                <Route path="/contest/types/" name="ContestTypes" component={ContestTypesPage}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </div>
