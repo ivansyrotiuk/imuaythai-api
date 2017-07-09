@@ -11,7 +11,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public string Continent { get; set; }
-
+        public int ExternalId { get; set; }
         //public virtual ICollection<ApplicationUser> Users { get; set; }
         //public virtual ICollection<Institution> Institutions { get; set; }
         //public virtual ICollection<Contest> Contests { get; set; }

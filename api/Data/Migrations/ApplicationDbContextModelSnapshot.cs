@@ -424,6 +424,8 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<string>("Continent");
 
+                    b.Property<int>("ExternalId");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -673,6 +675,23 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("KhanLevels");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Province", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CountryId");
+
+                    b.Property<string>("ProvinceName")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Reminder", b =>
@@ -979,6 +998,14 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
                         .WithMany("InstitutionDocumentsMappings")
                         .HasForeignKey("InstitutionId");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Province", b =>
+                {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Reminder", b =>
