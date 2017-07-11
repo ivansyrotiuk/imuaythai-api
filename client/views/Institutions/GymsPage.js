@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {host} from "../../global"
 import {saveGym, fetchGyms, deleteGym} from "../../actions/GymsActions"
-import RemoveButton from "./RemoveButton"
-import EditButton from "./EditButton"
+import RemoveButton from "../Components/Buttons/RemoveButton"
+import EditButton from "../Components/Buttons/EditButton"
 import { Link } from 'react-router-dom'
 import {connect} from "react-redux"
 import axios from "axios";
