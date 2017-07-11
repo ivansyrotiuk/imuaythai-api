@@ -11,15 +11,57 @@ namespace MuaythaiSportManagementSystemApi.Users
         public string Id { get; set; }
         public string Firstname { get; set; }
         public string Surname { get; set; }
+        public DateTime Birthdate { get; set; }
+        public string Nationality { get; set; }
+        public string Gender { get; set; }
+        public string Photo { get; set; }
+        public string Phone { get; set; }
+        public int Type { get; set; }
+        public int? CountryId { get; set; }
+        public int? InstitutionsId { get; set; }
+        public int? KhanLevelId { get; set; }
+        public string Facebook { get; set; }
+        public string Instagram { get; set; }
+        public string Twitter { get; set; }
+        public string VK { get; set; }
+        public string CoachLevel { get; set; }
+        public bool Accepted { get; set; }
+
+        public UserDto()
+        {
+
+        }
+
+        public UserDto(ApplicationUser user)
+        {
+            Id = user.Id;
+            Firstname = user.FirstName;
+            Surname = user.Surname;
+            Birthdate = user.Birthdate;
+            Nationality = user.Nationality;
+        }
 
         public static explicit operator UserDto(ApplicationUser user)
         {
-            return new UserDto
-            {
-                Id = user.Id,
-                Firstname = user.FirstName,
-                Surname = user.Surname
-            };
+            return new UserDto(user);
+        }
+    }
+
+    public class FighterDto : UserDto
+    {
+        public FighterDto()
+        {
+
+        }
+
+        public FighterDto(ApplicationUser user):base(user)
+        {
+
+        }
+
+        public static explicit operator FighterDto(ApplicationUser user)
+        {
+            return new FighterDto(user);
         }
     }
 

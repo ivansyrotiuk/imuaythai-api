@@ -1,11 +1,12 @@
 import { combineReducers } from "redux"
-import dummyUsers from "./dummyUsersReducer"
 import Gyms from "./GymsReducer"
 import Fighters from "./FightersReducer"
+import SingleFighter from "./FighterReducer"
 import ContestTypes from "./ContestTypesReducer"
+
 export default combineReducers({
-    dummyUsers,
     Gyms, 
     ContestTypes,
-    Fighters
+    Fighters,
+    SingleFighter
 })

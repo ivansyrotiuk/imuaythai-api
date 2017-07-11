@@ -36,3 +36,25 @@ export function deleteFighter(id) {
         payload: id
     }
 }
+
+export function fetchFighter(id) {
+    return function (dispatch) {
+        dispatch({
+            type: "FETCH_FIGTHER",
+        });
+        axios
+            .get(host + "api/users/fighters/" + id)
+            .then((response) => {
+                dispatch({
+                    type: "FETCH_FIGTHER_FULFILLED",
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: "FETCH_FIGTHER_REJECTED",
+                    payload: err
+                })
+            })
+    }
+}

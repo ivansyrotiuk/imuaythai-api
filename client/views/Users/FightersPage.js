@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {host} from "../../global"
-import {fetchFighters, saveFighter, deleteFighter} from "../../actions/UsersActions"
+import {fetchFighters, deleteFighter} from "../../actions/UsersActions"
 import RemoveButton from "../Components/Buttons/RemoveButton"
 import EditButton from "../Components/Buttons/EditButton"
+import Spinner from "../Components/Spinners/Spinner"
 import { Link } from 'react-router-dom'
 import {connect} from "react-redux"
 import axios from "axios";
@@ -37,13 +38,20 @@ export default class FightersPage extends Component {
 
   render() {
     const {fighters, fetching} = this.props;
+
+    if (fetching){
+      return <Spinner />
+    }
+
     const mappedFighters = fighters.map((fighter, i) => 
       <tr key={i}>
         <td>{fighter.id}</td>
         <td>{fighter.firstname}</td>
         <td>{fighter.surname}</td>
         <td>
-          <Link to={"/fighters/" + fighter.id} ><EditButton id={fighter.id}/></Link>&nbsp;
+          <Link to={"/fighters/" + fighter.id} >
+            <EditButton id={fighter.id}/>
+          </Link>&nbsp;
           <RemoveButton id={fighter.id} click={this.removeFighter.bind(this, fighter.id)}/>
         </td>
       </tr>);

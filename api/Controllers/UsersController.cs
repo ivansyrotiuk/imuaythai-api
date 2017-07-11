@@ -4,11 +4,12 @@ using MuaythaiSportManagementSystemApi.Repositories;
 using System.Linq;
 using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.Models;
+using System.Threading;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Users")]
+    [Route("api/users")]
     public class UsersController : Controller
     {
         private IUsersRepository _repository;
@@ -19,7 +20,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        [Route("Fighters")]
+        [Route("fighters")]
         public IActionResult GetFigthers()
         {
             try
@@ -27,6 +28,23 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 IUsersRepository fightersRepository = new FightersRepository(_repository);
                 var users = fightersRepository.GetAll().Select(u => (UserDto)u).ToList();
                 return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("fighters/{id}")]
+        public IActionResult GetFigthers([FromRoute]string id)
+        {
+            try
+            {
+                Thread.Sleep(1000);
+                IUsersRepository fightersRepository = new FightersRepository(_repository);
+                var user = (FighterDto)fightersRepository.Get(id);
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -90,6 +108,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.Id = user.Id;
                 userEntity.FirstName = user.Firstname;
                 userEntity.Surname = user.Surname;
+                userEntity.Birthdate = user.Birthdate;
+                userEntity.Nationality = user.Nationality;
 
                 _repository.Save(userEntity);
 

@@ -29,7 +29,7 @@ export default function reducer(state = {
           ...state,
           fetching: false,
           fetched: true,
-          gyms: action.payload
+          fighters: action.payload
         }
       }
 
