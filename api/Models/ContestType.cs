@@ -12,7 +12,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         [Key]
         public int Id { get; set; }
         [StringLength(500)]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         public virtual ICollection<Contest> Contests { get; set; }
     }
