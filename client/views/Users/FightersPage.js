@@ -63,7 +63,7 @@ export default class FightersPage extends Component {
             <div className="col-12">
               <div className="card">
                 <div className="card-header">
-                  <strong>Gyms</strong>
+                  <strong>Fighters</strong>
                 </div>
                 <div className="card-block">
                   <table className="table">
