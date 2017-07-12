@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {host} from "../../../global"
 import Spinner from "../../Components/Spinners/Spinner";
 import {saveFighter} from "../../../actions/UsersActions";
-
+import AvatarEditor from "../../Components/AvatarEditor"
 import axios from "axios";
 import {connect} from "react-redux";
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-
 
 import {Field, reduxForm} from 'redux-form';
 
@@ -25,7 +24,6 @@ const RenderDatePicker = props => {
         <div>
             <DatePicker
                 {...props.input}
-                dateFormat="DD-MM-YYYY"
                 selected={props.input.value
                 ? moment(props.input.value)
                 : null}
@@ -36,10 +34,12 @@ const RenderDatePicker = props => {
 
 
 let CommonUserDataForm = props => {
-    const {handleSubmit, pristine, reset, submitting} = props;
-    return (
+    const {handleSubmit, pristine, reset, submitting, countries} = props;
+    const mappedCountries = countries.map((country, i) => <option key={i} value={country.id}>{country.name}</option>);
 
+    return (
         <form onSubmit={handleSubmit}>
+           
             <div className="card">
                 <div
                     className="card-header"
@@ -50,6 +50,14 @@ let CommonUserDataForm = props => {
                     Common
                 </div>
                 <div className="card-block">
+                    <div className="form-group row">
+                        <label className="col-md-3 form-control-label" htmlFor="text-input">First name</label>
+                        <div className="col-md-9">
+                             <AvatarEditor 
+                                image={props.initialValues.photo}
+                                userId={props.initialValues.id}/>
+                        </div>
+                    </div>
                     <div className="form-group row">
                         <label className="col-md-3 form-control-label" htmlFor="text-input">First name</label>
                         <div className="col-md-9">
@@ -94,7 +102,6 @@ let CommonUserDataForm = props => {
                         <label className="col-md-3 form-control-label" htmlFor="text-input">Gender</label>
                         <div className="col-md-9">
                             <Field name="gender" component="select" className="form-control">
-                                <option />
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </Field>
@@ -112,8 +119,14 @@ let CommonUserDataForm = props => {
                         </div>
                     </div>
 
-
-                    
+                    <div className="form-group row">
+                        <label className="col-md-3 form-control-label" htmlFor="text-input">Country</label>
+                        <div className="col-md-9">
+                            <Field name="countryId" className="form-control" component="select">
+                                {mappedCountries}
+                            </Field>
+                        </div>
+                    </div>
                 </div>
             </div>
 

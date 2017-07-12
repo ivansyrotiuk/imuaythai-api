@@ -45,6 +45,7 @@ namespace MuaythaiSportManagementSystemApi.Users
             VK = user.VK;
             Gender = user.Gender;
             Phone = user.Phone;
+            CountryId = user.CountryId;
         }
 
         public static explicit operator UserDto(ApplicationUser user)

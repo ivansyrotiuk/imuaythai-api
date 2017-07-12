@@ -2,49 +2,58 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import axios from "axios";
 import moment from 'moment';
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import classnames from 'classnames';
 import DatePicker from 'react-datepicker';
 import {host} from "../../global"
 import Spinner from "../Components/Spinners/Spinner";
-import {fetchFighter, saveFighter} from "../../actions/UsersActions";
+import {saveFighter} from "../../actions/UsersActions";
+import {fetchCountries} from "../../actions/CountriesActions";
 import CommonUserDataForm from "./Forms/CommonUserDataForm"
 import 'react-datepicker/dist/react-datepicker.css';
 
 @connect((store) => {
-    return {fighter: store.SingleFighter.fighter, fetching: store.SingleFighter.fetching, fetched: store.SingleFighter.fetched};
+    return {countries: store.Countries.countries};
 })
 export default class FighterEditPage extends Component {
     constructor(props) {
         super(props);
-        this.onSubmit = this.handleSubmit.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.state = {activeTab: 'common'};
-        this.dispatchFetchFighter();
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.dispatchFetchFighter = this.dispatchFetchFighter.bind(this);
+        this.state = {fetching: true};
     }
 
-    toggle(tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({
-                activeTab: tab
-            });
-        }
+    componentWillMount() {
+        this.dispatchFetchFighter();
+        this.dispatchFetchCountries();
     }
 
     dispatchFetchFighter() {
         const fighterId = this.props.match.params.id;
-        this
-            .props
-            .dispatch(fetchFighter(fighterId))
+
+        var self = this;
+      
+        axios
+            .get(host + "api/users/fighters/" + fighterId)
+            .then((response) => {
+                self.setState({...self.state, fetching: false, fighter: response.data});
+            })
+            .catch((err) => {
+                self.setState({...self.state, fetching: false, error: err});
+            });
+    }
+
+    dispatchFetchCountries() {
+        if (this.props.countries.length == 0) {
+            this.props.dispatch(fetchCountries());
+        }
     }
 
     dispatchSaveFighter(fighter) {
-        this.props
-            .dispatch(saveFighter(fighter))
+        this.props.dispatch(saveFighter(fighter))
     }
 
     handleSubmit(values) {
-       
         var self = this;
 
         axios
@@ -59,13 +68,15 @@ export default class FighterEditPage extends Component {
 
     render() {
 
-        const {fetching, fetched} = this.props;
-        
+        const {fetching} = this.state;
+
         if (fetching) {
-            return (<Spinner />);
+            return (<Spinner/>);
         }
-        if (!fetched && this.state.fighter == undefined) {
-            return (<div></div>);
+        if (!fetching && this.state.fighter == undefined) {
+            return (
+                <div></div>
+            );
         }
 
         return (
@@ -77,7 +88,10 @@ export default class FighterEditPage extends Component {
                                 <strong>Fighter</strong>
                             </div>
                             <div className="card-block">
-                                <CommonUserDataForm initialValues={this.props.fighter} onSubmit={this.onSubmit}/>
+                                <CommonUserDataForm
+                                    initialValues={this.state.fighter}
+                                    countries={this.props.countries}
+                                    onSubmit={this.handleSubmit}/>
                             </div>
                         </div>
                     </div>
