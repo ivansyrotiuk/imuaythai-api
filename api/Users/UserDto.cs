@@ -39,6 +39,12 @@ namespace MuaythaiSportManagementSystemApi.Users
             Surname = user.Surname;
             Birthdate = user.Birthdate;
             Nationality = user.Nationality;
+            Facebook = user.Facebook;
+            Twitter = user.Twitter;
+            Instagram = user.Instagram;
+            VK = user.VK;
+            Gender = user.Gender;
+            Phone = user.Phone;
         }
 
         public static explicit operator UserDto(ApplicationUser user)

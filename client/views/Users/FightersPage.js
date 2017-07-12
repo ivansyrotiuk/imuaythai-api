@@ -11,6 +11,7 @@ import axios from "axios";
 @connect((store) => {
   return {fighters: store.Fighters.fighters, fetching: store.Fighters.fetching, fetched: store.Fighters.fetched};
 })
+
 export default class FightersPage extends Component {
   constructor(props) {
     super(props);

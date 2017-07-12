@@ -110,6 +110,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.Surname = user.Surname;
                 userEntity.Birthdate = user.Birthdate;
                 userEntity.Nationality = user.Nationality;
+                userEntity.Facebook = user.Facebook;
+                userEntity.Instagram = user.Instagram;
+                userEntity.Twitter = user.Twitter;
+                userEntity.VK = user.VK;
+                userEntity.Phone = user.Phone;
+                userEntity.Gender = user.Gender;
 
                 _repository.Save(userEntity);
 
