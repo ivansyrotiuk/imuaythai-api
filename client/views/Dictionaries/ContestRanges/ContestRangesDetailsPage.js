@@ -3,28 +3,28 @@ import {host} from "../../../global"
 import {connect} from "react-redux"
 import axios from "axios";
 import LoadButton from "../../Components/Buttons/LoadButton";
-import TypeDataForm from "./TypeDataForm";
+import RangeDataForm from "./RangeDataForm";
 import Spinner from "../../Components/Spinners/Spinner"
 
 
-export default class ContestTypesDetailsPage extends Component {
+export default class ContestRangesDetailsPage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.handleSubmit.bind(this);
-    this.fetchType = this.fetchType.bind(this);
+    this.fetchRange = this.fetchRange.bind(this);
     this.state = {fetching: true};
-    this.fetchType(this.props.match.params.id);
+    this.fetchRange(this.props.match.params.id);
 
   }
 
-  fetchType(id) {
+  fetchRange(id) {
     this.setState();
 
     var self = this;
     axios
-      .get(host + "api/contest/types/"+id)
+      .get(host + "api/contest/ranges/"+id)
       .then((response) => {
-        self.setState({...self.state, fetching: false, type: response.data});
+        self.setState({...self.state, fetching: false, range: response.data});
       })
       .catch((err) => {
         self.setState({...self.state, fetching: false, error: err});
@@ -35,12 +35,12 @@ export default class ContestTypesDetailsPage extends Component {
     var self = this;
 
     axios
-      .post(host + 'api/contest/types/save', values)
+      .post(host + 'api/contest/ranges/save', values)
       .then(function (response) {
         self
           .props
           .history
-          .push('/contest/types');
+          .push('/contest/ranges');
       })
       .catch(function (error) {
         self
@@ -53,7 +53,7 @@ export default class ContestTypesDetailsPage extends Component {
 
   render() {
 
-    const {type, fetching, error} = this.state;
+    const {range, fetching, error} = this.state;
     if (fetching) 
       return <Spinner />
     if (error != null) 
@@ -67,12 +67,12 @@ export default class ContestTypesDetailsPage extends Component {
           <div className="col-12">
             <div className="card">
               <div className="card-header">
-                <strong>Type</strong>
+                <strong>Range</strong>
               </div>
-              <div className="card-block">
-                <TypeDataForm initialValues={type} onSubmit={this.onSubmit}/>
+                                          <div className="card-block">
+                <RangeDataForm initialValues={range} onSubmit={this.onSubmit}/>
             </div>
-            </div>
+             </div>
           </div>
         </div>
       </div>

@@ -43,11 +43,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                Thread.Sleep(1000);
-                var type = _repository.Get(id) ?? new ContestType
-                {
-                    Id = 0
-                };
+                var type = _repository.Get(id) ?? new ContestType();
+    
                 return Ok((ContestTypeDto)type);
             }
             catch (Exception ex)

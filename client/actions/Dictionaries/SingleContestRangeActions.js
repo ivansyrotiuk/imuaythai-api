@@ -1,36 +1,36 @@
 import {host} from "../../global"
 import axios from "axios";
 
-export function saveType(type) {
+export function saveType(range) {
     return {
-        type: 'SAVE_TYPE',
-        payload: type
+        type: 'SAVE_RANGE',
+        payload: range
     }
 }
 
-export function deleteType(id) {
+export function deleteRange(id) {
     return {
-        type: 'DELETE_TYPE',
+        type: 'DELETE_RANGE',
         payload: id
     }
 }
 
-export function fetchType(id) {
+export function fetchRange(id) {
     return function (dispatch){
         dispatch({
-            type: "FETCH_TYPE"
+            type: "FETCH_RANGE"
         });
         axios
-            .get(host + "api/contest/types/"+id)
+            .get(host + "api/contest/ranges/"+id)
             .then((response) => {
                 dispatch({
-                    type: "FETCH_TYPE_FULFILLED",
+                    type: "FETCH_RANGE_FULFILLED",
                     payload: response.data
                 })
             })
             .catch((err) => {
                 dispatch({
-                    type: "FETCH_TYPE_REJECTED",
+                    type: "FETCH_RANGE_REJECTED",
                     payload: err
                 })
             })

@@ -17,5 +17,7 @@ const routes = {
   '/widgets': 'Widgets',
   '/gyms':"Gyms",
   '/contest/types':"Contest type",
+  '/fighters':"Fighters",
+  '/contest/types':"Contest type"
 };
 export default routes;

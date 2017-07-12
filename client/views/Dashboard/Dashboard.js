@@ -267,12 +267,7 @@ const mainChartOpts = {
   }
 }
 
-import {fetchDummyUsers} from "../../actions/dummyUsersActions"
-import {connect} from "react-redux"
 
-@connect((store) => {
-    return {dummyUsers: store.dummyUsers.dummyUsers, fetching: store.dummyUsers.fetching, fetched: store.dummyUsers.fetched};
-})
 
 class Dashboard extends Component {
 
@@ -283,14 +278,9 @@ class Dashboard extends Component {
     this.state = {
       dropdownOpen: false
     };
-
-     this.fetchDummyUsers();
   }
 
 
-  fetchDummyUsers() {
-      this.props.dispatch(fetchDummyUsers())
-  }
 
   toggle() {
     this.setState({
@@ -300,12 +290,8 @@ class Dashboard extends Component {
 
   render() {
 
-    const {dummyUsers, fetching} = this.props;
-    const mappedDummyUsers = dummyUsers.map((dummyUser, i) => <h1 key={i}>{dummyUser.firstname}</h1> );
-
     return (
       <div className="animated fadeIn">
-        {mappedDummyUsers}
         <div className="row">
           <div className="col-sm-6 col-lg-3">
             <div className="card card-inverse card-primary">

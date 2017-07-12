@@ -1,5 +1,5 @@
 export default function reducer(state = {
-  range:null,
+  type:null,
   fetching: false,
   fetched: false,
   error: null
@@ -10,10 +10,10 @@ export default function reducer(state = {
     case "SAVE_TYPE":
       {
 
-        const range = action.payload
+        const type = action.payload
           return {
             ...state,
-            range: action.payload
+            type: action.payload
           }
       }
 
@@ -23,7 +23,7 @@ export default function reducer(state = {
       {
         return {
           ...state,
-          range: null
+          type: null
         }
       }
 
@@ -52,7 +52,7 @@ export default function reducer(state = {
           ...state,
           fetching: false,
           fetched: true,
-          range: action.payload
+          type: action.payload
         }
       }
 
@@ -60,7 +60,7 @@ export default function reducer(state = {
       {
         return {
           ...state,
-          range:null,
+          type:null,
           fetching: false,
           fetched: false,
           error: null
