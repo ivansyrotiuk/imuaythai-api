@@ -1,17 +1,6 @@
 import {host} from "../global"
 import axios from "axios";
 
-const loginAccountRequest = (account) => {
-    axios
-        .post(host + "api/account/login", account)
-        .then((response) => {
-            return {type: "LOGIN_ACCOUNT_SUCCESS", payload: response.data}
-        })
-        .catch((err) => {
-            return {type: "LOGIN_ACCOUNT_REJECTED", payload: err}
-        })
-}
-
 const registerAccountRequest = (account) => {
     axios
         .post(host + "api/account/register", account)
@@ -32,6 +21,7 @@ const confirmEmailRequest = (confirmEmail) => {
         }
     })
         .then((response) => {
+            
             return {type: "CONFIRM_EMAIL_SUCCESS", payload: response.data}
         })
         .catch((err) => {
@@ -39,14 +29,36 @@ const confirmEmailRequest = (confirmEmail) => {
         })
 }
 
-export default function loginAccount(account) {
-    return {type: "LOGIN_ACCOUNT_REQUEST", loginAccountRequest(account)}
+function receiveLoginAccount(payload){
+    return {type: "REGISTER_ACCOUNT_SUCCESS", payload}
 }
 
-export default function registerAccount(account) {
-    return {type: 'REGISTER_ACCOUNT_REQUEST', registerAccountRequest(account)}
+function receiveErrorLoginAccount(error){
+    {type: "LOGIN_ACCOUNT_REJECTED", error}
 }
 
-export default function confirmEmail(confirmEmail) {
-    return {type: 'CONFIRM_EMAIL_REQUEST', confirmEmailRequest(confirmEmail)}
+function loginAccountRequest(account) {
+    return {type: "LOGIN_ACCOUNT_REQUEST", account}
+}
+
+export function getLoginAccount(account){
+    return function (dispatch){
+        dispatch(loginAccountRequest(account))
+
+        return axios
+        .post(host + "api/account/login", account)
+        .then((response) =>{ console.log(response)
+            dispatch(receiveLoginAccount(response.data))})
+        .catch((err) => {
+            console.log(err) 
+            dispatch(receiveErrorLoginAccount(err))})
+    }
+}
+
+export function registerAccount(account) {
+    return {type: 'REGISTER_ACCOUNT_REQUEST', account}
+}
+
+export function confirmEmail(confirmEmail) {
+    return {type: 'CONFIRM_EMAIL_REQUEST', confirmEmail}
 }

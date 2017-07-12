@@ -17,7 +17,7 @@ function accountLoginReducer(state = {
             return {
                 ...state,
                 fetching: false,
-                error: action.payload
+                error: action.error
             }
 
         case "LOGIN_ACCOUNT_SUCCESS":

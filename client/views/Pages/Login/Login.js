@@ -12,7 +12,7 @@ class Login extends Component {
             <div className="col-md-8">
               <div className="card-group mb-0">
                 <div className="card p-4">
-                  <form onSubmit={this.props.onSubmit}>
+                  <form onSubmit={handleSubmit}>
                     <div className="card-block">
                       <h1>Login</h1>
                       <p className="text-muted">Sign In to your account</p>
