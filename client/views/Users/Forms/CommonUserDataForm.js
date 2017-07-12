@@ -212,7 +212,6 @@ let CommonUserDataForm = props => {
             </div>
 
             <button
-                type="button"
                 type="submit"
                 disabled={pristine || submitting}
                 className="btn btn-primary pull-right">Save</button>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {host} from "../../../global"
-import {saveType, fetchTypes, deleteType} from "../../../actions/Dictionaries/ContestTypesActions"
+import {saveRange, fetchRanges, deleteRange} from "../../../actions/Dictionaries/ContestRangesActions"
 import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
 import { Link } from 'react-router-dom'
@@ -9,32 +9,32 @@ import axios from "axios";
 import Spinner from "../../Components/Spinners/Spinner"
 
 @connect((store) => {
-  return {types: store.ContestTypes.types, fetching: store.ContestTypes.fetching, fetched: store.ContestTypes.fetched};
+  return {ranges: store.ContestRanges.ranges, fetching: store.ContestRanges.fetching, fetched: store.ContestRanges.fetched};
 })
-export default class ContestTypesPage extends Component {
+export default class ContestRangesPage extends Component {
   constructor(props) {
     super(props);
-    this.fetchTypes();
+    this.fetchRanges();
   }
 
-  fetchTypes() {
+  fetchRanges() {
     this
       .props
-      .dispatch(fetchTypes())
+      .dispatch(fetchRanges())
   }
 
-  deleteType(id) {
+  deleteRange(id) {
     this
       .props
-      .dispatch(deleteType(id))
+      .dispatch(deleteRange(id))
   }
 
-  removeType(id) {
+  removeRange(id) {
     var self = this;
     axios
-      .post(host + 'api/contest/types/remove', {Id: id})
+      .post(host + 'api/contest/ranges/remove', {Id: id})
       .then(function (response) {
-        self.deleteType(response.data)
+        self.deleteRange(response.data)
       })
       .catch(function (error) {
         console.log(error);
@@ -43,16 +43,16 @@ export default class ContestTypesPage extends Component {
 
   render() {
 
-    const {types, fetching} = this.props;
+    const {ranges, fetching} = this.props;
     if (fetching){
       return <Spinner />
     }
-    const mappedTypes = types.map((type, i) => <tr key={i}>
-      <td>{type.id}</td>
-      <td>{type.name}</td>
+    const mappedRanges = ranges.map((range, i) => <tr key={i}>
+      <td>{range.id}</td>
+      <td>{range.name}</td>
       <td>
-        <Link to={"/contest/types/" + type.id} ><EditButton id={type.id}/></Link>&nbsp;
-        <RemoveButton id={type.id} click={this.removeType.bind(this, type.id)}/>
+        <Link to={"/contest/ranges/" + range.id} ><EditButton id={range.id}/></Link>&nbsp;
+        <RemoveButton id={range.id} click={this.removeRange.bind(this, range.id)}/>
       </td>
     </tr>);
 
@@ -64,9 +64,9 @@ export default class ContestTypesPage extends Component {
             <div className="col-12">
               <div className="card">
                 <div className="card-header">
-                  <strong>Types</strong>
+                  <strong>Ranges</strong>
                   <div class="pull-right">
-                  <Link to={"/contest/types/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
+                  <Link to={"/contest/ranges/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
                   </div>
                 </div>
                 <div className="card-block">
@@ -79,7 +79,7 @@ export default class ContestTypesPage extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {mappedTypes}
+                      {mappedRanges}
                     </tbody>
                   </table>
                 </div>

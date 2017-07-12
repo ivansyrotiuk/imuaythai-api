@@ -4,31 +4,31 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Dictionaries;
 using MuaythaiSportManagementSystemApi.Models;
-using MuaythaiSportManagementSystemApi.Repositories;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/contest/")]
-    public class ContestRangesController : Controller
+    public class ContestPointsController : Controller
     {
-        private readonly IContestRangesRepository _repository;
+        private readonly IContestTypePointsRepository _repository;
 
-        public ContestRangesController(IContestRangesRepository repository)
+        public ContestPointsController(IContestTypePointsRepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        [Route("ranges")]
+        [Route("points")]
         public IActionResult Index()
         {
             try
             {
-                var ranges = _repository.GetAll().Select(i => (ContestRangeDto)i).ToList();
-                return Ok(ranges);
+                var points = _repository.GetAll().Select(i => (ContestPointsDto)i).ToList();
+                return Ok(points);
             }
             catch (Exception ex)
             {
@@ -37,13 +37,13 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        [Route("ranges/{id}")]
+        [Route("points/{id}")]
         public IActionResult Index([FromRoute] int id)
         {
             try
             {
-                var range = _repository.Get(id) ?? new ContestRange();
-                return Ok((ContestRangeDto)range);
+                var points = _repository.Get(id) ?? new ContestTypePoints();
+                return Ok((ContestPointsDto)points);
             }
             catch (Exception ex)
             {
@@ -52,19 +52,20 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpPost]
-        [Route("ranges/save")]
-        public IActionResult SaveRage([FromBody]ContestRangeDto range)
+        [Route("points/save")]
+        public IActionResult SaveRage([FromBody]ContestPointsDto points)
         {
             try
             {
-                ContestRange rangeEntity = range.Id == 0 ? new ContestRange() : _repository.Get(range.Id);
-                rangeEntity.Id = range.Id;
-                rangeEntity.Name = range.Name;
+                ContestTypePoints pointsEntity = points.Id == 0 ? new ContestTypePoints() : _repository.Get(points.Id);
+                pointsEntity.Id = points.Id;
+                pointsEntity.Points = points.Points;
+                pointsEntity.ContestRangeId = points.ContestRange.Id;
+                pointsEntity.ContestTypeId = points.ContestType.Id;
+                _repository.Save(pointsEntity);
 
-                _repository.Save(rangeEntity);
-
-                range.Id = rangeEntity.Id;
-                return Created("Add", range);
+                points.Id = pointsEntity.Id;
+                return Created("Add", points);
             }
             catch (Exception ex)
             {
@@ -74,7 +75,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
 
         [HttpPost]
-        [Route("ranges/remove")]
+        [Route("points/remove")]
         public IActionResult RemoveRange([FromBody]ContestRangeDto range)
         {
             try

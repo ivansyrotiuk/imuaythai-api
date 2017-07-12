@@ -1,12 +1,12 @@
 export default function reducer(state = {
-  types: [],
+  ranges: [],
   fetching: false,
   fetched: false,
   error: null
 }, action) {
 
   switch (action.type) {
-    case "FETCH_TYPES":
+    case "FETCH_RANGES":
       {
         return {
           ...state,
@@ -14,7 +14,7 @@ export default function reducer(state = {
         }
       }
 
-    case "FETCH_TYPES_REJECTED":
+    case "FETCH_RANGES_REJECTED":
       {
         return {
           ...state,
@@ -23,43 +23,43 @@ export default function reducer(state = {
         }
       }
 
-    case "FETCH_TYPES_FULFILLED":
+    case "FETCH_RANGES_FULFILLED":
       {
         return {
           ...state,
           fetching: false,
           fetched: true,
-          types: action.payload
+          ranges: action.payload
         }
       }
 
-    case "SAVE_TYPE":
+    case "SAVE_RANGE":
       {
 
-        const type = action.payload
-        const newTypes = [...state.types]
-        const typeToUpdate = newTypes.findIndex(t => t.id === type.id)
-        if (typeToUpdate > -1) {
-          newTypes[typeToUpdate] = type;
+        const range = action.payload
+        const newRanges = [...state.ranges]
+        const rangeToUpdate = newRanges.findIndex(t => t.id === range.id)
+        if (rangeToUpdate > -1) {
+          newRanges[rangeToUpdate] = range;
           return {
             ...state,
-            types: newTypes
+            ranges: newRanges
           }
         } else {
           return {
             ...state,
-            types: [...state.types, type]
+            ranges: [...state.ranges, range]
           }
         }
 
       }
 
-    case "DELETE_TYPE":
+    case "DELETE_RANGE":
       {
         return {
           ...state,
-          types: state
-            .types
+          ranges: state
+            .ranges
             .filter(t => t.id !== action.payload)
         }
       }
