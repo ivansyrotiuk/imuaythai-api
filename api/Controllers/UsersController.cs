@@ -116,6 +116,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.VK = user.VK;
                 userEntity.Phone = user.Phone;
                 userEntity.Gender = user.Gender;
+                userEntity.CountryId = user.CountryId;
 
                 _repository.Save(userEntity);
 
