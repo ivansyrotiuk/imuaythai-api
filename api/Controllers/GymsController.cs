@@ -44,7 +44,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 Institution gymEntity = gym.Id == 0 ? new Institution() : _repository.Get(gym.Id);
                 gymEntity.Id = gym.Id;
                 gymEntity.Name = gym.Name;
-                gymEntity.Countryid = 1;
+                gymEntity.Countryid = 958;
 
                 _repository.Save(gymEntity);
 
