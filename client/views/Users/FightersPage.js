@@ -1,34 +1,36 @@
 import React, {Component} from 'react';
 import {host} from "../../global"
-import {saveGym, fetchGyms, deleteGym} from "../../actions/GymsActions"
+import {fetchFighters, deleteFighter} from "../../actions/UsersActions"
 import RemoveButton from "../Components/Buttons/RemoveButton"
 import EditButton from "../Components/Buttons/EditButton"
+import Spinner from "../Components/Spinners/Spinner"
 import { Link } from 'react-router-dom'
 import {connect} from "react-redux"
 import axios from "axios";
 
 @connect((store) => {
-  return {gyms: store.Gyms.gyms, fetching: store.Gyms.fetching, fetched: store.Gyms.fetched};
+  return {fighters: store.Fighters.fighters, fetching: store.Fighters.fetching, fetched: store.Fighters.fetched};
 })
-export default class GymsPage extends Component {
+
+export default class FightersPage extends Component {
   constructor(props) {
     super(props);
-    this.fetchGyms();
+    this.dispatchFetchFighters();
   }
 
-  fetchGyms() {
-    this.props.dispatch(fetchGyms())
+  dispatchFetchFighters() {
+    this.props.dispatch(fetchFighters())
   }
 
-  deleteGym(id) {
-    this.props.dispatch(deleteGym(id))
+  dispatchDeleteFighter(id) {
+    this.props.dispatch(deleteFighter(id))
   }
 
-  removeGym(id) {
+  removeFighter(id) {
     var self = this;
-    axios.post(host + 'api/gyms/remove', {Id: id})
+    axios.post(host + 'api/users/remove', {Id: id})
       .then(function (response) {
-        self.deleteGym(response.data)
+        self.dispatchDeleteFighter(response.data)
       })
       .catch(function (error) {
         console.log(error);
@@ -36,15 +38,24 @@ export default class GymsPage extends Component {
   }
 
   render() {
-    const {gyms, fetching} = this.props;
-    const mappedGyms = gyms.map((gym, i) => <tr key={i}>
-      <td>{gym.id}</td>
-      <td>{gym.name}</td>
-      <td>
-        <Link to={"/gyms/" + gym.id} ><EditButton id={gym.id}/></Link>&nbsp;
-        <RemoveButton id={gym.id} click={this.removeGym.bind(this, gym.id)}/>
-      </td>
-    </tr>);
+    const {fighters, fetching} = this.props;
+
+    if (fetching){
+      return <Spinner />
+    }
+
+    const mappedFighters = fighters.map((fighter, i) => 
+      <tr key={i}>
+        <td>{fighter.id}</td>
+        <td>{fighter.firstname}</td>
+        <td>{fighter.surname}</td>
+        <td>
+          <Link to={"/fighters/" + fighter.id} >
+            <EditButton id={fighter.id}/>
+          </Link>&nbsp;
+          <RemoveButton id={fighter.id} click={this.removeFighter.bind(this, fighter.id)}/>
+        </td>
+      </tr>);
 
     return (
         <div className="animated fadeIn">
@@ -59,12 +70,13 @@ export default class GymsPage extends Component {
                     <thead>
                       <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th>Firstname</th>
+                        <th>Surname</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {mappedGyms}
+                      {mappedFighters}
                     </tbody>
                   </table>
                 </div>

@@ -16,6 +16,7 @@ const routes = {
   '/icons/simple-line-icons': 'Simple Line Icons',
   '/widgets': 'Widgets',
   '/gyms':"Gyms",
+  '/fighters':"Fighters",
   '/contest/types':"Contest type"
 };
 export default routes;
