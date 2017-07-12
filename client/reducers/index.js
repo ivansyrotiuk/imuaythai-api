@@ -10,11 +10,8 @@ import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Gyms, 
     ContestTypes,
-  
     Fighters,
-  
+    Countries,
     ContestRanges,
-
     form: reduxFormReducer, 
-
 })
