@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter, Route, Switch } from 'react-router-dom'
-import { createBrowserHistory } from 'history';
-import { Provider } from "react-redux"
+import {HashRouter, Route, Switch} from 'react-router-dom'
+import {createBrowserHistory} from 'history';
+import {Provider} from "react-redux"
 
 import store from "./store"
 
@@ -11,7 +11,7 @@ import Full from './containers/Full/'
 
 // Views
 import FrontPage from './views/Pages/FrontPage/FrontPage'
-import Login from './views/Pages/Login/'
+import Login from './components/Login/LoginContainer'
 import Register from './views/Pages/Register/'
 import Page404 from './views/Pages/Page404/'
 import Page500 from './views/Pages/Page500/'

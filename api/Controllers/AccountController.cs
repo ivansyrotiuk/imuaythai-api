@@ -137,7 +137,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             if (userId == null || code == null)
             {
-                return BadRequest("Null reference hehe");
+                return BadRequest("User or code is invalid");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
