@@ -78,12 +78,8 @@ export default class AvatarEditor extends Component {
                 <ModalBody>
                     <div>
 
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <span class="btn btn-default btn-file"><span>Choose file</span><input ref='file' type='file' onChange={this.onChange}/></span>
-                            <span class="fileinput-filename"></span><span class="fileinput-new">No file chosen</span>
-                        </div>
-
-                   
+                        <input ref='file' type='file' onChange={this.onChange}/> 
+                        
                         {
                             this.state.image && <div>
                                 <Cropper
