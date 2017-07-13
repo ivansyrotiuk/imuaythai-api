@@ -74,7 +74,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                                             );
                         var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-                        return Ok(new {token = encodedToken});
+                        return Ok(new {userId = user.Id, authToken = encodedToken});
                 }
                 
                 if (result.IsLockedOut)

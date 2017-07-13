@@ -3,7 +3,7 @@ import {Field, reduxForm} from 'redux-form'
 
 class Login extends Component {
   render() {
-    const {handleSubmit, pristine, reset, submitting} = this.props
+    const {handleSubmit, pristine, reset, submitting, islogining} = this.props
 
     return (
       <div className="app flex-row align-items-center">
@@ -34,7 +34,10 @@ class Login extends Component {
                       </div>
                       <div className="row">
                         <div className="col-6">
-                          <button type="submit" className="btn btn-primary px-4" disabled={submitting}>Login</button>
+                          <button
+                            type="submit"
+                            className="btn btn-primary px-4"
+                            disabled={islogining || submitting}>Login</button>
                         </div>
                         <div className="col-6 text-right">
                           <button type="button" className="btn btn-link px-0">Forgot password?</button>

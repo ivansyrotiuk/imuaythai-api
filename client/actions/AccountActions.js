@@ -1,64 +1,64 @@
 import {host} from "../global"
 import axios from "axios";
 
-const registerAccountRequest = (account) => {
-    axios
-        .post(host + "api/account/register", account)
-        .then((response) => {
-            return {type: "REGISTER_ACCOUNT_SUCCESS", payload: response.data}
-        })
-        .catch((err) => {
-            return {type: "REGISTER_ACCOUNT_REJECTED", payload: err}
-        })
+function receiveAction(type, payload) {
+    return {type, payload}
 }
 
-const confirmEmailRequest = (confirmEmail) => {
-    axios
-        .get(host + "api/account/confirmemail", {
-        params: {
-            userId: confirmEmail.userid,
-            code: confirmEmail.code
-        }
-    })
-        .then((response) => {
-            
-            return {type: "CONFIRM_EMAIL_SUCCESS", payload: response.data}
-        })
-        .catch((err) => {
-            return {type: "CONFIRM_EMAIL_REJECTED", payload: err}
-        })
+function receiveErrorAction(type, error) {
+    return {type, error}
 }
 
-function receiveLoginAccount(payload){
-    return {type: "REGISTER_ACCOUNT_SUCCESS", payload}
+function requestAction(type, payload) {
+    return {type, payload}
 }
 
-function receiveErrorLoginAccount(error){
-    {type: "LOGIN_ACCOUNT_REJECTED", error}
-}
-
-function loginAccountRequest(account) {
-    return {type: "LOGIN_ACCOUNT_REQUEST", account}
-}
-
-export function getLoginAccount(account){
-    return function (dispatch){
-        dispatch(loginAccountRequest(account))
+export function getLoginAccount(account) {
+    return function (dispatch) {
+        dispatch(requestAction("LOGIN_ACCOUNT_REQUEST", account))
 
         return axios
-        .post(host + "api/account/login", account)
-        .then((response) =>{ console.log(response)
-            dispatch(receiveLoginAccount(response.data))})
-        .catch((err) => {
-            console.log(err) 
-            dispatch(receiveErrorLoginAccount(err))})
+            .post(host + "api/account/login", account)
+            .then((response) => {
+                dispatch(receiveAction("LOGIN_ACCOUNT_SUCCESS", response.data))
+            })
+            .catch((err) => {
+                dispatch(receiveErrorAction("LOGIN_ACCOUNT_REJECTED", err))
+            })
     }
 }
 
-export function registerAccount(account) {
-    return {type: 'REGISTER_ACCOUNT_REQUEST', account}
+export function getRegisterAccount(account) {
+    return function (dispatch) {
+        dispatch(requestAction("REGISTER_LOGIN_REQUEST", account))
+
+        return axios
+            .post(host + "api/account/register", account)
+            .then((response) => {
+                dispatch(receiveAction("REGISTER_LOGIN_SUCCESS", response.data))
+            })
+            .catch((err) => {
+                dispatch(receiveErrorAction("REGISTER_LOGIN_REJECTED", err))
+            })
+    }
 }
 
-export function confirmEmail(confirmEmail) {
-    return {type: 'CONFIRM_EMAIL_REQUEST', confirmEmail}
+export function getConfirmAccount(confirmEmail) {
+    return function (dispatch) {
+        dispatch(requestAction("CONFIRM_EMAIL_REQUEST", confirmEmail))
+
+        return axios
+            .get(host + "api/account/confirmemail", {
+            params: {
+                userId: confirmEmail.userid,
+                code: confirmEmail.code
+            }
+        })
+            .then((response) => {
+                dispatch(receiveAction("CONFIRM_EMAIL_SUCCESS", response.data))
+            })
+            .catch((err) => {
+                dispatch(receiveErrorAction("CONFIRM_EMAIL_REJECTED", err))
+            })
+    }
 }
