@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {host} from "../../../global"
-import {saveRange, fetchRanges, deleteRange} from "../../../actions/Dictionaries/ContestRangesActions"
+import {saveLevel, fetchLevels, deleteLevel} from "../../../actions/Dictionaries/KhanLevelsActions"
 import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
 import { Link } from 'react-router-dom'
@@ -9,32 +9,32 @@ import axios from "axios";
 import Spinner from "../../Components/Spinners/Spinner"
 
 @connect((store) => {
-  return {ranges: store.ContestRanges.ranges, fetching: store.ContestRanges.fetching, fetched: store.ContestRanges.fetched};
+  return {levels: store.KhanLevels.levels, fetching: store.KhanLevels.fetching, fetched: store.KhanLevels.fetched};
 })
-export default class ContestRangesPage extends Component {
+export default class KhanLevelsPage extends Component {
   constructor(props) {
     super(props);
-    this.fetchRanges();
+    this.fetchLevels();
   }
 
-  fetchRanges() {
+  fetchLevels() {
     this
       .props
-      .dispatch(fetchRanges())
+      .dispatch(fetchLevels())
   }
 
-  deleteRange(id) {
+  deleteLevel(id) {
     this
       .props
-      .dispatch(deleteRange(id))
+      .dispatch(deleteLevel(id))
   }
 
-  removeRange(id) {
+  removeLevel(id) {
     var self = this;
     axios
-      .post(host + 'api/dictionaries/ranges/remove', {Id: id})
+      .post(host + 'api/dictionaries/levels/remove', {Id: id})
       .then(function (response) {
-        self.deleteRange(response.data)
+        self.deleteLevel(response.data)
       })
       .catch(function (error) {
         console.log(error);
@@ -43,16 +43,16 @@ export default class ContestRangesPage extends Component {
 
   render() {
 
-    const {ranges, fetching} = this.props;
+    const {levels, fetching} = this.props;
     if (fetching){
       return <Spinner />
     }
-    const mappedRanges = ranges.map((range, i) => <tr key={i}>
-      <td>{range.id}</td>
-      <td>{range.name}</td>
+    const mappedLevels = levels.map((level, i) => <tr key={i}>
+      <td>{level.id}</td>
+      <td>{level.name}</td>
       <td>
-        <Link to={"/dictionaries/ranges/" + range.id} ><EditButton id={range.id}/></Link>&nbsp;
-        <RemoveButton id={range.id} click={this.removeRange.bind(this, range.id)}/>
+        <Link to={"/dictionaries/levels/" + level.id} ><EditButton id={level.id}/></Link>&nbsp;
+        <RemoveButton id={level.id} click={this.removeLevel.bind(this, level.id)}/>
       </td>
     </tr>);
 
@@ -64,9 +64,9 @@ export default class ContestRangesPage extends Component {
             <div className="col-12">
               <div className="card">
                 <div className="card-header">
-                  <strong>Ranges</strong>
+                  <strong>Levels</strong>
                   <div class="pull-right">
-                  <Link to={"/dictionaries/ranges/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
+                  <Link to={"/dictionaries/levels/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
                   </div>
                 </div>
                 <div className="card-block">
@@ -79,7 +79,7 @@ export default class ContestRangesPage extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {mappedRanges}
+                      {mappedLevels}
                     </tbody>
                   </table>
                 </div>

@@ -74,7 +74,8 @@ namespace MuaythaiSportManagementSystemApi
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IContestTypesRepository, ContestTypesRepository>();
             services.AddSingleton<IContestRangesRepository, ContestRangesRepository>();
-            services.AddSingleton<IContestTypePointsRepository, ContestTypePointsRepository>();
+            services.AddSingleton<IKhanLevelsRepository, KhanLevelRepository>();
+            services.AddSingleton<ISuspensionTypesRepository, SuspensionTypesRepository>();
 
             services.Configure<EmailConfiguration>(Configuration);
         }
