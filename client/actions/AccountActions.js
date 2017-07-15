@@ -62,3 +62,18 @@ export function getConfirmAccount(confirmEmail) {
             })
     }
 }
+
+export function getForgotPassword(forgotPassword) {
+    return function (dispatch) {
+        dispatch(requestAction("FORGOT_PASSWORD_REQUEST", forgotPassword))
+
+        return axios
+            .post(host + "api/account/forgotpassword", forgotPassword)
+            .then((response) => {
+                dispatch(receiveAction("FORGOT_PASSWORD_SUCCESS", response.data))
+            })
+            .catch((err) => {
+                dispatch(receiveErrorAction("FORGOT_PASSWORD_REJECTED", err))
+            })
+    }
+}

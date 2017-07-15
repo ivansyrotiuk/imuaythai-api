@@ -1,8 +1,7 @@
 export default function reduer(state = {
     authToken: '',
     fetching: false,
-    isRegistered: false,
-    isConfirmed: false,
+    fetched: false,
     rememberMe: false,
     error: null
 }, action) {
@@ -10,6 +9,7 @@ export default function reduer(state = {
         case "LOGIN_ACCOUNT_REQUEST":
         case "REGISTER_ACCOUNT_REQUEST":
         case "CONFIRM_EMAIL_REQUEST":
+        case "FORGOT_PASSWORD_REQEST":
             return {
                 ...state,
                 fetching: true
@@ -18,6 +18,7 @@ export default function reduer(state = {
         case "LOGIN_ACCOUNT_REJECTED":
         case "CONFIRM_EMAIL_REJECTED":
         case "REGISTER_ACCOUNT_REJECTED":
+        case "FORGOT_PASSWORD_REJECTED":
             return {
                 ...state,
                 fetching: false,
@@ -28,22 +29,18 @@ export default function reduer(state = {
             return {
                 ...state,
                 fetching: false,
+                fetched: true,
                 error: null,
                 authToken: action.payload.authToken,
                 rememberMe: action.payload.rememberMe
             }
         case "REGISTER_ACCOUNT_SUCCESS":
-            return {
-                ...state,
-                fetching: false,
-                isRegi: true,
-                error: null
-            }
         case "CONFIRM_EMAIL_SUCCESS":
+        case "FORGOT_PASSWORD_SUCCESS":
             return {
                 ...state,
                 fetching: false,
-                isConfirmed: true,
+                fetched: true,
                 error: null
             }
 

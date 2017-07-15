@@ -156,7 +156,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto model)
+        [Route("forgotpassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordDto model)
         {
 
                 var user = await _userManager.FindByEmailAsync(model.Email);
@@ -169,10 +170,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                 // Send an email with this link
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = $"{model.CallbackUrl}?userid='{user.Id}'&code='{code}'";
-                
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
+             
+                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
 
                 return Ok("Reset password email sent");
         }

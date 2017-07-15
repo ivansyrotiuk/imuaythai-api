@@ -62,7 +62,7 @@ class Login extends Component {
                       </div>
                       <div className="row">
                         <div className="col-md-12 text-right">
-                          <button type="button" className="btn btn-link px-0">Forgot password?</button>
+                          <Link to="/forgotpassword" className="btn btn-link px-0">Forgot password?</Link>
                         </div>
                       </div>
                     </div>

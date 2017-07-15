@@ -13,8 +13,7 @@ class LoginContainer extends Component {
                     authToken: this.props.authToken,
                     error: null,
                     fetching: false,
-                    isConfirmed: false,
-                    isRegistered: false,
+                    fetched: false,
                     rememberMe: !this.props.rememberMe
                 }
                 saveState(authAccount)

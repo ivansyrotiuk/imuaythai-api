@@ -47,7 +47,7 @@ class ConfirmEmailContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {fetching: state.Account.fetching, authToken: state.Account.authToken, isConfirmed: state.Account.isConfirmed}
+    return {fetching: state.Account.fetching, authToken: state.Account.authToken, fetched: state.Account.fetched}
 }
 
 const mapDispatchToProps = (dispatch) => {

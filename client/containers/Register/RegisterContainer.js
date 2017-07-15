@@ -12,7 +12,7 @@ class RegisterContainer extends Component {
     }
 
     render() {
-        if (this.props.isRegistered && this.props.error == null) 
+        if (this.props.fetched && this.props.error == null) 
             return (<Registered
                 headerText="You have been registered successfully"
                 description="Please check your e-mail in order to activate your account"
@@ -32,7 +32,7 @@ class RegisterContainer extends Component {
     }
 
 const mapStateToProps = (state) => {
-    return {fetching: state.Account.fetching, isRegistered: state.Account.isRegistered, authToken: state.Account.authToken, error: state.Account.error}
+    return {fetching: state.Account.fetching, fetched: state.Account.fetched, authToken: state.Account.authToken, error: state.Account.error}
 }
 
 const mapDispatchToProps = (dispatch) => {
