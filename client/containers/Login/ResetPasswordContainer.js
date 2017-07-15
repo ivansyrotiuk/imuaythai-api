@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 class ResetPasswordContainer
 extends Component {
-    state = {}
     render() {
-        return ();
+        return (
+            <p>dev</p>
+        );
     }
 }
 
