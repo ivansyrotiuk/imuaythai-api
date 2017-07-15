@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Field, reduxForm} from 'redux-form'
+import {Field, reduxForm} from 'redux-form';
+import {Link} from 'react-router-dom'
 
 class Login extends Component {
   render() {
@@ -20,7 +21,12 @@ class Login extends Component {
                         <span className="input-group-addon">
                           <i className="icon-user"></i>
                         </span>
-                        <Field name="login" component="input" type="e-mail" placeholder="E-mail"/>
+                        <Field
+                          name="login"
+                          component="input"
+                          type="e-mail"
+                          className="form-control"
+                          placeholder="E-mail"/>
                       </div>
                       <div className="input-group mb-4">
                         <span className="input-group-addon">
@@ -30,6 +36,7 @@ class Login extends Component {
                           name="password"
                           component="input"
                           type="password"
+                          className="form-control"
                           placeholder="Password"/>
                       </div>
                       <div className="row">
@@ -39,7 +46,22 @@ class Login extends Component {
                             className="btn btn-primary px-4"
                             disabled={islogining || submitting}>Login</button>
                         </div>
-                        <div className="col-6 text-right">
+                        <div className="col-6 text-right center-block">
+
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <Field
+                                name="rememberme"
+                                component="input"
+                                type="checkbox"
+                                class="form-check-input"/>
+                              Remember me?
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-12 text-right">
                           <button type="button" className="btn btn-link px-0">Forgot password?</button>
                         </div>
                       </div>
@@ -56,7 +78,7 @@ class Login extends Component {
                       <h2>Sign up</h2>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et dolore magna aliqua.</p>
-                      <button type="button" className="btn btn-primary active mt-3">Register Now!</button>
+                      <Link to="/register" className="btn btn-primary active mt-3">Register Now!</Link>
                     </div>
                   </div>
                 </div>

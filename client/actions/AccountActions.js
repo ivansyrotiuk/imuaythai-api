@@ -30,15 +30,15 @@ export function getLoginAccount(account) {
 
 export function getRegisterAccount(account) {
     return function (dispatch) {
-        dispatch(requestAction("REGISTER_LOGIN_REQUEST", account))
+        dispatch(requestAction("REGISTER_ACCOUNT_REQEST", account))
 
         return axios
             .post(host + "api/account/register", account)
             .then((response) => {
-                dispatch(receiveAction("REGISTER_LOGIN_SUCCESS", response.data))
+                dispatch(receiveAction("REGISTER_ACCOUNT_SUCCESS", response.data))
             })
             .catch((err) => {
-                dispatch(receiveErrorAction("REGISTER_LOGIN_REJECTED", err))
+                dispatch(receiveErrorAction("REGISTER_ACCOUNT_REJECTED", err))
             })
     }
 }

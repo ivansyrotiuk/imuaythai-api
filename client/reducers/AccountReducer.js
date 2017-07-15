@@ -1,9 +1,9 @@
-import {combineReducers} from 'redux'
-
 export default function reduer(state = {
     authToken: '',
-    userId: null,
     fetching: false,
+    isRegistered: false,
+    isConfirmed: false,
+    rememberMe: false,
     error: null
 }, action) {
     switch (action.type) {
@@ -29,14 +29,22 @@ export default function reduer(state = {
                 ...state,
                 fetching: false,
                 error: null,
-                userId: action.payload.userId,
-                authToken: action.payload.authToken
+                authToken: action.payload.authToken,
+                rememberMe: action.payload.rememberMe
             }
         case "REGISTER_ACCOUNT_SUCCESS":
+            return {
+                ...state,
+                fetching: false,
+                isRegi: true,
+                error: null
+            }
         case "CONFIRM_EMAIL_SUCCESS":
             return {
                 ...state,
-                fetching: false
+                fetching: false,
+                isConfirmed: true,
+                error: null
             }
 
         default:

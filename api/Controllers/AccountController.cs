@@ -74,7 +74,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                                             );
                         var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-                        return Ok(new {userId = user.Id, authToken = encodedToken});
+                        return Ok(new {authToken = encodedToken, rememberMe = model.RememberMe});
                 }
                 
                 if (result.IsLockedOut)
@@ -104,10 +104,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = $"{model.CallbackUrl}?userid='{user.Id}'&code='{code}'";
+                    var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
              
                     await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                        $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
                         
                     _logger.LogInformation(3, "User created a new account with password.");
                     return Created("Email confirmation sent", null);
