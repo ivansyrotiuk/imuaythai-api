@@ -17,21 +17,16 @@ export default class GymsPage extends Component {
   }
 
   fetchGyms() {
-    this
-      .props
-      .dispatch(fetchGyms())
+    this.props.dispatch(fetchGyms())
   }
 
   deleteGym(id) {
-    this
-      .props
-      .dispatch(deleteGym(id))
+    this.props.dispatch(deleteGym(id))
   }
 
   removeGym(id) {
     var self = this;
-    axios
-      .post(host + 'api/gyms/remove', {Id: id})
+    axios.post(host + 'api/gyms/remove', {Id: id})
       .then(function (response) {
         self.deleteGym(response.data)
       })
@@ -41,7 +36,6 @@ export default class GymsPage extends Component {
   }
 
   render() {
-
     const {gyms, fetching} = this.props;
     const mappedGyms = gyms.map((gym, i) => <tr key={i}>
       <td>{gym.id}</td>

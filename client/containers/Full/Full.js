@@ -22,6 +22,11 @@ import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
 import GymsPage from "../../views/Institutions/GymsPage"
 import GymDetailsPage from "../../views/Institutions/GymDetailsPage"
 import ContestTypesPage from "../../views/Dictionaries/ContestTypes/ContestTypesPage"
+import ContestTypesDetailsPage from "../../views/Dictionaries/ContestTypes/ContestTypesDetailsPage"
+import ContestRangesPage from "../../views/Dictionaries/ContestRanges/ContestRangesPage"
+import ContestRangesDetailsPage from "../../views/Dictionaries/ContestRanges/ContestRangesDetailsPage"
+import FightersPage from "../../views/Users/FightersPage"
+import FighterEditPage from "../../views/Users/FighterEditPage"
 
 class Full extends Component {
   render() {
@@ -55,7 +60,13 @@ class Full extends Component {
                 <Route path="/charts" name="Charts" component={Charts}/>
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
+                <Route path="/contest/types/:id" name="ContestType" component={ContestTypesDetailsPage}/>
+                <Route path="/contest/types/" name="ContestTypes" component={ContestTypesPage}/>
+                <Route path="/fighters/:id" name="Fighter" component={FighterEditPage}/>
+                <Route path="/fighters/" name="Fighters" component={FightersPage}/>
                 <Route path="/contest/types" name="ContestTypes" component={ContestTypesPage}/>
+                <Route path="/contest/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage}/>
+                <Route path="/contest/ranges/" name="ContestRanges" component={ContestRangesPage}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </div>

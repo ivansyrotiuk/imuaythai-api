@@ -88,6 +88,6 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<ContestRange> ContestRanges { get; set; }
         public virtual DbSet<ContestType> ContestTypes { get; set; }
         public virtual DbSet<Reminder> Reminders { get; set; }
-
+        public virtual DbSet<Province> Provinces { get; set; }
     }
 }

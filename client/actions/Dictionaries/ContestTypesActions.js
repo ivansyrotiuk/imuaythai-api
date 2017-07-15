@@ -4,7 +4,7 @@ import axios from "axios";
 export function fetchTypes() {
     return function (dispatch) {
         dispatch({
-            type: "FETCH_TYPE"
+            type: "FETCH_TYPES"
         });
         axios
             .get(host + "api/contest/types/")

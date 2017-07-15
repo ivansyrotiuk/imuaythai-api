@@ -11,7 +11,7 @@ using MuaythaiSportManagementSystemApi.Repositories;
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/ContestRanges")]
+    [Route("api/contest/")]
     public class ContestRangesController : Controller
     {
         private readonly IContestRangesRepository _repository;
@@ -22,6 +22,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
+        [Route("ranges")]
         public IActionResult Index()
         {
             try
@@ -35,8 +36,23 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ranges/{id}")]
+        public IActionResult Index([FromRoute] int id)
+        {
+            try
+            {
+                var range = _repository.Get(id) ?? new ContestRange();
+                return Ok((ContestRangeDto)range);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
-        [Route("Save")]
+        [Route("ranges/save")]
         public IActionResult SaveRage([FromBody]ContestRangeDto range)
         {
             try
@@ -58,7 +74,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
 
         [HttpPost]
-        [Route("Remove")]
+        [Route("ranges/remove")]
         public IActionResult RemoveRange([FromBody]ContestRangeDto range)
         {
             try

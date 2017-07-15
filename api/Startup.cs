@@ -51,6 +51,7 @@ namespace MuaythaiSportManagementSystemApi
             // Add framework services.
             //services.AddOptions();
             services.AddMvc();
+       
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -71,10 +72,11 @@ namespace MuaythaiSportManagementSystemApi
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IInstitutionsRepository, InstitutionsesRepository>();
+            services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IContestTypesRepository, ContestTypesRepository>();
             services.AddSingleton<IContestRangesRepository, ContestRangesRepository>();
-
-
+            services.AddSingleton<IContestTypePointsRepository, ContestTypePointsRepository>();
+            services.AddSingleton<ICountriesRepository, CountriesRepository>();
             services.Configure<EmailConfiguration>(Configuration);
         }
 
@@ -99,11 +101,11 @@ namespace MuaythaiSportManagementSystemApi
                     ValidateAudience = false,      
                 }
             });
-            
-			app.UseIdentity();
-            app.UseMvc();
+         
 
-            
+            app.UseIdentity();
+            app.UseMvc();
+  
         }
     }
 }

@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
-import {host} from "../../global"
-import {saveGym, fetchGyms, deleteGym} from "../../actions/GymsActions"
-import {connect} from "react-redux"
+import React, { Component } from 'react';
+import { host } from "../../global"
+import { saveGym, fetchGyms, deleteGym } from "../../actions/GymsActions"
+import { connect } from "react-redux"
 import axios from "axios";
+import CommonGymDataForm from "./Forms/CommonGymDataForm"
 
 @connect((store) => {
-  return {gyms: store.Gyms.gyms, fetching: store.Gyms.fetching, fetched: store.Gyms.fetched};
+  return { gyms: store.Gyms.gyms, fetching: store.Gyms.fetching, fetched: store.Gyms.fetched };
 })
 export default class GymDetailsPage extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ export default class GymDetailsPage extends Component {
   removeGym(id) {
     var self = this;
     axios
-      .post(host + 'api/gyms/remove', {Id: id})
+      .post(host + 'api/gyms/remove', { Id: id })
       .then(function (response) {
         self.deleteGym(response.data)
       })
@@ -58,48 +59,25 @@ export default class GymDetailsPage extends Component {
 
   render() {
 
-    const {gyms, fetching} = this.props;
-    
+    const { gyms, fetching } = this.props;
+
     return (
-        <div className="animated fadeIn">
-          <div className="row">
-            <div className="col-12">
-              <div className="card">
-                <div className="card-header">
-                  <strong>Gym</strong>
-                </div>
-                <div className="card-block">
+      <div className="animated fadeIn">
+        <div className="row">
+          <div className="col-12">
+            <div className="card">
+              <div className="card-header">
+                <strong>Gym</strong>
+              </div>
+              <div className="card-block">
+                <CommonGymDataForm initialValues={this.props.gym} onSubmit={this.onSubmit} />
 
-                    <form action="" method="post" encType="multipart/form-data" className="form-horizontal"  onSubmit={this.onSubmit}>
-                        <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">Text Input</label>
-                        <div className="col-md-9">
-                            <input type="text" id="gymId" name="text-input" className="form-control" placeholder="Text" ref="id"/>
-                            <span className="help-block">This is a help text</span>
-                        </div>
-                        </div>
-                        <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">Text Input</label>
-                        <div className="col-md-9">
-                            <input
-                            type="text"
-                            id="gymName"
-                            name="text-input"
-                            className="form-control"
-                            placeholder="Text"
-                            ref="name"/>
-                            <span className="help-block">This is a help text</span>
-                        </div>
-                        </div>
-                        <button type="button" type="submit" className="btn btn-primary">Save</button>
-                    </form>
 
-   
-                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
     );
   }
 }

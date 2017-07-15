@@ -396,9 +396,9 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ContestRangeId");
+                    b.Property<int>("ContestRangeId");
 
-                    b.Property<int?>("ContestTypeId");
+                    b.Property<int>("ContestTypeId");
 
                     b.Property<int?>("InstitutionId");
 
@@ -423,6 +423,8 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<string>("Code");
 
                     b.Property<string>("Continent");
+
+                    b.Property<int>("ExternalId");
 
                     b.Property<string>("Name");
 
@@ -675,6 +677,23 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.ToTable("KhanLevels");
                 });
 
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Province", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CountryId");
+
+                    b.Property<string>("ProvinceName")
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Provinces");
+                });
+
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Reminder", b =>
                 {
                     b.Property<int>("Id")
@@ -838,7 +857,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                         .HasForeignKey("ContestId");
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestTypePoints", "ContestTypePoints")
-                        .WithMany()
+                        .WithMany("Categories")
                         .HasForeignKey("ContestTypePointsId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -885,11 +904,13 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                 {
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestRange", "ContestRange")
                         .WithMany()
-                        .HasForeignKey("ContestRangeId");
+                        .HasForeignKey("ContestRangeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestType", "ContestType")
                         .WithMany()
-                        .HasForeignKey("ContestTypeId");
+                        .HasForeignKey("ContestTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
                         .WithMany()
@@ -979,6 +1000,14 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
                         .WithMany("InstitutionDocumentsMappings")
                         .HasForeignKey("InstitutionId");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Province", b =>
+                {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Reminder", b =>

@@ -6,6 +6,7 @@ import EditButton from "../../Components/Buttons/EditButton"
 import { Link } from 'react-router-dom'
 import {connect} from "react-redux"
 import axios from "axios";
+import Spinner from "../../Components/Spinners/Spinner"
 
 @connect((store) => {
   return {types: store.ContestTypes.types, fetching: store.ContestTypes.fetching, fetched: store.ContestTypes.fetched};
@@ -43,6 +44,9 @@ export default class ContestTypesPage extends Component {
   render() {
 
     const {types, fetching} = this.props;
+    if (fetching){
+      return <Spinner />
+    }
     const mappedTypes = types.map((type, i) => <tr key={i}>
       <td>{type.id}</td>
       <td>{type.name}</td>
@@ -52,7 +56,9 @@ export default class ContestTypesPage extends Component {
       </td>
     </tr>);
 
+
     return (
+      
         <div className="animated fadeIn">
           <div className="row">
             <div className="col-12">
@@ -60,7 +66,7 @@ export default class ContestTypesPage extends Component {
                 <div className="card-header">
                   <strong>Types</strong>
                   <div class="pull-right">
-                  <button type="button" className="btn btn-primary">Create</button>
+                  <Link to={"/contest/types/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
                   </div>
                 </div>
                 <div className="card-block">
@@ -68,7 +74,7 @@ export default class ContestTypesPage extends Component {
                     <thead>
                       <tr>
                         <th>Id</th>
-                        <th>Name</th>
+                        <th className="col-md-9">Name</th>
                         <th>Action</th>
                       </tr>
                     </thead>
