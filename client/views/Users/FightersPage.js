@@ -3,6 +3,7 @@ import {host} from "../../global"
 import {fetchFighters, deleteFighter} from "../../actions/UsersActions"
 import RemoveButton from "../Components/Buttons/RemoveButton"
 import EditButton from "../Components/Buttons/EditButton"
+import PreviewButton from "../Components/Buttons/PreviewButton"
 import Spinner from "../Components/Spinners/Spinner"
 import { Link } from 'react-router-dom'
 import {connect} from "react-redux"
@@ -51,6 +52,9 @@ export default class FightersPage extends Component {
         <td>{fighter.surname}</td>
         <td>
           <Link to={"/fighters/" + fighter.id} >
+            <PreviewButton id={fighter.id}/>
+          </Link>&nbsp;
+          <Link to={"/fighters/" + fighter.id + "/edit"} >
             <EditButton id={fighter.id}/>
           </Link>&nbsp;
           <RemoveButton id={fighter.id} click={this.removeFighter.bind(this, fighter.id)}/>

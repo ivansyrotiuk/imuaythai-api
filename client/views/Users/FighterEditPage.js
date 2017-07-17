@@ -56,10 +56,11 @@ export default class FighterEditPage extends Component {
     handleSubmit(values) {
         var self = this;
 
-        axios
+        return axios
             .post(host + 'api/users/save', values)
             .then(function (response) {
-                self.dispatchSaveFighter(response.data)
+                self.dispatchSaveFighter(response.data);
+                self.props.history.goBack();
             })
             .catch(function (error) {
                 self.props.history.push('/500');

@@ -1,44 +1,57 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {Field, reduxForm} from 'redux-form'
 
 class Register extends Component {
   render() {
+    const {handleSubmit, pristine, reset, submitting, islogining} = this.props
+
     return (
       <div className="app flex-row align-items-center">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-6">
               <div className="card mx-4">
-                <div className="card-block p-4">
-                  <h1>Register</h1>
-                  <p className="text-muted">Create your account</p>
-                  <div className="input-group mb-3">
-                    <span className="input-group-addon"><i className="icon-user"></i></span>
-                    <input type="text" className="form-control" placeholder="Username"/>
-                  </div>
-                  <div className="input-group mb-3">
-                    <span className="input-group-addon">@</span>
-                    <input type="text" className="form-control" placeholder="Email"/>
-                  </div>
-                  <div className="input-group mb-3">
-                    <span className="input-group-addon"><i className="icon-lock"></i></span>
-                    <input type="password" className="form-control" placeholder="Password"/>
-                  </div>
-                  <div className="input-group mb-4">
-                    <span className="input-group-addon"><i className="icon-lock"></i></span>
-                    <input type="password" className="form-control" placeholder="Repeat password"/>
-                  </div>
-                  <button type="button" className="btn btn-block btn-success">Create Account</button>
-                </div>
-                <div className="card-footer p-4">
-                  <div className="row">
-                    <div className="col-6">
-                      <button className="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
+                <form onSubmit={handleSubmit}>
+                  <div className="card-block p-4">
+                    <h1>Register</h1>
+                    <p className="text-muted">Create your account</p>
+                    <div className="input-group mb-3">
+                      <span className="input-group-addon">
+                        <i className="icon-user"></i>
+                      </span>
+                      <Field
+                        name="login"
+                        className="form-control"
+                        component="input"
+                        type="e-mail"
+                        placeholder="E-mail"/>
                     </div>
-                    <div className="col-6">
-                      <button className="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
+                    <div className="input-group mb-3">
+                      <span className="input-group-addon">
+                        <i className="icon-lock"></i>
+                      </span>
+                      <Field
+                        name="password"
+                        className="form-control"
+                        component="input"
+                        type="password"
+                        placeholder="Password"/>
+
                     </div>
+                    <div className="input-group mb-4">
+                      <span className="input-group-addon">
+                        <i className="icon-lock"></i>
+                      </span>
+                      <Field
+                        name="confirmpassword"
+                        className="form-control"
+                        component="input"
+                        type="password"
+                        placeholder="Repeat password"/>
+                    </div>
+                    <button type="submit" className="btn btn-block btn-success">Create Account</button>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -47,5 +60,6 @@ class Register extends Component {
     );
   }
 }
-
-export default Register;
+export default reduxForm({
+  form: 'registerForm' // a unique identifier for this form
+})(Register)
