@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Models.AccountModels;
 using MuaythaiSportManagementSystemApi.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -25,6 +26,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
@@ -200,6 +202,35 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             return BadRequest("Can't reset password");
         }
 
-        
+        [HttpGet]
+        [Route("setup")]
+        public async Task<ActionResult> SetupRoles()
+        {
+            List<string> rolesList = new List<string>
+            {
+                "Admin",
+                "GymAdmin",
+                "Fighter",
+                "Coach",
+                "Judge",
+                "Doctor",
+
+            };
+
+            foreach (var role in rolesList)
+            {
+                await _roleManager.CreateAsync(new IdentityRole
+                {
+                    Name = role
+                });
+            }
+
+            var roles = _roleManager.Roles.ToList();
+
+            return Ok(roles);
+        }
+
+
+
     }
 }
