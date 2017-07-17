@@ -1,3 +1,5 @@
+import * as actionTypes from '../actions/actionTypes';
+
 export default function reduer(state = {
     authToken: '',
     fetching: false,
@@ -6,26 +8,29 @@ export default function reduer(state = {
     error: null
 }, action) {
     switch (action.type) {
-        case "LOGIN_ACCOUNT_REQUEST":
-        case "REGISTER_ACCOUNT_REQUEST":
-        case "CONFIRM_EMAIL_REQUEST":
-        case "FORGOT_PASSWORD_REQEST":
+        case actionTypes.LOGIN_ACCOUNT_REQUEST:
+        case actionTypes.REGISTER_ACCOUNT_REQUEST:
+        case actionTypes.CONFIRM_EMAIL_REQUEST:
+        case actionTypes.FORGOT_PASSWORD_REQUEST:
+        case actionTypes.RESET_PASSWORD_REQUEST:
             return {
                 ...state,
-                fetching: true
+                fetching: true,
+                fetched: false
             }
 
-        case "LOGIN_ACCOUNT_REJECTED":
-        case "CONFIRM_EMAIL_REJECTED":
-        case "REGISTER_ACCOUNT_REJECTED":
-        case "FORGOT_PASSWORD_REJECTED":
+        case actionTypes.LOGIN_ACCOUNT_REJECTED:
+        case actionTypes.REGISTER_ACCOUNT_REJECTED:
+        case actionTypes.CONFIRM_EMAIL_REJECTED:
+        case actionTypes.FORGOT_PASSWORD_REJECTED:
+        case actionTypes.RESET_PASSWORD_REJECTED:
             return {
                 ...state,
                 fetching: false,
                 error: action.error
             }
 
-        case "LOGIN_ACCOUNT_SUCCESS":
+        case actionTypes.LOGIN_ACCOUNT_SUCCESS:
             return {
                 ...state,
                 fetching: false,
@@ -34,9 +39,10 @@ export default function reduer(state = {
                 authToken: action.payload.authToken,
                 rememberMe: action.payload.rememberMe
             }
-        case "REGISTER_ACCOUNT_SUCCESS":
-        case "CONFIRM_EMAIL_SUCCESS":
-        case "FORGOT_PASSWORD_SUCCESS":
+        case actionTypes.REGISTER_ACCOUNT_SUCCESS:
+        case actionTypes.CONFIRM_EMAIL_SUCCESS:
+        case actionTypes.FORGOT_PASSWORD_SUCCESS:
+        case actionTypes.RESET_PASSWORD_SUCCESS:
             return {
                 ...state,
                 fetching: false,

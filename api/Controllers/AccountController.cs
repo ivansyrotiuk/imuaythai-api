@@ -172,8 +172,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
              
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
+                    await _emailSender.SendEmailAsync(model.Email, "Reset password",
+                        $"Please reset your password by clicking this link: <a href=\"{callbackUrl}\">link</a>");
 
                 return Ok("Reset password email sent");
         }
@@ -182,9 +182,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto model)
+        [Route("resetpassword")]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByIdAsync(model.UserId);
             if (user == null)
             {
                 // Don't reveal that the user does not exist

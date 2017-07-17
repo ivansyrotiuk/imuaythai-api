@@ -15,6 +15,8 @@ import Login from './containers/Login/LoginContainer'
 import ForgotPassword from './containers/Login/ForgotPasswordContainer'
 import Register from './containers/Register/RegisterContainer'
 import ConfirmEmail from './containers/Register/ConfirmEmailContainer'
+import ResetPassword from './containers/Login/ResetPasswordContainer'
+
 import Page404 from './views/Pages/Page404/'
 import Page500 from './views/Pages/Page500/'
 import GymsPage from './views/Institutions/GymsPage'
@@ -37,6 +39,12 @@ ReactDOM.render((
           path="/forgotpassword"
           name="Forgot password"
           component={ForgotPassword}/>
+
+        <Route
+          exact
+          path="/resetpassword"
+          name="Reset password"
+          component={ResetPassword}/>
 
         <Route exact path="/404" name="Page 404" component={Page404}/>
         <Route exact path="/500" name="Page 500" component={Page500}/>
