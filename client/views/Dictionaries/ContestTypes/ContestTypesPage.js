@@ -32,7 +32,7 @@ export default class ContestTypesPage extends Component {
   removeType(id) {
     var self = this;
     axios
-      .post(host + 'api/contest/types/remove', {Id: id})
+      .post(host + 'api/dictionaries/types/remove', {Id: id})
       .then(function (response) {
         self.deleteType(response.data)
       })
@@ -51,7 +51,7 @@ export default class ContestTypesPage extends Component {
       <td>{type.id}</td>
       <td>{type.name}</td>
       <td>
-        <Link to={"/contest/types/" + type.id} ><EditButton id={type.id}/></Link>&nbsp;
+        <Link to={"/dictionaries/types/" + type.id} ><EditButton id={type.id}/></Link>&nbsp;
         <RemoveButton id={type.id} click={this.removeType.bind(this, type.id)}/>
       </td>
     </tr>);
@@ -66,7 +66,7 @@ export default class ContestTypesPage extends Component {
                 <div className="card-header">
                   <strong>Types</strong>
                   <div class="pull-right">
-                  <Link to={"/contest/types/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
+                  <Link to={"/dictionaries/types/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
                   </div>
                 </div>
                 <div className="card-block">
