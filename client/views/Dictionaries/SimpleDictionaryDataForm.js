@@ -1,18 +1,14 @@
 import React, {Component} from 'react';
-import {host} from "../../../global"
-import Spinner from "../../Components/Spinners/Spinner";
-import {saveType, fetchType, deleteType} from "../../../actions/Dictionaries/SingleContestTypeActions"
-
+import {host} from "../../global"
 import axios from "axios";
 import {connect} from "react-redux";
-import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
 import {Field, reduxForm} from 'redux-form';
 
-let TypeDataForm = props => {
+let SimpleDictionaryDataForm = props => {
     const {handleSubmit, pristine, reset, submitting} = props;
     return (
 
@@ -40,5 +36,5 @@ let TypeDataForm = props => {
 };
 
 export default reduxForm({
-    form: 'TypeDataForm', // a unique identifier for this form
-})(TypeDataForm);
+    form: 'SimpleDictionaryDataForm', // a unique identifier for this form
+})(SimpleDictionaryDataForm);

@@ -1,38 +1,38 @@
 import {host} from "../../global"
 import axios from "axios";
 
-export function fetchTypes() {
+export function fetchLevels() {
     return function (dispatch) {
         dispatch({
-            type: "FETCH_TYPES"
+            type: "FETCH_LEVELS"
         });
         axios
-            .get(host + "api/dictionaries/types/")
+            .get(host + "api/dictionaries/levels/")
             .then((response) => {
                 dispatch({
-                    type: "FETCH_TYPES_FULFILLED",
+                    type: "FETCH_LEVELS_FULFILLED",
                     payload: response.data
                 })
             })
             .catch((err) => {
                 dispatch({
-                    type: "FETCH_TYPES_REJECTED",
+                    type: "FETCH_LEVELS_REJECTED",
                     payload: err
                 })
             })
     }
 }
 
-export function saveType(type) {
+export function saveLevel(type) {
     return {
-        type: 'SAVE_TYPE',
+        type: 'SAVE_LEVEL',
         payload: type
     }
 }
 
-export function deleteType(id) {
+export function deleteLevel(id) {
     return {
-        type: 'DELETE_TYPE',
+        type: 'DELETE_LEVEL',
         payload: id
     }
 }

@@ -3,7 +3,7 @@ import {host} from "../../../global"
 import {connect} from "react-redux"
 import axios from "axios";
 import LoadButton from "../../Components/Buttons/LoadButton";
-import TypeDataForm from "./TypeDataForm";
+import SimpleDictionaryDataForm from "../SimpleDictionaryDataForm";
 import Spinner from "../../Components/Spinners/Spinner"
 
 
@@ -22,7 +22,7 @@ export default class ContestTypesDetailsPage extends Component {
 
     var self = this;
     axios
-      .get(host + "api/contest/types/"+id)
+      .get(host + "api/dictionaries/types/"+id)
       .then((response) => {
         self.setState({...self.state, fetching: false, type: response.data});
       })
@@ -35,12 +35,12 @@ export default class ContestTypesDetailsPage extends Component {
     var self = this;
 
     axios
-      .post(host + 'api/contest/types/save', values)
+      .post(host + 'api/dictionaries/types/save', values)
       .then(function (response) {
         self
           .props
           .history
-          .push('/contest/types');
+          .push('/dictionaries/types');
       })
       .catch(function (error) {
         self
@@ -70,7 +70,7 @@ export default class ContestTypesDetailsPage extends Component {
                 <strong>Type</strong>
               </div>
               <div className="card-block">
-                <TypeDataForm initialValues={type} onSubmit={this.onSubmit}/>
+                <SimpleDictionaryDataForm initialValues={type} onSubmit={this.onSubmit}/>
             </div>
             </div>
           </div>

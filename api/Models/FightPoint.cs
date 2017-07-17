@@ -19,7 +19,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         [Required]
         public string Cautions { get; set; }
         [Required]
-        public string Wamings { get; set; }
+        public string Warnings { get; set; }
         [Required]
         public bool Accepted { get; set; }
 

@@ -46,16 +46,18 @@ class Sidebar extends Component {
               </ul>
             </li>
 
-            <li className={this.activeRoute("/contest")}>
+            <li className={this.activeRoute("/dictionaries")}>
               <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-puzzle"></i> Dictionaries</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
-                  <NavLink to="/contest/types" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest types</NavLink>
+                  <NavLink to="/dictionaries/types" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest types</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/contest/ranges" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest ranges</NavLink>
+                  <NavLink to="/dictionaries/ranges" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest ranges</NavLink>
                 </li>
-
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/levels" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Khan levels</NavLink>
+                </li>
               </ul>
             </li>
 
