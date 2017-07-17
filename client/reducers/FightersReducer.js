@@ -32,36 +32,6 @@ export default function reducer(state = {
           fighters: action.payload
         }
       }
-
-    case "SAVE_FIGTHER":
-      {
-        const fighter = action.payload
-        const newFigthers = [...state.fighters]
-        const figtherToUpdate = newFigthers.findIndex(g => g.id === fighter.id)
-        if (figtherToUpdate > -1) {
-          newFigthers[figtherToUpdate] = fighter;
-          return {
-            ...state,
-            fighters: newFigthers
-          }
-        } else {
-          return {
-            ...state,
-            fighters: [...state.fighters, fighter]
-          }
-        }
-
-      }
-
-    case "DELETE_FIGTHER":
-      {
-        return {
-          ...state,
-          fighters: state
-            .fighters
-            .filter(f => f.id !== action.payload)
-        }
-      }
   }
   return state
 }

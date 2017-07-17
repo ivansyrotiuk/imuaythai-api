@@ -27,7 +27,7 @@ import ContestRangesPage from "../../views/Dictionaries/ContestRanges/ContestRan
 import ContestRangesDetailsPage from "../../views/Dictionaries/ContestRanges/ContestRangesDetailsPage"
 import FightersPage from "../../views/Users/FightersPage"
 import FighterEditPage from "../../views/Users/FighterEditPage"
-
+import FighterViewPage from "../../views/Users/FighterViewPage"
 class Full extends Component {
   render() {
     return (
@@ -56,7 +56,8 @@ class Full extends Component {
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
                 <Route path="/contest/types/:id" name="ContestType" component={ContestTypesDetailsPage}/>
                 <Route path="/contest/types/" name="ContestTypes" component={ContestTypesPage}/>
-                <Route path="/fighters/:id" name="Fighter" component={FighterEditPage}/>
+                <Route path="/fighters/:id/(edit)" name="Fighter" component={FighterEditPage}/>
+                <Route path="/fighters/:id" name="Fighter" component={FighterViewPage}/>
                 <Route path="/fighters/" name="Fighters" component={FightersPage}/>
                 <Route path="/contest/types" name="ContestTypes" component={ContestTypesPage}/>
                 <Route path="/contest/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage}/>

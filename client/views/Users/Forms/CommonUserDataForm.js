@@ -50,14 +50,7 @@ let CommonUserDataForm = props => {
                     Common
                 </div>
                 <div className="card-block">
-                    <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">First name</label>
-                        <div className="col-md-9">
-                             <AvatarEditor 
-                                image={props.initialValues.photo}
-                                userId={props.initialValues.id}/>
-                        </div>
-                    </div>
+                  
                     <div className="form-group row">
                         <label className="col-md-3 form-control-label" htmlFor="text-input">First name</label>
                         <div className="col-md-9">

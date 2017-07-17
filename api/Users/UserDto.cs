@@ -26,6 +26,8 @@ namespace MuaythaiSportManagementSystemApi.Users
         public string VK { get; set; }
         public string CoachLevel { get; set; }
         public bool Accepted { get; set; }
+        public string CountryName { get; set; }
+        public string Email { get; set; }
 
         public UserDto()
         {
@@ -46,6 +48,8 @@ namespace MuaythaiSportManagementSystemApi.Users
             Gender = user.Gender;
             Phone = user.Phone;
             CountryId = user.CountryId;
+            CountryName = user.Country?.Name;
+            Email = user.Email;
         }
 
         public static explicit operator UserDto(ApplicationUser user)
