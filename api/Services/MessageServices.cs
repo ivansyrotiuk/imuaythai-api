@@ -19,10 +19,10 @@ namespace MuaythaiSportManagementSystemApi.Services
         public Task SendEmailAsync(string email, string subject, string message)
         {
             MimeMessage emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress(subject, Options.SmtpEmail));
-            emailMessage.To.Add(new MailboxAddress(subject, email));
+            emailMessage.From.Add(new MailboxAddress("iMuayThai", Options.SmtpEmail));
+            emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
-
+            
             BodyBuilder bodyBuilder = new BodyBuilder{
                 HtmlBody = message
             };
@@ -33,9 +33,7 @@ namespace MuaythaiSportManagementSystemApi.Services
             client.Connect(Options.SmtpServer, 587);
             client.AuthenticationMechanisms.Remove("XOAUTH2");
             client.Authenticate(Options.SmtpUsername, Options.SmtpPassword);
-            var response = client.SendAsync(emailMessage);
-            client.Disconnect(true);
-            return response;
+            return client.SendAsync(emailMessage);
         }
 
         public Task SendSmsAsync(string number, string message)
