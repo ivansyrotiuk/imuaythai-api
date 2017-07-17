@@ -82,7 +82,7 @@ export default class FighterViewPage extends Component {
                     <strong>Fighter</strong>
                     <div class="pull-right">
                         <Link to={this.props.match.url + '/edit'}>
-                            <i class="fa fa-pencil" aria-hidden="true">&nbsp;Edit</i>
+                            <i class="fa fa-pencil" aria-hidden="true">&nbsp;&nbsp;Edit</i>
                         </Link>
                     </div>
                 </div>
@@ -121,8 +121,8 @@ export default class FighterViewPage extends Component {
                         </div>
 
                         <div className="col-12 col-md-6 col-sm-12">
-                            <div className="row">
-                                <div className="col align-self-end">
+                            <div className="row justify-content-between">
+                                <div className="col">
                                     <div className="card">
                                         <div className="card-block p-3 clearfix">
                                             <i className="fa fa-trophy bg-success p-3 font-2xl mr-3 float-left"></i>
@@ -133,7 +133,7 @@ export default class FighterViewPage extends Component {
                                     </div>
 
                                 </div>
-                                <div className="col align-self-end">
+                                <div className="col">
                                     <div className="card">
                                         <div className="card-block p-3 clearfix">
                                             <i className="fa fa-frown-o bg-danger p-3 font-2xl mr-3 float-left"></i>
@@ -146,19 +146,20 @@ export default class FighterViewPage extends Component {
                                 </div>
                             </div>
 
-                            <div className="row">
-                                <button type="button" className="btn  btn-facebook">
+                            <div className="row justify-content-end">
+                                {fighter.facebook &&<a href={fighter.facebook} target="_blank"><button type="button" className="btn  btn-facebook">
                                     <span>Facebook</span>
-                                </button>&nbsp;
-                                <button type="button" className="btn  btn-twitter">
+                                </button>&nbsp;</a>}
+                                {fighter.twitter && <a href={fighter.twitter} target="_blank"><button type="button" className="btn  btn-twitter">
                                     <span>Twitter</span>
-                                </button>&nbsp;
-                                <button type="button" className="btn btn-instagram">
+                                </button>&nbsp;</a>}
+
+                                {fighter.instagram && <a href={fighter.instagram} target="_blank"><button type="button" className="btn btn-instagram">
                                     <span>Instagram</span>
-                                </button>&nbsp;
-                                <button type="button" className="btn  btn-vk">
+                                </button>&nbsp;</a>}
+                                {fighter.vk && <a href={fighter.vk} target="_blank"><button type="button" className="btn  btn-vk">
                                     <span>VK</span>
-                                </button>
+                                </button></a>}
                             </div>
 
                         </div>

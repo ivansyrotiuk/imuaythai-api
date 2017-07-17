@@ -146,6 +146,5 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

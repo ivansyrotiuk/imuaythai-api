@@ -34,12 +34,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
@@ -214,10 +216,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 "Coach",
                 "Judge",
                 "Doctor",
-
+                
             };
 
-            foreach (var role in rolesList)
+            foreach(var role in rolesList)
             {
                 await _roleManager.CreateAsync(new IdentityRole
                 {
@@ -229,8 +231,6 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             return Ok(roles);
         }
-
-
-
+        
     }
 }

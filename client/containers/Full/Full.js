@@ -64,7 +64,7 @@ class Full extends Component {
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
                 <Route path="/fighters/:id/(edit)" name="Fighter" component={FighterEditPage}/>
-                <Route path="/fighters/:id" name="Fighter" component={FighterEditPage}/>
+                <Route path="/fighters/:id" name="Fighter" component={FighterViewPage}/>
                 <Route path="/fighters/" name="Fighters" component={FightersPage}/>
                 <Route path="/dictionaries/types" name="ContestTypes" component={ContestTypesPage}/>
                 <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage}/>
