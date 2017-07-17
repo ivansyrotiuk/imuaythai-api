@@ -1,4 +1,5 @@
-﻿using MuaythaiSportManagementSystemApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public ApplicationUser Get(string id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
+            return _context.Users.Include(u => u.Country).FirstOrDefault(u => u.Id == id);
         }
 
         public IEnumerable<ApplicationUser> GetAll()

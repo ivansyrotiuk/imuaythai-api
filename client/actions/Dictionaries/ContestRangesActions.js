@@ -7,7 +7,7 @@ export function fetchRanges() {
             type: "FETCH_RANGES"
         });
         axios
-            .get(host + "api/contest/ranges/")
+            .get(host + "api/dictionaries/ranges/")
             .then((response) => {
                 dispatch({
                     type: "FETCH_RANGES_FULFILLED",

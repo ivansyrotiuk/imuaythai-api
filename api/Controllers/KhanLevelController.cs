@@ -1,35 +1,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MuaythaiSportManagementSystemApi.Dictionaries;
-using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Repositories;
+using MuaythaiSportManagementSystemApi.Dictionaries;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/dictionaries/")]
-    public class ContestTypesController : Controller
+    public class KhanLevelsController : Controller
     {
-        private readonly IContestTypesRepository _repository;
+        private readonly IKhanLevelsRepository _repository;
 
-        public ContestTypesController(IContestTypesRepository repository)
+        public KhanLevelsController(IKhanLevelsRepository repository)
         {
             _repository = repository;
         }
 
         [HttpGet]
-        [Route("types")]
+        [Route("levels")]
         public IActionResult Index()
         {
             try
             {
-                var types = _repository.GetAll().Select(i => (ContestTypeDto)i).ToList();
-                return Ok(types);
+                var levels = _repository.GetAll().Select(i => (KhanLevelDto)i).ToList();
+                return Ok(levels);
             }
             catch (Exception ex)
             {
@@ -38,36 +36,34 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        [Route("types/{id}")]
+        [Route("levels/{id}")]
         public IActionResult Index([FromRoute] int id)
         {
             try
             {
-                var type = _repository.Get(id) ?? new ContestType();
-    
-                return Ok((ContestTypeDto)type);
+                var levels = _repository.Get(id) ?? new Models.KhanLevel();
+                return Ok((KhanLevelDto)levels);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        
 
         [HttpPost]
-        [Route("types/save")]
-        public IActionResult SaveType([FromBody]ContestTypeDto type)
+        [Route("levels/save")]
+        public IActionResult SaveRage([FromBody]KhanLevelDto level)
         {
             try
             {
-                ContestType typeEntity = type.Id == 0 ? new ContestType() : _repository.Get(type.Id);
-                typeEntity.Id = type.Id;
-                typeEntity.Name = type.Name;
+                Models.KhanLevel levelEntity = level.Id == 0 ? new Models.KhanLevel() : _repository.Get(level.Id);
+                levelEntity.Id = level.Id;
+                levelEntity.Level = level.Level;
+                levelEntity.Name = level.Name;
+                _repository.Save(levelEntity);
 
-                _repository.Save(typeEntity);
-
-                type.Id = typeEntity.Id;
-                return Created("Add", type);
+                level.Id = levelEntity.Id;
+                return Created("Add", level);
             }
             catch (Exception ex)
             {
@@ -77,14 +73,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
 
         [HttpPost]
-        [Route("types/remove")]
-        public IActionResult RemoveType([FromBody]ContestTypeDto type)
+        [Route("levels/remove")]
+        public IActionResult RemoveRange([FromBody]KhanLevelDto level)
         {
             try
             {
-                _repository.Remove(type.Id);
+                _repository.Remove(level.Id);
 
-                return Ok(type.Id);
+                return Ok(level.Id);
             }
             catch (Exception ex)
             {

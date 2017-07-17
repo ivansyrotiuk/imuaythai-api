@@ -36,10 +36,10 @@ export default class FighterEditPage extends Component {
         axios
             .get(host + "api/users/fighters/" + fighterId)
             .then((response) => {
-                self.setState({...self.state, fetching: false, fighter: response.data});
+                self.setState({fetching: false, fighter: response.data});
             })
             .catch((err) => {
-                self.setState({...self.state, fetching: false, error: err});
+                self.setState({fetching: false, error: err});
             });
     }
 

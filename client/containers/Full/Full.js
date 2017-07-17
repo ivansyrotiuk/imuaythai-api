@@ -27,7 +27,10 @@ import ContestRangesPage from "../../views/Dictionaries/ContestRanges/ContestRan
 import ContestRangesDetailsPage from "../../views/Dictionaries/ContestRanges/ContestRangesDetailsPage"
 import FightersPage from "../../views/Users/FightersPage"
 import FighterEditPage from "../../views/Users/FighterEditPage"
+import KhanLevelsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsPage"
+import KhanLevelsDetailsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsDetailsPage"
 
+import FighterViewPage from "../../views/Users/FighterViewPage"
 class Full extends Component {
   render() {
     return (
@@ -60,13 +63,15 @@ class Full extends Component {
                 <Route path="/charts" name="Charts" component={Charts}/>
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
-                <Route path="/contest/types/:id" name="ContestType" component={ContestTypesDetailsPage}/>
-                <Route path="/contest/types/" name="ContestTypes" component={ContestTypesPage}/>
+                <Route path="/fighters/:id/(edit)" name="Fighter" component={FighterEditPage}/>
                 <Route path="/fighters/:id" name="Fighter" component={FighterEditPage}/>
                 <Route path="/fighters/" name="Fighters" component={FightersPage}/>
-                <Route path="/contest/types" name="ContestTypes" component={ContestTypesPage}/>
-                <Route path="/contest/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage}/>
-                <Route path="/contest/ranges/" name="ContestRanges" component={ContestRangesPage}/>
+                <Route path="/dictionaries/types" name="ContestTypes" component={ContestTypesPage}/>
+                <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage}/>
+                <Route path="/dictionaries/ranges/" name="ContestRanges" component={ContestRangesPage}/>
+                <Route path="/dictionaries/levels/:id" name="KhanLevel" component={KhanLevelsDetailsPage}/>
+                <Route path="/dictionaries/levels/" name="KhanLevels" component={KhanLevelsPage}/>
+                <Route path="/dictionaries/levels" name="KhanLevels" component={KhanLevelsPage}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </div>
