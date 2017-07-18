@@ -101,7 +101,7 @@ namespace MuaythaiSportManagementSystemApi
                     IssuerSigningKey = key,
                     ValidateLifetime = false,
                     ValidateIssuer = false,
-                    ValidateAudience = false,      
+                    ValidateAudience = true 
                 }
             });
          

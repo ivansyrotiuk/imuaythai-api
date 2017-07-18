@@ -38,6 +38,10 @@ export default class FightersPage extends Component {
       });
   }
 
+  onEnter(){
+    console.log("onEnter");
+  }
+
   render() {
     const {fighters, fetching} = this.props;
 

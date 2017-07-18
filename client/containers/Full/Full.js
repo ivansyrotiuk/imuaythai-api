@@ -4,8 +4,12 @@ import Header from '../../components/Header/';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Aside from '../../components/Aside/';
-import Footer from '../../components/Footer/';
+//import {requireAuthentication} from '../../utils/requireAuthentication'
 
+import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
+         userIsAuthenticated, userIsNotAuthenticated } from '../../auth/auth'
+
+import Footer from '../../components/Footer/';
 import Dashboard from '../../views/Dashboard/'
 import Charts from '../../views/Charts/'
 import Widgets from '../../views/Widgets/'

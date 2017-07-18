@@ -1,3 +1,4 @@
+import jwtDecode from 'jwt-decode';
 import * as actionTypes from '../actions/actionTypes';
 
 export default function reduer(state = {
@@ -37,7 +38,8 @@ export default function reduer(state = {
                 fetched: true,
                 error: null,
                 authToken: action.payload.authToken,
-                rememberMe: action.payload.rememberMe
+                rememberMe: action.payload.rememberMe,
+                user : jwtDecode(action.payload.authToken)
             }
         case actionTypes.REGISTER_ACCOUNT_SUCCESS:
         case actionTypes.CONFIRM_EMAIL_SUCCESS:

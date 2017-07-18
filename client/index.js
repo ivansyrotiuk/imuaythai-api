@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import {HashRouter, Route, Switch} from 'react-router-dom'
 import {createBrowserHistory} from 'history';
 import {Provider} from "react-redux"
-
 import store from "./store"
+import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
+         userIsAuthenticated, userIsNotAuthenticated, userIsFighterRedir } from './auth/auth'
 
 // Containers
 import Full from './containers/Full/'
@@ -22,6 +23,7 @@ import Page500 from './views/Pages/Page500/'
 import GymsPage from './views/Institutions/GymsPage'
 
 const history = createBrowserHistory();
+
 
 ReactDOM.render((
   <Provider store={store}>
@@ -49,7 +51,7 @@ ReactDOM.render((
         <Route exact path="/404" name="Page 404" component={Page404}/>
         <Route exact path="/500" name="Page 500" component={Page500}/>
         <Route path="/home" name="Home" component={FrontPage}/>
-        <Route path="/" name="Home" component={Full}/>
+        <Route path="/" name="Home" component={userIsNotAuthenticatedRedir(userIsFighterRedir(Full))}/>
       </Switch>
     </HashRouter>
   </Provider>
