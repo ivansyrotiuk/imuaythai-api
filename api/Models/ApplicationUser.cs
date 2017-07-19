@@ -23,7 +23,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Phone { get; set; }
         public int Type { get; set; }
         public int? CountryId { get; set; }
-        public int? InstitutionsId { get; set; }
+        public int? InstitutionId { get; set; }
         public int? KhanLevelId { get; set; }
         [StringLength(500)]
         public string Facebook { get; set; }

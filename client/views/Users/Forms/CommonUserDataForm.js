@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {host} from "../../../global"
 import Spinner from "../../Components/Spinners/Spinner";
 import {saveFighter} from "../../../actions/UsersActions";
-import AvatarEditor from "../../Components/AvatarEditor"
 import axios from "axios";
 import {connect} from "react-redux";
 import DatePicker from 'react-datepicker';

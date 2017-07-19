@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Institutions.Gyms;
 using MuaythaiSportManagementSystemApi.Models;
+using System.Threading;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -35,6 +36,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Gym/{id}")]
+        public IActionResult GetGym([FromRoute]int id)
+        {
+            try
+            {
+                var gym = _repository.Get(id);
+                return Ok(gym);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpPost]
         [Route("Save")]
         public IActionResult SaveGym([FromBody]GymDto gym)
@@ -44,7 +61,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 Institution gymEntity = gym.Id == 0 ? new Institution() : _repository.Get(gym.Id);
                 gymEntity.Id = gym.Id;
                 gymEntity.Name = gym.Name;
-                gymEntity.Countryid = 958;
+                gymEntity.Address = gym.Address;
+                gymEntity.City = gym.City;
+                gymEntity.CountryId = 958;
 
                 _repository.Save(gymEntity);
 

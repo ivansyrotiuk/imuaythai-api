@@ -61,6 +61,18 @@ namespace MuaythaiSportManagementSystemApi.Data
                 .WithMany(h => h.AsTimeKeeperFights)
                 .HasForeignKey(p => p.TimeKeeperId);
 
+            builder.Entity<ApplicationUser>()
+                .HasOne(h => h.Institution)
+                .WithMany()
+                .HasForeignKey(k => k.InstitutionId);
+
+            builder.Entity<Institution>()
+               .HasOne(h => h.HeadCoach)
+               .WithMany()
+               .HasForeignKey(k => k.HeadCoachId);
+
+           
+
         }
 
         public virtual DbSet<Document> Documents { get; set; }

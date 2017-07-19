@@ -16,15 +16,16 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Address { get; set; }
         [StringLength(500)]
         public string City { get; set; }
-        public int Countryid { get; set; }
+        public string ZipCode { get; set; }
+        public int CountryId { get; set; }
         [StringLength(500)]
         public string ContactPerson { get; set; }
         [StringLength(100)]
         public string Phone { get; set; }
         [StringLength(500)]
         public string Email { get; set; }
-        [StringLength(100)]
-        public string HeadCoachid { get; set; }
+        [StringLength(450)]
+        public string HeadCoachId { get; set; }
         [StringLength(500)]
         public string Owner { get; set; }
         [StringLength(500)]
@@ -46,6 +47,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public virtual ICollection<ExecutionBoard> ExecutionBoards { get; set; }
         public virtual ICollection<Contest> Contests { get; set; }
         public virtual Country Country { get; set; }
+        public virtual ApplicationUser HeadCoach { get; set; }
     }
 
     public enum InstitutionType

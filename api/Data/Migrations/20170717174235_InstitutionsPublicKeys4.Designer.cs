@@ -8,9 +8,10 @@ using MuaythaiSportManagementSystemApi.Data;
 namespace MuaythaiSportManagementSystemApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170717174235_InstitutionsPublicKeys4")]
+    partial class InstitutionsPublicKeys4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -161,7 +162,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<int?>("InstitutionId");
 
-                    b.Property<int?>("InstitutionId1");
+                    b.Property<int?>("InstitutionsId");
 
                     b.Property<int?>("KhanLevelId");
 
@@ -214,7 +215,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.HasIndex("InstitutionId");
 
-                    b.HasIndex("InstitutionId1");
+                    b.HasIndex("InstitutionsId");
 
                     b.HasIndex("KhanLevelId");
 
@@ -827,13 +828,13 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                         .WithMany()
                         .HasForeignKey("CountryId");
 
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
-                        .WithMany()
-                        .HasForeignKey("InstitutionId");
-
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution")
                         .WithMany("Users")
-                        .HasForeignKey("InstitutionId1");
+                        .HasForeignKey("InstitutionId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
+                        .WithMany()
+                        .HasForeignKey("InstitutionsId");
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.KhanLevel", "KhanLevel")
                         .WithMany("Users")

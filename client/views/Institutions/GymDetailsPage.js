@@ -11,51 +11,47 @@ import CommonGymDataForm from "./Forms/CommonGymDataForm"
 export default class GymDetailsPage extends Component {
   constructor(props) {
     super(props);
-    this.onSubmit = this
-      .handleSubmit
-      .bind(this);
+    this.onSubmit = this.handleSubmit.bind(this);
+    this.dispatchFetchGym = this.dispatchFetchGym.bind(this);
+    this.state = { fetching: true };
   }
 
-  saveGym(gym) {
-    this
-      .props
-      .dispatch(saveGym(gym))
-  }
+     componentWillMount() {
+        this.dispatchFetchGym();
+    }
 
-  deleteGym(id) {
-    this
-      .props
-      .dispatch(deleteGym(id))
-  }
+    dispatchFetchGym() {
+        const gymId = this.props.match.params.id;
 
-  handleSubmit(e) {
-    e.preventDefault();
-    var self = this;
+        var self = this;
+      
+        axios
+            .get(host + "api/gyms/gym/" + gymId)
+            .then((response) => {
+                self.setState({...self.state, fetching: false, gym: response.data});
+            })
+            .catch((err) => {
+                self.setState({...self.state, fetching: false, error: err});
+            });
+    }
 
-    axios
-      .post(host + 'api/gyms/save', {
-        Id: this.refs.id.value,
-        Name: this.refs.name.value
-      })
-      .then(function (response) {
-        self.saveGym(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
 
-  removeGym(id) {
-    var self = this;
-    axios
-      .post(host + 'api/gyms/remove', { Id: id })
-      .then(function (response) {
-        self.deleteGym(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+    dispatchSaveGym(gym) {
+        this.props.dispatch(saveGym(gym))
+    }
+
+    handleSubmit(values) {
+        var self = this;
+
+        axios
+            .post(host + 'api/gyms/save', values)
+            .then(function (response) {
+                self.dispatchSaveGym(response.data)
+            })
+            .catch(function (error) {
+                self.props.history.push('/500');
+            });
+    }
 
   render() {
 
@@ -70,7 +66,7 @@ export default class GymDetailsPage extends Component {
                 <strong>Gym</strong>
               </div>
               <div className="card-block">
-                <CommonGymDataForm initialValues={this.props.gym} onSubmit={this.onSubmit} />
+                <CommonGymDataForm initialValues={this.state.gym} onSubmit={this.onSubmit} />
 
 
               </div>

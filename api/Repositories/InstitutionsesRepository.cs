@@ -23,7 +23,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Institution Get(int id)
         {
-            return _context.Institutions.Include(i => i.Country).FirstOrDefault(i => i.Id == id);
+            return _context.Institutions.FirstOrDefault(i => i.Id == id);
         }
 
         public IEnumerable<Institution> GetAll()
