@@ -16,7 +16,7 @@ class LoginContainer extends Component {
                     fetching: false,
                     fetched: false,
                     rememberMe: !this.props.rememberMe,
-                    user: (this.props.authToken)
+                    user: jwtDecode(this.props.authToken)
                 }
                 saveState(authAccount)
             }

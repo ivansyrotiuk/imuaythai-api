@@ -5,6 +5,9 @@ using System.Linq;
 using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.Models;
 using System.Threading;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -13,10 +16,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     public class UsersController : Controller
     {
         private IUsersRepository _repository;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UsersController(IUsersRepository repository)
+        public UsersController(IUsersRepository repository, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -37,13 +44,17 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("fighters/{id}")]
-        public IActionResult GetFigthers([FromRoute]string id)
+        public async Task<IActionResult> GetFigthers([FromRoute]string id)
         {
             try
             {
                 Thread.Sleep(1000);
                 IUsersRepository fightersRepository = new FightersRepository(_repository);
-                var user = (FighterDto)fightersRepository.Get(id);
+                var figther = fightersRepository.Get(id);
+                var figtherRoles = await _userManager.GetRolesAsync(figther);
+                var user = (FighterDto)figther;
+                user.Roles = figtherRoles.ToList();
+
                 return Ok(user);
             }
             catch (Exception ex)
@@ -145,6 +156,13 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("roles")]
+        public Task<IActionResult> GetUserRoles()
+        {
+            return null;
         }
     }
 }

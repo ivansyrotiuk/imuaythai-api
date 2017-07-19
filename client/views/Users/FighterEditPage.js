@@ -92,7 +92,7 @@ export default class FighterEditPage extends Component {
                                     countries={this.props.countries}
                                     onSubmit={this.handleSubmit}/>
 
-        const userHasRole = this.props.roles.find(r => r !== "") !== undefined;
+        const userHasRole = this.state.fighter.roles.find(r => r !== "") !== undefined;
 
         return (
             <div className="animated fadeIn">

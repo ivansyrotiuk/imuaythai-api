@@ -4,6 +4,8 @@ using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Extensions;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -16,19 +18,20 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
-        public IEnumerable<Institution> Find(Func<Institution, bool> predicate)
+        public Task<List<Institution>> Find(Func<Institution, bool> predicate)
         {
-            return _context.Institutions.Where(predicate);
+            var institutions = _context.Institutions.Where(predicate).AsQueryable();
+            return institutions.ToListAsync();
         }
 
-        public Institution Get(int id)
+        public Task<Institution> Get(int id)
         {
-            return _context.Institutions.Include(i => i.Country).FirstOrDefault(i => i.Id == id);
+            return _context.Institutions.Include(i => i.Country).FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public IEnumerable<Institution> GetAll()
+        public Task<List<Institution>> GetAll()
         {
-            return _context.Institutions;
+            return _context.Institutions.ToListAsync();
         }
 
         public void Remove(int id)
