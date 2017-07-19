@@ -18,22 +18,21 @@ class LoginContainer extends Component {
                 }
                 saveState(authAccount)
             }
+
             this
                 .props
                 .history
                 .push("/");
         }
 
-        return (< Login onSubmit = {
-            this.props.onSubmit
-        }
-        islogining = {
-            this.props.fetching
-        } />)
+        return (<Login
+            onSubmit={this.props.onSubmit}
+            islogining={this.props.fetching}
+            errorMessage={this.props.error}/>)
     }
 }
 const mapStateToProps = (state) => {
-    return {fetching: state.Account.fetching, authToken: state.Account.authToken, rememberMe: state.Account.rememberMe}
+    return {fetching: state.Account.fetching, authToken: state.Account.authToken, rememberMe: state.Account.rememberMe, error: state.Account.error}
 }
 
 const mapDispatchToProps = (dispatch) => {
