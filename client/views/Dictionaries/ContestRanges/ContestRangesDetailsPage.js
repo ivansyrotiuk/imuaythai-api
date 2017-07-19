@@ -3,7 +3,7 @@ import {host} from "../../../global"
 import {connect} from "react-redux"
 import axios from "axios";
 import LoadButton from "../../Components/Buttons/LoadButton";
-import RangeDataForm from "./RangeDataForm";
+import SimpleDictionaryDataForm from "../SimpleDictionaryDataForm";
 import Spinner from "../../Components/Spinners/Spinner"
 
 
@@ -22,7 +22,7 @@ export default class ContestRangesDetailsPage extends Component {
 
     var self = this;
     axios
-      .get(host + "api/contest/ranges/"+id)
+      .get(host + "api/dictionaries/ranges/"+id)
       .then((response) => {
         self.setState({...self.state, fetching: false, range: response.data});
       })
@@ -35,12 +35,12 @@ export default class ContestRangesDetailsPage extends Component {
     var self = this;
 
     axios
-      .post(host + 'api/contest/ranges/save', values)
+      .post(host + 'api/dictionaries/ranges/save', values)
       .then(function (response) {
         self
           .props
           .history
-          .push('/contest/ranges');
+          .push('/dictionaries/ranges');
       })
       .catch(function (error) {
         self
@@ -70,7 +70,7 @@ export default class ContestRangesDetailsPage extends Component {
                 <strong>Range</strong>
               </div>
                                           <div className="card-block">
-                <RangeDataForm initialValues={range} onSubmit={this.onSubmit}/>
+                <SimpleDictionaryDataForm initialValues={range} onSubmit={this.onSubmit}/>
             </div>
              </div>
           </div>

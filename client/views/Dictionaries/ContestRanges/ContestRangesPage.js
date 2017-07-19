@@ -32,7 +32,7 @@ export default class ContestRangesPage extends Component {
   removeRange(id) {
     var self = this;
     axios
-      .post(host + 'api/contest/ranges/remove', {Id: id})
+      .post(host + 'api/dictionaries/ranges/remove', {Id: id})
       .then(function (response) {
         self.deleteRange(response.data)
       })
@@ -51,7 +51,7 @@ export default class ContestRangesPage extends Component {
       <td>{range.id}</td>
       <td>{range.name}</td>
       <td>
-        <Link to={"/contest/ranges/" + range.id} ><EditButton id={range.id}/></Link>&nbsp;
+        <Link to={"/dictionaries/ranges/" + range.id} ><EditButton id={range.id}/></Link>&nbsp;
         <RemoveButton id={range.id} click={this.removeRange.bind(this, range.id)}/>
       </td>
     </tr>);
@@ -66,7 +66,7 @@ export default class ContestRangesPage extends Component {
                 <div className="card-header">
                   <strong>Ranges</strong>
                   <div class="pull-right">
-                  <Link to={"/contest/ranges/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
+                  <Link to={"/dictionaries/ranges/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
                   </div>
                 </div>
                 <div className="card-block">

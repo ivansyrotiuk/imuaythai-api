@@ -426,8 +426,6 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<string>("Continent");
 
-                    b.Property<int>("ExternalId");
-
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -562,7 +560,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<int>("RoundId");
 
-                    b.Property<string>("Wamings")
+                    b.Property<string>("Warnings")
                         .IsRequired();
 
                     b.HasKey("Id");

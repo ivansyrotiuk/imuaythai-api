@@ -7,7 +7,7 @@ export function fetchTypes() {
             type: "FETCH_TYPES"
         });
         axios
-            .get(host + "api/contest/types/")
+            .get(host + "api/dictionaries/types/")
             .then((response) => {
                 dispatch({
                     type: "FETCH_TYPES_FULFILLED",

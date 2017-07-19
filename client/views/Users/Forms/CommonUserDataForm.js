@@ -35,7 +35,6 @@ const RenderDatePicker = props => {
 let CommonUserDataForm = props => {
     const {handleSubmit, pristine, reset, submitting, countries} = props;
     const mappedCountries = countries.map((country, i) => <option key={i} value={country.id}>{country.name}</option>);
-
     return (
         <form onSubmit={handleSubmit}>
            
@@ -49,14 +48,7 @@ let CommonUserDataForm = props => {
                     Common
                 </div>
                 <div className="card-block">
-                    <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">First name</label>
-                        <div className="col-md-9">
-                             <AvatarEditor 
-                                image={props.initialValues.photo}
-                                userId={props.initialValues.id}/>
-                        </div>
-                    </div>
+                  
                     <div className="form-group row">
                         <label className="col-md-3 form-control-label" htmlFor="text-input">First name</label>
                         <div className="col-md-9">
@@ -213,12 +205,12 @@ let CommonUserDataForm = props => {
             <button
                 type="submit"
                 disabled={pristine || submitting}
-                className="btn btn-primary pull-right">Save</button>
+                className="btn btn-primary pull-right">{submitting && <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>} Save</button>
 
         </form>
     );
 };
 
 export default reduxForm({
-    form: 'CommonUserDataForm', // a unique identifier for this form
+    form: 'CommonUserDataForm',
 })(CommonUserDataForm);

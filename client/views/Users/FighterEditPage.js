@@ -10,10 +10,13 @@ import Spinner from "../Components/Spinners/Spinner";
 import {saveFighter} from "../../actions/UsersActions";
 import {fetchCountries} from "../../actions/CountriesActions";
 import CommonUserDataForm from "./Forms/CommonUserDataForm"
+import UserRolesForm from "./Forms/UserRolesForm"
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { userHasRole } from '../../auth/auth'
+
 @connect((store) => {
-    return {countries: store.Countries.countries};
+    return {countries: store.Countries.countries, roles: store.Account.user.roles};
 })
 export default class FighterEditPage extends Component {
     constructor(props) {
@@ -36,10 +39,10 @@ export default class FighterEditPage extends Component {
         axios
             .get(host + "api/users/fighters/" + fighterId)
             .then((response) => {
-                self.setState({...self.state, fetching: false, fighter: response.data});
+                self.setState({fetching: false, fighter: response.data});
             })
             .catch((err) => {
-                self.setState({...self.state, fetching: false, error: err});
+                self.setState({fetching: false, error: err});
             });
     }
 
@@ -56,10 +59,11 @@ export default class FighterEditPage extends Component {
     handleSubmit(values) {
         var self = this;
 
-        axios
+        return axios
             .post(host + 'api/users/save', values)
             .then(function (response) {
-                self.dispatchSaveFighter(response.data)
+                self.dispatchSaveFighter(response.data);
+                self.props.history.goBack();
             })
             .catch(function (error) {
                 self.props.history.push('/500');
@@ -79,6 +83,17 @@ export default class FighterEditPage extends Component {
             );
         }
 
+        const commonUserDataForm = <CommonUserDataForm
+                                    initialValues={this.state.fighter}
+                                    countries={this.props.countries}
+                                    onSubmit={this.handleSubmit} />
+
+        const userRolesForm = <UserRolesForm initialValues={this.state.fighter}
+                                    countries={this.props.countries}
+                                    onSubmit={this.handleSubmit}/>
+
+        const userHasRole = this.props.roles.find(r => r !== "") === undefined;
+
         return (
             <div className="animated fadeIn">
                 <div className="row">
@@ -88,10 +103,8 @@ export default class FighterEditPage extends Component {
                                 <strong>Fighter</strong>
                             </div>
                             <div className="card-block">
-                                <CommonUserDataForm
-                                    initialValues={this.state.fighter}
-                                    countries={this.props.countries}
-                                    onSubmit={this.handleSubmit}/>
+                               {userHasRole && commonUserDataForm}
+                               {!userHasRole && userRolesForm}
                             </div>
                         </div>
                     </div>
