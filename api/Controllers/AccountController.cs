@@ -72,10 +72,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 foreach(var role in roles)
                 {
                     claims.Add(new Claim("roles", role));
-                    //claims.Add(new Claim(role.ToLower(), role));
                 }
 
-                claims.Add(new Claim("roles", "Fighter"));
+                claims.Add(new Claim("roles", string.Empty));
+                claims.Add(new Claim("roles", string.Empty));
 
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));

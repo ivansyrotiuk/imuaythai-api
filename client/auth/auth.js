@@ -46,3 +46,62 @@ export const userIsNotAuthenticatedRedir = connectedRouterRedirect({
   redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/login',
   allowRedirectBack: false
 })
+
+const userIsAdminDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r == "Admin") != undefined,
+  authenticatingSelector: state => state.Account.fetching,
+  wrapperDisplayName: 'UserIsAdmin'
+}
+
+export const userIsAdmin = connectedAuthWrapper(userIsAdminDefaults)
+
+
+const userIsFighterDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r == "Fighter") != undefined,
+  authenticatingSelector: state => state.Account.fetching,
+  wrapperDisplayName: 'UserIsFighter'
+}
+
+export const userIsFighter = connectedAuthWrapper(userIsFighterDefaults)
+
+const userIsJudgeDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r == "Judge") != undefined,
+  authenticatingSelector: state => state.Account.fetching,
+  wrapperDisplayName: 'UserIsJudge'
+}
+
+export const userIsJudge = connectedAuthWrapper(userIsJudgeDefaults)
+
+const userIsDoctorDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r == "Doctor") != undefined,
+  authenticatingSelector: state => state.Account.fetching,
+  wrapperDisplayName: 'UserIsDoctor'
+}
+
+export const userIsDoctor = connectedAuthWrapper(userIsDoctorDefaults)
+
+const userIsNormalUserDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r != "Admin" && r != "") != undefined,
+  authenticatingSelector: state => state.Account.fetching,
+  wrapperDisplayName: 'UserIsNormalUser'
+}
+
+export const userIsNormalUser = connectedAuthWrapper(userIsNormalUserDefaults)
+
+
+const userHasRoleDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r != "") != undefined,
+  authenticatingSelector: state => state.Account.fetching,
+  wrapperDisplayName: 'UserIHasRole'
+}
+
+export const userHasRole = connectedAuthWrapper(userHasRoleDefaults)
+
+
+const userWithoutRolesDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r != "") == undefined,
+  authenticatingSelector: state => state.Account.fetching,
+  wrapperDisplayName: 'UserIWithoutRole'
+}
+
+export const userWithoutRole = connectedAuthWrapper(userWithoutRolesDefaults)

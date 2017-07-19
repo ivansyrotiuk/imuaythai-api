@@ -7,7 +7,7 @@ import Aside from '../../components/Aside/';
 //import {requireAuthentication} from '../../utils/requireAuthentication'
 
 import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
-         userIsAuthenticated, userIsNotAuthenticated } from '../../auth/auth'
+         userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from '../../auth/auth'
 
 import Footer from '../../components/Footer/';
 import Dashboard from '../../views/Dashboard/'
@@ -37,6 +37,7 @@ import KhanLevelsDetailsPage from "../../views/Dictionaries/KhanLevels/KhanLevel
 import FighterViewPage from "../../views/Users/FighterViewPage"
 class Full extends Component {
   render() {
+
     return (
       <div className="app">
         <Header/>

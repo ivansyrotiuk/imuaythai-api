@@ -18,7 +18,7 @@ export default class FightersPage extends Component {
     super(props);
     this.dispatchFetchFighters();
   }
-
+  
   dispatchFetchFighters() {
     this.props.dispatch(fetchFighters())
   }

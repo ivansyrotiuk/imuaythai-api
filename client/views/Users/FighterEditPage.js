@@ -10,10 +10,13 @@ import Spinner from "../Components/Spinners/Spinner";
 import {saveFighter} from "../../actions/UsersActions";
 import {fetchCountries} from "../../actions/CountriesActions";
 import CommonUserDataForm from "./Forms/CommonUserDataForm"
+import UserRolesForm from "./Forms/UserRolesForm"
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { userHasRole } from '../../auth/auth'
+
 @connect((store) => {
-    return {countries: store.Countries.countries};
+    return {countries: store.Countries.countries, roles: store.Account.user.roles};
 })
 export default class FighterEditPage extends Component {
     constructor(props) {
@@ -80,6 +83,17 @@ export default class FighterEditPage extends Component {
             );
         }
 
+        const commonUserDataForm = <CommonUserDataForm
+                                    initialValues={this.state.fighter}
+                                    countries={this.props.countries}
+                                    onSubmit={this.handleSubmit} />
+
+        const userRolesForm = <UserRolesForm initialValues={this.state.fighter}
+                                    countries={this.props.countries}
+                                    onSubmit={this.handleSubmit}/>
+
+        const userHasRole = this.props.roles.find(r => r !== "") === undefined;
+
         return (
             <div className="animated fadeIn">
                 <div className="row">
@@ -89,10 +103,8 @@ export default class FighterEditPage extends Component {
                                 <strong>Fighter</strong>
                             </div>
                             <div className="card-block">
-                                <CommonUserDataForm
-                                    initialValues={this.state.fighter}
-                                    countries={this.props.countries}
-                                    onSubmit={this.handleSubmit}/>
+                               {userHasRole && commonUserDataForm}
+                               {!userHasRole && userRolesForm}
                             </div>
                         </div>
                     </div>
