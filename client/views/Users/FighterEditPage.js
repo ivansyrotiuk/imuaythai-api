@@ -9,33 +9,32 @@ import {host} from "../../global"
 import Spinner from "../Components/Spinners/Spinner";
 import {saveFighter} from "../../actions/UsersActions";
 import {fetchCountries} from "../../actions/CountriesActions";
-import CommonUserDataForm from "./Forms/CommonUserDataForm"
-import UserRolesForm from "./Forms/UserRolesForm"
+import CommonUserDataForm from "./Forms/CommonUserDataForm";
+import { userHasRole } from '../../auth/auth';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { userHasRole } from '../../auth/auth'
 
-@connect((store) => {
-    return {countries: store.Countries.countries, roles: store.Account.user.roles};
-})
-export default class FighterEditPage extends Component {
+class FighterEditPage extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.dispatchFetchFighter = this.dispatchFetchFighter.bind(this);
-        this.state = {fetching: true};
+        this.state = { fetching: true };
     }
 
     componentWillMount() {
-        this.dispatchFetchFighter();
-        this.dispatchFetchCountries();
-    }
-
-    dispatchFetchFighter() {
         const fighterId = this.props.match.params.id;
 
-        var self = this;
+        this.dispatchFetchFighter(fighterId);
+
+        if (!this.props.countries.length) {
+            this.props.fetchCountries();
+        }
       
+    }
+
+    dispatchFetchFighter(fighterId) {
+        var self = this;
         axios
             .get(host + "api/users/fighters/" + fighterId)
             .then((response) => {
@@ -46,23 +45,11 @@ export default class FighterEditPage extends Component {
             });
     }
 
-    dispatchFetchCountries() {
-        if (this.props.countries.length == 0) {
-            this.props.dispatch(fetchCountries());
-        }
-    }
-
-    dispatchSaveFighter(fighter) {
-        this.props.dispatch(saveFighter(fighter))
-    }
-
     handleSubmit(values) {
         var self = this;
-
         return axios
             .post(host + 'api/users/save', values)
             .then(function (response) {
-                self.dispatchSaveFighter(response.data);
                 self.props.history.goBack();
             })
             .catch(function (error) {
@@ -83,15 +70,6 @@ export default class FighterEditPage extends Component {
             );
         }
 
-        const commonUserDataForm = <CommonUserDataForm
-                                    initialValues={this.state.fighter}
-                                    countries={this.props.countries}
-                                    onSubmit={this.handleSubmit} />
-
-        const userRolesForm = <UserRolesForm initialValues={this.state.fighter}
-                                    countries={this.props.countries}
-                                    onSubmit={this.handleSubmit}/>
-
         const userHasRole = this.state.fighter.roles.find(r => r !== "") !== undefined;
 
         return (
@@ -103,8 +81,10 @@ export default class FighterEditPage extends Component {
                                 <strong>Fighter</strong>
                             </div>
                             <div className="card-block">
-                               {userHasRole && commonUserDataForm}
-                               {!userHasRole && userRolesForm}
+                               <CommonUserDataForm
+                                    initialValues={this.state.fighter}
+                                    countries={this.props.countries}
+                                    onSubmit={this.handleSubmit} />
                             </div>
                         </div>
                     </div>
@@ -113,3 +93,20 @@ export default class FighterEditPage extends Component {
         );
     }
 }
+
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+       countries: state.Countries.countries, 
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        fetchCountries: () => {
+            dispatch(fetchCountries());
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FighterEditPage)

@@ -31,13 +31,13 @@ import ContestRangesPage from "../../views/Dictionaries/ContestRanges/ContestRan
 import ContestRangesDetailsPage from "../../views/Dictionaries/ContestRanges/ContestRangesDetailsPage"
 import FightersPage from "../../views/Users/FightersPage"
 import FighterEditPage from "../../views/Users/FighterEditPage"
+import UserRolesPage from "../../views/Users/UserRolesPage"
 import KhanLevelsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsPage"
 import KhanLevelsDetailsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsDetailsPage"
 
 import FighterViewPage from "../../views/Users/FighterViewPage"
 class Full extends Component {
   render() {
-
     return (
       <div className="app">
         <Header/>
@@ -52,23 +52,18 @@ class Full extends Component {
                 <Route path="/components/cards" name="Cards" component={Cards}/>
                 <Route path="/components/forms" name="Forms" component={Forms}/>
                 <Route path="/components/modals" name="Modals" component={Modals}/>
-                <Route
-                  path="/components/social-buttons"
-                  name="Social Buttons"
-                  component={SocialButtons}/>
+                <Route path="/components/social-buttons" name="Social Buttons" component={SocialButtons}/>
                 <Route path="/components/switches" name="Swithces" component={Switches}/>
                 <Route path="/components/tables" name="Tables" component={Tables}/>
                 <Route path="/components/tabs" name="Tabs" component={Tabs}/>
                 <Route path="/icons/font-awesome" name="Font Awesome" component={FontAwesome}/>
-                <Route
-                  path="/icons/simple-line-icons"
-                  name="Simple Line Icons"
-                  component={SimpleLineIcons}/>
+                <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={SimpleLineIcons}/>
                 <Route path="/widgets" name="Widgets" component={Widgets}/>
                 <Route path="/charts" name="Charts" component={Charts}/>
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
                 <Route path="/fighters/:id/(edit)" name="Fighter" component={FighterEditPage}/>
+                <Route path="/fighters/:id/(roles)" name="FigtherRoles" component={UserRolesPage}/>
                 <Route path="/fighters/:id" name="Fighter" component={FighterViewPage}/>
                 <Route path="/fighters/" name="Fighters" component={FightersPage}/>
                 <Route path="/dictionaries/types" name="ContestTypes" component={ContestTypesPage}/>
