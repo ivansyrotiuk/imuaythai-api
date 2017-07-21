@@ -72,6 +72,18 @@ namespace MuaythaiSportManagementSystemApi.Data
             builder.Entity<UserRoleAcceptation>()
                .HasOne(h => h.Role)
                .WithOne();
+            builder.Entity<ApplicationUser>()
+                .HasOne(h => h.Institution)
+                .WithMany()
+                .HasForeignKey(k => k.InstitutionId);
+
+            builder.Entity<Institution>()
+               .HasOne(h => h.HeadCoach)
+               .WithMany()
+               .HasForeignKey(k => k.HeadCoachId);
+
+           
+
         }
 
         public virtual DbSet<Document> Documents { get; set; }

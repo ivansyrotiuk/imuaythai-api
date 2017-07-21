@@ -1,23 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.Institutions.Gyms
 {
-    public class GymDto
+
+    public class GymDto : InstitutionDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+
+
+        public GymDto():base()
+            {
+            }
+        public GymDto(Institution institution) : base(institution)
+        {
+
+        }
+
 
         public static explicit operator GymDto(Institution institution)
         {
-            return new GymDto
-            {
-                Id = institution.Id,
-                Name = institution.Name
-            };
+            return new GymDto(institution);
+           
         }
     }
 }

@@ -62,25 +62,36 @@ let CommonGymDataForm = props => {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">Surname</label>
+                        <label className="col-md-3 form-control-label" htmlFor="text-input">Address</label>
                         <div className="col-md-9">
                             <Field
-                                name="surname"
+                                name="address"
                                 component="input"
                                 className="form-control"
                                 type="text"
-                                placeholder="Surname"/>
+                                placeholder="Address"/>
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">Nationality</label>
+                        <label className="col-md-3 form-control-label" htmlFor="text-input">City</label>
                         <div className="col-md-9">
                             <Field
-                                name="nationality"
+                                name="city"
                                 component="input"
                                 className="form-control"
                                 type="input"
-                                placeholder="Nationality"/>
+                                placeholder="City"/>
+                        </div>
+                    </div>
+                     <div className="form-group row">
+                        <label className="col-md-3 form-control-label" htmlFor="text-input">Zip Code</label>
+                        <div className="col-md-9">
+                            <Field
+                                name="zipCode"
+                                component="input"
+                                className="form-control"
+                                type="input"
+                                placeholder="Zip Code"/>
                         </div>
                     </div>
                     <div className="form-group row">
