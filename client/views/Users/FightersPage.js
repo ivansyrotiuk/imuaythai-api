@@ -18,7 +18,7 @@ export default class FightersPage extends Component {
     super(props);
     this.dispatchFetchFighters();
   }
-
+  
   dispatchFetchFighters() {
     this.props.dispatch(fetchFighters())
   }
@@ -36,6 +36,10 @@ export default class FightersPage extends Component {
       .catch(function (error) {
         console.log(error);
       });
+  }
+
+  onEnter(){
+    console.log("onEnter");
   }
 
   render() {

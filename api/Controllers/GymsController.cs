@@ -22,11 +22,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var gyms = _repository.GetAll().Select(i=>(GymDto)i).ToList();
+                var gymsEntities = await _repository.GetAll();
+                var gyms = gymsEntities.Select(i=>(GymDto)i).ToList();
                 return Ok(gyms);
             }
             catch (Exception ex)
@@ -37,11 +38,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public IActionResult SaveGym([FromBody]GymDto gym)
+        public async Task<IActionResult> SaveGym([FromBody]GymDto gym)
         {
             try
             {
-                Institution gymEntity = gym.Id == 0 ? new Institution() : _repository.Get(gym.Id);
+                Institution gymEntity = gym.Id == 0 ? new Institution() : await _repository.Get(gym.Id);
                 gymEntity.Id = gym.Id;
                 gymEntity.Name = gym.Name;
                 gymEntity.Countryid = 958;

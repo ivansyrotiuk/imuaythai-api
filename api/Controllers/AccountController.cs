@@ -54,42 +54,52 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginDto model)
         {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    var user = await _userManager.FindByEmailAsync(model.Email);
-                    _logger.LogInformation(1, "User logged in.");
-                    var claims = new Claim[]{
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _logger.LogInformation(1, "User logged in.");
+              
+                var claims = new List<Claim>{
                         new Claim(JwtRegisteredClaimNames.Sub, model.Email),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         };
 
-
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
-                        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                        var token = new JwtSecurityToken(
-                                            issuer: "http://localhost:5000",
-                                            audience: "http://localhost:5000",
-                                            claims: claims,
-                                            signingCredentials: creds
-                                            );
-                        var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-                        return Ok(new {authToken = encodedToken, rememberMe = model.RememberMe});
-                }
-                
-                if (result.IsLockedOut)
+                var roles = await _userManager.GetRolesAsync(user);
+                foreach(var role in roles)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
-                    return BadRequest("User account locked out.");
+                    claims.Add(new Claim("roles", role));
                 }
-                else
-                {
-                    return BadRequest("Invalid login or password");
-                }
+
+                claims.Add(new Claim("roles", string.Empty));
+                claims.Add(new Claim("roles", string.Empty));
+
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var token = new JwtSecurityToken(
+                                    issuer: "http://localhost:5000",
+                                    audience: "http://localhost:5000",
+                                    claims: claims,
+                                    signingCredentials: creds
+                                    );
+                var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe });
+            }
+
+            if (result.IsLockedOut)
+            {
+                _logger.LogWarning(2, "User account locked out.");
+                return BadRequest("User account locked out.");
+            }
+            else
+            {
+                return BadRequest("Invalid login or password");
+            }
         }
 
         //
@@ -205,31 +215,36 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("setup")]
         public async Task<ActionResult> SetupRoles()
         {
             List<string> rolesList = new List<string>
             {
                 "Admin",
-                "GymAdmin",
+                "InstitutionAdmin",
                 "Fighter",
                 "Coach",
                 "Judge",
                 "Doctor",
-                
+                "Guest",
             };
 
-            foreach(var role in rolesList)
-            {
-                await _roleManager.CreateAsync(new IdentityRole
-                {
-                    Name = role
-                });
-            }
+            //foreach(var role in rolesList)
+            //{
 
-            var roles = _roleManager.Roles.ToList();
+            //    await _roleManager.CreateAsync(new IdentityRole
+            //    {
+            //        Name = role
+            //    });
+            //}
 
-            return Ok(roles);
+            var user = await _userManager.FindByIdAsync("38920a18-ba62-49b6-a0b8-415cdd5a692c");
+            await _userManager.AddToRoleAsync(user, "Admin");
+       
+            //var roles = _roleManager.Roles.ToList();
+
+            return Ok(user);
         }
         
     }
