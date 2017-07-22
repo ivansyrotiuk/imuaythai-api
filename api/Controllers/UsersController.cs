@@ -174,7 +174,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                 var userRoleAcceptationEntities = await _userRoleAcceptationsRepository.GetUserAcceptations(userId);
-                var userRoleAcceptations = userRoleAcceptationEntities.Select(a => (UserRoleAcceptationDto)a).ToList();
+                var userRoleAcceptations = userRoleAcceptationEntities.Select(a => (UserRoleRequestDto)a).ToList();
                 return Ok(userRoleAcceptations);
             }
             catch (Exception ex)
@@ -185,20 +185,36 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("roles/addrequest")]
-        public async Task<IActionResult> AddUserRoleRequest([FromBody] UserRoleAcceptationDto roleRequest)
+        public async Task<IActionResult> AddUserRoleRequest([FromBody] UserRoleRequestDto roleRequest)
         {
             try
             {
-                UserRoleAcceptation entity = new UserRoleAcceptation();
+                UserRoleRequest entity = new UserRoleRequest();
                 entity.RoleId = roleRequest.RoleId;
                 entity.UserId = roleRequest.UserId;
-                entity.Status = UserRoleAcceptationStatus.Pending;
+                entity.Status = UserRoleRequestStatus.Pending;
 
                 await _userRoleAcceptationsRepository.Save(entity);
 
                 entity = await _userRoleAcceptationsRepository.Get(entity.Id);
 
-                return Ok((UserRoleAcceptationDto)entity);
+                return Ok((UserRoleRequestDto)entity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("roles/requests")]
+        public async Task<IActionResult> GetRoleRequest()
+        {
+            try
+            {
+                var pendingRequestEntities = await _userRoleAcceptationsRepository.GetPendingAcceptations();
+                var pendingRequest = pendingRequestEntities.Select(a => (UserRoleRequestDto)a).ToList();
+                return Ok(pendingRequest);
             }
             catch (Exception ex)
             {

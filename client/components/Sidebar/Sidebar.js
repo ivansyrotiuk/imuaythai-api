@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 
-import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
-         userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from '../../auth/auth'
+import { userIsAdmin, userCanManageRoles } from '../../auth/auth'
 
 class Sidebar extends Component {
 
@@ -22,7 +21,7 @@ class Sidebar extends Component {
   render() {
 
     const FigthersLink = userIsAdmin(() =>  <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>) 
-
+    const UserRoleRequestLink = userCanManageRoles(() =>  <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="icon-user"></i> Role requests</NavLink>) 
 
     return (
       <div className="sidebar">
@@ -48,6 +47,7 @@ class Sidebar extends Component {
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
                   <FigthersLink />
+                  <UserRoleRequestLink />
                 </li>
 
               </ul>

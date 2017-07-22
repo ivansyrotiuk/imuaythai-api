@@ -23,7 +23,7 @@ export const userIsAuthenticatedRedir = connectedRouterRedirect({
 export const userIsAdminRedir = connectedRouterRedirect({
   redirectPath: '/',
   allowRedirectBack: false,
-  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r === "Admin") ,
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r === "Admin"),
   wrapperDisplayName: 'UserIsAdmin'
 })
 
@@ -54,6 +54,14 @@ const userIsAdminDefaults = {
 }
 
 export const userIsAdmin = connectedAuthWrapper(userIsAdminDefaults)
+
+const userCanManageRolesDefaults = {
+  authenticatedSelector: state => state.Account.authToken.length != 0 &&
+    state.Account.user.roles.find(r => r == "Admin" || r == "InstitutionAdmin") != undefined,
+  wrapperDisplayName: 'userCanManageRoles'
+}
+
+export const userCanManageRoles = connectedAuthWrapper(userCanManageRolesDefaults)
 
 
 const userIsFighterDefaults = {

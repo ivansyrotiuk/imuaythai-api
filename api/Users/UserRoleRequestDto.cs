@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Users
 {
-    public class UserRoleAcceptationDto
+    public class UserRoleRequestDto
     {
         public int Id { get; set; } = 0;
         public string UserId { get; set; }
@@ -19,12 +19,12 @@ namespace MuaythaiSportManagementSystemApi.Users
         public string AcceptedByUserName { get; set; }
         public string Status { get; set; }
 
-        public UserRoleAcceptationDto()
+        public UserRoleRequestDto()
         {
 
         }
 
-        public UserRoleAcceptationDto(UserRoleAcceptation acceptation)
+        public UserRoleRequestDto(UserRoleRequest acceptation)
         {
             UserId = acceptation.UserId;
             UserName = acceptation.User?.UserName;
@@ -33,12 +33,12 @@ namespace MuaythaiSportManagementSystemApi.Users
             AcceptationDate = acceptation.AcceptationDate;
             AcceptedByUserId = acceptation.AcceptedByUserId;
             AcceptedByUserName = acceptation.AcceptedByUser?.UserName;
-            Status = Enum.GetName(typeof(UserRoleAcceptationStatus), acceptation.Status);
+            Status = Enum.GetName(typeof(UserRoleRequestStatus), acceptation.Status);
         }
 
-        public static explicit operator UserRoleAcceptationDto(UserRoleAcceptation entity)
+        public static explicit operator UserRoleRequestDto(UserRoleRequest entity)
         {
-            return new UserRoleAcceptationDto(entity);
+            return new UserRoleRequestDto(entity);
         }
     }
 }
