@@ -24,7 +24,9 @@ export function getLoginAccount(account) {
                 dispatch(receiveAction(actionTypes.LOGIN_ACCOUNT_SUCCESS, response.data))
             })
             .catch((err) => {
-                dispatch(receiveErrorAction(actionTypes.LOGIN_ACCOUNT_REQUEST, err))
+                dispatch(receiveErrorAction(actionTypes.LOGIN_ACCOUNT_REJECTED, err.response != null
+                    ? err.response.data
+                    : "No internet connection"))
             })
     }
 }
@@ -59,7 +61,7 @@ export function getConfirmAccount(confirmEmail) {
                 dispatch(receiveAction(actionTypes.CONFIRM_EMAIL_SUCCESS, response.data))
             })
             .catch((err) => {
-                dispatch(receiveErrorAction(actionTypes.CONFIRM_EMAIL_SUCCESS, err))
+                dispatch(receiveErrorAction(actionTypes.CONFIRM_EMAIL_REJECTED, err))
             })
     }
 }
