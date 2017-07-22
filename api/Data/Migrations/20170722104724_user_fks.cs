@@ -35,13 +35,6 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                 table: "UserRoleAcceptations",
                 column: "UserId");
 
-            migrationBuilder.DropIndex(
-              name: "IX_AspNetUsers_InstitutionId1",
-              table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "InstitutionId1",
-                table: "AspNetUsers");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

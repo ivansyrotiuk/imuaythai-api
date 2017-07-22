@@ -163,7 +163,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<int?>("InstitutionId");
 
-                    b.Property<int?>("InstitutionId1");
+           
 
                     b.Property<int?>("KhanLevelId");
 
@@ -216,7 +216,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.HasIndex("InstitutionId");
 
-                    b.HasIndex("InstitutionId1");
+           
 
                     b.HasIndex("KhanLevelId");
 
@@ -857,9 +857,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                         .WithMany()
                         .HasForeignKey("InstitutionId");
 
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution")
-                        .WithMany("Users")
-                        .HasForeignKey("InstitutionId1");
+                   
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.KhanLevel", "KhanLevel")
                         .WithMany("Users")
