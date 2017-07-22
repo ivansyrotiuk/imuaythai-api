@@ -61,6 +61,29 @@ namespace MuaythaiSportManagementSystemApi.Data
                 .WithMany(h => h.AsTimeKeeperFights)
                 .HasForeignKey(p => p.TimeKeeperId);
 
+            builder.Entity<UserRoleAcceptation>()
+                .HasOne(h => h.User)
+                .WithOne();
+
+            builder.Entity<UserRoleAcceptation>()
+                .HasOne(h => h.AcceptedByUser)
+                .WithOne();
+
+            builder.Entity<UserRoleAcceptation>()
+               .HasOne(h => h.Role)
+               .WithOne();
+            builder.Entity<ApplicationUser>()
+                .HasOne(h => h.Institution)
+                .WithMany()
+                .HasForeignKey(k => k.InstitutionId);
+
+            builder.Entity<Institution>()
+               .HasOne(h => h.HeadCoach)
+               .WithMany()
+               .HasForeignKey(k => k.HeadCoachId);
+
+           
+
         }
 
         public virtual DbSet<Document> Documents { get; set; }
@@ -89,5 +112,6 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<ContestType> ContestTypes { get; set; }
         public virtual DbSet<Reminder> Reminders { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
+        public virtual DbSet<UserRoleAcceptation> UserRoleAcceptations { get; set; }
     }
 }

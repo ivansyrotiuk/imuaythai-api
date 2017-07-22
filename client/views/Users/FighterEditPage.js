@@ -9,30 +9,32 @@ import {host} from "../../global"
 import Spinner from "../Components/Spinners/Spinner";
 import {saveFighter} from "../../actions/UsersActions";
 import {fetchCountries} from "../../actions/CountriesActions";
-import CommonUserDataForm from "./Forms/CommonUserDataForm"
+import CommonUserDataForm from "./Forms/CommonUserDataForm";
+import { userHasRole } from '../../auth/auth';
 import 'react-datepicker/dist/react-datepicker.css';
 
-@connect((store) => {
-    return {countries: store.Countries.countries};
-})
-export default class FighterEditPage extends Component {
+
+class FighterEditPage extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.dispatchFetchFighter = this.dispatchFetchFighter.bind(this);
-        this.state = {fetching: true};
+        this.state = { fetching: true };
     }
 
     componentWillMount() {
-        this.dispatchFetchFighter();
-        this.dispatchFetchCountries();
-    }
-
-    dispatchFetchFighter() {
         const fighterId = this.props.match.params.id;
 
-        var self = this;
+        this.dispatchFetchFighter(fighterId);
+
+        if (!this.props.countries.length) {
+            this.props.fetchCountries();
+        }
       
+    }
+
+    dispatchFetchFighter(fighterId) {
+        var self = this;
         axios
             .get(host + "api/users/fighters/" + fighterId)
             .then((response) => {
@@ -43,23 +45,12 @@ export default class FighterEditPage extends Component {
             });
     }
 
-    dispatchFetchCountries() {
-        if (this.props.countries.length == 0) {
-            this.props.dispatch(fetchCountries());
-        }
-    }
-
-    dispatchSaveFighter(fighter) {
-        this.props.dispatch(saveFighter(fighter))
-    }
-
     handleSubmit(values) {
         var self = this;
-
-        axios
+        return axios
             .post(host + 'api/users/save', values)
             .then(function (response) {
-                self.dispatchSaveFighter(response.data)
+                self.props.history.goBack();
             })
             .catch(function (error) {
                 self.props.history.push('/500');
@@ -79,6 +70,8 @@ export default class FighterEditPage extends Component {
             );
         }
 
+        const userHasRole = this.state.fighter.roles.find(r => r !== "") !== undefined;
+
         return (
             <div className="animated fadeIn">
                 <div className="row">
@@ -88,10 +81,10 @@ export default class FighterEditPage extends Component {
                                 <strong>Fighter</strong>
                             </div>
                             <div className="card-block">
-                                <CommonUserDataForm
+                               <CommonUserDataForm
                                     initialValues={this.state.fighter}
                                     countries={this.props.countries}
-                                    onSubmit={this.handleSubmit}/>
+                                    onSubmit={this.handleSubmit} />
                             </div>
                         </div>
                     </div>
@@ -100,3 +93,20 @@ export default class FighterEditPage extends Component {
         );
     }
 }
+
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+       countries: state.Countries.countries, 
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        fetchCountries: () => {
+            dispatch(fetchCountries());
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FighterEditPage)

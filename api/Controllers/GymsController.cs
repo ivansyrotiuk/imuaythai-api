@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Institutions.Gyms;
 using MuaythaiSportManagementSystemApi.Models;
+using System.Threading;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -22,11 +23,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var gyms = _repository.GetAll().Select(i=>(GymDto)i).ToList();
+                var gymsEntities = await _repository.GetAll();
+                var gyms = gymsEntities.Select(i=>(GymDto)i).ToList();
                 return Ok(gyms);
             }
             catch (Exception ex)
@@ -35,16 +37,34 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("Save")]
-        public IActionResult SaveGym([FromBody]GymDto gym)
+        [HttpGet]
+        [Route("Gym/{id}")]
+        public IActionResult GetGym([FromRoute]int id)
         {
             try
             {
-                Institution gymEntity = gym.Id == 0 ? new Institution() : _repository.Get(gym.Id);
+                var gym = _repository.Get(id);
+                return Ok(gym);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("Save")]
+        public async Task<IActionResult> SaveGym([FromBody]GymDto gym)
+        {
+            try
+            {
+                Institution gymEntity = gym.Id == 0 ? new Institution() : await _repository.Get(gym.Id);
                 gymEntity.Id = gym.Id;
                 gymEntity.Name = gym.Name;
-                gymEntity.Countryid = 958;
+                gymEntity.Address = gym.Address;
+                gymEntity.City = gym.City;
+                gymEntity.CountryId = 958;
 
                 _repository.Save(gymEntity);
 

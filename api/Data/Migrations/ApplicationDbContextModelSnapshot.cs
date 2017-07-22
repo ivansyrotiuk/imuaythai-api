@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MuaythaiSportManagementSystemApi.Data;
+using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.Data.Migrations
 {
@@ -161,8 +162,6 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.Property<int?>("InstitutionId");
 
-                    b.Property<int?>("InstitutionsId");
-
                     b.Property<int?>("KhanLevelId");
 
                     b.Property<bool>("LockoutEnabled");
@@ -213,6 +212,8 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("InstitutionId");
+
+                    b.HasIndex("InstitutionId1");
 
                     b.HasIndex("KhanLevelId");
 
@@ -598,7 +599,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<string>("ContactPerson")
                         .HasMaxLength(500);
 
-                    b.Property<int>("Countryid");
+                    b.Property<int>("CountryId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(500);
@@ -606,8 +607,8 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<string>("Facebook")
                         .HasMaxLength(500);
 
-                    b.Property<string>("HeadCoachid")
-                        .HasMaxLength(100);
+                    b.Property<string>("HeadCoachId")
+                        .HasMaxLength(450);
 
                     b.Property<string>("Instagram")
                         .HasMaxLength(500);
@@ -635,9 +636,13 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<string>("Website")
                         .HasMaxLength(500);
 
+                    b.Property<string>("ZipCode");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Countryid");
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("HeadCoachId");
 
                     b.ToTable("Institutions");
                 });
@@ -776,6 +781,35 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.ToTable("UserDocumentsMappings");
                 });
 
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.UserRoleAcceptation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("AcceptationDate");
+
+                    b.Property<string>("AcceptedByUserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcceptedByUserId")
+                        .IsUnique();
+
+                    b.HasIndex("RoleId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserRoleAcceptations");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -820,8 +854,12 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                         .HasForeignKey("CountryId");
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("InstitutionId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution")
+                        .WithMany("Users")
+                        .HasForeignKey("InstitutionId1");
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.KhanLevel", "KhanLevel")
                         .WithMany("Users")
@@ -985,8 +1023,12 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                 {
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("Countryid")
+                        .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "HeadCoach")
+                        .WithMany()
+                        .HasForeignKey("HeadCoachId");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.InstitutionDocumentsMapping", b =>
@@ -1035,6 +1077,21 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "User")
                         .WithMany("UserDocimentsMappings")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.UserRoleAcceptation", b =>
+                {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "AcceptedByUser")
+                        .WithOne()
+                        .HasForeignKey("MuaythaiSportManagementSystemApi.Models.UserRoleAcceptation", "AcceptedByUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", "Role")
+                        .WithOne()
+                        .HasForeignKey("MuaythaiSportManagementSystemApi.Models.UserRoleAcceptation", "RoleId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("MuaythaiSportManagementSystemApi.Models.UserRoleAcceptation", "UserId");
                 });
         }
     }

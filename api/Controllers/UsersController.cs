@@ -5,6 +5,10 @@ using System.Linq;
 using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.Models;
 using System.Threading;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Threading.Tasks;
+using MuaythaiSportManagementSystemApi.Roles;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -13,20 +17,30 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     public class UsersController : Controller
     {
         private IUsersRepository _repository;
+        private readonly IRolesRepository _rolesRepository;
+        private readonly IUserRoleAcceptationsRepository _userRoleAcceptationsRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UsersController(IUsersRepository repository)
+        public UsersController(IUsersRepository repository, 
+            IRolesRepository rolesRepository,
+            IUserRoleAcceptationsRepository userRoleAcceptationsRepository,
+            UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
+            _rolesRepository = rolesRepository;
+            _userRoleAcceptationsRepository = userRoleAcceptationsRepository;
+            _userManager = userManager;
         }
 
         [HttpGet]
         [Route("fighters")]
-        public IActionResult GetFigthers()
+        public async Task<IActionResult> GetFigthers()
         {
             try
             {
                 IUsersRepository fightersRepository = new FightersRepository(_repository);
-                var users = fightersRepository.GetAll().Select(u => (UserDto)u).ToList();
+                var figtherEntities = await fightersRepository.GetAll();
+                var users = figtherEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -37,13 +51,16 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("fighters/{id}")]
-        public IActionResult GetFigthers([FromRoute]string id)
+        public async Task<IActionResult> GetFigthers([FromRoute]string id)
         {
             try
             {
-                Thread.Sleep(1000);
                 IUsersRepository fightersRepository = new FightersRepository(_repository);
-                var user = (FighterDto)fightersRepository.Get(id);
+                var figther = await fightersRepository.Get(id);
+                var figtherRoles = await _userManager.GetRolesAsync(figther);
+                var user = (FighterDto)figther;
+                user.Roles = figtherRoles.ToList();
+
                 return Ok(user);
             }
             catch (Exception ex)
@@ -54,11 +71,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("Judges")]
-        public IActionResult GetJudges()
+        public async Task<IActionResult> GetJudges()
         {
             try
             {
-                var users = _repository.GetAll().Select(u => (UserDto)u).ToList();
+                var judgeEntities = await _repository.GetAll();
+                var users = judgeEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -69,11 +87,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("Coaches")]
-        public IActionResult GetCoaches()
+        public async Task<IActionResult> GetCoaches()
         {
             try
             {
-                var users = _repository.GetAll().Select(u => (UserDto)u).ToList();
+                var coachEntities = await _repository.GetAll();
+                var users = coachEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -84,11 +103,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("Doctors")]
-        public IActionResult GetDoctors()
+        public async Task<IActionResult> GetDoctors()
         {
             try
             {
-                var users = _repository.GetAll().Select(u => (UserDto)u).ToList();
+                var doctorEntities = await _repository.GetAll();
+                var users = doctorEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -100,11 +120,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public IActionResult SaveUser([FromBody]UserDto user)
+        public async Task<IActionResult> SaveUser([FromBody]UserDto user)
         {
             try
             {
-                ApplicationUser userEntity = string.IsNullOrEmpty(user.Id) ? new ApplicationUser() : _repository.Get(user.Id);
+                ApplicationUser userEntity = string.IsNullOrEmpty(user.Id) ? new ApplicationUser() : await _repository.Get(user.Id);
                 userEntity.Id = user.Id;
                 userEntity.FirstName = user.Firstname;
                 userEntity.Surname = user.Surname;
@@ -147,5 +167,20 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("roles/{userId}")]
+        public async Task<IActionResult> GetUserRoles([FromRoute]string userId)
+        {
+            try
+            {
+                var userRoleAcceptationEntities = await _userRoleAcceptationsRepository.GetUserAcceptations(userId);
+                var userRoleAcceptations = userRoleAcceptationEntities.Select(a => (UserRoleAcceptationDto)a).ToList();
+                return Ok(userRoleAcceptations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

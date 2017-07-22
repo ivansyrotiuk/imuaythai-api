@@ -80,6 +80,8 @@ namespace MuaythaiSportManagementSystemApi
 
             services.AddSingleton<IContestTypePointsRepository, ContestTypePointsRepository>();
             services.AddSingleton<ICountriesRepository, CountriesRepository>();
+            services.AddSingleton<IRolesRepository, RolesRepository>();
+            services.AddSingleton<IUserRoleAcceptationsRepository, UserRoleAcceptationsRepository>();
             services.Configure<EmailConfiguration>(Configuration);
         }
 
@@ -101,7 +103,7 @@ namespace MuaythaiSportManagementSystemApi
                     IssuerSigningKey = key,
                     ValidateLifetime = false,
                     ValidateIssuer = false,
-                    ValidateAudience = false,      
+                    ValidateAudience = true 
                 }
             });
          

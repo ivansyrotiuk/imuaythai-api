@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 
+import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
+         userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from '../../auth/auth'
+
 class Sidebar extends Component {
 
   handleClick(e) {
@@ -17,6 +20,10 @@ class Sidebar extends Component {
   // }
 
   render() {
+
+    const FigthersLink = userIsAdmin(() =>  <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>) 
+
+
     return (
       <div className="sidebar">
         <nav className="sidebar-nav">
@@ -40,7 +47,7 @@ class Sidebar extends Component {
               <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-people"></i> Users</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
-                  <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>
+                  <FigthersLink />
                 </li>
 
               </ul>

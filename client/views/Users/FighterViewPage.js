@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux";
-import {Progress} from 'reactstrap';
+import {Progress, ButtonDropdown, DropdownItem, DropdownToggle, Button, DropdownMenu} from 'reactstrap';
 import axios from "axios";
 import {host} from "../../global"
 import UserAvatar from 'react-user-avatar'
@@ -52,6 +52,14 @@ export default class FighterViewPage extends Component {
         }
     }
 
+    goToEditPageClick(){
+        this.props.history.push(this.props.match.url + '/edit');
+    }
+
+    goToRolesPageClick(){
+        this.props.history.push(this.props.match.url + '/roles');
+    }
+
     render() {
         const {fetching, fighter} = this.state;
 
@@ -81,9 +89,26 @@ export default class FighterViewPage extends Component {
                 <div className="card-header">
                     <strong>Fighter</strong>
                     <div class="pull-right">
-                        <Link to={this.props.match.url + '/edit'}>
-                            <i class="fa fa-pencil" aria-hidden="true">&nbsp;Edit</i>
-                        </Link>
+
+                         <div className="input-group-btn">
+                          <ButtonDropdown isOpen={this.state.fourth} toggle={() => { this.setState({ fourth: !this.state.fourth }); }}>
+                            <DropdownToggle caret color="link">
+                              <i class="fa fa-bars" aria-hidden="true">&nbsp;&nbsp;Options</i>
+                            </DropdownToggle>
+                            <DropdownMenu>
+                              <DropdownItem onClick={this.goToEditPageClick.bind(this)}>
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                              </DropdownItem>
+                              <DropdownItem onClick={this.goToRolesPageClick.bind(this)}>
+                                   <i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;Roles
+                              </DropdownItem>
+                              <DropdownItem>Something </DropdownItem>
+                            
+                              <DropdownItem>Separated</DropdownItem>
+                            </DropdownMenu>
+                          </ButtonDropdown>
+                        </div>
+
                     </div>
                 </div>
                 <div className="card-block">
@@ -121,8 +146,8 @@ export default class FighterViewPage extends Component {
                         </div>
 
                         <div className="col-12 col-md-6 col-sm-12">
-                            <div className="row">
-                                <div className="col align-self-end">
+                            <div className="row justify-content-between">
+                                <div className="col">
                                     <div className="card">
                                         <div className="card-block p-3 clearfix">
                                             <i className="fa fa-trophy bg-success p-3 font-2xl mr-3 float-left"></i>
@@ -133,7 +158,7 @@ export default class FighterViewPage extends Component {
                                     </div>
 
                                 </div>
-                                <div className="col align-self-end">
+                                <div className="col">
                                     <div className="card">
                                         <div className="card-block p-3 clearfix">
                                             <i className="fa fa-frown-o bg-danger p-3 font-2xl mr-3 float-left"></i>
@@ -146,19 +171,20 @@ export default class FighterViewPage extends Component {
                                 </div>
                             </div>
 
-                            <div className="row">
-                                <button type="button" className="btn  btn-facebook">
+                            <div className="row justify-content-end">
+                                {fighter.facebook &&<a href={fighter.facebook} target="_blank"><button type="button" className="btn  btn-facebook">
                                     <span>Facebook</span>
-                                </button>&nbsp;
-                                <button type="button" className="btn  btn-twitter">
+                                </button>&nbsp;</a>}
+                                {fighter.twitter && <a href={fighter.twitter} target="_blank"><button type="button" className="btn  btn-twitter">
                                     <span>Twitter</span>
-                                </button>&nbsp;
-                                <button type="button" className="btn btn-instagram">
+                                </button>&nbsp;</a>}
+
+                                {fighter.instagram && <a href={fighter.instagram} target="_blank"><button type="button" className="btn btn-instagram">
                                     <span>Instagram</span>
-                                </button>&nbsp;
-                                <button type="button" className="btn  btn-vk">
+                                </button>&nbsp;</a>}
+                                {fighter.vk && <a href={fighter.vk} target="_blank"><button type="button" className="btn  btn-vk">
                                     <span>VK</span>
-                                </button>
+                                </button></a>}
                             </div>
 
                         </div>

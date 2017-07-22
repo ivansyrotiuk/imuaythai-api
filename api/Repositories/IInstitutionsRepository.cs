@@ -8,9 +8,9 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 {
     public interface IInstitutionsRepository
     {
-        Institution Get(int id);
-        IEnumerable<Institution> GetAll();
-        IEnumerable<Institution> Find(Func<Institution, bool> predicate);
+        Task<Institution> Get(int id);
+        Task<List<Institution>> GetAll();
+        Task<List<Institution>> Find(Func<Institution, bool> predicate);
         void Save(Institution institution);
         void Remove(int id);
     }

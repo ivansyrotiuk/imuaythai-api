@@ -20,11 +20,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("countries")]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var countries = _countryRepository.GetAll().Select(c => (CountryDto)c).ToList();
+                var countryEntities = await _countryRepository.GetAll();
+                var countries = countryEntities.Select(c => (CountryDto)c).ToList();
                 return Ok(countries);
             }
             catch (Exception ex)
