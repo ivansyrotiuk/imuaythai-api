@@ -138,7 +138,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.Gender = user.Gender;
                 userEntity.CountryId = user.CountryId;
 
-                _repository.Save(userEntity);
+                await _repository.Save(userEntity);
 
                 user.Id = userEntity.Id;
 

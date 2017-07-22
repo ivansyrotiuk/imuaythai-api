@@ -24,11 +24,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("ranges")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var ranges = _repository.GetAll().Select(i => (ContestRangeDto)i).ToList();
+                var rangesEntities = await _repository.GetAll();
+                var ranges = rangesEntities.Select(i => (ContestRangeDto)i).ToList();
                 return Ok(ranges);
             }
             catch (Exception ex)
@@ -39,11 +40,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("ranges/{id}")]
-        public IActionResult Index([FromRoute] int id)
+        public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var range = _repository.Get(id) ?? new ContestRange();
+                var range = await _repository.Get(id) ?? new ContestRange();
                 return Ok((ContestRangeDto)range);
             }
             catch (Exception ex)
@@ -54,15 +55,15 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("ranges/save")]
-        public IActionResult SaveRage([FromBody]ContestRangeDto range)
+        public async Task<IActionResult> SaveRage([FromBody]ContestRangeDto range)
         {
             try
             {
-                ContestRange rangeEntity = range.Id == 0 ? new ContestRange() : _repository.Get(range.Id);
+                ContestRange rangeEntity = range.Id == 0 ? new ContestRange() : await _repository.Get(range.Id);
                 rangeEntity.Id = range.Id;
                 rangeEntity.Name = range.Name;
 
-                _repository.Save(rangeEntity);
+                await _repository.Save(rangeEntity);
 
                 range.Id = rangeEntity.Id;
                 return Created("Add", range);
@@ -76,11 +77,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("ranges/remove")]
-        public IActionResult RemoveRange([FromBody]ContestRangeDto range)
+        public async Task<IActionResult> RemoveRange([FromBody]ContestRangeDto range)
         {
             try
             {
-                _repository.Remove(range.Id);
+                await _repository.Remove(range.Id);
 
                 return Ok(range.Id);
             }

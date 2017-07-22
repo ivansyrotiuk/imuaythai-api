@@ -30,14 +30,14 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _baseRepository.GetAll();//.Where(i => i.InstitutionType == InstitutionType.Gym);
         }
 
-        public void Remove(int id)
+        public Task Remove(int id)
         {
-            _baseRepository.Remove(id);
+            return _baseRepository.Remove(id);
         }
 
-        public void Save(Institution institution)
+        public Task Save(Institution institution)
         {
-            _baseRepository.Save(institution);
+            return _baseRepository.Save(institution);
         }
     }
 }

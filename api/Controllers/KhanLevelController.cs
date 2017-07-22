@@ -22,11 +22,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("levels")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var levels = _repository.GetAll().Select(i => (KhanLevelDto)i).ToList();
+                var levelsEntities = await _repository.GetAll();
+                var levels = levelsEntities.Select(i => (KhanLevelDto)i).ToList();
                 return Ok(levels);
             }
             catch (Exception ex)
@@ -37,11 +38,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("levels/{id}")]
-        public IActionResult Index([FromRoute] int id)
+        public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var levels = _repository.Get(id) ?? new Models.KhanLevel();
+                var levels = await _repository.Get(id) ?? new Models.KhanLevel();
                 return Ok((KhanLevelDto)levels);
             }
             catch (Exception ex)
@@ -52,15 +53,15 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("levels/save")]
-        public IActionResult SaveRage([FromBody]KhanLevelDto level)
+        public async Task<IActionResult> SaveRage([FromBody]KhanLevelDto level)
         {
             try
             {
-                Models.KhanLevel levelEntity = level.Id == 0 ? new Models.KhanLevel() : _repository.Get(level.Id);
+                Models.KhanLevel levelEntity = level.Id == 0 ? new Models.KhanLevel() : await _repository.Get(level.Id);
                 levelEntity.Id = level.Id;
                 levelEntity.Level = level.Level;
                 levelEntity.Name = level.Name;
-                _repository.Save(levelEntity);
+                await _repository.Save(levelEntity);
 
                 level.Id = levelEntity.Id;
                 return Created("Add", level);
@@ -74,11 +75,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("levels/remove")]
-        public IActionResult RemoveRange([FromBody]KhanLevelDto level)
+        public async Task<IActionResult> RemoveRange([FromBody]KhanLevelDto level)
         {
             try
             {
-                _repository.Remove(level.Id);
+                await _repository.Remove(level.Id);
 
                 return Ok(level.Id);
             }

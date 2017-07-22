@@ -1,15 +1,16 @@
 ﻿using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
     public interface IKhanLevelsRepository
     {
-        KhanLevel Get(int id);
-        IEnumerable<KhanLevel> GetAll();
-        IEnumerable<KhanLevel> Find(Func<KhanLevel, bool> predicate);
-        void Save(KhanLevel institution);
-        void Remove(int id);
+        Task<KhanLevel> Get(int id);
+        Task<List<KhanLevel>> GetAll();
+        Task<List<KhanLevel>> Find(Func<KhanLevel, bool> predicate);
+        Task Save(KhanLevel institution);
+        Task Remove(int id);
     }
 }

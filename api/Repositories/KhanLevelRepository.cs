@@ -3,6 +3,8 @@ using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -15,36 +17,36 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
-        public IEnumerable<KhanLevel> Find(Func<KhanLevel, bool> predicate)
+        public Task<List<KhanLevel>> Find(Func<KhanLevel, bool> predicate)
         {
-            return _context.KhanLevels.Where(predicate);
+            return _context.KhanLevels.Where(predicate).AsQueryable().ToListAsync();
         }
 
-        public KhanLevel Get(int id)
+        public Task<KhanLevel> Get(int id)
         {
-            return _context.KhanLevels.FirstOrDefault(i=>i.Id == id);
+            return _context.KhanLevels.FirstOrDefaultAsync(i=>i.Id == id);
         }
 
-        public IEnumerable<KhanLevel> GetAll()
+        public Task<List<KhanLevel>> GetAll()
         {
-            return _context.KhanLevels;
+            return _context.KhanLevels.ToListAsync();
         }
 
-        public void Remove(int id)
+        public Task Remove(int id)
         {
             var level = _context.KhanLevels.FirstOrDefault(i => i.Id == id);
             _context.KhanLevels.Remove(level);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public void Save(KhanLevel level)
+        public Task Save(KhanLevel level)
         {
             if (level.Id == 0)
             {
                 _context.KhanLevels.Add(level);
             }
 
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }

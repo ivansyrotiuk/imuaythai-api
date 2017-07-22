@@ -34,21 +34,21 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.Institutions.ToListAsync();
         }
 
-        public void Remove(int id)
+        public Task Remove(int id)
         {
             var intitution = _context.Institutions.FirstOrDefault(i => i.Id == id);
             _context.Institutions.Remove(intitution);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public void Save(Institution institution)
+        public Task Save(Institution institution)
         {
             if (institution.Id == 0)
             {
                 _context.Institutions.Add(institution);
             }
 
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }

@@ -7,10 +7,10 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 {
     public interface IContestTypesRepository
     {
-        ContestType Get(int id);
-        IEnumerable<ContestType> GetAll();
-        IEnumerable<ContestType> Find(Func<ContestType, bool> predicate);
-        void Save(ContestType contestType);
-        void Remove(int id);
+        Task<ContestType> Get(int id);
+        Task<List<ContestType>> GetAll();
+        Task<List<ContestType>> Find(Func<ContestType, bool> predicate);
+        Task Save(ContestType contestType);
+        Task Remove(int id);
     }
 }

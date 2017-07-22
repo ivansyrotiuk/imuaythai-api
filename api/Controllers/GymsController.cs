@@ -39,12 +39,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("Gym/{id}")]
-        public IActionResult GetGym([FromRoute]int id)
+        public async Task<IActionResult> GetGym([FromRoute]int id)
         {
             try
             {
-                var gym = _repository.Get(id);
-                return Ok(gym);
+                var gym = await _repository.Get(id);
+                return Ok((GymDto)gym);
             }
             catch (Exception ex)
             {
@@ -66,7 +66,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 gymEntity.City = gym.City;
                 gymEntity.CountryId = 958;
 
-                _repository.Save(gymEntity);
+                await _repository.Save(gymEntity);
 
                 gym.Id = gymEntity.Id;
                 return Created("Add", gym);
@@ -80,11 +80,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("Remove")]
-        public IActionResult RemoveGym([FromBody]GymDto gym)
+        public async Task<IActionResult> RemoveGym([FromBody]GymDto gym)
         {
             try
             {
-                _repository.Remove(gym.Id);
+                await _repository.Remove(gym.Id);
 
                 return Ok(gym.Id);
             }

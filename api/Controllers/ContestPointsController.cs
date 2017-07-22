@@ -23,11 +23,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("points")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var points = _repository.GetAll().Select(i => (ContestPointsDto)i).ToList();
+                var pointsEntities = await _repository.GetAll();
+                var points = pointsEntities.Select(i => (ContestPointsDto)i).ToList();
                 return Ok(points);
             }
             catch (Exception ex)
@@ -38,11 +39,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("points/{id}")]
-        public IActionResult Index([FromRoute] int id)
+        public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var points = _repository.Get(id) ?? new ContestTypePoints();
+                var points = await _repository.Get(id) ?? new ContestTypePoints();
                 var result = (ContestPointsDto)points;
                 return Ok(result);
             }
@@ -54,16 +55,16 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("points/save")]
-        public IActionResult SaveRage([FromBody]ContestPointsDto points)
+        public async  Task<IActionResult> SaveRage([FromBody]ContestPointsDto points)
         {
             try
             {
-                ContestTypePoints pointsEntity = points.Id == 0 ? new ContestTypePoints() : _repository.Get(points.Id);
+                ContestTypePoints pointsEntity = points.Id == 0 ? new ContestTypePoints() : await _repository.Get(points.Id);
                 pointsEntity.Id = points.Id;
                 pointsEntity.Points = points.Points;
                 pointsEntity.ContestRangeId = points.ContestRange.Id;
                 pointsEntity.ContestTypeId = points.ContestType.Id;
-                _repository.Save(pointsEntity);
+                await _repository.Save(pointsEntity);
 
                 points.Id = pointsEntity.Id;
                 return Created("Add", points);
@@ -77,11 +78,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("points/remove")]
-        public IActionResult RemoveRange([FromBody]ContestRangeDto range)
+        public async Task<IActionResult> RemoveRange([FromBody]ContestRangeDto range)
         {
             try
             {
-                _repository.Remove(range.Id);
+                await _repository.Remove(range.Id);
 
                 return Ok(range.Id);
             }

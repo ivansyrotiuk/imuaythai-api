@@ -13,8 +13,8 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<ApplicationUser> Get(string id);
         Task<List<ApplicationUser>> GetAll();
         Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate);
-        void Save(ApplicationUser institution);
-        void Remove(string id);
+        Task Save(ApplicationUser institution);
+        Task Remove(string id);
     }
 
     public class UsersRepository : IUsersRepository
@@ -41,7 +41,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.Users.Where(predicate).AsQueryable().ToListAsync();
         }
 
-        public void Save(ApplicationUser institution)
+        public Task Save(ApplicationUser institution)
         {
             if (string.IsNullOrEmpty(institution.Id))
             {
@@ -52,14 +52,14 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 _context.Users.Attach(institution);
             }
 
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public void Remove(string id)
+        public Task Remove(string id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
             _context.Users.Remove(user);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }
