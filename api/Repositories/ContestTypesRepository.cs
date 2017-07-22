@@ -4,6 +4,7 @@ using System.Linq;
 using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -15,36 +16,36 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         {
             _context = context;
         }
-        public ContestType Get(int id)
+        public Task<ContestType> Get(int id)
         {
-            return _context.ContestTypes.FirstOrDefault(c => c.Id == id);
+            return _context.ContestTypes.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public IEnumerable<ContestType> GetAll()
+        public Task<List<ContestType>> GetAll()
         {
-            return _context.ContestTypes.ToListAsync().Result; 
+            return _context.ContestTypes.ToListAsync(); 
         }
 
-        public IEnumerable<ContestType> Find(Func<ContestType, bool> predicate)
+        public Task<List<ContestType>> Find(Func<ContestType, bool> predicate)
         {
-            return _context.ContestTypes.Where(predicate);
+            return _context.ContestTypes.Where(predicate).AsQueryable().ToListAsync();
         }
 
-        public void Save(ContestType contestType)
+        public Task Save(ContestType contestType)
         {
             if (contestType.Id == 0)
             {
                 _context.ContestTypes.Add(contestType);
             }
 
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public void Remove(int id)
+        public Task Remove(int id)
         {
             var contestType = _context.ContestTypes.FirstOrDefault(i => i.Id == id);
             _context.ContestTypes.Remove(contestType);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }

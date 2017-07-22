@@ -22,12 +22,13 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("suspensions")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var type = _repository.GetAll().ToList().Select(i => (SuspensionTypeDto)i).ToList();
-                return Ok(type);
+                var typesEntities = await _repository.GetAll();
+                var types = typesEntities.Select(i => (SuspensionTypeDto)i).ToList();
+                return Ok(types);
             }
             catch (Exception ex)
             {
@@ -37,11 +38,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("suspensions/{id}")]
-        public IActionResult Index([FromRoute] int id)
+        public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var type = _repository.Get(id) ?? new Models.SuspensionType();
+                var type = await _repository.Get(id) ?? new Models.SuspensionType();
                 return Ok((SuspensionTypeDto)type);
             }
             catch (Exception ex)
@@ -52,14 +53,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("suspensions/save")]
-        public IActionResult SaveRage([FromBody]SuspensionTypeDto type)
+        public async Task<IActionResult> SaveRage([FromBody]SuspensionTypeDto type)
         {
             try
             {
-                Models.SuspensionType typeEntity = type.Id == 0 ? new Models.SuspensionType() : _repository.Get(type.Id);
+                Models.SuspensionType typeEntity = type.Id == 0 ? new Models.SuspensionType() : await _repository.Get(type.Id);
                 typeEntity.Id = type.Id;
                 typeEntity.Name = type.Name;
-                _repository.Save(typeEntity);
+                await _repository.Save(typeEntity);
 
                 type.Id = typeEntity.Id;
                 return Created("Add", type);
@@ -73,11 +74,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("suspensions/remove")]
-        public IActionResult RemoveRange([FromBody]KhanLevelDto type)
+        public async Task<ActionResult> RemoveRange([FromBody]KhanLevelDto type)
         {
             try
             {
-                _repository.Remove(type.Id);
+                await _repository.Remove(type.Id);
 
                 return Ok(type.Id);
             }

@@ -11,7 +11,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<Institution> Get(int id);
         Task<List<Institution>> GetAll();
         Task<List<Institution>> Find(Func<Institution, bool> predicate);
-        void Save(Institution institution);
-        void Remove(int id);
+        Task Save(Institution institution);
+        Task Remove(int id);
     }
 }
