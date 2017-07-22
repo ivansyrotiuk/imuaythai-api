@@ -12,10 +12,15 @@ const userRolesInitialState = {
 
 const userRoles = (state = userRolesInitialState, action) => {
     switch (action.type) {
-        case actionTypes.ADD_USER_ROLES:
+        case actionTypes.ADD_USER_ROLE:
             return {
                 ...state,
                 adding: true
+            }
+        case actionTypes.CANCEL_ADD_USER_ROLE:
+            return {
+                ...state,
+                adding: false
             }
         case actionTypes.FETCH_USER_ROLES:
             return {
@@ -52,7 +57,7 @@ const userRoles = (state = userRolesInitialState, action) => {
         case actionTypes.SAVE_USER_ROLE_REJECTED:
             return {
                 ...state,
-               error: action.payload,
+                error: action.payload,
                 saving: false,
                 saved: false
             }

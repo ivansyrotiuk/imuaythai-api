@@ -3,18 +3,13 @@ import Spinner from "../Components/Spinners/Spinner";
 import UserRolesTable from "../Components/Tables/UserRolesTable"
 import UserRoleRequestForm from "./Forms/UserRoleRequestForm"
 import {fetchRoles} from "../../actions/RolesActions";
-import {fetchUserRoles, saveUserRoleRequest, addUserRole} from "../../actions/UserRolesActions";
+import {fetchUserRoles, saveUserRoleRequest, addUserRole, cancelAddingUserRole} from "../../actions/UserRolesActions";
 import {connect} from "react-redux";
 
 class UserRolesPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            adding: false
-        };
-        this.onCancel = this
-            .onCancel
-            .bind(this);
+        
         this.onSubmit = this
             .onSubmit
             .bind(this);
@@ -27,10 +22,6 @@ class UserRolesPage extends Component {
         if (!this.props.roles.length) {
             this.props.fetchRoles();
         }
-    }
-
-    onCancel() {
-        this.setState({adding: false})
     }
 
     onSubmit(values) {
@@ -52,7 +43,7 @@ class UserRolesPage extends Component {
             ? <UserRoleRequestForm
                     roles={availableRoles}
                     onSubmit={this.onSubmit}
-                    onCancel={this.onCancel}/>
+                    onCancel={this.props.cancelAddingUserRole}/>
             : <UserRolesTable 
                     userRoles={userRoles} 
                     addRoleClick={this.props.addUserRole}/>
@@ -81,6 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         addUserRole: () => {
             dispatch(addUserRole());
+        },
+        cancelAddingUserRole: () => {
+            dispatch(cancelAddingUserRole());
         }
     }
 }

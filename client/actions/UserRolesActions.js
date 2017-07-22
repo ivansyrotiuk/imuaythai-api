@@ -48,6 +48,12 @@ export function saveUserRoleRequest(roleRequest) {
 
 export function addUserRole() {
     return {
-        type: actionTypes.ADD_USER_ROLES
+        type: actionTypes.ADD_USER_ROLE
+    }
+}
+
+export function cancelAddingUserRole() {
+    return {
+        type: actionTypes.CANCEL_ADD_USER_ROLE
     }
 }
