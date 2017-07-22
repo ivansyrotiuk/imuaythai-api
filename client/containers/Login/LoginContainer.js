@@ -1,11 +1,14 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Login from '../../views/Pages/Login/'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../../actions/AccountActions'
-import {saveState, loadState} from '../../localStorage'
+import { saveState, loadState } from '../../localStorage'
 
 class LoginContainer extends Component {
 
+    componentWillMount() {
+        this.props.resetErrors();
+    }
     render() {
         if (this.props.authToken != "") {
             if (this.props.rememberMe) {
@@ -14,31 +17,48 @@ class LoginContainer extends Component {
                     error: null,
                     fetching: false,
                     fetched: false,
+                    isRegistered: false,
+                    isLoggedIn: false,
+                    isResseted: false,
+                    isConfimed: false,
+                    fetched: false,
                     rememberMe: !this.props.rememberMe
                 }
                 saveState(authAccount)
             }
 
-            this
-                .props
-                .history
-                .push("/");
+            this.props.history.push("/");
         }
 
-        return (<Login
-            onSubmit={this.props.onSubmit}
-            islogining={this.props.fetching}
-            errorMessage={this.props.error}/>)
+        return (<Login onSubmit={ this.props.onSubmit } fetching={ this.props.fetching } errorMessage={ this.props.error } isLoggedIn={ this.props.isLoggedIn } onDismiss={ this.props.resetErrors }
+                />)
     }
 }
 const mapStateToProps = (state) => {
-    return {fetching: state.Account.fetching, authToken: state.Account.authToken, rememberMe: state.Account.rememberMe, error: state.Account.error}
+    return {
+        fetching: state.Account.fetching,
+        authToken: state.Account.authToken,
+        rememberMe: state.Account.rememberMe,
+        error: state.Account.error,
+        isLoggedIn: state.Account.isLoggedIn
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
         onSubmit: (values) => {
-            dispatch(actions.getLoginAccount({email: values.login, password: values.password, rememberMe: values.rememberme}));
+            if (values.login == undefined || values.password == undefined) {
+                dispatch(actions.errorAction("Login or password cannot be empty"));
+            } else {
+                dispatch(actions.getLoginAccount({
+                    email: values.login,
+                    password: values.password,
+                    rememberMe: values.rememberme
+                }));
+            }
+        },
+        resetErrors: () => {
+            dispatch(actions.resetErrorAction());
         }
     })
 }

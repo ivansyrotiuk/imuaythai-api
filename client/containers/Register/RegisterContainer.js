@@ -1,44 +1,55 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Register from '../../views/Pages/Register/'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../../actions/AccountActions'
 import Registered from '../../components/Presentational/Registered'
+import { UncontrolledAlert } from 'reactstrap';
+import { siteHost } from '../../global'
 
 class RegisterContainer extends Component {
 
     componentWillMount() {
-        if (this.props.authToken != "") 
+        this.props.resetErrors();
+        if (this.props.authToken != "")
             this.props.history.push("/")
     }
 
     render() {
-        if (this.props.fetched && this.props.error == null) 
-            return (<Registered
-                headerText="You have been registered successfully"
-                description="Please check your e-mail in order to activate your account"
-                callback="/"
-                callbackButtonText="Return to main page"/>)
-        else if (this.props.error != null) 
-            return (
-                <div>
-                    <div class="alert alert-danger" role="alert">Something went wrong. Try again</div>
-                    <Register onSubmit={this.props.onSubmit}/>
-                </div>
-            )
-        else 
-            return (<Register onSubmit={this.props.onSubmit}/>);
+        return (<Register onSubmit={ this.props.onSubmit } fetching={ this.props.fetching } errorMessage={ this.props.error } fetched={ this.props.isRegistered } onDismiss={ this.props.resetErrors }
+                />)
 
-        }
     }
+}
 
 const mapStateToProps = (state) => {
-    return {fetching: state.Account.fetching, fetched: state.Account.fetched, authToken: state.Account.authToken, error: state.Account.error}
+    return {
+        fetching: state.Account.fetching,
+        isRegistered: state.Account.isRegistered,
+        authToken: state.Account.authToken,
+        error: state.Account.error
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
         onSubmit: (values) => {
-            dispatch(actions.getRegisterAccount({email: values.login, password: values.password, confirmpassword: values.confirmpassword, callbackurl: "http://localhost:8080/#/confirmemail"}));
+            dispatch(actions.resetErrorAction());
+            if (values.login == undefined || values.password == undefined || values.confirmpassword == undefined) {
+                dispatch(actions.errorAction("Login or password cannot be empty"))
+            } else if (values.password != values.confirmpassword) {
+                dispatch(actions.errorAction("Passwords must be the same"));
+            } else {
+                dispatch(actions.getRegisterAccount({
+                    email: values.login,
+                    password: values.password,
+                    confirmpassword: values.confirmpassword,
+                    callbackurl: siteHost + "confirmemail"
+                }));
+                values.password = values.login = values.confirmpassword = "";
+            }
+        },
+        resetErrors: () => {
+            dispatch(actions.resetErrorAction());
         }
     })
 }

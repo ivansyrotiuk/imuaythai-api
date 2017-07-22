@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Registered from '../../components/Presentational/Registered'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../../actions/AccountActions'
+import Spinner from '../../views/Components/Spinners/Spinner'
 
 class ConfirmEmailContainer extends Component {
     constructor() {
@@ -26,7 +27,8 @@ class ConfirmEmailContainer extends Component {
         return params;
     };
     componentWillMount() {
-        if (this.props.authToken != "") 
+        this.props.resetErrors();
+        if (this.props.authToken != "")
             this.props.history.push("/")
         var urlString = this.props.location.search;
         var params = urlString.substring(urlString.indexOf('?') + 1);
@@ -37,23 +39,26 @@ class ConfirmEmailContainer extends Component {
 
     render() {
         return (this.props.fetching
-            ? <p>loading...</p>
-            : <Registered
-                headerText="Email has been confirmed"
-                description="Now you can log in"
-                callback="/login"
-                callbackButtonText="To login page"/>);
+            ? <Spinner/>
+            : <Registered headerText="Email has been confirmed" description="Now you can log in" callback="/login" callbackButtonText="To login page" />);
     }
 }
 
 const mapStateToProps = (state) => {
-    return {fetching: state.Account.fetching, authToken: state.Account.authToken, fetched: state.Account.fetched}
+    return {
+        fetching: state.Account.fetching,
+        authToken: state.Account.authToken,
+        fetched: state.Account.fetched
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
         confirmEmail: (email) => {
             dispatch(actions.getConfirmAccount(email));
+        },
+        resetErrors: () => {
+            dispatch(actions.resetErrorAction());
         }
     })
 }

@@ -1,21 +1,30 @@
-import {host} from "../global"
+import { host } from "../global"
 import axios from "axios";
 import * as actionTypes from './actionTypes';
 
 function receiveAction(type, payload) {
-    return {type, payload}
+    return {
+        type,
+        payload
+    }
 }
 
 function receiveErrorAction(type, error) {
-    return {type, error}
+    return {
+        type,
+        error
+    }
 }
 
 function requestAction(type, payload) {
-    return {type, payload}
+    return {
+        type,
+        payload
+    }
 }
 
 export function getLoginAccount(account) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch(requestAction(actionTypes.LOGIN_ACCOUNT_REQUEST, account))
 
         return axios
@@ -32,7 +41,7 @@ export function getLoginAccount(account) {
 }
 
 export function getRegisterAccount(account) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch(requestAction(actionTypes.REGISTER_ACCOUNT_REQUEST, account))
 
         return axios
@@ -41,33 +50,33 @@ export function getRegisterAccount(account) {
                 dispatch(receiveAction(actionTypes.REGISTER_ACCOUNT_SUCCESS, response.data))
             })
             .catch((err) => {
-                dispatch(receiveErrorAction(actionTypes.LOGIN_ACCOUNT_REJECTED, err))
+                dispatch(receiveErrorAction(actionTypes.LOGIN_ACCOUNT_REJECTED, err.response.data))
             })
     }
 }
 
 export function getConfirmAccount(confirmEmail) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch(requestAction(actionTypes.CONFIRM_EMAIL_REQUEST, confirmEmail))
 
         return axios
             .get(host + "api/account/confirmemail", {
-            params: {
-                userId: confirmEmail.userid,
-                code: confirmEmail.code
-            }
-        })
+                params: {
+                    userId: confirmEmail.userid,
+                    code: confirmEmail.code
+                }
+            })
             .then((response) => {
                 dispatch(receiveAction(actionTypes.CONFIRM_EMAIL_SUCCESS, response.data))
             })
             .catch((err) => {
-                dispatch(receiveErrorAction(actionTypes.CONFIRM_EMAIL_REJECTED, err))
+                dispatch(receiveErrorAction(actionTypes.CONFIRM_EMAIL_REJECTED, err.response.data))
             })
     }
 }
 
 export function getForgotPassword(forgotPassword) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch(requestAction(actionTypes.FORGOT_PASSWORD_REQUEST, forgotPassword))
 
         return axios
@@ -76,13 +85,13 @@ export function getForgotPassword(forgotPassword) {
                 dispatch(receiveAction(actionTypes.FORGOT_PASSWORD_SUCCESS, response.data))
             })
             .catch((err) => {
-                dispatch(receiveErrorAction(actionTypes.FORGOT_PASSWORD_REJECTED, err))
+                dispatch(receiveErrorAction(actionTypes.FORGOT_PASSWORD_REJECTED, err.response.data))
             })
     }
 }
 
 export function getResetPassword(resetPassword) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch(requestAction(actionTypes.RESET_PASSWORD_REQUEST, resetPassword))
 
         return axios
@@ -91,7 +100,19 @@ export function getResetPassword(resetPassword) {
                 dispatch(receiveAction(actionTypes.RESET_PASSWORD_SUCCESS, response.data))
             })
             .catch((err) => {
-                dispatch(receiveErrorAction(actionTypes.REGISTER_ACCOUNT_REJECTED, err))
+                dispatch(receiveErrorAction(actionTypes.REGISTER_ACCOUNT_REJECTED, err.response.data))
             })
+    }
+}
+
+export function errorAction(errorMessage) {
+    return function(dispatch) {
+        dispatch(receiveErrorAction(actionTypes.ERROR_OCCCURED, errorMessage));
+    }
+}
+
+export function resetErrorAction() {
+    return function(dispatch) {
+        dispatch(requestAction(actionTypes.RESET_ERRORS))
     }
 }
