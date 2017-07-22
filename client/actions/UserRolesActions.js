@@ -27,10 +27,10 @@ export function fetchUserRoles(id) {
 export function saveUserRoleRequest(roleRequest) {
     return function (dispatch) {
         dispatch({
-            type: actionTypes.SAVE_USER_ROLE_REQUEST
+            type: actionTypes.SAVE_USER_ROLE
         });
         axios
-            .post(host + "api/users/roles/", roleRequest)
+            .post(host + "api/users/roles/addrequest", roleRequest)
             .then((response) => {
                 dispatch({
                     type: actionTypes.SAVE_USER_ROLE_SUCCESS,
@@ -39,9 +39,15 @@ export function saveUserRoleRequest(roleRequest) {
             })
             .catch((err) => {
                 dispatch({
-                    type: actionTypes.SAVE_USER_ROLE_REQUEST,
+                    type: actionTypes.SAVE_USER_ROLE,
                     payload: err
                 })
             })
+    }
+}
+
+export function addUserRole() {
+    return {
+        type: actionTypes.ADD_USER_ROLES
     }
 }

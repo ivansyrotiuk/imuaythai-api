@@ -9,6 +9,7 @@ namespace MuaythaiSportManagementSystemApi.Users
 {
     public class UserRoleAcceptationDto
     {
+        public int Id { get; set; } = 0;
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string RoleId { get; set; }

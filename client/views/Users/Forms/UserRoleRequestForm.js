@@ -21,8 +21,10 @@ class UserRolesForm extends Component {
             reset,
             submitting,
             countries,
-            roles
+            roles,
+            userRoles
         } = this.props;
+        
         const mappedRoles = roles.map((role, i) => <option key ={i} value={role.id}>{role.name}</option>);
 
         return (

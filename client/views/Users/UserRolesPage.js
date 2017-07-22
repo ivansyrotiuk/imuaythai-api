@@ -3,44 +3,59 @@ import Spinner from "../Components/Spinners/Spinner";
 import UserRolesTable from "../Components/Tables/UserRolesTable"
 import UserRoleRequestForm from "./Forms/UserRoleRequestForm"
 import {fetchRoles} from "../../actions/RolesActions";
-import {fetchUserRoles, saveUserRoleRequest} from "../../actions/UserRolesActions";
+import {fetchUserRoles, saveUserRoleRequest, addUserRole} from "../../actions/UserRolesActions";
 import {connect} from "react-redux";
 
 class UserRolesPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {adding: false};
-        this.addRole = this.addRole.bind(this);
-        this.onCancel = this.onCancel.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.state = {
+            adding: false
+        };
+        this.onCancel = this
+            .onCancel
+            .bind(this);
+        this.onSubmit = this
+            .onSubmit
+            .bind(this);
     }
-    
+
     componentWillMount() {
         const userId = this.props.match.params.id;
         this.props.fetchUserRoles(userId);
 
-        if (!this.props.roles.length){
+        if (!this.props.roles.length) {
             this.props.fetchRoles();
         }
     }
 
-    addRole(){
-        this.setState({adding: true})
-    }
-
-    onCancel(){
+    onCancel() {
         this.setState({adding: false})
     }
 
-    onSubmit(values){
+    onSubmit(values) {
+        const userRoleRequest = {
+            id: 0,
+            roleId: values.roleId,
+            userId: this.props.match.params.id
+        }
 
+        this.props.saveUserRoleRequest(userRoleRequest);
     }
 
     render() {
-        const {roles, userRoles} = this.props;
+        const {roles, userRoles, adding} = this.props;
 
-        const content = this.state.adding ? <UserRoleRequestForm roles={roles} onSubmit={this.onSubmit} onCancel={this.onCancel}/>
-                                          : <UserRolesTable userRoles={userRoles} addRoleClick={this.addRole}/>
+        const availableRoles = roles.filter(r => userRoles.findIndex(u => u.roleId === r.id) === -1);
+
+        const content = adding
+            ? <UserRoleRequestForm
+                    roles={availableRoles}
+                    onSubmit={this.onSubmit}
+                    onCancel={this.onCancel}/>
+            : <UserRolesTable 
+                    userRoles={userRoles} 
+                    addRoleClick={this.props.addUserRole}/>
         return (
             <div>
                 {content}
@@ -50,10 +65,7 @@ class UserRolesPage extends Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-       roles: state.Roles.roles,
-       userRoles: state.UserRoles.roles
-    }
+    return {roles: state.Roles.roles, userRoles: state.UserRoles.roles, adding: state.UserRoles.adding}
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -66,6 +78,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         saveUserRoleRequest: (roleRequest) => {
             dispatch(saveUserRoleRequest(roleRequest));
+        },
+        addUserRole: () => {
+            dispatch(addUserRole());
         }
     }
 }

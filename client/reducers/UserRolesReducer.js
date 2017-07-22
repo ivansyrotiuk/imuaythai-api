@@ -4,6 +4,7 @@ const userRolesInitialState = {
     roles: [],
     fetching: false,
     fetched: false,
+    adding: false,
     saving: false,
     saved: false,
     error: null
@@ -11,6 +12,11 @@ const userRolesInitialState = {
 
 const userRoles = (state = userRolesInitialState, action) => {
     switch (action.type) {
+        case actionTypes.ADD_USER_ROLES:
+            return {
+                ...state,
+                adding: true
+            }
         case actionTypes.FETCH_USER_ROLES:
             return {
                 ...state,
@@ -27,15 +33,28 @@ const userRoles = (state = userRolesInitialState, action) => {
             return {
                 ...state,
                 error: action.payload,
-                fetching: false,
+                saving: false,
                 fetched: false
+            }
+        case actionTypes.SAVE_USER_ROLE:
+            return {
+                ...state,
+                saving: true,
             }
         case actionTypes.SAVE_USER_ROLE_SUCCESS:
             return {
                 ...state,
                 roles: [state.roles, action.payload],
-                fetching: false,
-                fetched: true
+                saving: false,
+                saved: true,
+                adding: false
+            }
+        case actionTypes.SAVE_USER_ROLE_REJECTED:
+            return {
+                ...state,
+               error: action.payload,
+                saving: false,
+                saved: false
             }
         default:
             return state

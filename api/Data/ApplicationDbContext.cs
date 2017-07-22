@@ -61,17 +61,18 @@ namespace MuaythaiSportManagementSystemApi.Data
                 .WithMany(h => h.AsTimeKeeperFights)
                 .HasForeignKey(p => p.TimeKeeperId);
 
-            builder.Entity<UserRoleAcceptation>()
-                .HasOne(h => h.User)
-                .WithOne();
+            //builder.Entity<UserRoleAcceptation>()
+            //    .HasOne(h => h.User)
+            //    .WithOne();
 
-            builder.Entity<UserRoleAcceptation>()
-                .HasOne(h => h.AcceptedByUser)
-                .WithOne();
+            //builder.Entity<UserRoleAcceptation>()
+            //    .HasMany(h => h.AcceptedByUser)
+            //    .WithOne();
 
-            builder.Entity<UserRoleAcceptation>()
-               .HasOne(h => h.Role)
-               .WithOne();
+            //builder.Entity<UserRoleAcceptation>()
+            //   .HasOne(h => h.Role)
+            //   .WithOne();
+
             builder.Entity<ApplicationUser>()
                 .HasOne(h => h.Institution)
                 .WithMany()

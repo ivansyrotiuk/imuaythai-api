@@ -182,5 +182,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("roles/addrequest")]
+        public async Task<IActionResult> AddUserRoleRequest([FromBody] UserRoleAcceptationDto roleRequest)
+        {
+            try
+            {
+                UserRoleAcceptation entity = new UserRoleAcceptation();
+                entity.RoleId = roleRequest.RoleId;
+                entity.UserId = roleRequest.UserId;
+                entity.Status = UserRoleAcceptationStatus.Pending;
+
+                await _userRoleAcceptationsRepository.Save(entity);
+
+                entity = await _userRoleAcceptationsRepository.Get(entity.Id);
+
+                return Ok((UserRoleAcceptationDto)entity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

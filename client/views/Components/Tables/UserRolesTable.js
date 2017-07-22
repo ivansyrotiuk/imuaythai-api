@@ -2,6 +2,17 @@ import React from 'react'
 
 let UserRolesTable = (props) => {
 
+  const mappedUserRoles = props.userRoles.map((role, i) => <tr>
+    <td>{role.roleName}</td>
+    <td>
+      {role.status === "Pending" && <span className="badge badge-warning">{role.status}</span>}
+      {role.status === "Accepted" && <span className="badge badge-success">{role.status}</span>}
+      {role.status === "Rejected" && <span className="badge badge-danger">{role.status}</span>}
+    </td>
+    <td>{role.acceptationDate}</td>
+    <td>{role.acceptedByUserName}</td>
+  </tr>)
+
   return (
     <div className="animated fadeIn">
       <div className="row">
@@ -15,13 +26,15 @@ let UserRolesTable = (props) => {
               <table className="table table-bordered table-striped table-sm">
                 <thead>
                   <tr>
-                    <th>Username</th>
-                    <th>Date registered</th>
                     <th>Role</th>
                     <th>Status</th>
+                    <th>Acceptation date</th>
+                    <th>Accepted by</th>
                   </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                  {mappedUserRoles}
+                </tbody>
               </table>
               <button className="btn btn-primary pull-right" onClick={props.addRoleClick}>Add new role request</button>
             </div>
