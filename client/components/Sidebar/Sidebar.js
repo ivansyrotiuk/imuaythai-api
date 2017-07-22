@@ -65,6 +65,12 @@ class Sidebar extends Component {
                 <li className="nav-item">
                   <NavLink to="/dictionaries/levels" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Khan levels</NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/suspensions" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Suspension types</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/points" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest points</NavLink>
+                </li>
               </ul>
             </li>
 

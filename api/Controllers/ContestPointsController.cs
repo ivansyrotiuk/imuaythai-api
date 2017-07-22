@@ -43,7 +43,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                 var points = _repository.Get(id) ?? new ContestTypePoints();
-                return Ok((ContestPointsDto)points);
+                var result = (ContestPointsDto)points;
+                return Ok(result);
             }
             catch (Exception ex)
             {

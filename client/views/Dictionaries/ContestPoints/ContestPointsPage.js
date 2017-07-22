@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {host} from "../../../global"
-import {saveType, fetchTypes, deleteType} from "../../../actions/Dictionaries/ContestTypesActions"
+import {savePoint, fetchPoints, deletePoint} from "../../../actions/Dictionaries/ContestPointsActions"
 import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
 import { Link } from 'react-router-dom'
@@ -9,32 +9,32 @@ import axios from "axios";
 import Spinner from "../../Components/Spinners/Spinner"
 
 @connect((store) => {
-  return {types: store.ContestTypes.types, fetching: store.ContestTypes.fetching, fetched: store.ContestTypes.fetched};
+  return {points: store.ContestPoints.points, fetching: store.ContestPoints.fetching, fetched: store.ContestPoints.fetched};
 })
-export default class ContestTypesPage extends Component {
+export default class ContestPointsPage extends Component {
   constructor(props) {
     super(props);
-    this.fetchTypes();
+    this.fetchPoints();
   }
 
-  fetchTypes() {
+  fetchPoints() {
     this
       .props
-      .dispatch(fetchTypes())
+      .dispatch(fetchPoints())
   }
 
-  deleteType(id) {
+  deletePoint(id) {
     this
       .props
-      .dispatch(deleteType(id))
+      .dispatch(deletePoint(id))
   }
 
-  removeType(id) {
+  removePoint(id) {
     var self = this;
     axios
-      .post(host + 'api/dictionaries/types/remove', {Id: id})
+      .post(host + 'api/dictionaries/points/remove', {Id: id})
       .then(function (response) {
-        self.deleteType(response.data)
+        self.deletePoint(response.data)
       })
       .catch(function (error) {
         console.log(error);
@@ -43,16 +43,16 @@ export default class ContestTypesPage extends Component {
 
   render() {
 
-    const {types, fetching} = this.props;
+    const {points, fetching} = this.props;
     if (fetching){
       return <Spinner />
     }
-    const mappedTypes = types.map((type, i) => <tr key={i}>
-      <td>{type.id}</td>
-      <td>{type.name}</td>
+    const mappedPoints = points.map((point, i) => <tr key={i}>
+      <td>{point.id}</td>
+      <td>{point.name}</td>
       <td>
-        <Link to={"/dictionaries/types/" + type.id} ><EditButton id={type.id}/></Link>&nbsp;
-        <RemoveButton id={type.id} click={this.removeType.bind(this, type.id)}/>
+        <Link to={"/dictionaries/points/" + point.id} ><EditButton id={point.id}/></Link>&nbsp;
+        <RemoveButton id={point.id} click={this.removePoint.bind(this, point.id)}/>
       </td>
     </tr>);
 
@@ -64,9 +64,9 @@ export default class ContestTypesPage extends Component {
             <div className="col-12">
               <div className="card">
                 <div className="card-header">
-                  <strong>Types</strong>
+                  <strong>Points</strong>
                   <div class="pull-right">
-                  <Link to={"/dictionaries/types/new"} ><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;Create</i></Link>
+                  <Link to={"/dictionaries/points/new"} ><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;Create</i></Link>
                   </div>
                 </div>
                 <div className="card-block">
@@ -79,7 +79,7 @@ export default class ContestTypesPage extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {mappedTypes}
+                      {mappedPoints}
                     </tbody>
                   </table>
                 </div>

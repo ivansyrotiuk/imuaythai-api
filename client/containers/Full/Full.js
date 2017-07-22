@@ -34,7 +34,10 @@ import FighterEditPage from "../../views/Users/FighterEditPage"
 import UserRolesPage from "../../views/Users/UserRolesPage"
 import KhanLevelsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsPage"
 import KhanLevelsDetailsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsDetailsPage"
-
+import SuspensionTypesPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesPage"
+import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesDetailsPage"
+import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
+import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
 import FighterViewPage from "../../views/Users/FighterViewPage"
 class Full extends Component {
   render() {
@@ -72,6 +75,12 @@ class Full extends Component {
                 <Route path="/dictionaries/levels/:id" name="KhanLevel" component={KhanLevelsDetailsPage}/>
                 <Route path="/dictionaries/levels/" name="KhanLevels" component={KhanLevelsPage}/>
                 <Route path="/dictionaries/levels" name="KhanLevels" component={KhanLevelsPage}/>
+                <Route path="/dictionaries/suspensions/:id" name="SuspensionType" component={SuspensionsDetailsPage}/>
+                <Route path="/dictionaries/suspensions/" name="SuspensionTypes" component={SuspensionTypesPage}/>
+                <Route path="/dictionaries/suspensions" name="SuspensionTypes" component={SuspensionTypesPage}/>
+                <Route path="/dictionaries/points/:id" name="ContestPoint" component={ContestPointsDetailsPage}/>
+                <Route path="/dictionaries/points/" name="ContestPoints" component={ContestPointsPage}/>
+                <Route path="/dictionaries/points" name="ContestPoints" component={ContestPointsPage}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </div>

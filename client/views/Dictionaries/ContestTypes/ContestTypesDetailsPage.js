@@ -40,7 +40,7 @@ export default class ContestTypesDetailsPage extends Component {
         self
           .props
           .history
-          .push('/dictionaries/types');
+          .goBack();
       })
       .catch(function (error) {
         self

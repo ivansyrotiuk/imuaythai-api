@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -21,7 +22,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public IEnumerable<ContestType> GetAll()
         {
-            return _context.ContestTypes;
+            return _context.ContestTypes.ToListAsync().Result; 
         }
 
         public IEnumerable<ContestType> Find(Func<ContestType, bool> predicate)

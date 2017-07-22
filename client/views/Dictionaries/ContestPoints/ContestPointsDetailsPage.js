@@ -5,37 +5,57 @@ import axios from "axios";
 import LoadButton from "../../Components/Buttons/LoadButton";
 import SimpleDictionaryDataForm from "../SimpleDictionaryDataForm";
 import Spinner from "../../Components/Spinners/Spinner"
+import {fetchRanges} from "../../../actions/Dictionaries/ContestRangesActions"
+import {fetchTypes} from "../../../actions/Dictionaries/ContestTypesActions"
+@connect((store) => {
+    return {types: store.ContestTypes.types, ranges: store.ContestRanges.ranges};
+})
 
-
-export default class ContestRangesDetailsPage extends Component {
+export default class ContestPointsDetailsPage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.handleSubmit.bind(this);
-    this.fetchRange = this.fetchRange.bind(this);
+    this.fetchPoint = this.fetchPoint.bind(this);
     this.state = {fetching: true};
-    this.fetchRange(this.props.match.params.id);
 
   }
+   componentWillMount() {
+    this.dispatchFetchTypes();
+    this.dispatchFetchRanges();
+    this.fetchPoint(this.props.match.params.id);
+    }
 
-  fetchRange(id) {
+  fetchPoint(id) {
     this.setState();
 
     var self = this;
     axios
-      .get(host + "api/dictionaries/ranges/"+id)
+      .get(host + "api/dictionaries/points/"+id)
       .then((response) => {
-        self.setState({...self.state, fetching: false, range: response.data});
+        self.setState({...self.state, fetching: false, point: response.data});
       })
       .catch((err) => {
         self.setState({...self.state, fetching: false, error: err});
       })
   }
 
+   dispatchFetchTypes() {
+        if (this.props.types.length == 0) {
+            this.props.dispatch(fetchTypes());
+        }
+    }
+
+       dispatchFetchRanges() {
+        if (this.props.ranges.length == 0) {
+            this.props.dispatch(fetchRanges());
+        }
+    }
+
   handleSubmit(values) {
     var self = this;
 
     axios
-      .post(host + 'api/dictionaries/ranges/save', values)
+      .post(host + 'api/dictionaries/points/save', values)
       .then(function (response) {
         self
           .props
@@ -53,7 +73,7 @@ export default class ContestRangesDetailsPage extends Component {
 
   render() {
 
-    const {range, fetching, error} = this.state;
+    const {point, fetching, error} = this.state;
     if (fetching) 
       return <Spinner />
     if (error != null) 
@@ -67,12 +87,12 @@ export default class ContestRangesDetailsPage extends Component {
           <div className="col-12">
             <div className="card">
               <div className="card-header">
-                <strong>Range</strong>
+                <strong>Points</strong>
               </div>
-                                          <div className="card-block">
-                <SimpleDictionaryDataForm initialValues={range} onSubmit={this.onSubmit}/>
+              <div className="card-block">
+                <ContestPointDataForm ranges={this.props.ranges} types={this.props.types} initialValues={point} onSubmit={this.onSubmit}/>
             </div>
-             </div>
+            </div>
           </div>
         </div>
       </div>

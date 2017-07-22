@@ -66,7 +66,7 @@ export default class ContestRangesPage extends Component {
                 <div className="card-header">
                   <strong>Ranges</strong>
                   <div class="pull-right">
-                  <Link to={"/dictionaries/ranges/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
+                  <Link to={"/dictionaries/ranges/new"} ><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;Create</i></Link>
                   </div>
                 </div>
                 <div className="card-block">
