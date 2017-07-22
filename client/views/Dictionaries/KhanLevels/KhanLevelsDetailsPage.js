@@ -3,7 +3,7 @@ import {host} from "../../../global"
 import {connect} from "react-redux"
 import axios from "axios";
 import LoadButton from "../../Components/Buttons/LoadButton";
-import SimpleDictionaryDataForm from "../SimpleDictionaryDataForm";
+import KhanLevelDataForm from "./KhanLevelDataForm";
 import Spinner from "../../Components/Spinners/Spinner"
 
 
@@ -40,7 +40,7 @@ export default class KhanLevelsDetailsPage extends Component {
         self
           .props
           .history
-          .push('/dictionaries/levels');
+          .goBack();
       })
       .catch(function (error) {
         self
@@ -70,7 +70,7 @@ export default class KhanLevelsDetailsPage extends Component {
                 <strong>Khan level</strong>
               </div>
               <div className="card-block">
-                <SimpleDictionaryDataForm initialValues={level} onSubmit={this.onSubmit}/>
+                <KhanLevelDataForm initialValues={level} onSubmit={this.onSubmit}/>
             </div>
             </div>
           </div>

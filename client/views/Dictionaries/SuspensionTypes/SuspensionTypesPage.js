@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {host} from "../../../global"
-import {saveType, fetchTypes, deleteType} from "../../../actions/Dictionaries/ContestTypesActions"
+import {saveType, fetchTypes, deleteType} from "../../../actions/Dictionaries/SuspensionTypesActions"
 import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
 import { Link } from 'react-router-dom'
@@ -9,9 +9,9 @@ import axios from "axios";
 import Spinner from "../../Components/Spinners/Spinner"
 
 @connect((store) => {
-  return {types: store.ContestTypes.types, fetching: store.ContestTypes.fetching, fetched: store.ContestTypes.fetched};
+  return {types: store.SuspensionTypes.types, fetching: store.SuspensionTypes.fetching, fetched: store.SuspensionTypes.fetched};
 })
-export default class ContestTypesPage extends Component {
+export default class SuspensionTypesPage extends Component {
   constructor(props) {
     super(props);
     this.fetchTypes();
@@ -32,7 +32,7 @@ export default class ContestTypesPage extends Component {
   removeType(id) {
     var self = this;
     axios
-      .post(host + 'api/dictionaries/types/remove', {Id: id})
+      .post(host + 'api/dictionaries/suspensions/remove', {Id: id})
       .then(function (response) {
         self.deleteType(response.data)
       })
@@ -51,7 +51,7 @@ export default class ContestTypesPage extends Component {
       <td>{type.id}</td>
       <td>{type.name}</td>
       <td>
-        <Link to={"/dictionaries/types/" + type.id} ><EditButton id={type.id}/></Link>&nbsp;
+        <Link to={"/dictionaries/suspensions/" + type.id} ><EditButton id={type.id}/></Link>&nbsp;
         <RemoveButton id={type.id} click={this.removeType.bind(this, type.id)}/>
       </td>
     </tr>);
@@ -64,10 +64,10 @@ export default class ContestTypesPage extends Component {
             <div className="col-12">
               <div className="card">
                 <div className="card-header">
-                  <strong>Types</strong>
-                  <div class="pull-right">
-                  <Link to={"/dictionaries/types/new"} ><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;Create</i></Link>
-                  </div>
+                  <strong>Suspension types</strong>
+                    <div class="pull-right">
+                      <Link to={"/dictionaries/suspensions/new"} ><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;Create</i></Link>
+                    </div>
                 </div>
                 <div className="card-block">
                   <table className="table">

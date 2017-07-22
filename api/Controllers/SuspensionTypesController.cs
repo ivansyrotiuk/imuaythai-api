@@ -26,7 +26,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var type = _repository.GetAll().Select(i => (SuspensionTypeDto)i).ToList();
+                var type = _repository.GetAll().ToList().Select(i => (SuspensionTypeDto)i).ToList();
                 return Ok(type);
             }
             catch (Exception ex)

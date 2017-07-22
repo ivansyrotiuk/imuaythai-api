@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -17,7 +18,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         }
         public ContestTypePoints Get(int id)
         {
-            return _context.ContestTypePoints.FirstOrDefault(c => c.Id == id);
+            return _context.ContestTypePoints.ToListAsync().Result.FirstOrDefault(c => c.Id == id);
         }
 
         public IEnumerable<ContestTypePoints> GetAll()

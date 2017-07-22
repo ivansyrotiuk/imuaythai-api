@@ -7,24 +7,24 @@ import SimpleDictionaryDataForm from "../SimpleDictionaryDataForm";
 import Spinner from "../../Components/Spinners/Spinner"
 
 
-export default class ContestRangesDetailsPage extends Component {
+export default class SuspensionTypesDetailsPage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.handleSubmit.bind(this);
-    this.fetchRange = this.fetchRange.bind(this);
+    this.fetchType = this.fetchType.bind(this);
     this.state = {fetching: true};
-    this.fetchRange(this.props.match.params.id);
+    this.fetchType(this.props.match.params.id);
 
   }
 
-  fetchRange(id) {
+  fetchType(id) {
     this.setState();
 
     var self = this;
     axios
-      .get(host + "api/dictionaries/ranges/"+id)
+      .get(host + "api/dictionaries/suspensions/"+id)
       .then((response) => {
-        self.setState({...self.state, fetching: false, range: response.data});
+        self.setState({...self.state, fetching: false, type: response.data});
       })
       .catch((err) => {
         self.setState({...self.state, fetching: false, error: err});
@@ -35,7 +35,7 @@ export default class ContestRangesDetailsPage extends Component {
     var self = this;
 
     axios
-      .post(host + 'api/dictionaries/ranges/save', values)
+      .post(host + 'api/dictionaries/suspensions/save', values)
       .then(function (response) {
         self
           .props
@@ -53,7 +53,7 @@ export default class ContestRangesDetailsPage extends Component {
 
   render() {
 
-    const {range, fetching, error} = this.state;
+    const {type, fetching, error} = this.state;
     if (fetching) 
       return <Spinner />
     if (error != null) 
@@ -67,12 +67,12 @@ export default class ContestRangesDetailsPage extends Component {
           <div className="col-12">
             <div className="card">
               <div className="card-header">
-                <strong>Range</strong>
+                <strong>Type</strong>
               </div>
-                                          <div className="card-block">
-                <SimpleDictionaryDataForm initialValues={range} onSubmit={this.onSubmit}/>
+              <div className="card-block">
+                <SimpleDictionaryDataForm initialValues={type} onSubmit={this.onSubmit}/>
             </div>
-             </div>
+            </div>
           </div>
         </div>
       </div>
