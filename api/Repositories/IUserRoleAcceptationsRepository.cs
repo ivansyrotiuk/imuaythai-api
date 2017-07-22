@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
-    public interface IUserRoleAcceptationsRepository
+    public interface IUserRoleRequestsRepository
     {
         Task<UserRoleRequest> Get(int id);
         Task<List<UserRoleRequest>> GetUserAcceptations(string userId);
-        Task<List<UserRoleRequest>> GetPendingAcceptations();
+        Task<List<UserRoleRequest>> GetPendingRequests();
         Task Save(UserRoleRequest acceptation);
     }
 
-    public class UserRoleAcceptationsRepository : IUserRoleAcceptationsRepository
+    public class UserRoleRequestsRepository : IUserRoleRequestsRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public UserRoleAcceptationsRepository(ApplicationDbContext context)
+        public UserRoleRequestsRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -35,7 +35,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.UserRoleRequests.Where(u => u.UserId == userId).Include(u => u.User).Include(u => u.AcceptedByUser).Include(u => u.Role).ToListAsync();
         }
 
-        public Task<List<UserRoleRequest>> GetPendingAcceptations()
+        public Task<List<UserRoleRequest>> GetPendingRequests()
         {
             return _context.UserRoleRequests.Where(u => u.Status == UserRoleRequestStatus.Pending).Include(u => u.User).Include(u => u.AcceptedByUser).Include(u => u.Role).ToListAsync();
         }

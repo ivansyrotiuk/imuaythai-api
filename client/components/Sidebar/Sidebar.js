@@ -21,7 +21,7 @@ class Sidebar extends Component {
   render() {
 
     const FigthersLink = userIsAdmin(() =>  <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>) 
-    const UserRoleRequestLink = userCanManageRoles(() =>  <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="icon-user"></i> Role requests</NavLink>) 
+    const UserRoleRequestLink = userCanManageRoles(() =>  <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="icon-user-following"></i> Role requests</NavLink>) 
 
     return (
       <div className="sidebar">

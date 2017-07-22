@@ -39,7 +39,7 @@ import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/Sus
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
 import FighterViewPage from "../../views/Users/FighterViewPage"
-import UserRoleRequestsPage from "../../views/Users/UserRoleRequestsPage"
+import RoleRequestsPage from "../../views/Users/RoleRequestsPage"
 
 class Full extends Component {
   render() {
@@ -71,7 +71,7 @@ class Full extends Component {
                 <Route path="/fighters/:id/(roles)" name="FigtherRoles" component={UserRolesPage}/>
                 <Route path="/fighters/:id" name="Fighter" component={FighterViewPage}/>
                 <Route path="/fighters/" name="Fighters" component={FightersPage}/>
-                <Route path="/users/role_requests" name="RoleRequests" component={UserRoleRequestsPage}/>
+                <Route path="/users/role_requests" name="RoleRequests" component={RoleRequestsPage}/>
                 <Route path="/dictionaries/types" name="ContestTypes" component={ContestTypesPage}/>
                 <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage}/>
                 <Route path="/dictionaries/ranges/" name="ContestRanges" component={ContestRangesPage}/>

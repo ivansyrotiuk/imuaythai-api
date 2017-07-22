@@ -10,6 +10,7 @@ import SuspensionTypes from "./SuspensionTypesReducer"
 import ContestPoints from "./ContestPointsReducer"
 import Roles from "./RolesReducer"
 import UserRoles from "./UserRolesReducer"
+import RoleRequests from "./RoleRequestsReducer"
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
@@ -21,6 +22,7 @@ export default combineReducers({
     KhanLevels,
     Roles,
     UserRoles,
+    RoleRequests,
     SuspensionTypes,
     ContestPoints,
     form: reduxFormReducer, 

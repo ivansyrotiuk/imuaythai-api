@@ -18,17 +18,17 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     {
         private IUsersRepository _repository;
         private readonly IRolesRepository _rolesRepository;
-        private readonly IUserRoleAcceptationsRepository _userRoleAcceptationsRepository;
+        private readonly IUserRoleRequestsRepository _userRoleRequestsRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public UsersController(IUsersRepository repository, 
             IRolesRepository rolesRepository,
-            IUserRoleAcceptationsRepository userRoleAcceptationsRepository,
+            IUserRoleRequestsRepository userRoleAcceptationsRepository,
             UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _rolesRepository = rolesRepository;
-            _userRoleAcceptationsRepository = userRoleAcceptationsRepository;
+            _userRoleRequestsRepository = userRoleAcceptationsRepository;
             _userManager = userManager;
         }
 
@@ -173,7 +173,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var userRoleAcceptationEntities = await _userRoleAcceptationsRepository.GetUserAcceptations(userId);
+                var userRoleAcceptationEntities = await _userRoleRequestsRepository.GetUserAcceptations(userId);
                 var userRoleAcceptations = userRoleAcceptationEntities.Select(a => (UserRoleRequestDto)a).ToList();
                 return Ok(userRoleAcceptations);
             }
@@ -194,9 +194,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 entity.UserId = roleRequest.UserId;
                 entity.Status = UserRoleRequestStatus.Pending;
 
-                await _userRoleAcceptationsRepository.Save(entity);
+                await _userRoleRequestsRepository.Save(entity);
 
-                entity = await _userRoleAcceptationsRepository.Get(entity.Id);
+                entity = await _userRoleRequestsRepository.Get(entity.Id);
 
                 return Ok((UserRoleRequestDto)entity);
             }
@@ -212,7 +212,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var pendingRequestEntities = await _userRoleAcceptationsRepository.GetPendingAcceptations();
+                var pendingRequestEntities = await _userRoleRequestsRepository.GetPendingRequests();
                 var pendingRequest = pendingRequestEntities.Select(a => (UserRoleRequestDto)a).ToList();
                 return Ok(pendingRequest);
             }
