@@ -10,6 +10,7 @@ class Aside extends Component {
     this.state = {
       activeTab: '1'
     };
+
   }
 
   toggle(tab) {

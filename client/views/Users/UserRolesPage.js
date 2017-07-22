@@ -40,7 +40,7 @@ class UserRolesPage extends Component {
             userId: this.props.match.params.id
         }
 
-        this.props.saveUserRoleRequest(userRoleRequest);
+        return this.props.saveUserRoleRequest(userRoleRequest);
     }
 
     render() {
@@ -77,7 +77,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(fetchUserRoles(userId));
         },
         saveUserRoleRequest: (roleRequest) => {
-            dispatch(saveUserRoleRequest(roleRequest));
+            return dispatch(saveUserRoleRequest(roleRequest));
         },
         addUserRole: () => {
             dispatch(addUserRole());

@@ -10,6 +10,7 @@ class Header extends Component {
     this.state = {
       dropdownOpen: false
     };
+    document.body.classList.toggle('aside-menu-hidden');
   }
 
   toggle() {

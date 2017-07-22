@@ -44,7 +44,7 @@ const userRoles = (state = userRolesInitialState, action) => {
         case actionTypes.SAVE_USER_ROLE_SUCCESS:
             return {
                 ...state,
-                roles: [state.roles, action.payload],
+                roles: [...state.roles, action.payload],
                 saving: false,
                 saved: true,
                 adding: false

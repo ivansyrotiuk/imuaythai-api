@@ -2,7 +2,7 @@ import React from 'react'
 
 let UserRolesTable = (props) => {
 
-  const mappedUserRoles = props.userRoles.map((role, i) => <tr>
+  const mappedUserRoles = props.userRoles.map((role, i) => <tr key={i}>
     <td>{role.roleName}</td>
     <td>
       {role.status === "Pending" && <span className="badge badge-warning">{role.status}</span>}

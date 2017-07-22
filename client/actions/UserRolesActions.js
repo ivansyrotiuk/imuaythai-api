@@ -29,7 +29,7 @@ export function saveUserRoleRequest(roleRequest) {
         dispatch({
             type: actionTypes.SAVE_USER_ROLE
         });
-        axios
+        return axios
             .post(host + "api/users/roles/addrequest", roleRequest)
             .then((response) => {
                 dispatch({
