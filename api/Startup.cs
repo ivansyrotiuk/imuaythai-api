@@ -43,7 +43,7 @@ namespace MuaythaiSportManagementSystemApi
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public static IConfigurationRoot Configuration { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -80,6 +80,8 @@ namespace MuaythaiSportManagementSystemApi
 
             services.AddSingleton<IContestTypePointsRepository, ContestTypePointsRepository>();
             services.AddSingleton<ICountriesRepository, CountriesRepository>();
+            services.AddSingleton<IRolesRepository, RolesRepository>();
+            services.AddSingleton<IUserRoleAcceptationsRepository, UserRoleAcceptationsRepository>();
             services.Configure<EmailConfiguration>(Configuration);
         }
 

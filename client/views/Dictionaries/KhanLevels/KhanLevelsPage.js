@@ -50,6 +50,7 @@ export default class KhanLevelsPage extends Component {
     const mappedLevels = levels.map((level, i) => <tr key={i}>
       <td>{level.id}</td>
       <td>{level.name}</td>
+      <td>{level.level}</td>
       <td>
         <Link to={"/dictionaries/levels/" + level.id} ><EditButton id={level.id}/></Link>&nbsp;
         <RemoveButton id={level.id} click={this.removeLevel.bind(this, level.id)}/>
@@ -66,7 +67,7 @@ export default class KhanLevelsPage extends Component {
                 <div className="card-header">
                   <strong>Levels</strong>
                   <div class="pull-right">
-                  <Link to={"/dictionaries/levels/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
+                  <Link to={"/dictionaries/levels/new"} ><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;Create</i></Link>
                   </div>
                 </div>
                 <div className="card-block">
@@ -75,6 +76,7 @@ export default class KhanLevelsPage extends Component {
                       <tr>
                         <th>Id</th>
                         <th className="col-md-9">Name</th>
+                        <th >Level</th>
                         <th>Action</th>
                       </tr>
                     </thead>

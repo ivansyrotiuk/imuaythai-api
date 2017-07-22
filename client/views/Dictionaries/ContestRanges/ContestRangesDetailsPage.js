@@ -40,7 +40,7 @@ export default class ContestRangesDetailsPage extends Component {
         self
           .props
           .history
-          .push('/dictionaries/ranges');
+          .goBack();
       })
       .catch(function (error) {
         self

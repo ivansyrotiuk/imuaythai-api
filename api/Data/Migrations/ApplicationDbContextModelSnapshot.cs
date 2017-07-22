@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MuaythaiSportManagementSystemApi.Data;
+using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.Data.Migrations
 {
@@ -782,6 +783,32 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.ToTable("UserDocumentsMappings");
                 });
 
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.UserRoleAcceptation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("AcceptationDate");
+
+                    b.Property<string>("AcceptedByUserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcceptedByUserId");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRoleAcceptations");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -1048,6 +1075,21 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "User")
                         .WithMany("UserDocimentsMappings")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.UserRoleAcceptation", b =>
+                {
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "AcceptedByUser")
+                        .WithMany()
+                        .HasForeignKey("AcceptedByUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "User")
+                        .WithMany()
                         .HasForeignKey("UserId");
                 });
         }

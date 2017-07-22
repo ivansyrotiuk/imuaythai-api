@@ -10,11 +10,11 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 {
     public interface IUsersRepository
     {
-        ApplicationUser Get(string id);
-        IEnumerable<ApplicationUser> GetAll();
-        IEnumerable<ApplicationUser> Find(Func<ApplicationUser, bool> predicate);
-        void Save(ApplicationUser institution);
-        void Remove(string id);
+        Task<ApplicationUser> Get(string id);
+        Task<List<ApplicationUser>> GetAll();
+        Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate);
+        Task Save(ApplicationUser institution);
+        Task Remove(string id);
     }
 
     public class UsersRepository : IUsersRepository
@@ -26,22 +26,22 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
-        public ApplicationUser Get(string id)
+        public Task<ApplicationUser> Get(string id)
         {
-            return _context.Users.Include(u => u.Country).FirstOrDefault(u => u.Id == id);
+            return _context.Users.Include(u => u.Country).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public Task<List<ApplicationUser>> GetAll()
         {
-            return _context.Users;
+            return _context.Users.ToListAsync();
         }
 
-        public IEnumerable<ApplicationUser> Find(Func<ApplicationUser, bool> predicate)
+        public Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate)
         {
-            return _context.Users.Where(predicate);
+            return _context.Users.Where(predicate).AsQueryable().ToListAsync();
         }
 
-        public void Save(ApplicationUser institution)
+        public Task Save(ApplicationUser institution)
         {
             if (string.IsNullOrEmpty(institution.Id))
             {
@@ -52,14 +52,14 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 _context.Users.Attach(institution);
             }
 
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public void Remove(string id)
+        public Task Remove(string id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
             _context.Users.Remove(user);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }

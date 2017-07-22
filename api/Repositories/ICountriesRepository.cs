@@ -1,17 +1,19 @@
-﻿using MuaythaiSportManagementSystemApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
     public interface ICountriesRepository
     {
-        Country Get(int id);
-        Country Get(string code);
-        IEnumerable<Country> GetAll();
-        IEnumerable<Country> Find(Func<Country, bool> predicate);
+        Task<Country> Get(int id);
+        Task<Country> Get(string code);
+        Task<List<Country>> GetAll();
+        Task<List<Country>> Find(Func<Country, bool> predicate);
     }
 
     public class CountriesRepository : ICountriesRepository
@@ -23,24 +25,24 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
-        public IEnumerable<Country> Find(Func<Country, bool> predicate)
+        public Task<List<Country>> Find(Func<Country, bool> predicate)
         {
-            return _context.Countries.Where(predicate);
+            return _context.Countries.Where(predicate).AsQueryable().ToListAsync();
         }
 
-        public Country Get(int id)
+        public Task<Country> Get(int id)
         {
-            return _context.Countries.FirstOrDefault(c => c.Id == id);
+            return _context.Countries.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public Country Get(string code)
+        public Task<Country> Get(string code)
         {
-            return _context.Countries.FirstOrDefault(c => c.Code == code);
+            return _context.Countries.FirstOrDefaultAsync(c => c.Code == code);
         }
 
-        public IEnumerable<Country> GetAll()
+        public Task<List<Country>> GetAll()
         {
-            return _context.Countries;
+            return _context.Countries.ToListAsync();
         }
     }
 }

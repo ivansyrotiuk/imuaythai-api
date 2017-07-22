@@ -23,11 +23,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var gyms = _repository.GetAll().Select(i=>(GymDto)i).ToList();
+                var gymsEntities = await _repository.GetAll();
+                var gyms = gymsEntities.Select(i=>(GymDto)i).ToList();
                 return Ok(gyms);
             }
             catch (Exception ex)
@@ -38,12 +39,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("Gym/{id}")]
-        public IActionResult GetGym([FromRoute]int id)
+        public async Task<IActionResult> GetGym([FromRoute]int id)
         {
             try
             {
-                var gym = _repository.Get(id);
-                return Ok(gym);
+                var gym = await _repository.Get(id);
+                return Ok((GymDto)gym);
             }
             catch (Exception ex)
             {
@@ -54,18 +55,18 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public IActionResult SaveGym([FromBody]GymDto gym)
+        public async Task<IActionResult> SaveGym([FromBody]GymDto gym)
         {
             try
             {
-                Institution gymEntity = gym.Id == 0 ? new Institution() : _repository.Get(gym.Id);
+                Institution gymEntity = gym.Id == 0 ? new Institution() : await _repository.Get(gym.Id);
                 gymEntity.Id = gym.Id;
                 gymEntity.Name = gym.Name;
                 gymEntity.Address = gym.Address;
                 gymEntity.City = gym.City;
                 gymEntity.CountryId = 958;
 
-                _repository.Save(gymEntity);
+                await _repository.Save(gymEntity);
 
                 gym.Id = gymEntity.Id;
                 return Created("Add", gym);
@@ -79,11 +80,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("Remove")]
-        public IActionResult RemoveGym([FromBody]GymDto gym)
+        public async Task<IActionResult> RemoveGym([FromBody]GymDto gym)
         {
             try
             {
-                _repository.Remove(gym.Id);
+                await _repository.Remove(gym.Id);
 
                 return Ok(gym.Id);
             }

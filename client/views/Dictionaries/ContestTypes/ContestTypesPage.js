@@ -66,7 +66,7 @@ export default class ContestTypesPage extends Component {
                 <div className="card-header">
                   <strong>Types</strong>
                   <div class="pull-right">
-                  <Link to={"/dictionaries/types/new"} ><button type="button" className="btn btn-primary">Create</button></Link>
+                  <Link to={"/dictionaries/types/new"} ><i class="fa fa-plus-square-o" aria-hidden="true">&nbsp;Create</i></Link>
                   </div>
                 </div>
                 <div className="card-block">

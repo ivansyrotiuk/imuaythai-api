@@ -24,11 +24,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("types")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var types = _repository.GetAll().Select(i => (ContestTypeDto)i).ToList();
+                var typesEntities = await _repository.GetAll();
+                var types = typesEntities.Select(i => (ContestTypeDto)i).ToList();
                 return Ok(types);
             }
             catch (Exception ex)
@@ -39,11 +40,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("types/{id}")]
-        public IActionResult Index([FromRoute] int id)
+        public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var type = _repository.Get(id) ?? new ContestType();
+                var type = await _repository.Get(id) ?? new ContestType();
     
                 return Ok((ContestTypeDto)type);
             }
@@ -56,15 +57,15 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("types/save")]
-        public IActionResult SaveType([FromBody]ContestTypeDto type)
+        public async Task<IActionResult> SaveType([FromBody]ContestTypeDto type)
         {
             try
             {
-                ContestType typeEntity = type.Id == 0 ? new ContestType() : _repository.Get(type.Id);
+                ContestType typeEntity = type.Id == 0 ? new ContestType() : await _repository.Get(type.Id);
                 typeEntity.Id = type.Id;
                 typeEntity.Name = type.Name;
 
-                _repository.Save(typeEntity);
+                await _repository.Save(typeEntity);
 
                 type.Id = typeEntity.Id;
                 return Created("Add", type);
@@ -78,11 +79,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("types/remove")]
-        public IActionResult RemoveType([FromBody]ContestTypeDto type)
+        public async Task<IActionResult> RemoveType([FromBody]ContestTypeDto type)
         {
             try
             {
-                _repository.Remove(type.Id);
+                await _repository.Remove(type.Id);
 
                 return Ok(type.Id);
             }

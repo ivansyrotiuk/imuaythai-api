@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import {connect} from "react-redux";
-import {Progress} from 'reactstrap';
+import {Progress, ButtonDropdown, DropdownItem, DropdownToggle, Button, DropdownMenu} from 'reactstrap';
 import axios from "axios";
 import {host} from "../../global"
 import UserAvatar from 'react-user-avatar'
@@ -52,6 +52,14 @@ export default class FighterViewPage extends Component {
         }
     }
 
+    goToEditPageClick(){
+        this.props.history.push(this.props.match.url + '/edit');
+    }
+
+    goToRolesPageClick(){
+        this.props.history.push(this.props.match.url + '/roles');
+    }
+
     render() {
         const {fetching, fighter} = this.state;
 
@@ -81,9 +89,26 @@ export default class FighterViewPage extends Component {
                 <div className="card-header">
                     <strong>Fighter</strong>
                     <div class="pull-right">
-                        <Link to={this.props.match.url + '/edit'}>
-                            <i class="fa fa-pencil" aria-hidden="true">&nbsp;&nbsp;Edit</i>
-                        </Link>
+
+                         <div className="input-group-btn">
+                          <ButtonDropdown isOpen={this.state.fourth} toggle={() => { this.setState({ fourth: !this.state.fourth }); }}>
+                            <DropdownToggle caret color="link">
+                              <i class="fa fa-bars" aria-hidden="true">&nbsp;&nbsp;Options</i>
+                            </DropdownToggle>
+                            <DropdownMenu>
+                              <DropdownItem onClick={this.goToEditPageClick.bind(this)}>
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                              </DropdownItem>
+                              <DropdownItem onClick={this.goToRolesPageClick.bind(this)}>
+                                   <i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;Roles
+                              </DropdownItem>
+                              <DropdownItem>Something </DropdownItem>
+                            
+                              <DropdownItem>Separated</DropdownItem>
+                            </DropdownMenu>
+                          </ButtonDropdown>
+                        </div>
+
                     </div>
                 </div>
                 <div className="card-block">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MuaythaiSportManagementSystemApi.Models;
+using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -13,29 +14,29 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _baseRepository = repository;
         }
 
-        public IEnumerable<ApplicationUser> Find(Func<ApplicationUser, bool> predicate)
+        public Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate)
         {
             return _baseRepository.Find(predicate);
         }
 
-        public ApplicationUser Get(string id)
+        public Task<ApplicationUser> Get(string id)
         {
             return _baseRepository.Get(id);
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public Task<List<ApplicationUser>> GetAll()
         {
             return _baseRepository.GetAll();
         }
 
-        public void Remove(string id)
+        public Task Remove(string id)
         {
-            _baseRepository.Remove(id);
+            return _baseRepository.Remove(id);
         }
 
-        public void Save(ApplicationUser institution)
+        public Task Save(ApplicationUser institution)
         {
-            _baseRepository.Save(institution);
+            return _baseRepository.Save(institution);
         }
     }
 }

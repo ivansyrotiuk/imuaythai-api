@@ -15,29 +15,29 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _baseRepository = repository;
         }
 
-        public IEnumerable<Institution> Find(Func<Institution, bool> predicate)
+        public Task<List<Institution>> Find(Func<Institution, bool> predicate)
         {
             return _baseRepository.Find(predicate);//.Where(i => i.InstitutionType == InstitutionType.Gym);
         }
 
-        public Institution Get(int id)
+        public Task<Institution> Get(int id)
         {
             return _baseRepository.Get(id);
         }
 
-        public IEnumerable<Institution> GetAll()
+        public Task<List<Institution>> GetAll()
         {
             return _baseRepository.GetAll();//.Where(i => i.InstitutionType == InstitutionType.Gym);
         }
 
-        public void Remove(int id)
+        public Task Remove(int id)
         {
-            _baseRepository.Remove(id);
+            return _baseRepository.Remove(id);
         }
 
-        public void Save(Institution institution)
+        public Task Save(Institution institution)
         {
-            _baseRepository.Save(institution);
+            return _baseRepository.Save(institution);
         }
     }
 }

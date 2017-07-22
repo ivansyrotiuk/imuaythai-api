@@ -3,6 +3,8 @@ using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -15,36 +17,37 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
-        public IEnumerable<SuspensionType> Find(Func<SuspensionType, bool> predicate)
+        public Task<List<SuspensionType>> Find(Func<SuspensionType, bool> predicate)
         {
-            return _context.SuspensionTypes.Where(predicate);
+            var types = _context.SuspensionTypes.Where(predicate).AsQueryable();
+            return types.ToListAsync();
         }
 
-        public SuspensionType Get(int id)
+        public Task<SuspensionType> Get(int id)
         {
-            return _context.SuspensionTypes.FirstOrDefault(i=>i.Id == id);
+            return _context.SuspensionTypes.FirstOrDefaultAsync(i=>i.Id == id);
         }
 
-        public IEnumerable<SuspensionType> GetAll()
+        public Task<List<SuspensionType>> GetAll()
         {
-            return _context.SuspensionTypes;
+            return _context.SuspensionTypes.ToListAsync();
         }
 
-        public void Remove(int id)
+        public Task Remove(int id)
         {
             var type = _context.SuspensionTypes.FirstOrDefault(i => i.Id == id);
             _context.SuspensionTypes.Remove(type);
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
-        public void Save(SuspensionType type)
+        public Task Save(SuspensionType type)
         {
             if (type.Id == 0)
             {
                 _context.SuspensionTypes.Add(type);
             }
 
-            _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }

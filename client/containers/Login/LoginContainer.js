@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import Login from '../../views/Pages/Login/'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/AccountActions'
-import { saveState, loadState } from '../../localStorage'
+import {saveState, loadState} from '../../localStorage'
+import jwtDecode from 'jwt-decode';
 
 class LoginContainer extends Component {
 
@@ -21,8 +22,8 @@ class LoginContainer extends Component {
                     isLoggedIn: false,
                     isResseted: false,
                     isConfimed: false,
-                    fetched: false,
-                    rememberMe: !this.props.rememberMe
+                    rememberMe: !this.props.rememberMe,
+                    user: jwtDecode(this.props.authToken)
                 }
                 saveState(authAccount)
             }
