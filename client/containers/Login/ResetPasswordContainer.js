@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ResetPassword from '../../views/Pages/ResetPassword/ResetPassword'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import * as actions from '../../actions/AccountActions'
 class ResetPasswordContainer extends Component {
     constructor() {
@@ -10,6 +10,11 @@ class ResetPasswordContainer extends Component {
             .getParams
             .bind(this);
     }
+
+    componentWillMount() {
+        this.props.resetErrors();
+    }
+
     getParams(queryString) {
         var params = {},
             queries,
@@ -30,21 +35,38 @@ class ResetPasswordContainer extends Component {
         var paramString = urlString.substring(urlString.indexOf('?') + 1);
         var params = this.getParams(paramString);
 
-        return (<ResetPassword
-            onSubmit={this.props.onSubmit}
-            fetching={this.props.fetching}
-            initialValues={params}/>);
+        return (<ResetPassword onSubmit={ this.props.onSubmit } fetching={ this.props.fetching } errorMessage={ this.props.error } initialValues={ params } onDismiss={ this.props.resetErrors }
+                  isResseted={ this.props.isResseted } />);
     }
 }
 
 const mapStateToProps = (state) => {
-    return {fetching: state.Account.fetching, authToken: state.Account.authToken, error: state.Account.error, fetched: state.Account.fetched}
+    return {
+        fetching: state.Account.fetching,
+        authToken: state.Account.authToken,
+        error: state.Account.error,
+        isResseted: state.Account.isResseted
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
         onSubmit: (values) => {
-            dispatch(actions.getResetPassword({password: values.password, confirmpassword: values.confirmpassword, userid: values.userid, code: values.code}));
+            if (values.password == undefined || values.confirmpassword == undefined) {
+                dispatch(actions.errorAction("Password or confirm password cannot be empty"));
+            } else if (values.password != values.confirmpassword) {
+                dispatch(actions.errorAction("Passwords must be the same"));
+            } else {
+                dispatch(actions.getResetPassword({
+                    password: values.password,
+                    confirmpassword: values.confirmpassword,
+                    userid: values.userid,
+                    code: values.code
+                }));
+            }
+        },
+        resetErrors: () => {
+            dispatch(actions.resetErrorAction());
         }
     })
 }
