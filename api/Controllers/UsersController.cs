@@ -9,9 +9,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Threading.Tasks;
 using MuaythaiSportManagementSystemApi.Roles;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/users")]
     public class UsersController : Controller
@@ -173,7 +176,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var userRoleAcceptationEntities = await _userRoleRequestsRepository.GetUserAcceptations(userId);
+                var userRoleAcceptationEntities = await _userRoleRequestsRepository.GetUserRequests(userId);
                 var userRoleAcceptations = userRoleAcceptationEntities.Select(a => (UserRoleRequestDto)a).ToList();
                 return Ok(userRoleAcceptations);
             }
@@ -215,6 +218,56 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var pendingRequestEntities = await _userRoleRequestsRepository.GetPendingRequests();
                 var pendingRequest = pendingRequestEntities.Select(a => (UserRoleRequestDto)a).ToList();
                 return Ok(pendingRequest);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("roles/acceptrequest")]
+        public async Task<IActionResult> AcceptRoleRequest([FromBody] UserRoleRequestDto roleRequest)
+        {
+            try
+            {
+               
+                UserRoleRequest entity = await _userRoleRequestsRepository.Get(roleRequest.Id);
+                entity.RoleId = roleRequest.RoleId;
+                entity.UserId = roleRequest.UserId;
+                entity.AcceptedByUserId = User.GetUserId();
+                entity.AcceptationDate = DateTime.UtcNow;
+                entity.Status = UserRoleRequestStatus.Accepted;
+
+                await _userRoleRequestsRepository.Save(entity);
+
+                UserRolesManager userRolesManager = new UserRolesManager(_userManager);
+                await userRolesManager.AddUserToRole(roleRequest.UserId, roleRequest.RoleName);
+
+                return Ok(roleRequest);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("roles/rejectrequest")]
+        public async Task<IActionResult> RejectRoleRequest([FromBody] UserRoleRequestDto roleRequest)
+        {
+            try
+            {
+                UserRoleRequest entity = await _userRoleRequestsRepository.Get(roleRequest.Id);
+                entity.RoleId = roleRequest.RoleId;
+                entity.UserId = roleRequest.UserId;
+                entity.AcceptedByUserId = User.GetUserId();
+                entity.AcceptationDate = DateTime.UtcNow;
+                entity.Status = UserRoleRequestStatus.Rejected;
+
+                await _userRoleRequestsRepository.Save(entity);
+
+                return Ok(roleRequest);
             }
             catch (Exception ex)
             {

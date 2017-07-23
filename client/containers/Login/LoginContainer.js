@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import * as actions from '../../actions/AccountActions'
 import {saveState, loadState} from '../../localStorage'
 import jwtDecode from 'jwt-decode';
+import {setAuthToken} from "../../axiosConfiguration"
 
 class LoginContainer extends Component {
 
@@ -27,6 +28,8 @@ class LoginContainer extends Component {
                 }
                 saveState(authAccount)
             }
+
+            setAuthToken(this.props.authToken);
 
             this.props.history.push("/");
         }

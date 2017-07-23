@@ -23,3 +23,49 @@ export function fetchRolesRequests() {
             })
     }
 }
+
+export function acceptRequest(request) {
+    return function (dispatch) {
+        dispatch({
+            type: actionTypes.ACCEPT_ROLE_REQUEST,
+            payload: request
+        });
+        axios
+            .post(host + "api/users/roles/acceptrequest", request)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.ACCEPT_ROLE_REQUEST_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.ACCEPT_ROLE_REQUEST_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function rejectRequest(request) {
+    return function (dispatch) {
+        dispatch({
+            type: actionTypes.REJECT_ROLE_REQUEST,
+            payload: request
+        });
+        axios
+            .post(host + "api/users/roles/rejectrequest", request)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.REJECT_ROLE_REQUEST_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.REJECT_ROLE_REQUEST_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}

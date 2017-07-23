@@ -24,16 +24,17 @@ namespace MuaythaiSportManagementSystemApi.Users
 
         }
 
-        public UserRoleRequestDto(UserRoleRequest acceptation)
+        public UserRoleRequestDto(UserRoleRequest request)
         {
-            UserId = acceptation.UserId;
-            UserName = acceptation.User?.UserName;
-            RoleId = acceptation.RoleId;
-            RoleName = acceptation.Role?.Name;
-            AcceptationDate = acceptation.AcceptationDate;
-            AcceptedByUserId = acceptation.AcceptedByUserId;
-            AcceptedByUserName = acceptation.AcceptedByUser?.UserName;
-            Status = Enum.GetName(typeof(UserRoleRequestStatus), acceptation.Status);
+            Id = request.Id;
+            UserId = request.UserId;
+            UserName = request.User?.UserName;
+            RoleId = request.RoleId;
+            RoleName = request.Role?.Name;
+            AcceptationDate = request.AcceptationDate;
+            AcceptedByUserId = request.AcceptedByUserId;
+            AcceptedByUserName = request.AcceptedByUser?.UserName;
+            Status = Enum.GetName(typeof(UserRoleRequestStatus), request.Status);
         }
 
         public static explicit operator UserRoleRequestDto(UserRoleRequest entity)

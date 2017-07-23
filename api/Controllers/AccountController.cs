@@ -66,6 +66,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var claims = new List<Claim>{
                         new Claim(JwtRegisteredClaimNames.Sub, model.Email),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim("UserId", user.Id),
                         };
 
                 var roles = await _userManager.GetRolesAsync(user);

@@ -1,20 +1,12 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
-import { fetchRolesRequests } from "../../actions/RolesRequestsActions"
+import { fetchRolesRequests, acceptRequest, rejectRequest } from "../../actions/RolesRequestsActions"
 import Spinner from "../Components/Spinners/Spinner"
 import RolesRequestsTable from "../Components/Tables/RolesRequestsTable"
 
 export class RoleRequestsPage extends Component {
     componentWillMount() {
         this.props.fetchRolesRequests();
-    }
-
-    accept(userId) {
-        console.log('accept' + userId);
-    }
-
-    reject(userId) {
-        console.log('reject' + userId);
     }
 
     render() {
@@ -27,8 +19,8 @@ export class RoleRequestsPage extends Component {
         return (<div>
                   <RolesRequestsTable 
                     roleRequests={ this.props.roleRequests } 
-                    acceptClick={ this.accept } 
-                    rejectClick={ this.reject } />
+                    acceptClick={ this.props.accept } 
+                    rejectClick={ this.props.reject } />
                 </div>);
     }
 }
@@ -45,6 +37,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         fetchRolesRequests: () => {
             dispatch(fetchRolesRequests())
+        },
+        accept: (request) => {
+            dispatch(acceptRequest(request));
+        },
+        reject: (request) => {
+            dispatch(rejectRequest(request));
         }
     }
 }

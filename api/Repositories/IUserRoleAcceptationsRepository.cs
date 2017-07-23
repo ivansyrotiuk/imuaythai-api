@@ -11,7 +11,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
     public interface IUserRoleRequestsRepository
     {
         Task<UserRoleRequest> Get(int id);
-        Task<List<UserRoleRequest>> GetUserAcceptations(string userId);
+        Task<List<UserRoleRequest>> GetUserRequests(string userId);
         Task<List<UserRoleRequest>> GetPendingRequests();
         Task Save(UserRoleRequest acceptation);
     }
@@ -30,7 +30,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.UserRoleRequests.Include(u => u.User).Include(u => u.AcceptedByUser).Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public Task<List<UserRoleRequest>> GetUserAcceptations(string userId)
+        public Task<List<UserRoleRequest>> GetUserRequests(string userId)
         {
             return _context.UserRoleRequests.Where(u => u.UserId == userId).Include(u => u.User).Include(u => u.AcceptedByUser).Include(u => u.Role).ToListAsync();
         }

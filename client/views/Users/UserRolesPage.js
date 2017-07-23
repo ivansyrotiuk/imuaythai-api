@@ -46,7 +46,8 @@ class UserRolesPage extends Component {
                     onCancel={this.props.cancelAddingUserRole}/>
             : <UserRolesTable 
                     userRoles={userRoles} 
-                    addRoleClick={this.props.addUserRole}/>
+                    addRole={this.props.addUserRole}
+                    requestRoleAgain={this.onSubmit}/>
         return (
             <div>
                 {content}

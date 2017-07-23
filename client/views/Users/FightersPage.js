@@ -8,6 +8,7 @@ import Spinner from "../Components/Spinners/Spinner"
 import { Link } from 'react-router-dom'
 import {connect} from "react-redux"
 import axios from "axios";
+import UserAvatar from 'react-user-avatar'
 
 @connect((store) => {
   return {fighters: store.Fighters.fighters, fetching: store.Fighters.fetching, fetched: store.Fighters.fetched};
@@ -51,10 +52,10 @@ export default class FightersPage extends Component {
 
     const mappedFighters = fighters.map((fighter, i) => 
       <tr key={i}>
-        <td>{fighter.id}</td>
-        <td>{fighter.firstname}</td>
-        <td>{fighter.surname}</td>
-        <td>
+        <td className="col-md-1"> <UserAvatar size="40" name={fighter.firstname + ' ' + fighter.surname}/></td>
+        <td className="col-md-7">{fighter.firstname + ' ' + fighter.surname}</td>
+        <td className="col-md-2">{fighter.countryName}</td>
+        <td className="col-md-2">
           <Link to={"/fighters/" + fighter.id} >
             <PreviewButton id={fighter.id}/>
           </Link>&nbsp;
@@ -77,9 +78,9 @@ export default class FightersPage extends Component {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th>Id</th>
-                        <th>Firstname</th>
-                        <th>Surname</th>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Country</th>
                         <th>Action</th>
                       </tr>
                     </thead>
