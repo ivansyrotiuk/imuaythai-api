@@ -20,7 +20,7 @@ import ForgotPassword from './containers/Login/ForgotPasswordContainer'
 import Register from './containers/Register/RegisterContainer'
 import ConfirmEmail from './containers/Register/ConfirmEmailContainer'
 import ResetPassword from './containers/Login/ResetPasswordContainer'
-import CreateContest from './views/Contest/CreateContestPage'
+import CreateContest from './containers/Contest/CreateContestContainer'
 
 import Page404 from './views/Pages/Page404/'
 import Page500 from './views/Pages/Page500/'
