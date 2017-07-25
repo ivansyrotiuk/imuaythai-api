@@ -9,12 +9,7 @@ import Spinner from "../Components/Spinners/Spinner";
 import { fetchCountries } from "../../actions/CountriesActions";
 import moment from 'moment';
 
-connect((store) => {
-    return {
-        countries: store.Countries.countries
-    };
-})
-export default class FighterViewPage extends Component {
+class FighterViewPage extends Component {
     constructor(props) {
         super(props);
 
@@ -53,10 +48,8 @@ export default class FighterViewPage extends Component {
     }
 
     dispatchFetchCountries() {
-        if (this.props.countries.length == 0) {
-            this
-                .props
-                .dispatch(fetchCountries());
+        if (this.props.countries === undefined) {
+            this.props.fetchCountries();
         }
     }
 
@@ -198,3 +191,19 @@ export default class FighterViewPage extends Component {
 
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+       countries: state.Countries.countries, 
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        fetchCountries: () => {
+            dispatch(fetchCountries());
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FighterViewPage)

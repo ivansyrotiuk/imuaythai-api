@@ -27,7 +27,8 @@ class FighterEditPage extends Component {
 
         this.dispatchFetchFighter(fighterId);
 
-        if (!this.props.countries.length) {
+        if (this.props.countries === undefined ||
+            this.props.countries.length === 0) {
             this.props.fetchCountries();
         }
       
