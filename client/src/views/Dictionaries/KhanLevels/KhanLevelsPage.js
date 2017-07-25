@@ -8,29 +8,11 @@ import { connect } from "react-redux"
 import axios from "axios";
 import Spinner from "../../Components/Spinners/Spinner"
 
-connect((store) => {
-  return {
-    levels: store.KhanLevels.levels,
-    fetching: store.KhanLevels.fetching,
-    fetched: store.KhanLevels.fetched
-  };
-})
-export default class KhanLevelsPage extends Component {
+
+class KhanLevelsPage extends Component {
   constructor(props) {
     super(props);
-    this.fetchLevels();
-  }
-
-  fetchLevels() {
-    this
-      .props
-      .dispatch(fetchLevels())
-  }
-
-  deleteLevel(id) {
-    this
-      .props
-      .dispatch(deleteLevel(id))
+    this.props.fetchLevels();
   }
 
   removeLevel(id) {
@@ -80,8 +62,8 @@ export default class KhanLevelsPage extends Component {
             <div className="card">
               <div className="card-header">
                 <strong>Levels</strong>
-                <div class="pull-right">
-                  <Link to={ "/dictionaries/levels/new" }><i class="fa fa-plus-square-o" aria-hidden="true"> Create</i></Link>
+                <div className="pull-right">
+                  <Link to={ "/dictionaries/levels/new" }><i className="fa fa-plus-square-o" aria-hidden="true"> Create</i></Link>
                 </div>
               </div>
               <div className="card-block">
@@ -106,3 +88,25 @@ export default class KhanLevelsPage extends Component {
       );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    levels: state.KhanLevels.levels,
+    fetching: state.KhanLevels.fetching,
+    fetched: state.KhanLevels.fetched
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchLevels: () => {
+      dispatch(fetchLevels())
+    },
+
+    deleteLevel: (id) => {
+      dispatch(deleteLevel(id))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(KhanLevelsPage)

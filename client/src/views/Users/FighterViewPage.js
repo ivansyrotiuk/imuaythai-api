@@ -79,16 +79,16 @@ class FighterViewPage extends Component {
 
         const gender = fighter.gender == 'male'
             ? <h6 style={ titleTextSyle }>
-                                                <i class="fa fa-mars" aria-hidden="true"></i>  Male</h6>
+                                                <i className="fa fa-mars" aria-hidden="true"></i>  Male</h6>
             : <h6 style={ titleTextSyle }>
-                                            <i class="fa fa-venus" aria-hidden="true"></i>  Female</h6>;
+                                            <i className="fa fa-venus" aria-hidden="true"></i>  Female</h6>;
 
         const userName = (fighter.firstname || 'No name') + ' ' + (fighter.surname || '');
         return <div className="animated fadeIn">
                  <div className="card">
                    <div className="card-header">
                      <strong>Fighter</strong>
-                     <div class="pull-right">
+                     <div className="pull-right">
                        <div className="input-group-btn">
                          <ButtonDropdown isOpen={ this.state.fourth } toggle={ () => {
                                                                                    this.setState({
@@ -96,14 +96,14 @@ class FighterViewPage extends Component {
                                                                                    });
                                                                                } }>
                            <DropdownToggle caret color="link">
-                             <i class="fa fa-bars" aria-hidden="true">  Options</i>
+                             <i className="fa fa-bars" aria-hidden="true">  Options</i>
                            </DropdownToggle>
                            <DropdownMenu>
                              <DropdownItem onClick={ this.goToEditPageClick.bind(this) }>
-                               <i class="fa fa-pencil" aria-hidden="true"></i>  Edit
+                               <i className="fa fa-pencil" aria-hidden="true"></i>  Edit
                              </DropdownItem>
                              <DropdownItem onClick={ this.goToRolesPageClick.bind(this) }>
-                               <i class="fa fa-users" aria-hidden="true"></i>  Roles
+                               <i className="fa fa-users" aria-hidden="true"></i>  Roles
                              </DropdownItem>
                              <DropdownItem>Something </DropdownItem>
                              <DropdownItem>Separated</DropdownItem>
@@ -116,9 +116,9 @@ class FighterViewPage extends Component {
                      <div className="row">
                        <div className="col-12 col-md-auto col-sm-6">
                          <UserAvatar size="150" name={ fighter.firstname || fighter.email } />
-                         <div class="caption">
-                           <button type="button" class="btn btn-link">
-                             <i class="fa fa-pencil"></i>  Change photo
+                         <div className="caption">
+                           <button type="button" className="btn btn-link">
+                             <i className="fa fa-pencil"></i>  Change photo
                            </button>
                          </div>
                        </div>
