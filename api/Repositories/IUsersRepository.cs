@@ -43,12 +43,19 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task Save(ApplicationUser user)
         {
-            if (string.IsNullOrEmpty(user.Id))
+            try
             {
-                _context.Users.Add(user);
-            }
+                if (string.IsNullOrEmpty(user.Id))
+                {
+                    _context.Users.Add(user);
+                }
 
-            return _context.SaveChangesAsync();
+                return _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return _context.SaveChangesAsync();
+            }
         }
 
         public Task Remove(string id)
