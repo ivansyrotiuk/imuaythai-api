@@ -11,7 +11,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         [Key]
         public int Id { get; set;}
         public int ContestTypePointsId { get; set; }
-
+        public int FightStructureId { get; set; }
 
         public virtual ContestTypePoints ContestTypePoints { get; set; }
         public virtual FightStructure FightStructure { get; set; }
