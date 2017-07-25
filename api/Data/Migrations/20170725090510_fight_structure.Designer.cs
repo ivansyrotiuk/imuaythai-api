@@ -9,9 +9,10 @@ using MuaythaiSportManagementSystemApi.Models;
 namespace MuaythaiSportManagementSystemApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170725090510_fight_structure")]
+    partial class fight_structure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -744,7 +745,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rounds");
+                    b.ToTable("Round");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.Suspension", b =>
@@ -848,7 +849,7 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeightAgeCategories");
+                    b.ToTable("WeightAgeCategory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

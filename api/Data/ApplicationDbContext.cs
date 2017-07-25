@@ -102,5 +102,7 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<Reminder> Reminders { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<UserRoleRequest> UserRoleRequests { get; set; }
+        public virtual DbSet<Round> Rounds { get; set; }
+        public virtual DbSet<WeightAgeCategory> WeightAgeCategories { get; set; }
     }
 }
