@@ -2,24 +2,30 @@ import React from 'react'
 
 let UserRolesTable = (props) => {
 
-  const mappedUserRoles = props.userRoles.map((role, i) => <tr key={ i }>
-                                                             <td>
-                                                               { role.roleName }
-                                                             </td>
-                                                             <td>
-                                                               { role.status === "Pending" && <span className="badge badge-warning">{ role.status }</span> }
-                                                               { role.status === "Accepted" && <span className="badge badge-success">{ role.status }</span> }
-                                                               { role.status === "Rejected" && <div><span className="badge badge-danger">{ role.status }</span>
-                                                                                                 { props.userRoles.findIndex(r => r.roleId == role.roleId && r.status !== "Rejected") === -1 && <button class="btn btn-xs btn-link pull-right" onClick={ () => props.requestRoleAgain(role) }><i class="fa fa-repeat fa-lg text-success" aria-hidden="true"></i></button> }
-                                                                                               </div> }
-                                                             </td>
-                                                             <td>
-                                                               { role.acceptationDate }
-                                                             </td>
-                                                             <td>
-                                                               { role.acceptedByUserName }
-                                                             </td>
-                                                           </tr>)
+  const mappedUserRoles = props.userRoles.map((role, i) => 
+  <tr key={ i }>
+    <td>
+      { role.roleName }
+    </td>
+    <td>
+      { role.status === "Pending" && <span className="badge badge-warning">{ role.status }</span> }
+      { role.status === "Accepted" && <span className="badge badge-success">{ role.status }</span> }
+      { role.status === "Rejected" && 
+        <div>
+          <span className="badge badge-danger">{ role.status }</span>
+          { props.userRoles.findIndex(r => r.roleId == role.roleId && r.status !== "Rejected") === -1 && 
+            <button class="btn btn-xs btn-link pull-right" onClick={ () => props.requestRoleAgain(role) }>
+              <i class="fa fa-repeat fa-lg text-success" aria-hidden="true"></i>
+            </button> }
+        </div> }
+    </td>
+    <td>
+      { role.acceptationDate }
+    </td>
+    <td>
+      { role.acceptedByUserName }
+    </td>
+  </tr>)
 
   return (
     <div className="animated fadeIn">
