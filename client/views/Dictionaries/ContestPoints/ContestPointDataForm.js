@@ -7,34 +7,25 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 
 import {Field, reduxForm} from 'redux-form';
-
-let ContestPointDataForm = props => {
-    const {handleSubmit, pristine, reset, submitting} = props;
+class ContestPointDataForm extends Component {
+    render(){
+     const {handleSubmit, pristine, reset, submitting, ranges, types} = this.props;
+     const mappedRanges = ranges.map((range, i) => <option key={i} value={range.id}>{range.name}</option>);
+     const mappedTypes = types.map((type, i) => <option key={i} value={type.id}>{type.name}</option>);
     return (
 
         <form onSubmit={handleSubmit}>
 
                 <div className="card-block">
                     <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">Name</label>
+                        <label className="col-md-3 form-control-label" htmlFor="text-input">Points</label>
                         <div className="col-md-9">
                             <Field
-                                name="name"
+                                name="points"
                                 component="input"
                                 type="text"
                                 className="form-control"
-                                placeholder="Name"/>
-                        </div>
-                    </div>
-                    <div className="form-group row">
-                        <label className="col-md-3 form-control-label" htmlFor="text-input">Level</label>
-                        <div className="col-md-9">
-                            <Field
-                                name="level"
-                                component="input"
-                                type="number"
-                                className="form-control"
-                                placeholder="Level"/>
+                                placeholder="Points"/>
                         </div>
                     </div>
                     <div className="form-group row">
@@ -59,6 +50,7 @@ let ContestPointDataForm = props => {
                    <button type="submit"  disabled={pristine || submitting} className="btn btn-primary pull-right">Save changes</button>
         </form>
     );
+};
 };
 
 export default reduxForm({
