@@ -53,7 +53,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        [Route("fighters/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetFigthers([FromRoute]string id)
         {
             try

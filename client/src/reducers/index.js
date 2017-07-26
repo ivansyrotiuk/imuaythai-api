@@ -11,6 +11,7 @@ import ContestPoints from "./ContestPointsReducer"
 import Roles from "./RolesReducer"
 import UserRoles from "./UserRolesReducer"
 import RoleRequests from "./RoleRequestsReducer"
+import SingleUser from "./UserReducer"
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
@@ -20,6 +21,7 @@ export default combineReducers({
     Countries,
     ContestRanges,
     KhanLevels,
+    SingleUser,
     Roles,
     UserRoles,
     RoleRequests,

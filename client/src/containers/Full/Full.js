@@ -29,17 +29,21 @@ import ContestTypesPage from "../../views/Dictionaries/ContestTypes/ContestTypes
 import ContestTypesDetailsPage from "../../views/Dictionaries/ContestTypes/ContestTypesDetailsPage"
 import ContestRangesPage from "../../views/Dictionaries/ContestRanges/ContestRangesPage"
 import ContestRangesDetailsPage from "../../views/Dictionaries/ContestRanges/ContestRangesDetailsPage"
-import FightersPage from "../../views/Users/FightersPage"
-import FighterEditPage from "../../views/Users/FighterEditPage"
-import UserRolesPage from "../../views/Users/UserRolesPage"
 import KhanLevelsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsPage"
 import KhanLevelsDetailsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsDetailsPage"
 import SuspensionTypesPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesPage"
 import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesDetailsPage"
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
-import FighterViewPage from "../../views/Users/FighterViewPage"
+
+import FightersPage from "../../views/Users/Fighters/FightersPage"
+import UserEditPage from "../../views/Users/UserEditPage"
+import UserViewPage from "../../views/Users/UserViewPage"
+
+import UserRolesPage from "../../views/Users/UserRolesPage"
 import RoleRequestsPage from "../../views/Users/RoleRequestsPage"
+
+
 
 class Full extends Component {
   render() {
@@ -67,9 +71,9 @@ class Full extends Component {
                 <Route path="/charts" name="Charts" component={Charts}/>
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
-                <Route path="/fighters/:id/(edit)" name="Fighter" component={FighterEditPage}/>
-                <Route path="/fighters/:id/(roles)" name="FigtherRoles" component={UserRolesPage}/>
-                <Route path="/fighters/:id" name="Fighter" component={FighterViewPage}/>
+                <Route path="/users/:id/(edit)" name="UserEdit" component={UserEditPage}/>
+                <Route path="/users/:id/(roles)" name="UserRoles" component={UserRolesPage}/>
+                <Route path="/users/:id" name="User" component={UserViewPage}/>
                 <Route path="/fighters/" name="Fighters" component={FightersPage}/>
                 <Route path="/users/role_requests" name="RoleRequests" component={RoleRequestsPage}/>
                 <Route path="/dictionaries/types" name="ContestTypes" component={ContestTypesPage}/>
