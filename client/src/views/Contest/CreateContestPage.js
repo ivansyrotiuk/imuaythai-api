@@ -5,12 +5,15 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import RemoveButton from "../Components/Buttons/RemoveButton"
 import EditButton from "../Components/Buttons/EditButton"
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 class CreateContestPage extends Component {
 
 
 
   render() {
-
+    var toggle = false;
+    var isopen = false;
+    const contestTypes = ["contest1", "contest2", "contest3", "contest4", "contest5"];
     const RenderDatePicker = props => {
       return (
         <div>
@@ -26,6 +29,9 @@ class CreateContestPage extends Component {
     const mappedCountries = countries.map((country, i) => <option key={ i } value={ country.id }>
                                                             { country.name }
                                                           </option>);
+    const mappedContestTypes = contestTypes.map((contestType, i) => <option key={ i } value={ i }>
+                                                                      { contestType }
+                                                                    </option>)
     return (
       <div classname="container">
         <div className="row">
@@ -86,6 +92,13 @@ class CreateContestPage extends Component {
                       </Field>
                     </div>
                   </div>
+                  <div className="col-md-4">
+                    <div className="form-check">
+                      <label className="form-check-label">
+                        <Field name="allowunassociated" component="input" type="checkbox" className="form-check-input" /> Allow unassociated
+                      </label>
+                    </div>
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col-md-12">
@@ -138,46 +151,60 @@ class CreateContestPage extends Component {
               <strong>Contest category</strong>
             </div>
             <div className="card-block">
+              <div className="col-md-1 offset-md-11">
+                <span className="btn btn-link">Create</span>
+                <Modal isOpen="true" toggle={ this.toggle } className={ this.props.className }>
+                  <ModalHeader toggle={ this.toggle }>Add contest type</ModalHeader>
+                  <ModalBody>
+                    <div className="form-group">
+                      <label>Contest Type</label>
+                      <Field name="contestType" className="form-control" component="select">
+                        { mappedContestTypes }
+                      </Field>
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="primary" onClick={ this.toggle }>Add</Button>
+                    { ' ' }
+                    <Button color="secondary" onClick={ this.toggle }>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
+              </div>
               <table className="table">
                 <thead>
                   <tr>
-                    <th className="col-md-10">Contest name</th>
-                    <th className="col-md-2">Action</th>
+                    <th className="col-md-11">Contest name</th>
+                    <th className="col-md-1">Remove</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="col-md-10">Samppa Nori</td>
+                    <td className="col-md-11">Samppa Nori</td>
                     <td>
-                      <EditButton/>
                       <RemoveButton/>
                     </td>
                   </tr>
                   <tr>
-                    <td className="col-md-10">Estavan Lykos</td>
+                    <td className="col-md-11">Estavan Lykos</td>
                     <td>
-                      <EditButton/>
                       <RemoveButton/>
                     </td>
                   </tr>
                   <tr>
-                    <td className="col-md-10">Chetan Mohamed</td>
+                    <td className="col-md-11">Chetan Mohamed</td>
                     <td>
-                      <EditButton/>
                       <RemoveButton/>
                     </td>
                   </tr>
                   <tr>
-                    <td className="col-md-10">Derick Maximinus</td>
+                    <td className="col-md-11">Derick Maximinus</td>
                     <td>
-                      <EditButton/>
                       <RemoveButton/>
                     </td>
                   </tr>
                   <tr>
-                    <td className="col-md-10">Friderik Dávid</td>
+                    <td className="col-md-11">Friderik Dávid</td>
                     <td>
-                      <EditButton/>
                       <RemoveButton/>
                     </td>
                   </tr>
@@ -187,6 +214,7 @@ class CreateContestPage extends Component {
           </div>
         </div>
       </div>
+
       );
   }
 }
