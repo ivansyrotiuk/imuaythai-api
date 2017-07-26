@@ -208,7 +208,7 @@ class CommonUserDataForm extends Component {
                 <button
                     type="submit"
                     disabled={pristine || submitting}
-                    className="btn btn-primary pull-right">{submitting && <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>}
+                    className="btn btn-primary pull-right">{submitting && <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i>}
                     Save</button>
 
             </form>

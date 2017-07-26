@@ -8,30 +8,13 @@ import { connect } from "react-redux"
 import axios from "axios";
 import Spinner from "../../Components/Spinners/Spinner"
 
-connect((store) => {
-    return {
-        types: store.ContestTypes.types,
-        fetching: store.ContestTypes.fetching,
-        fetched: store.ContestTypes.fetched
-    };
-})
-export default class ContestTypesPage extends Component {
+class ContestTypesPage extends Component {
     constructor(props) {
         super(props);
-        this.fetchTypes();
+        this.props.fetchTypes();
     }
 
-    fetchTypes() {
-        this
-            .props
-            .dispatch(fetchTypes())
-    }
-
-    deleteType(id) {
-        this
-            .props
-            .dispatch(deleteType(id))
-    }
+    
 
     removeType(id) {
         var self = this;
@@ -40,7 +23,7 @@ export default class ContestTypesPage extends Component {
                 Id: id
             })
             .then(function(response) {
-                self.deleteType(response.data)
+                self.props.deleteType(response.data)
             })
             .catch(function(error) {
                 console.log(error);
@@ -77,8 +60,8 @@ export default class ContestTypesPage extends Component {
                   <div className="card">
                     <div className="card-header">
                       <strong>Types</strong>
-                      <div class="pull-right">
-                        <Link to={ "/dictionaries/types/new" }><i class="fa fa-plus-square-o" aria-hidden="true"> Create</i></Link>
+                      <div className="pull-right">
+                        <Link to={ "/dictionaries/types/new" }><i className="fa fa-plus-square-o" aria-hidden="true"> Create</i></Link>
                       </div>
                     </div>
                     <div className="card-block">
@@ -102,3 +85,24 @@ export default class ContestTypesPage extends Component {
             );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+       types: state.ContestTypes.types,
+        fetching: state.ContestTypes.fetching,
+        fetched: state.ContestTypes.fetched
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+            fetchTypes: () => {
+              dispatch(fetchTypes())
+            },
+            deleteType: (id) => {
+                dispatch(deleteType(id))
+            }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContestTypesPage)
