@@ -3,6 +3,8 @@ import CreateContestPage from '../../views/Contest/CreateContestPage';
 import { connect } from 'react-redux';
 import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchTypes } from "../../actions/Dictionaries/ContestTypesActions";
+import { fetchContest, saveContest } from '../../actions/ContestActions';
+
 class CreateContestContainer extends Component {
     componentWillMount() {
         if (!this.props.countries.length) {
@@ -24,7 +26,7 @@ class CreateContestContainer extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         countries: state.Countries.countries,
-        contestTypes: state.ContestTypes.types
+        contestTypes: state.ContestTypes.types,
     }
 }
 

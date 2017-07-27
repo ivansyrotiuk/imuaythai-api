@@ -1,4 +1,4 @@
-import {combineReducers} from "redux"
+import { combineReducers } from "redux"
 import Gyms from "./GymsReducer"
 import Fighters from "./FightersReducer"
 import ContestTypes from "./ContestTypesReducer"
@@ -11,6 +11,8 @@ import ContestPoints from "./ContestPointsReducer"
 import Roles from "./RolesReducer"
 import UserRoles from "./UserRolesReducer"
 import RoleRequests from "./RoleRequestsReducer"
+import Contest from "./ContestReducer"
+
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
@@ -25,5 +27,6 @@ export default combineReducers({
     RoleRequests,
     SuspensionTypes,
     ContestPoints,
-    form: reduxFormReducer, 
+    Contest,
+    form: reduxFormReducer,
 })
