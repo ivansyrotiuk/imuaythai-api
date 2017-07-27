@@ -6,38 +6,38 @@ import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
 import PreviewButton from "../../Components/Buttons/PreviewButton"
 import Spinner from "../../Components/Spinners/Spinner"
-import { fetchFighters, deleteUser } from "../../../actions/UsersActions"
+import { fetchJudges, deleteUser } from "../../../actions/UsersActions"
 
-class FightersPage extends Component {
+class JudgesPage extends Component {
   componentWillMount() {
-    this.props.fetchFighters();
+    this.props.fetchJudges();
   }
 
   render() {
-    const {fighters, fetching} = this.props;
+    const {judges, fetching} = this.props;
 
     if (fetching) {
       return <Spinner />
     }
 
-    const mappedFighters = fighters.map((fighter, i) => <tr key={ i }>
+    const mappedJudges = judges.map((judge, i) => <tr key={ i }>
                                                           <td className="col-md-1">
-                                                            <UserAvatar size="40" name={ fighter.firstname + ' ' + fighter.surname } />
+                                                            <UserAvatar size="40" name={ judge.firstname + ' ' + judge.surname } />
                                                           </td>
                                                           <td className="col-md-7">
-                                                            { fighter.firstname + ' ' + fighter.surname }
+                                                            { judge.firstname + ' ' + judge.surname }
                                                           </td>
                                                           <td className="col-md-2">
-                                                            { fighter.countryName }
+                                                            { judge.countryName }
                                                           </td>
                                                           <td className="col-md-2">
-                                                            <Link to={ "/users/" + fighter.id }>
-                                                            <PreviewButton id={ fighter.id } />
+                                                            <Link to={ "/users/" + judge.id }>
+                                                            <PreviewButton id={ judge.id } />
                                                             </Link>
-                                                            <Link to={ "/users/" + fighter.id + "/edit" }>
-                                                            <EditButton id={ fighter.id } />
+                                                            <Link to={ "/users/" + judge.id + "/edit" }>
+                                                            <EditButton id={ judge.id } />
                                                             </Link>
-                                                            <RemoveButton id={ fighter.id } click={ this.props.deleteFighter.bind(this, fighter.id) } />
+                                                            <RemoveButton id={ judge.id } click={ this.props.deleteUser.bind(this, judge.id) } />
                                                           </td>
                                                         </tr>);
 
@@ -47,7 +47,7 @@ class FightersPage extends Component {
           <div className="col-12">
             <div className="card">
               <div className="card-header">
-                <strong>Fighters</strong>
+                <strong>Judges</strong>
               </div>
               <div className="card-block">
                 <table className="table">
@@ -60,7 +60,7 @@ class FightersPage extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    { mappedFighters }
+                    { mappedJudges }
                   </tbody>
                 </table>
               </div>
@@ -74,7 +74,7 @@ class FightersPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    fighters: state.Users.fighters,
+    judges: state.Users.judges,
     fetching: state.Users.fetching,
     fetched: state.Users.fetched
   };
@@ -82,13 +82,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchFighters: () => {
-      dispatch(fetchFighters());
+    fetchJudges: () => {
+      dispatch(fetchJudges());
     },
-    deleteFighter: (id) => {
+    deleteUser: (id) => {
       dispatch(deleteUser(id));
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FightersPage);
+export default connect(mapStateToProps, mapDispatchToProps)(JudgesPage);

@@ -1,6 +1,6 @@
 import {combineReducers} from "redux"
 import Gyms from "./GymsReducer"
-import Fighters from "./FightersReducer"
+import Users from "./UsersReducer"
 import ContestTypes from "./ContestTypesReducer"
 import Account from "./AccountReducer"
 import ContestRanges from "./ContestRangesReducer"
@@ -17,7 +17,7 @@ export default combineReducers({
     Account,
     Gyms,
     ContestTypes,
-    Fighters,
+    Users,
     Countries,
     ContestRanges,
     KhanLevels,

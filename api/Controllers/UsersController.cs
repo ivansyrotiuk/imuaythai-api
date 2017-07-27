@@ -41,8 +41,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                IUsersRepository fightersRepository = new FightersRepository(_repository);
-                var figtherEntities = await fightersRepository.GetAll();
+                var figtherEntities = await _userManager.GetUsersInRoleAsync("Fighter");
                 var users = figtherEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
@@ -51,34 +50,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetFigthers([FromRoute]string id)
-        {
-            try
-            {
-                IUsersRepository fightersRepository = new FightersRepository(_repository);
-                var figther = await fightersRepository.Get(id);
-                var figtherRoles = await _userManager.GetRolesAsync(figther);
-                var user = (FighterDto)figther;
-                user.Roles = figtherRoles.ToList();
-
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
+    
         [HttpGet]
         [Route("Judges")]
         public async Task<IActionResult> GetJudges()
         {
             try
             {
-                var judgeEntities = await _repository.GetAll();
+                var judgeEntities = await _userManager.GetUsersInRoleAsync("Judge");
                 var users = judgeEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
@@ -94,7 +73,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var coachEntities = await _repository.GetAll();
+                var coachEntities = await _userManager.GetUsersInRoleAsync("Coach");
                 var users = coachEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
@@ -110,7 +89,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var doctorEntities = await _repository.GetAll();
+                var doctorEntities = await _userManager.GetUsersInRoleAsync("Doctor");
                 var users = doctorEntities.Select(u => (UserDto)u).ToList();
                 return Ok(users);
             }
@@ -120,6 +99,24 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetUser([FromRoute]string id)
+        {
+            try
+            {
+                var figther = await _repository.Get(id);
+                var figtherRoles = await _userManager.GetRolesAsync(figther);
+                var user = (FighterDto)figther;
+                user.Roles = figtherRoles.ToList();
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost]
         [Route("Save")]
@@ -140,6 +137,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.Phone = user.Phone;
                 userEntity.Gender = user.Gender;
                 userEntity.CountryId = user.CountryId;
+                userEntity.InstitutionId = user.InstitutionId;
 
                 await _repository.Save(userEntity);
 

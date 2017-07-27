@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { host } from "../../global"
-import { saveGym, fetchGyms, deleteGym } from "../../actions/GymsActions"
+import { saveGym, fetchGyms, deleteGym } from "../../actions/InstitutionsActions"
 import { connect } from "react-redux"
 import axios from "axios";
 import CommonGymDataForm from "./Forms/CommonGymDataForm"

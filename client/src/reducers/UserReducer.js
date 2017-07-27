@@ -15,7 +15,7 @@ export default function(state = userInitialState, action) {
                 ...state,
                 fetching: true
             }
-        case actionTypes.FETCH_USER_FULLFILED:
+        case actionTypes.FETCH_USER_FULFILLED:
             return {
                 ...state,
                 user: action.payload,

@@ -18,6 +18,8 @@ const routes = {
   '/gyms':"Gyms",
   '/contest/types':"Contest type",
   '/fighters':"Fighters",
+  '/coaches':"Coaches",
+  '/judges':"Judges",
   '/contest/types':"Contest type"
 };
 export default routes;

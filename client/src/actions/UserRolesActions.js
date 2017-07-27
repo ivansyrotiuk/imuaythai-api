@@ -11,7 +11,7 @@ export function fetchUserRoles(id) {
             .get(host + "api/users/roles/" + id)
             .then((response) => {
                 dispatch({
-                    type: actionTypes.FETCH_USER_ROLES_FULLFILED,
+                    type: actionTypes.FETCH_USER_ROLES_FULFILLED,
                     payload: response.data
                 })
             })

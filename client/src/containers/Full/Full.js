@@ -37,6 +37,9 @@ import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPoi
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
 
 import FightersPage from "../../views/Users/Fighters/FightersPage"
+import JudgesPage from "../../views/Users/Judges/JudgesPage"
+import CoachesPage from "../../views/Users/Coaches/CoachesPage"
+
 import UserEditPage from "../../views/Users/UserEditPage"
 import UserViewPage from "../../views/Users/UserViewPage"
 
@@ -71,11 +74,13 @@ class Full extends Component {
                 <Route path="/charts" name="Charts" component={Charts}/>
                 <Route path="/gyms/:id" name="Gym" component={GymDetailsPage}/>
                 <Route path="/gyms/" name="Gyms" component={GymsPage}/>
+                <Route path="/users/(role_requests)" name="RoleRequests" component={RoleRequestsPage}/>
                 <Route path="/users/:id/(edit)" name="UserEdit" component={UserEditPage}/>
                 <Route path="/users/:id/(roles)" name="UserRoles" component={UserRolesPage}/>
                 <Route path="/users/:id" name="User" component={UserViewPage}/>
                 <Route path="/fighters/" name="Fighters" component={FightersPage}/>
-                <Route path="/users/role_requests" name="RoleRequests" component={RoleRequestsPage}/>
+                <Route path="/judges/" name="Judges" component={JudgesPage}/>
+                <Route path="/coaches/" name="Coaches" component={CoachesPage}/>
                 <Route path="/dictionaries/types" name="ContestTypes" component={ContestTypesPage}/>
                 <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage}/>
                 <Route path="/dictionaries/ranges/" name="ContestRanges" component={ContestRangesPage}/>

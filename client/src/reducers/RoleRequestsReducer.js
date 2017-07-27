@@ -12,7 +12,7 @@ export default function reducer(state = roleRequestsInitialState, action) {
                 ...state,
                 fetching: true
             }
-        case actionTypes.FETCH_ROLES_REQUESTS_FULLFILED:
+        case actionTypes.FETCH_ROLES_REQUESTS_FULFILLED:
             return {
                 ...state,
                 roleRequests: action.payload,

@@ -5,19 +5,63 @@ import * as actionTypes from "./actionTypes"
 export function fetchFighters() {
     return function(dispatch) {
         dispatch({
-            type: "FETCH_FIGTHERS"
+            type: actionTypes.FETCH_FIGTHERS
         });
         axios
             .get(host + "api/users/fighters")
             .then((response) => {
                 dispatch({
-                    type: "FETCH_FIGTHERS_FULFILLED",
+                    type: actionTypes.FETCH_FIGTHERS_FULFILLED,
                     payload: response.data
                 })
             })
             .catch((err) => {
                 dispatch({
-                    type: "FETCH_FIGTHERS_REJECTED",
+                    type: actionTypes.FETCH_FIGTHERS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function fetchJudges() {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_JUDGES
+        });
+        axios
+            .get(host + "api/users/judges")
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_JUDGES_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_JUDGES_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function fetchCoaches() {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_COACHES
+        });
+        axios
+            .get(host + "api/users/judges")
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_COACHES_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_COACHES_REJECTED,
                     payload: err
                 })
             })
@@ -32,7 +76,7 @@ export function fetchUser(id) {
         axios.get(host + "api/users/" + id)
             .then((response) => {
                 dispatch({
-                    type: actionTypes.FETCH_USER_FULLFILED,
+                    type: actionTypes.FETCH_USER_FULFILLED,
                     payload: response.data
                 });
             })
@@ -68,20 +112,23 @@ export function saveUser(user) {
     }
 }
 
-export function deleteFighter(id) {
+export function deleteUser(id) {
     return function(dispatch) {
+        dispatch({
+            type: actionTypes.DELETE_USER
+        })
         axios.post(host + 'api/users/remove', {
             Id: id
         })
             .then((response) => {
                 dispatch({
-                    type: 'DELETE_FIGHTER_SUCCESS',
+                    type: actionTypes.DELETE_USER_SUCCESS,
                     payload: id
                 })
             })
             .catch((err) => {
                 dispatch({
-                    type: "DELETE_FIGHTER_REJECTED",
+                    type: actionTypes.DELETE_USER_REJECTED,
                     payload: err
                 })
             })

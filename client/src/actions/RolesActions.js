@@ -8,7 +8,7 @@ export function fetchRoles() {
         axios
             .get(host + "api/roles")
             .then((response) => {
-                dispatch({type: actionTypes.FETCH_ROLES_FULLFILED, payload: response.data})
+                dispatch({type: actionTypes.FETCH_ROLES_FULFILLED, payload: response.data})
             })
             .catch((err) => {
                 dispatch({type: actionTypes.FETCH_ROLES_REJECTED, payload: err})

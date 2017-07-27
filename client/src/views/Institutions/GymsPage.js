@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { host } from "../../global"
-import { saveGym, fetchGyms, deleteGym } from "../../actions/GymsActions"
+import { saveGym, fetchGyms, deleteGym } from "../../actions/InstitutionsActions"
 import RemoveButton from "../Components/Buttons/RemoveButton"
 import EditButton from "../Components/Buttons/EditButton"
 import { Link } from 'react-router-dom'

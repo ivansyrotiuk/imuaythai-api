@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import Spinner from "../Components/Spinners/Spinner";
 import CommonUserDataForm from "./Forms/CommonUserDataForm";
 import {saveFighter, fetchUser, saveUser} from "../../actions/UsersActions";
+import {fetchGyms} from "../../actions/InstitutionsActions"
 import {fetchCountries} from "../../actions/CountriesActions";
 import { userHasRole } from '../../auth/auth';
 
@@ -15,6 +16,11 @@ class UserEditPage extends Component {
         if (this.props.countries === undefined ||
             this.props.countries.length === 0) {
             this.props.fetchCountries();
+        }
+
+        if (this.props.gyms === undefined ||
+            this.props.gyms.length === 0) {
+            this.props.fetchGyms();
         }
     }
 
@@ -45,6 +51,7 @@ class UserEditPage extends Component {
                                <CommonUserDataForm
                                     initialValues={this.props.user}
                                     countries={this.props.countries}
+                                    gyms={this.props.gyms}
                                     onSubmit={this.props.saveUser} />
                             </div>
                         </div>
@@ -58,7 +65,8 @@ class UserEditPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-       countries: state.Countries.countries, 
+       countries: state.Countries.countries,
+       gyms: state.Gyms.gyms,
        user: state.SingleUser.user,
        fetching: state.SingleUser.fetching,
        saving: state.SingleUser.saving,
@@ -70,6 +78,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         fetchCountries: () => {
             dispatch(fetchCountries());
+        },
+        fetchGyms: () => {
+            dispatch(fetchGyms());
         },
         fetchUser: (id) =>{
             dispatch(fetchUser(id));
