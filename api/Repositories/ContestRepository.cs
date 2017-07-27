@@ -47,13 +47,6 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 _context.Contests.Add(contest);
             }
 
-            var contestFromDb = _context.Contests.FirstOrDefaultAsync(c => c.Id == contest.Id);
-
-            if(contest != null)
-            {
-                contest
-            }
-
             return _context.SaveChangesAsync();
         }
     }
