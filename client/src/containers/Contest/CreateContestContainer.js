@@ -7,17 +7,25 @@ import { fetchContest, saveContest } from '../../actions/ContestActions';
 
 class CreateContestContainer extends Component {
     componentWillMount() {
+        var contestId = this.props.match.params;
         if (!this.props.countries.length) {
             this.props.fetchCountries();
         }
         if (!this.props.contestTypes.length) {
             this.props.fetchContestTypes();
         }
+        if (contestId != undefined && contestId.id != undefined) {
+            this.props.getContestType(contestId.id);
+        }
+
+        if (contestId != undefined) {
+            this.props.getContestType(contestId.id);
+        }
     }
     render() {
 
         return (
-            <CreateContestPage countries={ this.props.countries } contestTypes={ this.props.contestTypes } />
+            <CreateContestPage countries={ this.props.countries } contestTypes={ this.props.contestTypes } onSubmit={ this.props.onSubmit } />
             );
     }
 }
@@ -37,6 +45,27 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         fetchContestTypes: () => {
             dispatch(fetchTypes())
+        },
+        onSubmit: (values) => {
+            dispatch(saveContest({
+                name: values.name,
+                date: values.date,
+                address: values.address,
+                duration: values.duration,
+                ringsCount: values.ringsCount,
+                city: values.city,
+                countryId: values.countryId,
+                allowUnassociated: values.allowUnassociated,
+                website: values.website,
+                facebook: values.facebook,
+                vk: values.vk,
+                twitter: values.twitter,
+                instagram: values.instagram,
+                contestCategories: values.contestCategories
+            }));
+        },
+        getContestType: (id) => {
+
         }
     }
 }

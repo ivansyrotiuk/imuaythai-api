@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
+using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Contests;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -37,8 +39,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var gym = await _repository.Get(id);
-                return Ok((GymDto)gym);
+                var contest = await _repository.Get(id);
+                return Ok(contest);
             }
             catch (Exception ex)
             {
@@ -49,21 +51,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> SaveContest([FromBody]GymDto gym)
+        public async Task<IActionResult> SaveContest([FromBody]ContestDto contest)
         {
             try
             {
-                Institution gymEntity = gym.Id == 0 ? new Institution() : await _repository.Get(gym.Id);
-                gymEntity.Id = gym.Id;
-                gymEntity.Name = gym.Name;
-                gymEntity.Address = gym.Address;
-                gymEntity.City = gym.City;
-                gymEntity.CountryId = 958;
+                Contest contestEntity = contest.Id == 0 ? new Contest() : await _repository.Get(contest.Id);
+                contestEntity.Id = contest.Id;
+                contestEntity.Name = contest.Name;
+                contestEntity.Date = contest.Date;
+                contestEntity.Address = contest.Address;
+                contestEntity.Duration = contest.Duration;
+                contestEntity.RingsCount = contest.RingsCount;
+                contestEntity.City = contest.City;
+                contestEntity.CountryId = contest.CountryId;
+                contestEntity.Website = contest.Website;
+                contestEntity.Facebook = contest.Facebook;
+                contestEntity.VK = contest.VK;
+                contestEntity.Twitter = contest.Twitter;
+                contestEntity.Instagram = contest.Instagram;
+               
+                await _repository.Save(contestEntity);
 
-                await _repository.Save(gymEntity);
-
-                gym.Id = gymEntity.Id;
-                return Created("Add", gym);
+                return Created("Add", contest);
             }
             catch (Exception ex)
             {
@@ -74,13 +83,13 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("Remove")]
-        public async Task<IActionResult> RemoveGym([FromBody]GymDto gym)
+        public async Task<IActionResult> RemoveContest([FromBody]ContestDto contest)
         {
             try
             {
-                await _repository.Remove(gym.Id);
+                await _repository.Remove(contest.Id);
 
-                return Ok(gym.Id);
+                return Ok(contest.Id);
             }
             catch (Exception ex)
             {

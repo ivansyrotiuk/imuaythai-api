@@ -6,7 +6,7 @@ const reducerInitialState = {
     fetched: false,
     contests: []
 }
-export default reducer = (state = reducerInitialState, action) => {
+const reducer = (state = reducerInitialState, action) => {
     switch (action.type) {
         case actionTypes.SAVE_CONTEST_REQUEST:
         case actionTypes.FETCH_CONTESTS_REQUEST:
@@ -20,7 +20,15 @@ export default reducer = (state = reducerInitialState, action) => {
                 fetching: false,
                 fetched: true
             }
+        case actionTypes.FETCH_CONTESTS_SUCCESS:
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                contests: action.payload
+            }
         case actionTypes.SAVE_CONTEST_REJECTED:
+        case actionTypes.FETCH_CONTESTS_REJECTED:
             return {
                 ...state,
                 fetching: false,
@@ -31,3 +39,5 @@ export default reducer = (state = reducerInitialState, action) => {
             return state
     }
 }
+
+export default reducer;
