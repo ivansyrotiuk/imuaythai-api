@@ -18,7 +18,7 @@ namespace MuaythaiSportManagementSystemApi.Users
         public string Phone { get; set; }
         public int Type { get; set; }
         public int? CountryId { get; set; }
-        public int? InstitutionsId { get; set; }
+        public int? InstitutionId { get; set; }
         public int? KhanLevelId { get; set; }
         public string Facebook { get; set; }
         public string Instagram { get; set; }
@@ -45,6 +45,7 @@ namespace MuaythaiSportManagementSystemApi.Users
             Facebook = user.Facebook;
             Twitter = user.Twitter;
             Instagram = user.Instagram;
+            InstitutionId = user.InstitutionId;
             VK = user.VK;
             Gender = user.Gender;
             Phone = user.Phone;

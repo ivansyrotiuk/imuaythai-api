@@ -22,22 +22,30 @@ import Tables from '../../views/Components/Tables/'
 import Tabs from '../../views/Components/Tabs/'
 import FontAwesome from '../../views/Icons/FontAwesome/'
 import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
-import GymsPage from "../../views/Institutions/GymsPage"
-import GymDetailsPage from "../../views/Institutions/GymDetailsPage"
+
 import ContestTypesPage from "../../views/Dictionaries/ContestTypes/ContestTypesPage"
 import ContestTypesDetailsPage from "../../views/Dictionaries/ContestTypes/ContestTypesDetailsPage"
 import ContestRangesPage from "../../views/Dictionaries/ContestRanges/ContestRangesPage"
 import ContestRangesDetailsPage from "../../views/Dictionaries/ContestRanges/ContestRangesDetailsPage"
-import FightersPage from "../../views/Users/FightersPage"
-import FighterEditPage from "../../views/Users/FighterEditPage"
-import UserRolesPage from "../../views/Users/UserRolesPage"
 import KhanLevelsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsPage"
 import KhanLevelsDetailsPage from "../../views/Dictionaries/KhanLevels/KhanLevelsDetailsPage"
 import SuspensionTypesPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesPage"
 import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesDetailsPage"
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
-import FighterViewPage from "../../views/Users/FighterViewPage"
+
+import GymsPage from "../../views/Institutions/GymsPage"
+import InstitutionEditPage from "../../views/Institutions/InstitutionEditPage"
+
+import FightersPage from "../../views/Users/Fighters/FightersPage"
+import JudgesPage from "../../views/Users/Judges/JudgesPage"
+import CoachesPage from "../../views/Users/Coaches/CoachesPage"
+import DoctorsPage from "../../views/Users/Doctors/DoctorsPage"
+
+import UserEditPage from "../../views/Users/UserEditPage"
+import UserViewPage from "../../views/Users/UserViewPage"
+
+import UserRolesPage from "../../views/Users/UserRolesPage"
 import RoleRequestsPage from "../../views/Users/RoleRequestsPage"
 import ContestsPage from "../../views/Contest/ContestsPage"
 import CreateContest from '../Contest/CreateContestContainer'
@@ -67,13 +75,16 @@ class Full extends Component {
                 <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={ SimpleLineIcons } />
                 <Route path="/widgets" name="Widgets" component={ Widgets } />
                 <Route path="/charts" name="Charts" component={ Charts } />
-                <Route path="/gyms/:id" name="Gym" component={ GymDetailsPage } />
+                <Route path="/gyms/:id" name="Gym" component={ InstitutionEditPage } />
                 <Route path="/gyms/" name="Gyms" component={ GymsPage } />
-                <Route path="/fighters/:id/(edit)" name="Fighter" component={ FighterEditPage } />
-                <Route path="/fighters/:id/(roles)" name="FigtherRoles" component={ UserRolesPage } />
-                <Route path="/fighters/:id" name="Fighter" component={ FighterViewPage } />
+                <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPage } />
+                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPage } />
+                <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPage } />
+                <Route path="/users/:id" name="User" component={ UserViewPage } />
                 <Route path="/fighters/" name="Fighters" component={ FightersPage } />
-                <Route path="/users/role_requests" name="RoleRequests" component={ RoleRequestsPage } />
+                <Route path="/judges/" name="Judges" component={ JudgesPage } />
+                <Route path="/coaches/" name="Coaches" component={ CoachesPage } />
+                <Route path="/doctors/" name="Doctors" component={ DoctorsPage } />
                 <Route path="/dictionaries/types" name="ContestTypes" component={ ContestTypesPage } />
                 <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ ContestRangesDetailsPage } />
                 <Route path="/dictionaries/ranges/" name="ContestRanges" component={ ContestRangesPage } />
@@ -86,8 +97,8 @@ class Full extends Component {
                 <Route path="/dictionaries/points/:id" name="ContestPoint" component={ ContestPointsDetailsPage } />
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
-                <Route path="/contests/:id/edit" name="Edit contest" component={ CreateContest } />
                 <Route path="/contests/add" name="Create contest" component={ CreateContest } />
+                <Route path="/contests/:id/edit" name="Edit contest" component={ CreateContest } />
                 <Route path="/contests/" name="Contests" component={ ContestsPage } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>

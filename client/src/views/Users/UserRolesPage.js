@@ -1,15 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Spinner from "../Components/Spinners/Spinner";
 import UserRolesTable from "../Components/Tables/UserRolesTable"
 import UserRoleRequestForm from "./Forms/UserRoleRequestForm"
-import {fetchRoles} from "../../actions/RolesActions";
-import {fetchUserRoles, saveUserRoleRequest, addUserRole, cancelAddingUserRole} from "../../actions/UserRolesActions";
-import {connect} from "react-redux";
+import Page from "../Components/Page"
+import { fetchRoles } from "../../actions/RolesActions";
+import { fetchUserRoles, saveUserRoleRequest, addUserRole, cancelAddingUserRole } from "../../actions/UserRolesActions";
+import { connect } from "react-redux";
 
 class UserRolesPage extends Component {
     constructor(props) {
         super(props);
-        
+
         this.onSubmit = this
             .onSubmit
             .bind(this);
@@ -39,25 +40,24 @@ class UserRolesPage extends Component {
 
         const availableRoles = roles.filter(r => userRoles.findIndex(u => u.roleId === r.id) === -1);
 
-        const content = adding
-            ? <UserRoleRequestForm
-                    roles={availableRoles}
-                    onSubmit={this.onSubmit}
-                    onCancel={this.props.cancelAddingUserRole}/>
-            : <UserRolesTable 
-                    userRoles={userRoles} 
-                    addRole={this.props.addUserRole}
-                    requestRoleAgain={this.onSubmit}/>
-        return (
-            <div>
-                {content}
-            </div>
-        );
+        if (adding) {
+            const header = <strong>Add role request</strong>
+            const form = <UserRoleRequestForm roles={ availableRoles } onSubmit={ this.onSubmit } onCancel={ this.props.cancelAddingUserRole } />
+            return <Page header={ header } content={ form } />
+        } else {
+            return <UserRolesTable userRoles={ userRoles } addRole={ this.props.addUserRole } requestRoleAgain={ this.onSubmit } />
+        }
+
     }
-};
+}
+;
 
 const mapStateToProps = (state, ownProps) => {
-    return {roles: state.Roles.roles, userRoles: state.UserRoles.roles, adding: state.UserRoles.adding}
+    return {
+        roles: state.Roles.roles,
+        userRoles: state.UserRoles.roles,
+        adding: state.UserRoles.adding
+    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

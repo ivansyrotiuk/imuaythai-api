@@ -16,11 +16,12 @@ const routes = {
   '/icons/font-awesome': 'Font Awesome',
   '/icons/simple-line-icons': 'Simple Line Icons',
   '/widgets': 'Widgets',
-  '/gyms': "Gyms",
-  '/contest/types': "Contest type",
-  '/fighters': "Fighters",
-  '/contest/types': "Contest type",
-  '/contests/edit': 'Edit contest',
-  '/contests/add': 'Create contest'
+  '/gyms':"Gyms",
+  '/contest/types':"Contest type",
+  '/fighters':"Fighters",
+  '/coaches':"Coaches",
+  '/judges':"Judges",
+  '/contests/add': 'Create contest',
+  '/contests/edit': 'Edit contest'
 };
 export default routes;
