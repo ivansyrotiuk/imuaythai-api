@@ -78,13 +78,13 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("points/remove")]
-        public async Task<IActionResult> RemoveRange([FromBody]ContestRangeDto range)
+        public async Task<IActionResult> RemoveRange([FromBody]ContestPointsDto points)
         {
             try
             {
-                await _repository.Remove(range.Id);
+                await _repository.Remove(points.Id);
 
-                return Ok(range.Id);
+                return Ok(points.Id);
             }
             catch (Exception ex)
             {
