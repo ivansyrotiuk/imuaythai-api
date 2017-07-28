@@ -1,9 +1,9 @@
-import {host} from "../global"
+import { host } from "../global"
 import axios from "axios";
 import * as actionTypes from "../actions/actionTypes"
 
 export function fetchGyms() {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: actionTypes.FETCH_GYMS
         });
@@ -31,9 +31,26 @@ export function saveGym(gym) {
     }
 }
 
-export function deleteGym(id) {
-    return {
-        type: 'DELETE_GYM',
-        payload: id
+export function deleteInstitution(id) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.DELETE_INSTITUTION,
+            payload: id
+        })
+        return axios.post(host + 'api/gyms/remove', {
+            Id: id
+        })
+            .then(function(response) {
+                dispatch({
+                    type: actionTypes.DELETE_INSTITUTION_SUCCESS,
+                    payload: response.data
+                });
+            })
+            .catch(function(error) {
+                dispatch({
+                    type: actionTypes.DELETE_INSTITUTION_REJECTED,
+                    payload: error
+                });
+            });
     }
 }
