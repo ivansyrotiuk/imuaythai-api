@@ -20,46 +20,43 @@ class Sidebar extends Component {
 
   render() {
 
-    const FigthersLink = userIsAdmin(() =>  <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>) 
-    const JudgesLink = userIsAdmin(() =>  <NavLink to="/judges" className="nav-link" activeClassName="active"><i className="fa fa-gavel"></i> Judges</NavLink>) 
-    const CoachesLink = userIsAdmin(() =>  <NavLink to="/coaches" className="nav-link" activeClassName="active"><i className="fa fa-male"></i> Coaches</NavLink>) 
-    
-    const UserRoleRequestLink = userCanManageRoles(() =>  <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="icon-user-following"></i> Role requests</NavLink>) 
+    const FigthersLink = userIsAdmin(() => <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>)
+    const JudgesLink = userIsAdmin(() => <NavLink to="/judges" className="nav-link" activeClassName="active"><i className="fa fa-gavel"></i> Judges</NavLink>)
+    const CoachesLink = userIsAdmin(() => <NavLink to="/coaches" className="nav-link" activeClassName="active"><i className="fa fa-male"></i> Coaches</NavLink>)
+    const DoctorsLink = userIsAdmin(() => <NavLink to="/doctors" className="nav-link" activeClassName="active"><i className="fa fa-user-md"></i> Doctors</NavLink>)
+
+
+    const UserRoleRequestLink = userCanManageRoles(() => <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="icon-user-following"></i> Role requests</NavLink>)
 
     return (
       <div className="sidebar">
         <nav className="sidebar-nav">
           <ul className="nav">
             <li className="nav-item">
-              <NavLink to={'/dashboard'} className="nav-link" activeClassName="active"><i className="icon-speedometer"></i> Dashboard <span className="badge badge-info">NEW</span></NavLink>
+              <NavLink to={ '/dashboard' } className="nav-link" activeClassName="active"><i className="icon-speedometer"></i> Dashboard <span className="badge badge-info">NEW</span></NavLink>
             </li>
-
-           
-            <li className={this.activeRoute("/institutions")}>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-puzzle"></i> Institutions</a>
+            <li className={ this.activeRoute("/institutions") }>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-puzzle"></i> Institutions</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
                   <NavLink to="/gyms" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Gyms</NavLink>
                 </li>
-
               </ul>
             </li>
-
-            <li className={this.activeRoute("/users")}>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-people"></i> Users</a>
+            <li className={ this.activeRoute("/users") }>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-people"></i> Users</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
                   <FigthersLink />
                   <JudgesLink />
                   <CoachesLink />
+                  <DoctorsLink />
                   <UserRoleRequestLink />
                 </li>
-
               </ul>
             </li>
-
-            <li className={this.activeRoute("/dictionaries")}>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-puzzle"></i> Dictionaries</a>
+            <li className={ this.activeRoute("/dictionaries") }>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-puzzle"></i> Dictionaries</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
                   <NavLink to="/dictionaries/types" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest types</NavLink>
@@ -78,74 +75,73 @@ class Sidebar extends Component {
                 </li>
               </ul>
             </li>
-
             <li className="nav-title">
               UI Elements
             </li>
-            <li className={this.activeRoute("/components")}>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-puzzle"></i> Components</a>
+            <li className={ this.activeRoute("/components") }>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-puzzle"></i> Components</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
-                  <NavLink to={'/components/buttons'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Buttons</NavLink>
+                  <NavLink to={ '/components/buttons' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Buttons</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/components/social-buttons'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Social Buttons</NavLink>
+                  <NavLink to={ '/components/social-buttons' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Social Buttons</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/components/cards'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Cards</NavLink>
+                  <NavLink to={ '/components/cards' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Cards</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/components/forms'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Forms</NavLink>
+                  <NavLink to={ '/components/forms' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Forms</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/components/modals'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Modals</NavLink>
+                  <NavLink to={ '/components/modals' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Modals</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/components/switches'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Switches</NavLink>
+                  <NavLink to={ '/components/switches' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Switches</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/components/tables'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Tables</NavLink>
+                  <NavLink to={ '/components/tables' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Tables</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/components/tabs'} className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Tabs</NavLink>
+                  <NavLink to={ '/components/tabs' } className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Tabs</NavLink>
                 </li>
               </ul>
             </li>
-            <li className={this.activeRoute("/icons")}>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-star"></i> Icons</a>
+            <li className={ this.activeRoute("/icons") }>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-star"></i> Icons</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
-                  <NavLink to={'/icons/font-awesome'} className="nav-link" activeClassName="active"><i className="icon-star"></i> Font Awesome</NavLink>
+                  <NavLink to={ '/icons/font-awesome' } className="nav-link" activeClassName="active"><i className="icon-star"></i> Font Awesome</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/icons/simple-line-icons'} className="nav-link" activeClassName="active"><i className="icon-star"></i> Simple Line Icons</NavLink>
+                  <NavLink to={ '/icons/simple-line-icons' } className="nav-link" activeClassName="active"><i className="icon-star"></i> Simple Line Icons</NavLink>
                 </li>
               </ul>
             </li>
             <li className="nav-item">
-              <NavLink to={'/widgets'} className="nav-link" activeClassName="active"><i className="icon-calculator"></i> Widgets <span className="badge badge-info">NEW</span></NavLink>
+              <NavLink to={ '/widgets' } className="nav-link" activeClassName="active"><i className="icon-calculator"></i> Widgets <span className="badge badge-info">NEW</span></NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to={'/charts'} className="nav-link" activeClassName="active"><i className="icon-pie-chart"></i> Charts</NavLink>
+              <NavLink to={ '/charts' } className="nav-link" activeClassName="active"><i className="icon-pie-chart"></i> Charts</NavLink>
             </li>
             <li className="divider"></li>
             <li className="nav-title">
               Extras
             </li>
             <li className="nav-item nav-dropdown">
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick.bind(this)}><i className="icon-star"></i> Pages</a>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-star"></i> Pages</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
-                  <NavLink to={'/login'} className="nav-link" activeClassName="active"><i className="icon-star"></i> Login</NavLink>
+                  <NavLink to={ '/login' } className="nav-link" activeClassName="active"><i className="icon-star"></i> Login</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/register'} className="nav-link" activeClassName="active"><i className="icon-star"></i> Register</NavLink>
+                  <NavLink to={ '/register' } className="nav-link" activeClassName="active"><i className="icon-star"></i> Register</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/404'} className="nav-link" activeClassName="active"><i className="icon-star"></i> Error 404</NavLink>
+                  <NavLink to={ '/404' } className="nav-link" activeClassName="active"><i className="icon-star"></i> Error 404</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to={'/500'} className="nav-link" activeClassName="active"><i className="icon-star"></i> Error 500</NavLink>
+                  <NavLink to={ '/500' } className="nav-link" activeClassName="active"><i className="icon-star"></i> Error 500</NavLink>
                 </li>
               </ul>
             </li>

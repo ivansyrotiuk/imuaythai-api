@@ -68,6 +68,28 @@ export function fetchCoaches() {
     }
 }
 
+export function fetchDoctors() {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_DOCTORS
+        });
+        axios
+            .get(host + "api/users/doctors")
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_DOCTORS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_DOCTORS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
 export function fetchUser(id) {
     return function(dispatch) {
         dispatch({

@@ -4,10 +4,11 @@ export default function reducer(state = {
     fighters: [],
     judges: [],
     coaches: [],
+    doctors: [],
     fetching: false,
     fetched: false,
     error: null
-  }, action) {
+  } , action) {
 
   switch (action.type) {
     case actionTypes.FETCH_FIGTHERS: {
@@ -71,6 +72,27 @@ export default function reducer(state = {
         fetching: false,
         fetched: true,
         coaches: action.payload
+      }
+    }
+    case actionTypes.FETCH_DOCTORS: {
+      return {
+        ...state,
+        fetching: true
+      }
+    }
+    case actionTypes.FETCH_DOCTORS_REJECTED: {
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload
+      }
+    }
+    case actionTypes.FETCH_DOCTORS_FULFILLED: {
+      return {
+        ...state,
+        fetching: false,
+        fetched: true,
+        doctors: action.payload
       }
     }
   }

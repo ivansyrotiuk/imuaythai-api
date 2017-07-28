@@ -21,7 +21,7 @@ const routes = {
   '/fighters':"Fighters",
   '/coaches':"Coaches",
   '/judges':"Judges",
-  '/contests/add': 'Create contest'
-  '/contests/edit': 'Edit contest',
+  '/contests/add': 'Create contest',
+  '/contests/edit': 'Edit contest'
 };
 export default routes;
