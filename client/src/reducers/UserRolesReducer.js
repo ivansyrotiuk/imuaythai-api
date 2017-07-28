@@ -25,7 +25,7 @@ const userRoles = (state = userRolesInitialState, action) => {
                 ...state,
                 fetching: true
             }
-        case actionTypes.FETCH_USER_ROLES_FULLFILED:
+        case actionTypes.FETCH_USER_ROLES_FULFILLED:
             return {
                 ...state,
                 roles: action.payload,

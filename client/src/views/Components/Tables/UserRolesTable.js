@@ -14,8 +14,8 @@ let UserRolesTable = (props) => {
         <div>
           <span className="badge badge-danger">{ role.status }</span>
           { props.userRoles.findIndex(r => r.roleId == role.roleId && r.status !== "Rejected") === -1 && 
-            <button class="btn btn-xs btn-link pull-right" onClick={ () => props.requestRoleAgain(role) }>
-              <i class="fa fa-repeat fa-lg text-success" aria-hidden="true"></i>
+            <button className="btn btn-xs btn-link pull-right" onClick={ () => props.requestRoleAgain(role) }>
+              <i className="fa fa-repeat fa-lg text-success" aria-hidden="true"></i>
             </button> }
         </div> }
     </td>

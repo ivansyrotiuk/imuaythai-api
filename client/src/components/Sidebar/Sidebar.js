@@ -21,6 +21,9 @@ class Sidebar extends Component {
   render() {
 
     const FigthersLink = userIsAdmin(() =>  <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>) 
+    const JudgesLink = userIsAdmin(() =>  <NavLink to="/judges" className="nav-link" activeClassName="active"><i className="fa fa-gavel"></i> Judges</NavLink>) 
+    const CoachesLink = userIsAdmin(() =>  <NavLink to="/coaches" className="nav-link" activeClassName="active"><i className="fa fa-male"></i> Coaches</NavLink>) 
+    
     const UserRoleRequestLink = userCanManageRoles(() =>  <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="icon-user-following"></i> Role requests</NavLink>) 
 
     return (
@@ -47,6 +50,8 @@ class Sidebar extends Component {
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
                   <FigthersLink />
+                  <JudgesLink />
+                  <CoachesLink />
                   <UserRoleRequestLink />
                 </li>
 

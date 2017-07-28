@@ -1,6 +1,6 @@
 import { combineReducers } from "redux"
 import Gyms from "./GymsReducer"
-import Fighters from "./FightersReducer"
+import Users from "./UsersReducer"
 import ContestTypes from "./ContestTypesReducer"
 import Account from "./AccountReducer"
 import ContestRanges from "./ContestRangesReducer"
@@ -12,16 +12,17 @@ import Roles from "./RolesReducer"
 import UserRoles from "./UserRolesReducer"
 import RoleRequests from "./RoleRequestsReducer"
 import Contest from "./ContestReducer"
-
+import SingleUser from "./UserReducer"
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
     Gyms,
     ContestTypes,
-    Fighters,
+    Users,
     Countries,
     ContestRanges,
     KhanLevels,
+    SingleUser,
     Roles,
     UserRoles,
     RoleRequests,

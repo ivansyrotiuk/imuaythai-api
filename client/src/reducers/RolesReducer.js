@@ -14,7 +14,7 @@ export default function reducer(state = {
                     fetching: true
                 }
             };
-        case actionTypes.FETCH_ROLES_FULLFILED:
+        case actionTypes.FETCH_ROLES_FULFILLED:
             {
                 return {
                     ...state,

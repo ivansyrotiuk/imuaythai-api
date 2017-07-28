@@ -1,3 +1,5 @@
+import * as actionTypes from "../actions/actionTypes"
+
 export default function reducer(state = {
   gyms: [],
   fetching: false,
@@ -6,7 +8,7 @@ export default function reducer(state = {
 }, action) {
 
   switch (action.type) {
-    case "FETCH_GYMS":
+    case actionTypes.FETCH_GYMS:
       {
         return {
           ...state,
@@ -14,7 +16,7 @@ export default function reducer(state = {
         }
       }
 
-    case "FETCH_GYMS_REJECTED":
+    case actionTypes.FETCH_GYMS_REJECTED:
       {
         return {
           ...state,
@@ -23,7 +25,7 @@ export default function reducer(state = {
         }
       }
 
-    case "FETCH_GYMS_FULFILLED":
+    case actionTypes.FETCH_GYMS_FULFILLED:
       {
         return {
           ...state,

@@ -16,12 +16,12 @@ let RolesRequestsTable = (props) => {
                                                                      </td>
                                                                      <td>
                                                                        <button className="btn btn-primary" onClick={ () => props.acceptClick(request) }>
-                                                                         { request.accepting ? <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> : <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> }
+                                                                         { request.accepting ? <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> : <i className="fa fa-thumbs-o-up" aria-hidden="true"></i> }
                                                                        </button>
                                                                      </td>
                                                                      <td>
                                                                        <button className="btn btn-danger" onClick={ () => props.rejectClick(request) }>
-                                                                         { request.rejecting ? <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> :  <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> }
+                                                                         { request.rejecting ? <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> :  <i className="fa fa-thumbs-o-down" aria-hidden="true"></i> }
                                                                         </button>
                                                                      </td>
                                                                    </tr>);
