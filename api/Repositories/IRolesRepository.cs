@@ -10,6 +10,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 {
     public interface IRolesRepository
     {
+        Task<IdentityRole> Get(string name);
         Task<List<IdentityRole>> GetAll();
     }
 
@@ -20,6 +21,11 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         public RolesRepository(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public Task<IdentityRole> Get(string name)
+        {
+            return _context.Roles.FirstOrDefaultAsync(r => r.Name == name);
         }
 
         public Task<List<IdentityRole>> GetAll()
