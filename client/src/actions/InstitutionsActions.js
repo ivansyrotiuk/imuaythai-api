@@ -8,7 +8,7 @@ export function fetchGyms() {
             type: actionTypes.FETCH_GYMS
         });
         axios
-            .get(host + "api/gyms/")
+            .get(host + "api/institutions/gyms")
             .then((response) => {
                 dispatch({
                     type: actionTypes.FETCH_GYMS_FULFILLED,
@@ -24,13 +24,79 @@ export function fetchGyms() {
     }
 }
 
+export function fetchNationalFederations() {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_NATIONAL_FEDERATIONS
+        });
+        axios
+            .get(host + "api/institutions/federations/national")
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_NATIONAL_FEDERATIONS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_NATIONAL_FEDERATIONS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function fetchContinentalFederations() {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_CONTINENTAL_FEDERATIONS
+        });
+        axios
+            .get(host + "api/institutions/federations/continental")
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTINENTAL_FEDERATIONS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTINENTAL_FEDERATIONS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function fetchWorldFederations() {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_WORLD_FEDERATIONS
+        });
+        axios
+            .get(host + "api/institutions/federations/world")
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_WORLD_FEDERATIONS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_WORLD_FEDERATIONS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
 export function fetchInstitution(id) {
     return function(dispatch) {
         dispatch({
             type: actionTypes.FETCH_INSTITUTION
         });
         axios
-            .get(host + "api/gyms/gym/" + id)
+            .get(host + "api/institutions/" + id)
             .then((response) => {
                 dispatch({
                     type: actionTypes.FETCH_INSTITUTION_FULFILLED,
@@ -52,7 +118,7 @@ export function saveInstitution(institution) {
             type: actionTypes.SAVE_INSTITUTION
         });
         return axios
-            .post(host + 'api/gyms/save', institution)
+            .post(host + 'api/institutions/save', institution)
             .then(function(response) {
                 dispatch({
                     type: actionTypes.SAVE_INSTITUTION_SUCCESS,
@@ -68,15 +134,13 @@ export function saveInstitution(institution) {
     }
 }
 
-
-
 export function deleteInstitution(id) {
     return function(dispatch) {
         dispatch({
             type: actionTypes.DELETE_INSTITUTION,
             payload: id
         })
-        return axios.post(host + 'api/gyms/remove', {
+        return axios.post(host + 'api/institutions/remove', {
             Id: id
         })
             .then(function(response) {

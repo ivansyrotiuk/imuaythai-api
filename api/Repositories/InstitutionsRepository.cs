@@ -5,15 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Extensions;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
-    class InstitutionsesRepository : IInstitutionsRepository
+    class InstitutionsRepository : IInstitutionsRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public InstitutionsesRepository(ApplicationDbContext context)
+        public InstitutionsRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -31,7 +30,27 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task<List<Institution>> GetAll()
         {
-            return _context.Institutions.ToListAsync();
+            return _context.Institutions.Include(i => i.Country).ToListAsync();
+        }
+
+        public Task<List<Institution>> GetContinentalFederations()
+        {
+            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.ContinentalFederation).ToListAsync();
+        }
+
+        public Task<List<Institution>> GetNationalFederations()
+        {
+            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.NationalFederation).ToListAsync();
+        }
+
+        public Task<List<Institution>> GetGyms()
+        {
+            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.Gym).ToListAsync();
+        }
+
+        public Task<List<Institution>> GetWorldFederations()
+        {
+            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.WorldFederation).ToListAsync();
         }
 
         public Task Remove(int id)

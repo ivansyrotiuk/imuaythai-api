@@ -35,6 +35,9 @@ import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPoi
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
 
 import GymsPage from "../../views/Institutions/GymsPage"
+import NationalFederationsPage from "../../views/Institutions/NationalFederationsPage"
+import ContinentalFederationsPage from "../../views/Institutions/ContinentalFederationsPage"
+import WorldFederationsPage from "../../views/Institutions/WorldFederationsPage"
 import InstitutionEditPage from "../../views/Institutions/InstitutionEditPage"
 
 import FightersPage from "../../views/Users/Fighters/FightersPage"
@@ -75,8 +78,11 @@ class Full extends Component {
                 <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={ SimpleLineIcons } />
                 <Route path="/widgets" name="Widgets" component={ Widgets } />
                 <Route path="/charts" name="Charts" component={ Charts } />
-                <Route path="/gyms/:id" name="Gym" component={ InstitutionEditPage } />
+                <Route path="/institutions/:id" name="Institution" component={ InstitutionEditPage } />
                 <Route path="/gyms/" name="Gyms" component={ GymsPage } />
+                <Route path="/federations/national" name="Nationl federations" component={ NationalFederationsPage } />
+                <Route path="/federations/continental" name="Continental federation" component={ ContinentalFederationsPage } />
+                <Route path="/federations/world" name="World federation" component={ WorldFederationsPage } />
                 <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPage } />
                 <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPage } />
                 <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPage } />

@@ -20,13 +20,18 @@ class Sidebar extends Component {
 
   render() {
 
-    const FigthersLink = userIsAdmin(() => <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="icon-user"></i> Fighters</NavLink>)
+    const FigthersLink = userIsAdmin(() => <NavLink to="/fighters" className="nav-link" activeClassName="active"><i className="fa fa-user"></i> Fighters</NavLink>)
     const JudgesLink = userIsAdmin(() => <NavLink to="/judges" className="nav-link" activeClassName="active"><i className="fa fa-gavel"></i> Judges</NavLink>)
     const CoachesLink = userIsAdmin(() => <NavLink to="/coaches" className="nav-link" activeClassName="active"><i className="fa fa-male"></i> Coaches</NavLink>)
     const DoctorsLink = userIsAdmin(() => <NavLink to="/doctors" className="nav-link" activeClassName="active"><i className="fa fa-user-md"></i> Doctors</NavLink>)
 
+    const GymsLink = userIsAdmin(() => <NavLink to="/gyms" className="nav-link" activeClassName="active"><i className="fa fa-flag"></i> Gyms</NavLink>);
+    const NationalFederationsLink = userIsAdmin(() => <NavLink to="/federations/national" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> National federations</NavLink>)
+    const ContinetalFederationsLink = userIsAdmin(() => <NavLink to="/federations/continental" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> Continental federations</NavLink>)
+    const WorldFederationsLink = userIsAdmin(() => <NavLink to="/federations/world" className="nav-link" activeClassName="active"><i className="fa fa-globe "></i> World federations</NavLink>)
 
-    const UserRoleRequestLink = userCanManageRoles(() => <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="icon-user-following"></i> Role requests</NavLink>)
+
+    const UserRoleRequestLink = userCanManageRoles(() => <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="fa fa-user-plus"></i> Role requests</NavLink>)
 
     return (
       <div className="sidebar">
@@ -36,21 +41,38 @@ class Sidebar extends Component {
               <NavLink to={ '/dashboard' } className="nav-link" activeClassName="active"><i className="icon-speedometer"></i> Dashboard <span className="badge badge-info">NEW</span></NavLink>
             </li>
             <li className={ this.activeRoute("/institutions") }>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-puzzle"></i> Institutions</a>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="fa fa-university"></i> Institutions</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
-                  <NavLink to="/gyms" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Gyms</NavLink>
+                  <GymsLink />
+                </li>
+                <li className="nav-item">
+                  <NationalFederationsLink />
+                </li>
+                <li className="nav-item">
+                  <ContinetalFederationsLink />
+                </li>
+                <li className="nav-item">
+                  <WorldFederationsLink />
                 </li>
               </ul>
             </li>
             <li className={ this.activeRoute("/users") }>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-people"></i> Users</a>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="fa fa-users"></i> Users</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
                   <FigthersLink />
+                </li>
+                <li className="nav-item">
                   <JudgesLink />
+                </li>
+                <li className="nav-item">
                   <CoachesLink />
+                </li>
+                <li className="nav-item">
                   <DoctorsLink />
+                </li>
+                <li className="nav-item">
                   <UserRoleRequestLink />
                 </li>
               </ul>
