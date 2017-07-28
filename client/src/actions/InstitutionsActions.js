@@ -24,12 +24,51 @@ export function fetchGyms() {
     }
 }
 
-export function saveGym(gym) {
-    return {
-        type: 'SAVE_GYM',
-        payload: gym
+export function fetchInstitution(id) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_INSTITUTION
+        });
+        axios
+            .get(host + "api/gyms/gym/" + id)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_INSTITUTION_FULFILLED,
+                    payload: response.data
+                });
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_INSTITUTION_REJECTED,
+                    payload: err
+                });
+            });
     }
 }
+
+export function saveInstitution(institution) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.SAVE_INSTITUTION
+        });
+        return axios
+            .post(host + 'api/gyms/save', institution)
+            .then(function(response) {
+                dispatch({
+                    type: actionTypes.SAVE_INSTITUTION_SUCCESS,
+                    payload: response.data
+                });
+            })
+            .catch(function(error) {
+                dispatch({
+                    type: actionTypes.SAVE_INSTITUTION_REJECTED,
+                    payload: error
+                });
+            });
+    }
+}
+
+
 
 export function deleteInstitution(id) {
     return function(dispatch) {

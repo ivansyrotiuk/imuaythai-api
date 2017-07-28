@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 import Spinner from "../Components/Spinners/Spinner";
 import CommonUserDataForm from "./Forms/CommonUserDataForm";
-import {saveFighter, fetchUser, saveUser} from "../../actions/UsersActions";
-import {fetchGyms} from "../../actions/InstitutionsActions"
-import {fetchCountries} from "../../actions/CountriesActions";
+import { saveFighter, fetchUser, saveUser } from "../../actions/UsersActions";
+import { fetchGyms } from "../../actions/InstitutionsActions"
+import { fetchCountries } from "../../actions/CountriesActions";
 import { userHasRole } from '../../auth/auth';
+import Page from "../Components/Page"
 
 class UserEditPage extends Component {
     componentWillMount() {
@@ -25,7 +26,7 @@ class UserEditPage extends Component {
     }
 
     render() {
-        const {fetching, saving, saved} = this.props;
+        const {fetching, saved} = this.props;
 
         if (fetching) {
             return (<Spinner/>);
@@ -34,43 +35,25 @@ class UserEditPage extends Component {
         if (!fetching && this.props.user == undefined) {
             return (
                 <div></div>
-            );
+                );
         }
 
         const userHasRole = this.props.user.roles.find(r => r !== "") !== undefined;
 
-        return (
-            <div className="animated fadeIn">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="card">
-                            <div className="card-header">
-                                <strong>Fighter</strong>
-                            </div>
-                            <div className="card-block">
-                               <CommonUserDataForm
-                                    initialValues={this.props.user}
-                                    countries={this.props.countries}
-                                    gyms={this.props.gyms}
-                                    onSubmit={this.props.saveUser} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+        const header = <strong>Fighter</strong>;
+        const content = <CommonUserDataForm initialValues={ this.props.user } countries={ this.props.countries } gyms={ this.props.gyms } onSubmit={ this.props.saveUser } />;
+        return <Page header={ header } content={ content } />
     }
 }
 
 
 const mapStateToProps = (state, ownProps) => {
     return {
-       countries: state.Countries.countries,
-       gyms: state.Gyms.gyms,
-       user: state.SingleUser.user,
-       fetching: state.SingleUser.fetching,
-       saving: state.SingleUser.saving,
-       saved: state.SingleUser.saved,
+        countries: state.Countries.countries,
+        gyms: state.Gyms.gyms,
+        user: state.SingleUser.user,
+        fetching: state.SingleUser.fetching,
+        saved: state.SingleUser.saved,
     }
 }
 
@@ -82,10 +65,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         fetchGyms: () => {
             dispatch(fetchGyms());
         },
-        fetchUser: (id) =>{
+        fetchUser: (id) => {
             dispatch(fetchUser(id));
         },
-        saveUser: (user) =>{
+        saveUser: (user) => {
             return dispatch(saveUser(user));
         }
     }

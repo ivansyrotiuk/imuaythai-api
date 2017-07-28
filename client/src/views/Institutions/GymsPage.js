@@ -49,9 +49,9 @@ class GymsPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    gyms: state.Gyms.gyms,
-    fetching: state.Gyms.fetching,
-    fetched: state.Gyms.fetched
+    gyms: state.InstitutionsReducer.gyms,
+    fetching: state.InstitutionsReducer.fetching,
+    fetched: state.InstitutionsReducer.fetched
   }
 }
 

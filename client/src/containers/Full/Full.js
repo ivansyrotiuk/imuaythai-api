@@ -22,8 +22,7 @@ import Tables from '../../views/Components/Tables/'
 import Tabs from '../../views/Components/Tabs/'
 import FontAwesome from '../../views/Icons/FontAwesome/'
 import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
-import GymsPage from "../../views/Institutions/GymsPage"
-import GymDetailsPage from "../../views/Institutions/GymDetailsPage"
+
 import ContestTypesPage from "../../views/Dictionaries/ContestTypes/ContestTypesPage"
 import ContestTypesDetailsPage from "../../views/Dictionaries/ContestTypes/ContestTypesDetailsPage"
 import ContestRangesPage from "../../views/Dictionaries/ContestRanges/ContestRangesPage"
@@ -34,6 +33,9 @@ import SuspensionTypesPage from "../../views/Dictionaries/SuspensionTypes/Suspen
 import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesDetailsPage"
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
+
+import GymsPage from "../../views/Institutions/GymsPage"
+import InstitutionEditPage from "../../views/Institutions/InstitutionEditPage"
 
 import FightersPage from "../../views/Users/Fighters/FightersPage"
 import JudgesPage from "../../views/Users/Judges/JudgesPage"
@@ -73,7 +75,7 @@ class Full extends Component {
                 <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={ SimpleLineIcons } />
                 <Route path="/widgets" name="Widgets" component={ Widgets } />
                 <Route path="/charts" name="Charts" component={ Charts } />
-                <Route path="/gyms/:id" name="Gym" component={ GymDetailsPage } />
+                <Route path="/gyms/:id" name="Gym" component={ InstitutionEditPage } />
                 <Route path="/gyms/" name="Gyms" component={ GymsPage } />
                 <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPage } />
                 <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPage } />

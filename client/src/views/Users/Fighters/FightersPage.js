@@ -6,6 +6,7 @@ import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
 import PreviewButton from "../../Components/Buttons/PreviewButton"
 import Spinner from "../../Components/Spinners/Spinner"
+import TablePage from "../../Components/TablePage"
 import { fetchFighters, deleteUser } from "../../../actions/UsersActions"
 
 class FightersPage extends Component {
@@ -41,34 +42,14 @@ class FightersPage extends Component {
                                                           </td>
                                                         </tr>);
 
-    return (
-      <div className="animated fadeIn">
-        <div className="row">
-          <div className="col-12">
-            <div className="card">
-              <div className="card-header">
-                <strong>Fighters</strong>
-              </div>
-              <div className="card-block">
-                <table className="table">
-                  <thead>
-                    <tr>
+    const headers = <tr>
                       <th></th>
                       <th>Name</th>
                       <th>Country</th>
                       <th>Action</th>
                     </tr>
-                  </thead>
-                  <tbody>
-                    { mappedFighters }
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      );
+
+    return <TablePage caption="Fighters" headers={ headers } content={ mappedFighters } />;
   }
 }
 
