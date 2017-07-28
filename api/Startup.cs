@@ -82,6 +82,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddSingleton<ICountriesRepository, CountriesRepository>();
             services.AddSingleton<IRolesRepository, RolesRepository>();
             services.AddSingleton<IUserRoleRequestsRepository, UserRoleRequestsRepository>();
+            services.AddSingleton<IContestRepository, ContestRepository>();
             services.Configure<EmailConfiguration>(Configuration);
         }
 

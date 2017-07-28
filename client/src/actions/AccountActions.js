@@ -35,7 +35,7 @@ export function getLoginAccount(account) {
             .catch((err) => {
                 dispatch(receiveErrorAction(actionTypes.LOGIN_ACCOUNT_REJECTED, err.response != null
                     ? err.response.data
-                    : "No internet connection"))
+                    : "Cannot connect to server"))
             })
     }
 }

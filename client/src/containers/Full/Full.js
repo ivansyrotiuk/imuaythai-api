@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
-import {Link, Switch, Route, Redirect} from 'react-router-dom'
+import React, { Component } from 'react';
+import { Link, Switch, Route, Redirect } from 'react-router-dom'
 import Header from '../../components/Header/';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
 import Aside from '../../components/Aside/';
 //import {requireAuthentication} from '../../utils/requireAuthentication'
 
-import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
-         userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from '../../auth/auth'
+import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir, userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from '../../auth/auth'
 
 import Footer from '../../components/Footer/';
 import Dashboard from '../../views/Dashboard/'
@@ -45,7 +44,8 @@ import UserViewPage from "../../views/Users/UserViewPage"
 
 import UserRolesPage from "../../views/Users/UserRolesPage"
 import RoleRequestsPage from "../../views/Users/RoleRequestsPage"
-
+import ContestsPage from "../../views/Contest/ContestsPage"
+import CreateContest from '../Contest/CreateContestContainer'
 
 
 class Full extends Component {
@@ -94,6 +94,9 @@ class Full extends Component {
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ContestPointsPage}/>
                 <Route path="/dictionaries/points" name="ContestPoints" component={ContestPointsPage}/>
                 <Redirect from="/" to="/dashboard"/>
+                <Route path="/contests/" name="Contests" component={ ContestsPage } />
+                <Route path="/contests/add" name="Create contest" component={ CreateContest } />
+                <Route path="/contests/:id/edit" name="Edit contest" component={ CreateContest } />
               </Switch>
             </div>
           </main>
@@ -101,7 +104,7 @@ class Full extends Component {
         </div>
         <Footer/>
       </div>
-    );
+      );
   }
 }
 

@@ -20,7 +20,6 @@ import ForgotPassword from './containers/Login/ForgotPasswordContainer'
 import Register from './containers/Register/RegisterContainer'
 import ConfirmEmail from './containers/Register/ConfirmEmailContainer'
 import ResetPassword from './containers/Login/ResetPasswordContainer'
-import CreateContest from './views/Contest/CreateContestPage'
 
 import Page404 from './views/Pages/Page404/'
 import Page500 from './views/Pages/Page500/'
@@ -45,11 +44,10 @@ ReactDOM.render((
         <Route exact path="/confirmemail" name="Confirm e-mail" component={ ConfirmEmail } />
         <Route exact path="/forgotpassword" name="Forgot password" component={ ForgotPassword } />
         <Route exact path="/resetpassword" name="Reset password" component={ ResetPassword } />
-        <Route exact path="/contestcreate" name="Create contest" component={ CreateContest } />
         <Route exact path="/404" name="Page 404" component={ Page404 } />
         <Route exact path="/500" name="Page 500" component={ Page500 } />
         <Route path="/home" name="Home" component={ FrontPage } />
-        <Route path="/" name="Home" component={ userIsNotAuthenticatedRedir(Full) } />
+        <Route path="/" name="Home" component={ Full } />
       </Switch>
     </HashRouter>
   </Provider>

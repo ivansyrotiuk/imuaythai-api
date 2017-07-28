@@ -1,6 +1,7 @@
 const routes = {
   '/': 'Home',
   '/dashboard': 'Dashboard',
+  '/contests': 'Contests',
   '/components': 'Components',
   '/charts': 'Charts',
   '/components/buttons': 'Buttons',
@@ -20,6 +21,7 @@ const routes = {
   '/fighters':"Fighters",
   '/coaches':"Coaches",
   '/judges':"Judges",
-  '/contest/types':"Contest type"
+  '/contests/add': 'Create contest'
+  '/contests/edit': 'Edit contest',
 };
 export default routes;
