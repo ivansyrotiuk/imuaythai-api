@@ -39,7 +39,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         [StringLength(500)]
         public string Twitter { get; set; }
         public int MembersCount { get; set; }
-        //public InstitutionType InstitutionType { get; set; }
+        public InstitutionType InstitutionType { get; set; }
 
         public virtual ICollection<InstitutionDocumentsMapping> InstitutionDocumentsMappings { get; set; }
         public virtual ICollection<ContestRequest> ContestRequests { get; set; }

@@ -29,7 +29,7 @@ class GymsPage extends Component {
                                                 { gym.name }
                                               </td>
                                               <td>
-                                                <Link to={ "/gyms/" + gym.id }>
+                                                <Link to={ "/institutions/" + gym.id }>
                                                 <EditButton id={ gym.id } />
                                                 </Link>
                                                 <RemoveButton id={ gym.id } click={ this.props.deleteGym.bind(this, gym.id) } />
@@ -38,7 +38,7 @@ class GymsPage extends Component {
 
     const headers = <tr>
                       <th>Id</th>
-                      <th className="col-9">Name</th>
+                      <th className="col-10">Name</th>
                       <th>Action</th>
                     </tr>
 
@@ -49,9 +49,9 @@ class GymsPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    gyms: state.InstitutionsReducer.gyms,
-    fetching: state.InstitutionsReducer.fetching,
-    fetched: state.InstitutionsReducer.fetched
+    gyms: state.Institutions.gyms,
+    fetching: state.Institutions.fetching,
+    fetched: state.Institutions.fetched
   }
 }
 

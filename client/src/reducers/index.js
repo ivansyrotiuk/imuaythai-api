@@ -1,5 +1,5 @@
 import { combineReducers } from "redux"
-import InstitutionsReducer from "./InstitutionsReducer"
+import Institutions from "./InstitutionsReducer"
 import Users from "./UsersReducer"
 import ContestTypes from "./ContestTypesReducer"
 import Account from "./AccountReducer"
@@ -17,7 +17,7 @@ import SingleInstitution from "./SingleInstitutionReducer"
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
-    InstitutionsReducer,
+    Institutions,
     ContestTypes,
     Users,
     Countries,

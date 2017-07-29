@@ -50,7 +50,7 @@ class UserEditPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         countries: state.Countries.countries,
-        gyms: state.InstitutionsReducer.gyms,
+        gyms: state.Institutions.gyms,
         user: state.SingleUser.user,
         fetching: state.SingleUser.fetching,
         saved: state.SingleUser.saved,

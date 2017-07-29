@@ -63,5 +63,10 @@ namespace MuaythaiSportManagementSystemApi.Institutions.Gyms
                 Twitter = institution.Twitter;
                 MembersCount = institution.MembersCount;
         }
+
+        public static explicit operator InstitutionDto(Institution institution)
+        {
+            return new InstitutionDto(institution);
+        }
     }
 }

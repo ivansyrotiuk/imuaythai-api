@@ -3,7 +3,7 @@ import Page from "./Page"
 
 export const TablePage = (props) => {
   const colsCount = props.colsCount === undefined ? "col-12" : props.colsCount;
-  const table = <table className="table">
+  const table = <table className="table table-hover mb-0 hidden-sm-down">
                   <thead>
                     { props.headers }
                   </thead>
