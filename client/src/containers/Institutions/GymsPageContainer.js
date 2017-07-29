@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import RemoveButton from "../Components/Buttons/RemoveButton"
-import EditButton from "../Components/Buttons/EditButton"
-import AddButton from "../Components/Buttons/AddButton"
-import Spinner from "../Components/Spinners/Spinner"
-import TablePage from "../Components/TablePage"
+import RemoveButton from "../../views/Components/Buttons/RemoveButton"
+import EditButton from "../../views/Components/Buttons/EditButton"
+import AddButton from "../../views/Components/Buttons/AddButton"
+import Spinner from "../../views/Components/Spinners/Spinner"
+import TablePage from "../../views/Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import { fetchGyms, deleteInstitution } from "../../actions/InstitutionsActions"
 
 
-class GymsPage extends Component {
+class GymsPageContainer extends Component {
   constructor(props) {
     super(props);
     this.addGym = this.addGym.bind(this);
@@ -83,4 +83,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GymsPage)
+export default connect(mapStateToProps, mapDispatchToProps)(GymsPageContainer)

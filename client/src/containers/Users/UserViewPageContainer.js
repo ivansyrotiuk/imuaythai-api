@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { ButtonDropdown, DropdownItem, DropdownToggle, Button, DropdownMenu } from 'reactstrap';
 import axios from "axios";
 import UserAvatar from 'react-user-avatar'
-import Spinner from "../Components/Spinners/Spinner";
+import Spinner from "../../views/Components/Spinners/Spinner";
 import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchUser } from "../../actions/UsersActions";
 import moment from 'moment';
-import Page from "../Components/Page"
+import Page from "../../views/Components/Page"
 
-class UserViewPage extends Component {
+class UserViewPageContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -51,11 +51,11 @@ class UserViewPage extends Component {
 
     const gender = user.gender == 'male'
       ? <h6 style={ titleTextSyle }>
-                                                                                                          <i className="fa fa-mars" aria-hidden="true"></i>  Male
-                                                                                                        </h6>
+                                                                                                                                                                          <i className="fa fa-mars" aria-hidden="true"></i>  Male
+                                                                                                                                                                        </h6>
       : <h6 style={ titleTextSyle }>
-                                                                                                          <i className="fa fa-venus" aria-hidden="true"></i>  Female
-                                                                                                        </h6>;
+                                                                                                                                                                          <i className="fa fa-venus" aria-hidden="true"></i>  Female
+                                                                                                                                                                        </h6>;
 
     const userName = (user.firstname || 'No name') + ' ' + (user.surname || '');
 
@@ -97,20 +97,20 @@ class UserViewPage extends Component {
                       <div className="col-12 col-md-4 col-sm-6">
                         <div class="page-header">
                           <h2>{ userName }
-                                                                                                                                                                           </h2>
+                                                                                                                                                                                                                                                           </h2>
                           <a href={ 'mailto:' + user.email }>
                             { user.email }
                           </a>
                         </div>
                         <h6 style={ titleTextSyle }>
-                                                              <i class="fa fa-birthday-cake" aria-hidden="true"></i>  { moment(user.birthdate).format("YYYY-MM-DD") }
-                                                                  </h6>
+                                                                                                                                              <i class="fa fa-birthday-cake" aria-hidden="true"></i>  { moment(user.birthdate).format("YYYY-MM-DD") }
+                                                                                                                                                  </h6>
                         { gender }
                         { user.phone && <h6 style={ titleTextSyle }>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <i class="fa fa-1x fa-phone" aria-hidden="true"></i>  { user.phone }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </h6> }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <i class="fa fa-1x fa-phone" aria-hidden="true"></i>  { user.phone }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </h6> }
                         { user.countryName && <h6 style={ titleTextSyle }>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </h6> }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </h6> }
                       </div>
                       <div className="col-12 col-md-6 col-sm-12">
                         <div className="row justify-content-between">
@@ -178,4 +178,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserViewPage)
+export default connect(mapStateToProps, mapDispatchToProps)(UserViewPageContainer)

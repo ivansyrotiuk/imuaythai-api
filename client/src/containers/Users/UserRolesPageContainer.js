@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Spinner from "../Components/Spinners/Spinner";
-import UserRolesTable from "../Components/Tables/UserRolesTable"
-import UserRoleRequestForm from "./Forms/UserRoleRequestForm"
-import Page from "../Components/Page"
+import Spinner from "../../views/Components/Spinners/Spinner";
+import UserRolesTable from "../../views/Components/Tables/UserRolesTable"
+import UserRoleRequestForm from "../../views/Users/UserRoleRequestForm"
+import Page from "../../views/Components/Page"
 import { fetchRoles } from "../../actions/RolesActions";
 import { fetchUserRoles, saveUserRoleRequest, addUserRole, cancelAddingUserRole, fetchUserAvailableFederation } from "../../actions/UserRolesActions";
 import { connect } from "react-redux";
 
-class UserRolesPage extends Component {
+class UserRolesPageContainer extends Component {
     constructor(props) {
         super(props);
 
@@ -81,4 +81,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserRolesPage)
+export default connect(mapStateToProps, mapDispatchToProps)(UserRolesPageContainer)

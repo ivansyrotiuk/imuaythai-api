@@ -29,6 +29,11 @@ export default function(state = singleInstitutionInitialState, action) {
                 ...state,
                 institution: action.payload
             }
+        case actionTypes.RESET_INSTITUTION:
+            return {
+                ...state,
+                institution: null
+            }
         default:
             return state
     }

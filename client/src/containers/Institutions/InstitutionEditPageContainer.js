@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
-import { saveInstitution, addInstitution, fetchInstitution } from "../../actions/InstitutionsActions"
+import { saveInstitution, addInstitution, resetInstitution, fetchInstitution } from "../../actions/InstitutionsActions"
 import institutionTypes from "./institutionTypes"
 import { fetchCountries } from "../../actions/CountriesActions";
 import { connect } from "react-redux"
 import axios from "axios";
-import Spinner from "../Components/Spinners/Spinner"
-import InstitutionDataForm from "./Forms/InstitutionDataForm"
-import Page from "../Components/Page"
+import Spinner from "../../views/Components/Spinners/Spinner"
+import InstitutionDataForm from "../../views/Institutions/InstitutionDataForm"
+import Page from "../../views/Components/Page"
 import { reset } from 'redux-form';
 
-class InstitutionEditPage extends Component {
-  constructor(props) {
-    super(props);
-
-  }
-
+class InstitutionEditPageContainer extends Component {
   componentWillMount() {
     const id = this.props.match.params.id;
     if (id) {
@@ -64,7 +59,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchInstitution(id));
     },
     addInstitution: (type) => {
-      dispatch(reset("InstitutionDataForm"));
 
       const institutionType = institutionTypes[type];
       dispatch(addInstitution(institutionType));
@@ -75,4 +69,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstitutionEditPage)
+export default connect(mapStateToProps, mapDispatchToProps)(InstitutionEditPageContainer)

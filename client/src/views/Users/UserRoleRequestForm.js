@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Spinner from "../../Components/Spinners/Spinner";
-import { saveFighter } from "../../../actions/UsersActions";
-import UserRolesTable from "../../Components/Tables/UserRolesTable"
+import Spinner from "../Components/Spinners/Spinner";
+import { saveFighter } from "../../actions/UsersActions";
+import UserRolesTable from "../Components/Tables/UserRolesTable"
 import { Field, reduxForm } from 'redux-form';
 
 class UserRolesForm extends Component {

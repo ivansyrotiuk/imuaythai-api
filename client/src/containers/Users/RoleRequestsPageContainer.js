@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
 import { fetchRolesRequests, acceptRequest, rejectRequest } from "../../actions/RolesRequestsActions"
-import Spinner from "../Components/Spinners/Spinner"
-import RolesRequestsTable from "../Components/Tables/RolesRequestsTable"
+import Spinner from "../../views/Components/Spinners/Spinner"
+import RolesRequestsTable from "../../views/Components/Tables/RolesRequestsTable"
 
-export class RoleRequestsPage extends Component {
+export class RoleRequestsPageContainer extends Component {
     componentWillMount() {
         this.props.fetchRolesRequests();
     }
@@ -42,4 +42,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoleRequestsPage)
+export default connect(mapStateToProps, mapDispatchToProps)(RoleRequestsPageContainer)

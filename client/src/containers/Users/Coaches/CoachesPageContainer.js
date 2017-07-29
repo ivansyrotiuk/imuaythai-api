@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import UserAvatar from 'react-user-avatar'
-import RemoveButton from "../../Components/Buttons/RemoveButton"
-import EditButton from "../../Components/Buttons/EditButton"
-import PreviewButton from "../../Components/Buttons/PreviewButton"
-import Spinner from "../../Components/Spinners/Spinner"
-import TablePage from "../../Components/TablePage"
+import RemoveButton from "../../../views/Components/Buttons/RemoveButton"
+import EditButton from "../../../views/Components/Buttons/EditButton"
+import PreviewButton from "../../../views/Components/Buttons/PreviewButton"
+import Spinner from "../../../views/Components/Spinners/Spinner"
+import TablePage from "../../../views/Components/TablePage"
 import { fetchCoaches, deleteUser } from "../../../actions/UsersActions"
 
-class CoachesPage extends Component {
+class CoachesPageContainer extends Component {
   componentWillMount() {
     this.props.fetchCoaches();
   }
@@ -72,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoachesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CoachesPageContainer);

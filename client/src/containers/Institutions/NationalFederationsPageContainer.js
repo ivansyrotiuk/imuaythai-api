@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import RemoveButton from "../Components/Buttons/RemoveButton"
-import EditButton from "../Components/Buttons/EditButton"
-import AddButton from "../Components/Buttons/AddButton"
-import Spinner from "../Components/Spinners/Spinner"
-import TablePage from "../Components/TablePage"
+import RemoveButton from "../../views/Components/Buttons/RemoveButton"
+import EditButton from "../../views/Components/Buttons/EditButton"
+import AddButton from "../../views/Components/Buttons/AddButton"
+import Spinner from "../../views/Components/Spinners/Spinner"
+import TablePage from "../../views/Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
-import { fetchContinentalFederations, deleteInstitution } from "../../actions/InstitutionsActions"
+import { fetchNationalFederations, deleteInstitution } from "../../actions/InstitutionsActions"
 
-class ContinentalFederationsPage extends Component {
+class NationalFederationsPageContainer extends Component {
   constructor(props) {
     super(props);
     this.addFederation = this.addFederation.bind(this);
@@ -19,17 +19,18 @@ class ContinentalFederationsPage extends Component {
   }
 
   addFederation() {
-    this.props.history.push('/institutions/add/continental');
+    this.props.history.push('/institutions/add/national');
   }
 
   render() {
     const {federations, fetching} = this.props;
 
+
     if (fetching) {
       return <Spinner />
     }
 
-    const pageHeader = <div><strong>Continental federations</strong>
+    const pageHeader = <div><strong>National federations</strong>
                          <div className="pull-right">
                            <AddButton click={ this.addFederation } />
                          </div>
@@ -63,7 +64,7 @@ class ContinentalFederationsPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    federations: state.Institutions.continentalFederations,
+    federations: state.Institutions.nationalFederations,
     fetching: state.Institutions.fetching,
     fetched: state.Institutions.fetched
   }
@@ -72,7 +73,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchFederations: () => {
-      dispatch(fetchContinentalFederations())
+      dispatch(fetchNationalFederations())
     },
     deleteFederation: (id) => {
       return dispatch(deleteInstitution(id));
@@ -80,4 +81,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContinentalFederationsPage)
+export default connect(mapStateToProps, mapDispatchToProps)(NationalFederationsPageContainer)

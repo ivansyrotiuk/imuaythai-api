@@ -34,22 +34,22 @@ import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/Sus
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
 
-import GymsPage from "../../views/Institutions/GymsPage"
-import NationalFederationsPage from "../../views/Institutions/NationalFederationsPage"
-import ContinentalFederationsPage from "../../views/Institutions/ContinentalFederationsPage"
-import WorldFederationsPage from "../../views/Institutions/WorldFederationsPage"
-import InstitutionEditPage from "../../views/Institutions/InstitutionEditPage"
+import GymsPageContainer from "../../containers/Institutions/GymsPageContainer"
+import NationalFederationsPageContainer from "../../containers/Institutions/NationalFederationsPageContainer"
+import ContinentalFederationsPageContainer from "../../containers/Institutions/ContinentalFederationsPageContainer"
+import WorldFederationsPageContainer from "../../containers/Institutions/WorldFederationsPageContainer"
+import InstitutionEditPageContainer from "../../containers/Institutions/InstitutionEditPageContainer"
 
-import FightersPage from "../../views/Users/Fighters/FightersPage"
-import JudgesPage from "../../views/Users/Judges/JudgesPage"
-import CoachesPage from "../../views/Users/Coaches/CoachesPage"
-import DoctorsPage from "../../views/Users/Doctors/DoctorsPage"
+import FightersPageContainer from "../../containers/Users/Fighters/FightersPageContainer"
+import JudgesPageContainer from "../../containers/Users/Judges/JudgesPageContainer"
+import CoachesPageContainer from "../../containers/Users/Coaches/CoachesPageContainer"
+import DoctorsPageContainer from "../../containers/Users/Doctors/DoctorsPageContainer"
 
-import UserEditPage from "../../views/Users/UserEditPage"
-import UserViewPage from "../../views/Users/UserViewPage"
+import UserEditPageContainer from "../../containers/Users/UserEditPageContainer"
+import UserViewPageContainer from "../../containers/Users/UserViewPageContainer"
 
-import UserRolesPage from "../../views/Users/UserRolesPage"
-import RoleRequestsPage from "../../views/Users/RoleRequestsPage"
+import UserRolesPageContainer from "../../containers/Users/UserRolesPageContainer"
+import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageContainer"
 import ContestsPage from "../../views/Contest/ContestsPage"
 import CreateContest from '../Contest/CreateContestContainer'
 
@@ -78,20 +78,20 @@ class Full extends Component {
                 <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={ SimpleLineIcons } />
                 <Route path="/widgets" name="Widgets" component={ Widgets } />
                 <Route path="/charts" name="Charts" component={ Charts } />
-                <Route path="/institutions/add/:type" name="Add institution" component={ InstitutionEditPage } />
-                <Route path="/institutions/:id" name="Institution" component={ InstitutionEditPage } />
-                <Route path="/gyms/" name="Gyms" component={ GymsPage } />
-                <Route path="/federations/national" name="Nationl federations" component={ NationalFederationsPage } />
-                <Route path="/federations/continental" name="Continental federation" component={ ContinentalFederationsPage } />
-                <Route path="/federations/world" name="World federation" component={ WorldFederationsPage } />
-                <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPage } />
-                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPage } />
-                <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPage } />
-                <Route path="/users/:id" name="User" component={ UserViewPage } />
-                <Route path="/fighters/" name="Fighters" component={ FightersPage } />
-                <Route path="/judges/" name="Judges" component={ JudgesPage } />
-                <Route path="/coaches/" name="Coaches" component={ CoachesPage } />
-                <Route path="/doctors/" name="Doctors" component={ DoctorsPage } />
+                <Route path="/institutions/add/:type" name="Add institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/:id" name="Institution" component={ InstitutionEditPageContainer } />
+                <Route path="/gyms/" name="Gyms" component={ GymsPageContainer } />
+                <Route path="/federations/national" name="Nationl federations" component={ NationalFederationsPageContainer } />
+                <Route path="/federations/continental" name="Continental federation" component={ ContinentalFederationsPageContainer } />
+                <Route path="/federations/world" name="World federation" component={ WorldFederationsPageContainer } />
+                <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPageContainer } />
+                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPageContainer } />
+                <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPageContainer } />
+                <Route path="/users/:id" name="User" component={ UserViewPageContainer } />
+                <Route path="/fighters/" name="Fighters" component={ FightersPageContainer } />
+                <Route path="/judges/" name="Judges" component={ JudgesPageContainer } />
+                <Route path="/coaches/" name="Coaches" component={ CoachesPageContainer } />
+                <Route path="/doctors/" name="Doctors" component={ DoctorsPageContainer } />
                 <Route path="/dictionaries/types" name="ContestTypes" component={ ContestTypesPage } />
                 <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ ContestRangesDetailsPage } />
                 <Route path="/dictionaries/ranges/" name="ContestRanges" component={ ContestRangesPage } />

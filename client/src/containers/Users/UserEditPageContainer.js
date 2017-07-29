@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import Spinner from "../Components/Spinners/Spinner";
-import CommonUserDataForm from "./Forms/CommonUserDataForm";
+import Spinner from "../../views/Components/Spinners/Spinner";
+import CommonUserDataForm from "../../views/Users/CommonUserDataForm";
 import { saveFighter, fetchUser, saveUser } from "../../actions/UsersActions";
 import { fetchGyms } from "../../actions/InstitutionsActions"
 import { fetchCountries } from "../../actions/CountriesActions";
 import { userHasRole } from '../../auth/auth';
-import Page from "../Components/Page"
+import Page from "../../views/Components/Page"
 
-class UserEditPage extends Component {
+class UserEditPageContainer extends Component {
     componentWillMount() {
         const userId = this.props.match.params.id;
 
@@ -74,4 +74,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserEditPage)
+export default connect(mapStateToProps, mapDispatchToProps)(UserEditPageContainer)
