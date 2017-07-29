@@ -6,6 +6,7 @@ import { fetchTypes } from "../../actions/Dictionaries/ContestTypesActions";
 import { fetchContest, saveContest } from '../../actions/ContestActions';
 
 class CreateContestContainer extends Component {
+
     componentWillMount() {
         var contestId = this.props.match.params;
         if (!this.props.countries.length) {
@@ -18,14 +19,15 @@ class CreateContestContainer extends Component {
             this.props.getContestType(contestId.id);
         }
 
-        if (contestId != undefined) {
-            this.props.getContestType(contestId.id);
-        }
     }
     render() {
+        const initialValues = {
+            date: new Date(), 
+            endRegisterDate: new Date()
+        }
 
         return (
-            <CreateContestPage countries={ this.props.countries } contestTypes={ this.props.contestTypes } onSubmit={ this.props.onSubmit } />
+            <CreateContestPage countries={ this.props.countries } contestTypes={ this.props.contestTypes } onSubmit={ this.props.onSubmit } initialValues={initialValues} />
             );
     }
 }

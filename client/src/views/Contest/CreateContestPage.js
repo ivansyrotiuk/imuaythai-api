@@ -55,7 +55,7 @@ class CreateContestPage extends Component {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>Contest date</label>
-                        <Field name="date" component={ RenderDatePicker } className="form-control" />
+                        <Field name="date" component={ RenderDatePicker } className="form-control" type="input" />
                       </div>
                     </div>
                   </div>
