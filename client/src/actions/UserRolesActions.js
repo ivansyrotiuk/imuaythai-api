@@ -1,9 +1,9 @@
-import {host} from "../global"
+import { host } from "../global"
 import axios from "axios";
 import * as actionTypes from "./actionTypes"
 
 export function fetchUserRoles(id) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: actionTypes.FETCH_USER_ROLES
         });
@@ -24,8 +24,30 @@ export function fetchUserRoles(id) {
     }
 }
 
+export function fetchUserAvailableFederation(userId) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_AVAILABLE_FEDERATIONS
+        });
+        axios
+            .get(host + "api/institutions/federations/useravailable?userId=" + userId)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_AVAILABLE_FEDERATIONS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_AVAILABLE_FEDERATIONS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
 export function saveUserRoleRequest(roleRequest) {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: actionTypes.SAVE_USER_ROLE
         });

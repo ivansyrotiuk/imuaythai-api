@@ -112,6 +112,17 @@ export function fetchInstitution(id) {
     }
 }
 
+export function addInstitution(institutionType) {
+    return {
+        type: actionTypes.ADD_INSTITUTION,
+        payload: {
+            id: 0,
+            institutionType: institutionType,
+            name: ''
+        }
+    }
+}
+
 export function saveInstitution(institution) {
     return function(dispatch) {
         dispatch({

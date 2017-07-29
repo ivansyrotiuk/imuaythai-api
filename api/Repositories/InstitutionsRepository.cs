@@ -53,6 +53,15 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.WorldFederation).ToListAsync();
         }
 
+        public Task<List<Institution>> GetByCountry(Country country)
+        {
+            return _context.Institutions.Include(i => i.Country)
+                .Where(i => i.CountryId == country.Id && i.InstitutionType == InstitutionType.NationalFederation || 
+                            i.Country.Continent == country.Continent && i.InstitutionType == InstitutionType.ContinentalFederation || 
+                            i.InstitutionType == InstitutionType.WorldFederation)
+                .ToListAsync();
+        }
+
         public Task Remove(int id)
         {
             var intitution = _context.Institutions.FirstOrDefault(i => i.Id == id);

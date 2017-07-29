@@ -16,12 +16,7 @@ export class RoleRequestsPage extends Component {
             return <Spinner />
         }
 
-        return (<div>
-                  <RolesRequestsTable 
-                    roleRequests={ this.props.roleRequests } 
-                    acceptClick={ this.props.accept } 
-                    rejectClick={ this.props.reject } />
-                </div>);
+        return <RolesRequestsTable roleRequests={ this.props.roleRequests } acceptClick={ this.props.accept } rejectClick={ this.props.reject } />
     }
 }
 

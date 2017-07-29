@@ -10,6 +10,7 @@ namespace MuaythaiSportManagementSystemApi.Users
     public class UserRoleRequestDto
     {
         public int Id { get; set; } = 0;
+        public int? InstitutionId { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string RoleId { get; set; }

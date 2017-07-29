@@ -14,8 +14,10 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<List<Institution>> GetNationalFederations();
         Task<List<Institution>> GetContinentalFederations();
         Task<List<Institution>> GetWorldFederations();
+        Task<List<Institution>> GetByCountry(Country country);
         Task<List<Institution>> Find(Func<Institution, bool> predicate);
         Task Save(Institution institution);
         Task Remove(int id);
+        
     }
 }

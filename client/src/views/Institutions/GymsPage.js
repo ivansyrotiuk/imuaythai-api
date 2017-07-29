@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import RemoveButton from "../Components/Buttons/RemoveButton"
 import EditButton from "../Components/Buttons/EditButton"
+import AddButton from "../Components/Buttons/AddButton"
 import Spinner from "../Components/Spinners/Spinner"
 import TablePage from "../Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import { fetchGyms, deleteInstitution } from "../../actions/InstitutionsActions"
 
+
 class GymsPage extends Component {
+  constructor(props) {
+    super(props);
+    this.addGym = this.addGym.bind(this);
+  }
 
   componentWillMount() {
     this.props.fetchGyms();
+  }
+
+  addGym() {
+    this.props.history.push('/institutions/add/gym');
   }
 
   render() {
@@ -21,14 +31,27 @@ class GymsPage extends Component {
       return <Spinner />
     }
 
+
+    const pageHeader = <div><strong>Gyms</strong>
+                         <div className="pull-right">
+                           <AddButton click={ this.addGym } />
+                         </div>
+                       </div>;
+
+    const tableHeaders = <tr>
+                           <th>Id</th>
+                           <th className="col-10">Name</th>
+                           <th>Action</th>
+                         </tr>
+
     const mappedGyms = gyms.map((gym, i) => <tr key={ i }>
-                                              <td>
+                                              <td className="align-middle">
                                                 { gym.id }
                                               </td>
-                                              <td>
+                                              <td className="align-middle">
                                                 { gym.name }
                                               </td>
-                                              <td>
+                                              <td className="align-middle">
                                                 <Link to={ "/institutions/" + gym.id }>
                                                 <EditButton id={ gym.id } />
                                                 </Link>
@@ -36,13 +59,7 @@ class GymsPage extends Component {
                                               </td>
                                             </tr>);
 
-    const headers = <tr>
-                      <th>Id</th>
-                      <th className="col-10">Name</th>
-                      <th>Action</th>
-                    </tr>
-
-    return <TablePage caption="Gyms" headers={ headers } content={ mappedGyms } />;
+    return <TablePage pageHeader={ pageHeader } headers={ tableHeaders } content={ mappedGyms } />;
   }
 }
 

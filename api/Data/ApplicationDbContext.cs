@@ -71,7 +71,10 @@ namespace MuaythaiSportManagementSystemApi.Data
                .WithMany()
                .HasForeignKey(k => k.HeadCoachId);
 
-           
+            builder.Entity<Institution>()
+               .HasOne(h => h.Country)
+               .WithMany()
+               .HasForeignKey(k => k.CountryId);
 
         }
 

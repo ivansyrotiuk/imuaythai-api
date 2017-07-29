@@ -12,14 +12,15 @@ export const TablePage = (props) => {
                   </tbody>
                 </table>
 
-  const header = <strong>{ props.caption }</strong>
+  const header = props.pageHeader === undefined ? <strong>{ props.caption }</strong> : props.pageHeader;
+
   const content = <div>
                     { table }
                     { props.footer }
                   </div>
 
 
-  return <Page header={ header } content={ content } />
+  return <Page header={ header } content={ content } colsCount={ colsCount } />
 }
 
 export default TablePage

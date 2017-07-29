@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes"
 
 const userRolesInitialState = {
     roles: [],
+    availableFederations: [],
     fetching: false,
     fetched: false,
     adding: false,
@@ -36,7 +37,24 @@ const userRoles = (state = userRolesInitialState, action) => {
             return {
                 ...state,
                 error: action.payload,
-                saving: false,
+                fetched: false
+            }
+        case actionTypes.FETCH_AVAILABLE_FEDERATIONS:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_AVAILABLE_FEDERATIONS_FULFILLED:
+            return {
+                ...state,
+                availableFederations: action.payload,
+                fetching: false,
+                fetched: true
+            }
+        case actionTypes.FETCH_AVAILABLE_FEDERATIONS_REJECTED:
+            return {
+                ...state,
+                error: action.payload,
                 fetched: false
             }
         case actionTypes.SAVE_USER_ROLE:

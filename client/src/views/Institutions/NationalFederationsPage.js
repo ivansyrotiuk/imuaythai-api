@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import RemoveButton from "../Components/Buttons/RemoveButton"
 import EditButton from "../Components/Buttons/EditButton"
+import AddButton from "../Components/Buttons/AddButton"
 import Spinner from "../Components/Spinners/Spinner"
 import TablePage from "../Components/TablePage"
 import { Link } from 'react-router-dom'
@@ -8,9 +9,17 @@ import { connect } from "react-redux"
 import { fetchNationalFederations, deleteInstitution } from "../../actions/InstitutionsActions"
 
 class NationalFederationsPage extends Component {
+  constructor(props) {
+    super(props);
+    this.addFederation = this.addFederation.bind(this);
+  }
 
   componentWillMount() {
     this.props.fetchFederations();
+  }
+
+  addFederation() {
+    this.props.history.push('/institutions/add/national');
   }
 
   render() {
@@ -20,6 +29,12 @@ class NationalFederationsPage extends Component {
     if (fetching) {
       return <Spinner />
     }
+
+    const pageHeader = <div><strong>National federations</strong>
+                         <div className="pull-right">
+                           <AddButton click={ this.addFederation } />
+                         </div>
+                       </div>;
 
     const mappedFederations = federations.map((federation, i) => <tr key={ i }>
                                                                    <td>
@@ -42,7 +57,7 @@ class NationalFederationsPage extends Component {
                       <th>Action</th>
                     </tr>
 
-    return <TablePage caption="National federations" headers={ headers } content={ mappedFederations } />;
+    return <TablePage pageHeader={ pageHeader } headers={ headers } content={ mappedFederations } />;
   }
 }
 

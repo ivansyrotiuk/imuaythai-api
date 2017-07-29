@@ -222,30 +222,33 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             List<string> rolesList = new List<string>
             {
-                "Admin",
-                "InstitutionAdmin",
-                "Fighter",
-                "Coach",
-                "Judge",
-                "Doctor",
-                "Guest",
+                //"Admin",
+                //"InstitutionAdmin",
+                //"Fighter",
+                //"Coach",
+                //"Judge",
+                //"Doctor",
+                //"Guest",
+                "NationalFederation",
+                "ContinentalFederation",
+                "WorldFederation",
             };
 
-            //foreach(var role in rolesList)
-            //{
+            foreach (var role in rolesList)
+            {
 
-            //    await _roleManager.CreateAsync(new IdentityRole
-            //    {
-            //        Name = role
-            //    });
-            //}
+                await _roleManager.CreateAsync(new IdentityRole
+                {
+                    Name = role
+                });
+            }
 
-            var user = await _userManager.FindByIdAsync("38920a18-ba62-49b6-a0b8-415cdd5a692c");
-            await _userManager.AddToRoleAsync(user, "Admin");
+            //var user = await _userManager.FindByIdAsync("38920a18-ba62-49b6-a0b8-415cdd5a692c");
+            //await _userManager.AddToRoleAsync(user, "Admin");
        
             //var roles = _roleManager.Roles.ToList();
 
-            return Ok(user);
+            return Ok(rolesList);
         }
         
     }

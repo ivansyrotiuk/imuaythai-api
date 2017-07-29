@@ -78,6 +78,7 @@ class Full extends Component {
                 <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={ SimpleLineIcons } />
                 <Route path="/widgets" name="Widgets" component={ Widgets } />
                 <Route path="/charts" name="Charts" component={ Charts } />
+                <Route path="/institutions/add/:type" name="Add institution" component={ InstitutionEditPage } />
                 <Route path="/institutions/:id" name="Institution" component={ InstitutionEditPage } />
                 <Route path="/gyms/" name="Gyms" component={ GymsPage } />
                 <Route path="/federations/national" name="Nationl federations" component={ NationalFederationsPage } />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Locations;
 
 namespace MuaythaiSportManagementSystemApi.Institutions.Gyms
 {
@@ -29,13 +30,10 @@ namespace MuaythaiSportManagementSystemApi.Institutions.Gyms
        
         public string Twitter { get; set; }
         public int MembersCount { get; set; }
+        public InstitutionType InstitutionType { get; set; }
 
-        public  List<InstitutionDocumentsMapping> InstitutionDocumentsMappings { get; set; }
-        public  List<ContestRequest> ContestRequests { get; set; }
-        public  List<ApplicationUser> Users { get; set; }
-        public  List<ExecutionBoard> ExecutionBoards { get; set; }
-        public  List<Contest> Contests { get; set; }
-        public  Country Country { get; set; }
+        
+        public  CountryDto Country { get; set; }
 
         public InstitutionDto()
         {
@@ -45,23 +43,23 @@ namespace MuaythaiSportManagementSystemApi.Institutions.Gyms
         public InstitutionDto(Institution institution)
         {
             Id = institution.Id;
-                Name = institution.Name;
-                Logo = institution.Logo;
-                Address = institution.Address;
-                City = institution.City;
-                ZipCode = institution.ZipCode;
-                CountryId = institution.CountryId;
-                ContactPerson = institution.ContactPerson;
-                Phone = institution.Phone;
-                Email = institution.Email;
-                HeadCoachId = institution.HeadCoachId;
-                Owner = institution.Owner;
-                Website = institution.Website;
-                Facebook = institution.Facebook;
-                Instagram = institution.Instagram;
-                VK = institution.VK;
-                Twitter = institution.Twitter;
-                MembersCount = institution.MembersCount;
+            Name = institution.Name;
+            Logo = institution.Logo;
+            Address = institution.Address;
+            City = institution.City;
+            ZipCode = institution.ZipCode;
+            CountryId = institution.CountryId;
+            ContactPerson = institution.ContactPerson;
+            Phone = institution.Phone;
+            Email = institution.Email;
+            HeadCoachId = institution.HeadCoachId;
+            Owner = institution.Owner;
+            Website = institution.Website;
+            Facebook = institution.Facebook;
+            Instagram = institution.Instagram;
+            VK = institution.VK;
+            Twitter = institution.Twitter;
+            MembersCount = institution.MembersCount;
         }
 
         public static explicit operator InstitutionDto(Institution institution)

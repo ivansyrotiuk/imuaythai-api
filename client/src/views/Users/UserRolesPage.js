@@ -4,7 +4,7 @@ import UserRolesTable from "../Components/Tables/UserRolesTable"
 import UserRoleRequestForm from "./Forms/UserRoleRequestForm"
 import Page from "../Components/Page"
 import { fetchRoles } from "../../actions/RolesActions";
-import { fetchUserRoles, saveUserRoleRequest, addUserRole, cancelAddingUserRole } from "../../actions/UserRolesActions";
+import { fetchUserRoles, saveUserRoleRequest, addUserRole, cancelAddingUserRole, fetchUserAvailableFederation } from "../../actions/UserRolesActions";
 import { connect } from "react-redux";
 
 class UserRolesPage extends Component {
@@ -19,7 +19,7 @@ class UserRolesPage extends Component {
     componentWillMount() {
         const userId = this.props.match.params.id;
         this.props.fetchUserRoles(userId);
-
+        this.props.fetchUserAvailableFederation(userId);
         if (!this.props.roles.length) {
             this.props.fetchRoles();
         }
@@ -44,13 +44,11 @@ class UserRolesPage extends Component {
             const header = <strong>Add role request</strong>
             const form = <UserRoleRequestForm roles={ availableRoles } onSubmit={ this.onSubmit } onCancel={ this.props.cancelAddingUserRole } />
             return <Page header={ header } content={ form } />
-        } else {
-            return <UserRolesTable userRoles={ userRoles } addRole={ this.props.addUserRole } requestRoleAgain={ this.onSubmit } />
         }
 
+        return <UserRolesTable userRoles={ userRoles } addRole={ this.props.addUserRole } requestRoleAgain={ this.onSubmit } />
     }
 }
-;
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -67,6 +65,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         fetchUserRoles: (userId) => {
             dispatch(fetchUserRoles(userId));
+        },
+        fetchUserAvailableFederation: (userId) => {
+            dispatch(fetchUserAvailableFederation(userId));
         },
         saveUserRoleRequest: (roleRequest) => {
             return dispatch(saveUserRoleRequest(roleRequest));
