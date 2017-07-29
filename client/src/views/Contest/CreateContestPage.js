@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, FieldArray, formValueSelector } from 'redux-form';
-import Datetime from 'react-datetime';
 import RemoveButton from "../Components/Buttons/RemoveButton";
 import EditButton from "../Components/Buttons/EditButton";
 import { connect } from 'react-redux';
 import RenderContestCategoriesTable from './RenderContestCategoriesTable';
-import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css'
+
+
+
+const RenderDatePicker = props => {
+  return (
+    <Datetime {...props.input} selected={ props.input.value } dateFormat="DD-MM-YYYY" timeFormat="HH:mm" />
+    );
+};
 
 class CreateContestPage extends Component {
 
   render() {
     const {handleSubmit, submitting, countries, contestCategoryId, contestTypes, contestCategories} = this.props;
-
-    const RenderDatePicker = props => {
-      return (
-        <div>
-          <DatePicker {...props.input} selected={ props.input.value
-                                                  ? moment(props.input.value)
-                                                  : null } className="form-control" />
-          { props.touched && props.error && <span>{ props.error }</span> }
-        </div>
-        );
-    };
 
 
     const mappedContestyTypes = contestTypes.map((contestType, i) => (
@@ -101,7 +97,7 @@ class CreateContestPage extends Component {
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>Date of registration end</label>
-                        <Field name="endRegisterDate" component="input" className="form-control" />
+                        <Field name="endRegisterDate" component={ RenderDatePicker } className="form-control" type="input" />
                       </div>
                     </div>
                   </div>
