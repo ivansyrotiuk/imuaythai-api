@@ -29,6 +29,7 @@ class Sidebar extends Component {
     const NationalFederationsLink = userIsAdmin(() => <NavLink to="/federations/national" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> National federations</NavLink>)
     const ContinetalFederationsLink = userIsAdmin(() => <NavLink to="/federations/continental" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> Continental federations</NavLink>)
     const WorldFederationsLink = userIsAdmin(() => <NavLink to="/federations/world" className="nav-link" activeClassName="active"><i className="fa fa-globe "></i> World federations</NavLink>)
+    const ContestsLink = userIsAdmin(() => <NavLink to="/contests" className="nav-link" activeClassName="active"><i className="fa fa-trophy"></i>Contests list</NavLink>)
 
 
     const UserRoleRequestLink = userCanManageRoles(() => <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="fa fa-user-plus"></i> Role requests</NavLink>)
@@ -94,6 +95,14 @@ class Sidebar extends Component {
                 </li>
                 <li className="nav-item">
                   <NavLink to="/dictionaries/points" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest points</NavLink>
+                </li>
+              </ul>
+            </li>
+            <li className={ this.activeRoute("/contests") }>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-puzzle"></i> Contests</a>
+              <ul className="nav-dropdown-items">
+                <li className="nav-item">
+                  <ContestsLink/>
                 </li>
               </ul>
             </li>

@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, FieldArray, formValueSelector } from 'redux-form';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
 import RemoveButton from "../Components/Buttons/RemoveButton";
 import EditButton from "../Components/Buttons/EditButton";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import { connect } from 'react-redux';
+import RenderContestCategoriesTable from './RenderContestCategoriesTable';
+import moment from 'moment';
+import Datetime from 'react-datetime';
+import 'react-datetime/css/react-datetime.css'
+
+
+
+const RenderDatePicker = props => {
+  return (
+    <Datetime {...props.input} selected={ props.input.value } dateFormat="DD-MM-YYYY" timeFormat="HH:mm" />
+    );
+};
 
 class CreateContestPage extends Component {
 
   render() {
     const {handleSubmit, submitting, countries, contestCategoryId, contestTypes, contestCategories} = this.props;
+
 
     const mappedContestyTypes = contestTypes.map((contestType, i) => (
       <option key={ i } value={ contestType.id }>
@@ -22,63 +31,6 @@ class CreateContestPage extends Component {
       <option key={ i } value={ country.id }>
         { country.name }
       </option>));
-
-    const RenderContestCategoriesTable = ({fields, meta: {error, submitFailed}}) => (
-      <div>
-        <div className="row mb-4">
-          <div className="col-md-10">
-            <Field name="contestCategoryId" className="form-control" component="select">
-              { mappedContestyTypes }
-            </Field>
-          </div>
-          <div className="col-md-2">
-            <button className="btn btn-primary" onClick={ () => {
-                                                            if (contestCategoryId != undefined)
-                                                              fields.push({
-                                                                id: contestCategoryId
-                                                              })
-                                                          } }>Add</button>
-          </div>
-        </div>
-        <Table>
-          <thead>
-            <tr>
-              <th className="col-md-11">
-                Contest category
-              </th>
-              <th className="col-md-1">
-                Remove
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            { fields.map((member, index) => (<tr key={ index }>
-                                               <td className="col-md-11">
-                                                 { contestTypes.find((contestType) => {
-                                                     return contestType.id == fields.get(index).id
-                                                   }).name }
-                                               </td>
-                                               <td className="col-md-1">
-                                                 <RemoveButton click={ () => fields.remove(index) } />
-                                               </td>
-                                             </tr>)
-              ) }
-          </tbody>
-        </Table>
-      </div>
-    )
-
-    const RenderDatePicker = props => {
-      return (
-        <div>
-          <DatePicker {...props.input} selected={ props.input.value
-                                                  ? moment(props.input.value)
-                                                  : null } className="form-control" />
-          { props.touched && props.error && <span>{ props.error }</span> }
-        </div>
-        );
-    };
-
 
 
     return (
@@ -103,7 +55,7 @@ class CreateContestPage extends Component {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>Contest date</label>
-                        <Field name="date" component={ RenderDatePicker } className="form-control" />
+                        <Field name="date" component={ RenderDatePicker } className="form-control" type="input" />
                       </div>
                     </div>
                   </div>
@@ -143,7 +95,15 @@ class CreateContestPage extends Component {
                       </div>
                     </div>
                     <div className="col-md-4">
-                      <div className="form-check">
+                      <div className="form-group">
+                        <label>Date of registration end</label>
+                        <Field name="endRegisterDate" component={ RenderDatePicker } className="form-control" type="input" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
                         <label className="form-check-label">
                           <Field name="allowUnassociated" component="input" type="checkbox" className="form-check-input" /> Allow unassociated
                         </label>
@@ -203,7 +163,24 @@ class CreateContestPage extends Component {
                 <strong>Contest category</strong>
               </div>
               <div className="card-block">
-                <FieldArray name="contestCategories" component={ RenderContestCategoriesTable } />
+                <div className="row mb-4">
+                  <div className="col-md-10">
+                    <Field name="contestCategoryId" className="form-control" component="select">
+                      { mappedContestyTypes }
+                    </Field>
+                  </div>
+                  <div className="col-md-2">
+                    <button className="btn btn-primary" onClick={ () => {
+                                                                    if (contestCategoryId != undefined && (contestCategories == undefined || !contestCategories.find((item) => item.id == contestCategoryId))) {
+                                                                      var contestCategory = contestTypes.find((contestCategory) => {
+                                                                        return contestCategory.id == contestCategoryId
+                                                                      });
+                                                                      this.refs.contestCategories.getRenderedComponent().addContestCategory(contestCategory);
+                                                                    }
+                                                                  } }>Add</button>
+                  </div>
+                </div>
+                <FieldArray name="contestCategories" component={ RenderContestCategoriesTable } withRef ref="contestCategories" />
               </div>
             </div>
           </div>
