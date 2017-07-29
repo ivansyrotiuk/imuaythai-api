@@ -104,5 +104,6 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<UserRoleRequest> UserRoleRequests { get; set; }
         public virtual DbSet<Round> Rounds { get; set; }
         public virtual DbSet<WeightAgeCategory> WeightAgeCategories { get; set; }
+
     }
 }
