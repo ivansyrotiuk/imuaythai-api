@@ -52,6 +52,7 @@ import UserRolesPage from "../../views/Users/UserRolesPage"
 import RoleRequestsPage from "../../views/Users/RoleRequestsPage"
 import ContestsPage from "../../views/Contest/ContestsPage"
 import CreateContest from '../Contest/CreateContestContainer'
+import CreateFightsDiagram from '../Fight/CreateDiagramContainer'
 
 
 class Full extends Component {
@@ -106,6 +107,7 @@ class Full extends Component {
                 <Route path="/contests/add" name="Create contest" component={ CreateContest } />
                 <Route path="/contests/:id/edit" name="Edit contest" component={ CreateContest } />
                 <Route path="/contests/" name="Contests" component={ ContestsPage } />
+                <Route path="/fight" name="fights" component={ CreateFightsDiagram } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </div>
