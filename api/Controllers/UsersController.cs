@@ -194,7 +194,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 entity.RoleId = roleRequest.RoleId;
                 entity.UserId = roleRequest.UserId;
                 entity.Status = UserRoleRequestStatus.Pending;
-
+                entity.InstitutionId = roleRequest.InstitutionId;
                 await _userRoleRequestsRepository.Save(entity);
 
                 entity = await _userRoleRequestsRepository.Get(entity.Id);

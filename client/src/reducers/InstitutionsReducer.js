@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes"
 
 export default function reducer(state = {
     gyms: [],
+    countryGyms: [],
     nationalFederations: [],
     continentalFederations: [],
     worldFederations: [],
@@ -93,6 +94,27 @@ export default function reducer(state = {
         fetching: false,
         fetched: true,
         worldFederations: action.payload
+      }
+    }
+    case actionTypes.FETCH_COUNTRY_GYMS: {
+      return {
+        ...state,
+        fetching: true
+      }
+    }
+    case actionTypes.FETCH_COUNTRY_GYMS_REJECTED: {
+      return {
+        ...state,
+        fetching: false,
+        error: action.payload
+      }
+    }
+    case actionTypes.FETCH_COUNTRY_GYMS_FULFILLED: {
+      return {
+        ...state,
+        fetching: false,
+        fetched: true,
+        countryGyms: action.payload
       }
     }
   }

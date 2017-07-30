@@ -20,6 +20,10 @@ export const userIsAuthenticatedRedir = connectedRouterRedirect({
   redirectPath: '/login'
 })
 
+
+
+
+
 export const userIsAdminRedir = connectedRouterRedirect({
   redirectPath: '/',
   allowRedirectBack: false,
@@ -107,9 +111,15 @@ export const userHasRole = connectedAuthWrapper(userHasRoleDefaults)
 
 
 const userWithoutRolesDefaults = {
-  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r != "") == undefined,
+  authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r != "") !== undefined,
   authenticatingSelector: state => state.Account.fetching,
   wrapperDisplayName: 'UserIWithoutRole'
 }
 
 export const userWithoutRole = connectedAuthWrapper(userWithoutRolesDefaults)
+
+export const userWithoutRoleRedir = connectedRouterRedirect({
+  ...userWithoutRolesDefaults,
+  AuthenticatingComponent: Spinner,
+  redirectPath: '/register/second_step'
+})

@@ -2,7 +2,7 @@
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Locations;
 
-namespace MuaythaiSportManagementSystemApi.Institutions.Gyms
+namespace MuaythaiSportManagementSystemApi.Institutions
 {
     public class InstitutionDto{
         public int Id { get; set; }
@@ -60,6 +60,7 @@ namespace MuaythaiSportManagementSystemApi.Institutions.Gyms
             VK = institution.VK;
             Twitter = institution.Twitter;
             MembersCount = institution.MembersCount;
+            InstitutionType = institution.InstitutionType;
         }
 
         public static explicit operator InstitutionDto(Institution institution)

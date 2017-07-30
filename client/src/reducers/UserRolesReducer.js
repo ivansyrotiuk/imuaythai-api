@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes"
 const userRolesInitialState = {
     roles: [],
     availableFederations: [],
+    requestedRole: null,
     fetching: false,
     fetched: false,
     adding: false,
@@ -69,6 +70,11 @@ const userRoles = (state = userRolesInitialState, action) => {
             return {
                 ...state,
                 error: action.payload,
+            }
+        case actionTypes.SET_REQUESTED_ROLE:
+            return {
+                ...state,
+                requestedRole: action.payload,
             }
         default:
             return state

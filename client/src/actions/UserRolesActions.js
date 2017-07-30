@@ -74,6 +74,13 @@ export function addUserRole() {
     }
 }
 
+export function setRequestedRole(requestedRole) {
+    return {
+        type: actionTypes.SET_REQUESTED_ROLE,
+        payload: requestedRole
+    }
+}
+
 export function cancelAddingUserRole() {
     return {
         type: actionTypes.CANCEL_ADD_USER_ROLE

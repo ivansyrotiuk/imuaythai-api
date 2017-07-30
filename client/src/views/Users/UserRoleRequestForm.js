@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 
 class UserRolesForm extends Component {
   render() {
-    const {handleSubmit, onCancel, pristine, reset, submitting, countries, roles, userRoles} = this.props;
+    const {handleSubmit, onCancel, onRoleChange, pristine, reset, submitting, roles} = this.props;
 
     const mappedRoles = roles.map((role, i) => <option key={ i } value={ role.id }>
                                                  { role.name }
@@ -18,7 +18,10 @@ class UserRolesForm extends Component {
              <div className="form-group row">
                <label className="col-md-3 form-control-label" htmlFor="text-input">Please select your user type</label>
                <div className="col-md-9">
-                 <Field name="roleId" className="form-control" component="select">
+                 <Field name="roleId" className="form-control" component="select" onChange={ onRoleChange }>
+                   <option key={ -1 } value={ null }>
+                     -
+                   </option>
                    { mappedRoles }
                  </Field>
                </div>

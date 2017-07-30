@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace MuaythaiSportManagementSystemApi.Roles
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string NormalizedName { get; set; }
+
 
         public RoleDto()
         {
@@ -20,6 +23,7 @@ namespace MuaythaiSportManagementSystemApi.Roles
         {
             Id = role.Id;
             Name = role.Name;
+            NormalizedName = role.NormalizedName;
         }
 
         public static explicit operator RoleDto(IdentityRole role)

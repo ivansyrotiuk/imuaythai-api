@@ -12,6 +12,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
     {
         Task<IdentityRole> Get(string name);
         Task<List<IdentityRole>> GetAll();
+        Task<List<IdentityRole>> GetPublicRoles();
     }
 
     public class RolesRepository : IRolesRepository
@@ -31,6 +32,11 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         public Task<List<IdentityRole>> GetAll()
         {
            return _context.Roles.ToListAsync();
+        }
+
+        public Task<List<IdentityRole>> GetPublicRoles()
+        {
+            return _context.Roles.Where(r => !r.NormalizedName.Contains("FEDERATION") && r.NormalizedName != "ADMIN").ToListAsync();
         }
     }
 }

@@ -6,6 +6,7 @@ using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Institutions.Gyms;
 using MuaythaiSportManagementSystemApi.Models;
 using Microsoft.AspNetCore.Identity;
+using MuaythaiSportManagementSystemApi.Institutions;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -33,6 +34,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var gymsEntities = await _repository.GetGyms();
                 var gyms = gymsEntities.Select(i=>(GymDto)i).ToList();
                 return Ok(gyms);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Gyms/Country")]
+        public async Task<IActionResult> GetGymsInCountry([FromQuery]int id)
+        {
+            try
+            {
+                var country = await _countryRepository.Get(id);
+                if (country == null)
+                {
+                    return BadRequest("Country not found");
+                }
+
+                var entities = await _repository.Find(i => i.CountryId == id);
+                var institutions = entities.Select(i => (InstitutionDto)i).ToList();
+                return Ok(institutions);
             }
             catch (Exception ex)
             {
