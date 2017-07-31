@@ -4,8 +4,8 @@
     {
         public string Id { get; set; }
         public int Version { get; set; }
-        public int Created { get; set; }
-        public int Updated { get; set; }
+        public long Created { get; set; }
+        public long Updated { get; set; }
         public string Name { get; set; }
         public string NickName { get; set; }
         public Location Location { get; set; }

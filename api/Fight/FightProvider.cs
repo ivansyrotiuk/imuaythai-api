@@ -11,9 +11,11 @@ namespace MuaythaiSportManagementSystemApi.Fights
 
         private GameGroup group;
         private Division division;
+        private Court court;
 
         public FightProvider()
         {
+            court = GenerateCourt();
             division = new Division
             {
                 Id = Guid.NewGuid().ToString().Substring(0, 10),
@@ -153,7 +155,8 @@ namespace MuaythaiSportManagementSystemApi.Fights
                 Updated = 1465591789000,
                 VisitorScore = visitorScore,
                 VisitorSeed = visitorSeed,
-                VisitorTeam = visitorTeam
+                VisitorTeam = visitorTeam,
+                Court = court
 
 
             };
@@ -194,7 +197,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
             Seed homeSeed = new Seed
             {
                 DisplayName = "Winner of something",
-                Rank = 2,
+                Rank = 1,
                 SourceGame = home
             };
 
@@ -218,7 +221,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
             Seed visitorSeed = new Seed
             {
                 DisplayName = "Winner of sub something",
-                Rank = 2,
+                Rank = 1,
                 SourceGame = visitor
 
             };
@@ -262,8 +265,55 @@ namespace MuaythaiSportManagementSystemApi.Fights
                 Version = 1,
                 Updated = 1465591789000,
                 VisitorSeed = visitorSeed,
+                Court = court
 
 
+            };
+        }
+
+        public Court GenerateCourt()
+        {
+            return new Court
+            {
+                Id = Guid.NewGuid().ToString().Substring(0, 10),
+                Version = 0,
+                Created = 1465591789000,
+                Updated = 1465591789000,
+                Venue = new Venue
+                {
+                    Id = Guid.NewGuid().ToString().Substring(0, 10),
+                    Version = 0,
+                    Created = 1465591789000,
+                    Updated = 1465591789000,
+                    Name = "Hala sportowa Wisla",
+                    NickName = "Wisla",
+                    Location = new Location
+                    {
+                        Address = new Address
+                        {
+                            Address1 = "budryka 1/2",
+                            City = "Krakow",
+                            Country = "Poland",
+                            PostalCode="30-123",
+                            Province = "Małopolskie"
+                        },
+                        Id = Guid.NewGuid().ToString().Substring(0, 10),
+                        LatLang = new LatLang
+                        {
+                            Latitude = "1234",
+                            Longitude = "324",
+                            ZoneId = "Poland"
+                        }
+                    },
+                    Tourney = new Tourney
+                    {
+                        Id = Guid.NewGuid().ToString().Substring(0, 10),
+                        Version = 0,
+                        Created = 1465591789000,
+                        Updated = 1465591789000,
+                    }
+                },
+                Name = "RING A"
             };
         }
     }

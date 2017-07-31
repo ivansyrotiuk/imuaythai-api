@@ -18,7 +18,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             var visitor = provider.GenerateGame();
             var complex = provider.GenerateComplexGame(home, visitor);
 
-            var gameArray = new[] { home, visitor, complex };
+            var gameArray = new[] { complex ,home, visitor,  };
 
             var games = Newtonsoft.Json.JsonConvert.SerializeObject(gameArray, new Newtonsoft.Json.JsonSerializerSettings
             {
