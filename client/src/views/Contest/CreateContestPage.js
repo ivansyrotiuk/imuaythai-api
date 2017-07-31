@@ -22,7 +22,7 @@ class CreateContestPage extends Component {
     const {handleSubmit, submitting, countries, contestCategoryId, contestTypes, contestCategories} = this.props;
 
 
-    const mappedContestyTypes = contestTypes.map((contestType, i) => (
+    const mappedContestTypes = contestTypes.map((contestType, i) => (
       <option key={ i } value={ contestType.id }>
         { contestType.name }
       </option>));
@@ -166,7 +166,7 @@ class CreateContestPage extends Component {
                 <div className="row mb-4">
                   <div className="col-md-10">
                     <Field name="contestCategoryId" className="form-control" component="select">
-                      { mappedContestyTypes }
+                      { mappedContestTypes }
                     </Field>
                   </div>
                   <div className="col-md-2">

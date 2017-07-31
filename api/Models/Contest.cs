@@ -12,11 +12,13 @@ namespace MuaythaiSportManagementSystemApi.Models
         [StringLength(500)]
         public string Name { get; set; }
         public DateTime Date { get; set; }
+        public DateTime EndRegistrationDate { get; set; }
         public int Duration { get; set; }
         public int RingsCount { get; set;}
-        public int Institutionld { get; set; }
+        public int InstitutionId { get; set; }
         public int CountryId { get; set; }
-
+        public int? ContestRangeId { get; set; }
+        public int? ContestTypeId { get; set; }
         [Required]
         [StringLength(500)]
         public string Address { get; set; }
@@ -42,7 +44,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public virtual ICollection<ContestDocumentsMapping> ContestDocumentsMappings { get; set; }
         public virtual Institution Institution { get; set; }
         public virtual Country Country { get; set; }
-
-
+        public virtual ContestRange ContestRange { get; set; }
+        public virtual ContestType ContestType { get; set; }
     }
 }

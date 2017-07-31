@@ -10,11 +10,11 @@ using MuaythaiSportManagementSystemApi.Contests;
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Route("api/[controller]")]
-    public class ContestController : Controller
+    public class ContestsController : Controller
     {
         private readonly IContestRepository _repository;
 
-        public ContestController(IContestRepository repository)
+        public ContestsController(IContestRepository repository)
         {
             _repository = repository;
         }

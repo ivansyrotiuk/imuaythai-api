@@ -50,8 +50,8 @@ import UserViewPageContainer from "../../containers/Users/UserViewPageContainer"
 
 import UserRolesPageContainer from "../../containers/Users/UserRolesPageContainer"
 import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageContainer"
-import ContestsPage from "../../views/Contest/ContestsPage"
-import CreateContest from '../Contest/CreateContestContainer'
+import ContestsContainer from "../Contest/ContestsContainer"
+import ContestEditContainer from '../Contest/ContestEditContainer'
 
 
 class Full extends Component {
@@ -104,9 +104,9 @@ class Full extends Component {
                 <Route path="/dictionaries/points/:id" name="ContestPoint" component={ ContestPointsDetailsPage } />
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
-                <Route path="/contests/add" name="Create contest" component={ CreateContest } />
-                <Route path="/contests/:id/edit" name="Edit contest" component={ CreateContest } />
-                <Route path="/contests/" name="Contests" component={ ContestsPage } />
+                <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
+                <Route path="/contests/:id/edit" name="Edit contest" component={ ContestEditContainer } />
+                <Route path="/contests/" name="Contests" component={ ContestsContainer } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </div>

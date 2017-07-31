@@ -5,7 +5,7 @@ import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchTypes } from "../../actions/Dictionaries/ContestTypesActions";
 import { fetchContest, saveContest } from '../../actions/ContestActions';
 
-class CreateContestContainer extends Component {
+class ContestEditContainer extends Component {
 
     componentWillMount() {
         var contestId = this.props.match.params;
@@ -22,12 +22,12 @@ class CreateContestContainer extends Component {
     }
     render() {
         const initialValues = {
-            date: new Date(), 
+            date: new Date(),
             endRegisterDate: new Date()
         }
 
         return (
-            <CreateContestPage countries={ this.props.countries } contestTypes={ this.props.contestTypes } onSubmit={ this.props.onSubmit } initialValues={initialValues} />
+            <CreateContestPage countries={ this.props.countries } contestTypes={ this.props.contestTypes } onSubmit={ this.props.onSubmit } initialValues={ initialValues } />
             );
     }
 }
@@ -49,22 +49,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(fetchTypes())
         },
         onSubmit: (values) => {
-            dispatch(saveContest({
-                name: values.name,
-                date: values.date,
-                address: values.address,
-                duration: values.duration,
-                ringsCount: values.ringsCount,
-                city: values.city,
-                countryId: values.countryId,
-                allowUnassociated: values.allowUnassociated,
-                website: values.website,
-                facebook: values.facebook,
-                vk: values.vk,
-                twitter: values.twitter,
-                instagram: values.instagram,
-                contestCategories: values.contestCategories
-            }));
+            dispatch(saveContest(values));
         },
         getContestType: (id) => {
 
@@ -72,5 +57,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-CreateContestContainer = connect(mapStateToProps, mapDispatchToProps)(CreateContestContainer)
-export default CreateContestContainer;
+ContestEditContainer = connect(mapStateToProps, mapDispatchToProps)(ContestEditContainer)
+export default ContestEditContainer;
