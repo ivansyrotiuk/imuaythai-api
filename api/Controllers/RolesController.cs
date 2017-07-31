@@ -33,5 +33,21 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("public")]
+        public async Task<IActionResult> GetPublicRoles()
+        {
+            try
+            {
+                var rolesEntities = await _rolesRepository.GetPublicRoles();
+                var roles = rolesEntities.Select(r => (RoleDto)r).ToList();
+                return Ok(roles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

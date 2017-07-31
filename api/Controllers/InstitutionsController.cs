@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Institutions.Gyms;
 using MuaythaiSportManagementSystemApi.Models;
+using Microsoft.AspNetCore.Identity;
+using MuaythaiSportManagementSystemApi.Institutions;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -13,10 +15,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     public class InstitutionsController : Controller
     {
         private readonly IInstitutionsRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ICountriesRepository _countryRepository;
 
-        public InstitutionsController(IInstitutionsRepository repository)
+        public InstitutionsController(IInstitutionsRepository repository, UserManager<ApplicationUser> userManager, ICountriesRepository countryRepository)
         {
             _repository = repository;
+            _userManager = userManager;
+            _countryRepository = countryRepository;
         }
 
         [HttpGet]
@@ -28,6 +34,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var gymsEntities = await _repository.GetGyms();
                 var gyms = gymsEntities.Select(i=>(GymDto)i).ToList();
                 return Ok(gyms);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Gyms/Country")]
+        public async Task<IActionResult> GetGymsInCountry([FromQuery]int id)
+        {
+            try
+            {
+                var country = await _countryRepository.Get(id);
+                if (country == null)
+                {
+                    return BadRequest("Country not found");
+                }
+
+                var entities = await _repository.Find(i => i.CountryId == id);
+                var institutions = entities.Select(i => (InstitutionDto)i).ToList();
+                return Ok(institutions);
             }
             catch (Exception ex)
             {
@@ -83,6 +111,37 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("Federations/useravailable")]
+        public async Task<IActionResult> GetUserAvailableFederations([FromQuery] string userId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                if (user.CountryId == null)
+                {
+                    return BadRequest("Select country.");
+                }
+
+                var country = await _countryRepository.Get(user.CountryId.Value);
+
+                var entities = await _repository.GetByCountry(country);
+                var federations = entities.Select(i => (InstitutionDto)i).ToList();
+                return Ok(federations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetInstitution([FromRoute]int id)
@@ -111,7 +170,11 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 entity.Address = institution.Address;
                 entity.City = institution.City;
                 entity.CountryId = institution.CountryId;
-
+                entity.Email = institution.Email;
+                entity.Phone = institution.Phone;
+                entity.Owner = institution.Owner;
+                entity.MembersCount = institution.MembersCount;
+                entity.InstitutionType = institution.InstitutionType;
                 await _repository.Save(entity);
 
                 institution.Id = entity.Id;

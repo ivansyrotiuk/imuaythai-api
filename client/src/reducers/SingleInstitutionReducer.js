@@ -24,6 +24,16 @@ export default function(state = singleInstitutionInitialState, action) {
                 fetching: false,
                 error: action.payload
             }
+        case actionTypes.ADD_INSTITUTION:
+            return {
+                ...state,
+                institution: action.payload
+            }
+        case actionTypes.RESET_INSTITUTION:
+            return {
+                ...state,
+                institution: null
+            }
         default:
             return state
     }

@@ -22,4 +22,15 @@ namespace MuaythaiSportManagementSystemApi.Models.AccountModels
 
         public string CallbackUrl { get; set; }
     }
+
+    public class FinishRegisterDto
+    {
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
+        public bool? OwnGym { get; set; }
+        public string GymName { get; set; }
+        public int CountryId { get; set; }
+        public int? InstitutionId { get; set; }
+    }
+
 }

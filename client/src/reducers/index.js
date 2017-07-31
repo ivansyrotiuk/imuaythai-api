@@ -12,6 +12,7 @@ import Roles from "./RolesReducer"
 import UserRoles from "./UserRolesReducer"
 import RoleRequests from "./RoleRequestsReducer"
 import Contest from "./ContestReducer"
+import ContestCategories from "./ContestCategoriesReducer"
 import SingleUser from "./UserReducer"
 import SingleInstitution from "./SingleInstitutionReducer"
 import Fight from './FightReducer'
@@ -32,6 +33,7 @@ export default combineReducers({
     SuspensionTypes,
     ContestPoints,
     Contest,
+    ContestCategories,
     Fight,
     form: reduxFormReducer,
 })

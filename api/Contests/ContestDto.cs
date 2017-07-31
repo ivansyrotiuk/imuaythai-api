@@ -21,7 +21,8 @@ namespace MuaythaiSportManagementSystemApi.Contests
         public string Facebook { get; set; }
         public string VK { get; set; }
         public string Twitter { get; set; }
-        public string Instagram { get; set; } 
-       // public List<Contest> ContestCategories { get; set; }
+        public string Instagram { get; set; }
+        public DateTime EndRegistrationDate { get; set; }
+        // public List<Contest> ContestCategories { get; set; }
     }
 }

@@ -116,3 +116,22 @@ export function resetErrorAction() {
         dispatch(requestAction(actionTypes.RESET_ERRORS))
     }
 }
+
+export function finishRegister(finishData) {
+    return function(dispatch) {
+        return axios
+            .post(host + "api/account/register/finish", finishData)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FINISH_REGISTRATION_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FINISH_REGISTRATION_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}

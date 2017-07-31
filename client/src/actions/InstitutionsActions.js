@@ -24,6 +24,28 @@ export function fetchGyms() {
     }
 }
 
+export function fetchCountryGyms(countryId) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_COUNTRY_GYMS
+        });
+        axios
+            .get(host + "api/institutions/gyms/country?id=" + countryId)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_COUNTRY_GYMS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_COUNTRY_GYMS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
 export function fetchNationalFederations() {
     return function(dispatch) {
         dispatch({
@@ -109,6 +131,26 @@ export function fetchInstitution(id) {
                     payload: err
                 });
             });
+    }
+}
+
+export function addInstitution(institutionType) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.ADD_INSTITUTION,
+            payload: {
+                id: 0,
+                institutionType: institutionType,
+            }
+        });
+    }
+}
+
+export function resetInstitution(institutionType) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.RESET_INSTITUTION,
+        });
     }
 }
 

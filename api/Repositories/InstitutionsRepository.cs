@@ -4,6 +4,7 @@ using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
@@ -17,10 +18,9 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
-        public Task<List<Institution>> Find(Func<Institution, bool> predicate)
+        public Task<List<Institution>> Find(Expression<Func<Institution, bool>> predicate)
         {
-            var institutions = _context.Institutions.Where(predicate).AsQueryable();
-            return institutions.ToListAsync();
+            return _context.Institutions.Where(predicate).ToListAsync();
         }
 
         public Task<Institution> Get(int id)
@@ -51,6 +51,16 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         public Task<List<Institution>> GetWorldFederations()
         {
             return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.WorldFederation).ToListAsync();
+        }
+
+        public Task<List<Institution>> GetByCountry(Country country)
+        {
+            return _context.Institutions.Include(i => i.Country)
+                .Where(i => i.CountryId == country.Id && i.InstitutionType == InstitutionType.Gym ||
+                            i.CountryId == country.Id && i.InstitutionType == InstitutionType.NationalFederation || 
+                            i.Country.Continent == country.Continent && i.InstitutionType == InstitutionType.ContinentalFederation || 
+                            i.InstitutionType == InstitutionType.WorldFederation)
+                .ToListAsync();
         }
 
         public Task Remove(int id)

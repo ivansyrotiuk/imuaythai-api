@@ -71,7 +71,10 @@ namespace MuaythaiSportManagementSystemApi.Data
                .WithMany()
                .HasForeignKey(k => k.HeadCoachId);
 
-           
+            builder.Entity<Institution>()
+               .HasOne(h => h.Country)
+               .WithMany()
+               .HasForeignKey(k => k.CountryId);
 
         }
 
@@ -104,5 +107,7 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<UserRoleRequest> UserRoleRequests { get; set; }
         public virtual DbSet<Round> Rounds { get; set; }
         public virtual DbSet<WeightAgeCategory> WeightAgeCategories { get; set; }
+        public virtual DbSet<ContestCategoriesMapping> ContestCategoriesMappings { get; set; }
+
     }
 }
