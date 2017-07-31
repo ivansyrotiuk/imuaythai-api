@@ -11,13 +11,9 @@ const GameComponent = props => {
 };
 
 class CreateFightsDiagram extends Component {
-
-
     render() {
-
         return (
-
-            <BracketGenerator GameComponent={ GameComponent } games={ dataJson } homeOnTop={ false } />
+            <BracketGenerator GameComponent={ GameComponent } games={ this.props.fights } homeOnTop={ false } />
             );
     }
 }

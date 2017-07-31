@@ -14,6 +14,7 @@ import RoleRequests from "./RoleRequestsReducer"
 import Contest from "./ContestReducer"
 import SingleUser from "./UserReducer"
 import SingleInstitution from "./SingleInstitutionReducer"
+import Fight from './FightReducer'
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
@@ -31,5 +32,6 @@ export default combineReducers({
     SuspensionTypes,
     ContestPoints,
     Contest,
+    Fight,
     form: reduxFormReducer,
 })

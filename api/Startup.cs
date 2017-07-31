@@ -68,13 +68,6 @@ namespace MuaythaiSportManagementSystemApi
                        .AllowAnyHeader();
             }));
 
-            Fights.FightProvider provider = new Fights.FightProvider();
-
-            var test = Newtonsoft.Json.JsonConvert.SerializeObject(provider.GenerateGame(), new Newtonsoft.Json.JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
-
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
