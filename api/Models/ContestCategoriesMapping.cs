@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Models
 {
-    public class ContestCategoriesMappings
+    public class ContestCategoriesMapping
     {
         [Key]
         public int Id { get; set; }
