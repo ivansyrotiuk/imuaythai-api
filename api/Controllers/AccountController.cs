@@ -17,6 +17,8 @@ using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Models.AccountModels;
 using MuaythaiSportManagementSystemApi.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using MuaythaiSportManagementSystemApi.Repositories;
+using MuaythaiSportManagementSystemApi.Users;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -27,24 +29,33 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IInstitutionsRepository _institutionsRepository;
+        private readonly IUserRoleRequestsRepository _userRoleRequestsRepository;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IJwtTokenGenerator _tokenGenerator;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
+            IInstitutionsRepository institutionsRepository,
+            IUserRoleRequestsRepository userRoleRequestsRepository,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IJwtTokenGenerator tokenGenerator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _institutionsRepository = institutionsRepository;
+            _userRoleRequestsRepository = userRoleRequestsRepository;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _tokenGenerator = tokenGenerator;
         }
 
         //
@@ -62,32 +73,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 _logger.LogInformation(1, "User logged in.");
-              
-                var claims = new List<Claim>{
-                        new Claim(JwtRegisteredClaimNames.Sub, model.Email),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim("UserId", user.Id),
-                        };
-
                 var roles = await _userManager.GetRolesAsync(user);
-                foreach(var role in roles)
-                {
-                    claims.Add(new Claim("roles", role));
-                }
 
-                claims.Add(new Claim("roles", string.Empty));
-                claims.Add(new Claim("roles", string.Empty));
-
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken(
-                                    issuer: "http://localhost:5000",
-                                    audience: "http://localhost:5000",
-                                    claims: claims,
-                                    signingCredentials: creds
-                                    );
-                var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
+                string encodedToken = _tokenGenerator.GenerateToken(user, roles);
 
                 return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe });
             }
@@ -102,6 +90,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest("Invalid login or password");
             }
         }
+
+        
 
         //
         // POST: /Account/Register
@@ -131,6 +121,56 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             // If we got this far, something failed, redisplay form
             return BadRequest(result.Errors.First().Description);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("register/finish")]
+        public async Task<IActionResult> FinishRegister([FromBody]FinishRegisterDto model)
+        {
+            try
+            {
+                string userId = User.GetUserId();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                Institution gym = model.OwnGym == true && model.InstitutionId.HasValue ? new Institution
+                {
+                    Name = model.GymName,
+                    CountryId = model.CountryId
+                } : await _institutionsRepository.Get(model.InstitutionId.Value);
+
+                if (model.OwnGym == true)
+                {
+                    await _institutionsRepository.Save(gym);
+                }
+
+                UserRoleRequest entity = new UserRoleRequest();
+                entity.RoleId = model.RoleId;
+                entity.UserId = userId;
+                entity.Status = UserRoleRequestStatus.Pending;
+                entity.InstitutionId = gym.Id;
+                await _userRoleRequestsRepository.Save(entity);
+
+                user.InstitutionId = gym.Id;
+                user.CountryId = model.CountryId;
+
+                
+                await _userManager.UpdateAsync(user);
+                await _userManager.AddToRoleAsync(user, "Guest");
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = _tokenGenerator.GenerateToken(user, roles);
+
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
 
         //

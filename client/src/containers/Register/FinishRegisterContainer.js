@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import SecondStepRegister from '../../views/Register/SecondStepRegister'
+import FinishRegisterPage from '../../views/Register/FinishRegisterPage'
 import Spinner from '../../views/Components/Spinners/Spinner'
 import { fetchCountries } from '../../actions/CountriesActions'
 import { fetchPublicRoles } from '../../actions/RolesActions'
 import { setRequestedRole } from '../../actions/UserRolesActions'
 import { fetchCountryGyms } from '../../actions/InstitutionsActions'
+import { finishRegister } from '../../actions/AccountActions'
+import { saveState } from '../../localStorage'
+import jwtDecode from 'jwt-decode';
 
-class SecondStepRegisterContainer extends Component {
+class FinishRegisterContainer extends Component {
     constructor(props) {
         super(props);
-        this.onSubmit = this.onSubmit.bind(this);
         this.onCountryChange = this.onCountryChange.bind(this);
     }
 
@@ -24,22 +26,29 @@ class SecondStepRegisterContainer extends Component {
         }
     }
 
-    onSubmit() {}
-
     onCountryChange(event) {
         const countryId = event.target.value;
         this.props.fetchCountryGyms(countryId);
     }
 
     render() {
-        const {countries, roles, countryGyms, fetchingCountries, fetchingRoles, fetchingGyms} = this.props;
+        const {countries, roles, countryGyms, fetchingCountries, fetchingRoles, fetchingGyms, user, authToken} = this.props;
 
         if (fetchingCountries || fetchingRoles) {
             return <Spinner />
         }
 
+        if (user.roles.find(r => r !== "") !== undefined) {
+            const authAccount = {
+                authToken: this.props.authToken,
+                user: jwtDecode(this.props.authToken)
+            }
+            saveState(authAccount)
+            this.props.history.push('/');
+        }
 
-        return <SecondStepRegister countries={ countries } roles={ roles } fetchingGyms={ fetchingGyms } gyms={ countryGyms } onSubmit={ this.onSubmit }
+
+        return <FinishRegisterPage countries={ countries } roles={ roles } fetchingGyms={ fetchingGyms } gyms={ countryGyms } onSubmit={ this.props.finishRegister }
                  onCountryChange={ this.onCountryChange } />
     }
 }
@@ -51,7 +60,9 @@ const mapStateToProps = (state, ownProps) => {
         roles: state.Roles.publicRoles,
         fetchingRoles: state.Roles.fetching,
         countryGyms: state.Institutions.countryGyms,
-        fetchingGyms: state.Institutions.fetching
+        fetchingGyms: state.Institutions.fetching,
+        authToken: state.Account.authToken,
+        user: state.Account.user
     }
 }
 
@@ -65,8 +76,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         fetchCountryGyms: (countryId) => {
             dispatch(fetchCountryGyms(countryId));
+        },
+        finishRegister: (finishData) => {
+            return dispatch(finishRegister(finishData));
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondStepRegisterContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(FinishRegisterContainer)

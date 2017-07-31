@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Services;
 using MuaythaiSportManagementSystemApi.Repositories;
+using MuaythaiSportManagementSystemApi.Users;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -84,6 +85,8 @@ namespace MuaythaiSportManagementSystemApi
             services.AddSingleton<IUserRoleRequestsRepository, UserRoleRequestsRepository>();
             services.AddSingleton<IContestRepository, ContestRepository>();
             services.AddSingleton<IContestCategoriesRepository, ContestCategoriesRepository>();
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
             services.Configure<EmailConfiguration>(Configuration);
         }
 

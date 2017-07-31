@@ -18,7 +18,7 @@ import FrontPage from './views/Pages/FrontPage/FrontPage'
 import Login from './containers/Login/LoginContainer'
 import ForgotPassword from './containers/Login/ForgotPasswordContainer'
 import Register from './containers/Register/RegisterContainer'
-import SecondStepRegister from './containers/Register/SecondStepRegisterContainer'
+import FinishRegisterContainer from './containers/Register/FinishRegisterContainer'
 import ConfirmEmail from './containers/Register/ConfirmEmailContainer'
 import ResetPassword from './containers/Login/ResetPasswordContainer'
 
@@ -40,7 +40,7 @@ ReactDOM.render((
     <HashRouter history={ history }>
       <Switch>
         <Route exact path="/login" name="Login Page" component={ Login } />
-        <Route exact path="/register/second_step" name="Register second step" component={ SecondStepRegister } />
+        <Route exact path="/register/second_step" name="Register second step" component={ FinishRegisterContainer } />
         <Route exact path="/register" name="Register Page" component={ Register } />
         <Route exact path="/confirmemail" name="Confirm e-mail" component={ ConfirmEmail } />
         <Route exact path="/forgotpassword" name="Forgot password" component={ ForgotPassword } />
