@@ -3,6 +3,8 @@ import CreateContestPage from '../../views/Contest/CreateContestPage';
 import { connect } from 'react-redux';
 import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchTypes } from "../../actions/Dictionaries/ContestTypesActions";
+import { fetchRanges } from "../../actions/Dictionaries/ContestRangesActions";
+import { fetchContestCategories } from "../../actions/Dictionaries/ContestCategoriesActions";
 import { fetchContest, saveContest } from '../../actions/ContestActions';
 
 class ContestEditContainer extends Component {
@@ -15,10 +17,12 @@ class ContestEditContainer extends Component {
         if (!this.props.contestTypes.length) {
             this.props.fetchContestTypes();
         }
-        if (contestId != undefined && contestId.id != undefined) {
-            this.props.getContestType(contestId.id);
+        if (!this.props.contestCategories.length) {
+            this.props.fetchContestCategories();
         }
-
+        if (!this.props.contestRanges.length) {
+            this.props.fetchRanges();
+        }
     }
     render() {
         const initialValues = {
@@ -27,7 +31,8 @@ class ContestEditContainer extends Component {
         }
 
         return (
-            <CreateContestPage countries={ this.props.countries } contestTypes={ this.props.contestTypes } onSubmit={ this.props.onSubmit } initialValues={ initialValues } />
+            <CreateContestPage initialValues={ initialValues } countries={ this.props.countries } contestTypes={ this.props.contestTypes } contestRanges={ this.props.contestRanges } categories={ this.props.contestCategories }
+              onSubmit={ this.props.onSubmit } />
             );
     }
 }
@@ -37,6 +42,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         countries: state.Countries.countries,
         contestTypes: state.ContestTypes.types,
+        contestCategories: state.ContestCategories.categories,
+        contestRanges: state.ContestRanges.ranges
     }
 }
 
@@ -48,12 +55,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         fetchContestTypes: () => {
             dispatch(fetchTypes())
         },
-        onSubmit: (values) => {
-            dispatch(saveContest(values));
+        fetchContestCategories: () => {
+            dispatch(fetchContestCategories())
         },
-        getContestType: (id) => {
-
-        }
+        fetchRanges: () => {
+            dispatch(fetchRanges())
+        },
+        onSubmit: (values) => {
+            return dispatch(saveContest(values));
+        },
     }
 }
 

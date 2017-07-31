@@ -19,17 +19,27 @@ const RenderDatePicker = props => {
 class CreateContestPage extends Component {
 
   render() {
-    const {handleSubmit, submitting, countries, contestCategoryId, contestTypes, contestCategories} = this.props;
+    const {handleSubmit, submitting, countries, contestCategoryId, contestTypes, contestRanges, categories, contestCategories} = this.props;
 
 
-    const mappedContestTypes = contestTypes.map((contestType, i) => (
-      <option key={ i } value={ contestType.id }>
-        { contestType.name }
+    const mappedContestTypes = contestTypes.map((type, i) => (
+      <option key={ i } value={ type.id }>
+        { type.name }
       </option>));
 
     const mappedCountries = countries.map((country, i) => (
       <option key={ i } value={ country.id }>
         { country.name }
+      </option>));
+
+    const mappedRanges = contestRanges.map((range, i) => (
+      <option key={ i } value={ range.id }>
+        { range.name }
+      </option>));
+
+    const mappedCategories = categories.map((category, i) => (
+      <option key={ i } value={ category.id }>
+        { category.name }
       </option>));
 
 
@@ -52,10 +62,50 @@ class CreateContestPage extends Component {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <label>Contest date</label>
                         <Field name="date" component={ RenderDatePicker } className="form-control" type="input" />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Date of registration end</label>
+                        <Field name="endRegisterDate" component={ RenderDatePicker } className="form-control" type="input" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Range</label>
+                        <Field name="contestRangeId" component="select" className="form-control" type="select">
+                          <option>-</option>
+                          { mappedRanges }
+                        </Field>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Type</label>
+                        <Field name="contestTypeId" component="select" className="form-control" type="select">
+                          <option>-</option>
+                          { mappedContestTypes }
+                        </Field>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Contest duration</label>
+                        <Field name="duration" component="input" className="form-control" placeholder="Contest duration in days" />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Rings count</label>
+                        <Field name="ringsCount" component="input" className="form-control" placeholder="Rings count" />
                       </div>
                     </div>
                   </div>
@@ -68,20 +118,6 @@ class CreateContestPage extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Contest duration</label>
-                        <Field name="duration" component="input" className="form-control" placeholder="Contest duration in days" />
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>Rings count</label>
-                        <Field name="ringsCount" component="input" className="form-control" placeholder="Rings count" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
                         <label>Contest city</label>
                         <Field name="city" component="input" className="form-control" placeholder="City" />
                       </div>
@@ -92,12 +128,6 @@ class CreateContestPage extends Component {
                         <Field name="countryId" className="form-control" component="select">
                           { mappedCountries }
                         </Field>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>Date of registration end</label>
-                        <Field name="endRegisterDate" component={ RenderDatePicker } className="form-control" type="input" />
                       </div>
                     </div>
                   </div>
@@ -166,13 +196,13 @@ class CreateContestPage extends Component {
                 <div className="row mb-4">
                   <div className="col-md-10">
                     <Field name="contestCategoryId" className="form-control" component="select">
-                      { mappedContestTypes }
+                      { mappedCategories }
                     </Field>
                   </div>
                   <div className="col-md-2">
                     <button className="btn btn-primary" onClick={ () => {
                                                                     if (contestCategoryId != undefined && (contestCategories == undefined || !contestCategories.find((item) => item.id == contestCategoryId))) {
-                                                                      var contestCategory = contestTypes.find((contestCategory) => {
+                                                                      var contestCategory = categories.find((contestCategory) => {
                                                                         return contestCategory.id == contestCategoryId
                                                                       });
                                                                       this.refs.contestCategories.getRenderedComponent().addContestCategory(contestCategory);

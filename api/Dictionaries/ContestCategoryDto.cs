@@ -7,6 +7,7 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
         public int Id { get; set; }
         public int ContestTypePointsId { get; set; }
         public int FightStructureId { get; set; }
+        public string Name { get; set; }
         public string ContestTypeName => ContestPoints.ContestType.Name;
         public string ContestRangeName => ContestPoints.ContestRange.Name;
         public string RoundName => FightStructure.Round.Name;
@@ -21,6 +22,7 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
             return new ContestCategoryDto
             {
                 Id = category.Id,
+                Name = category.Name,
                 ContestTypePointsId = category.ContestTypePointsId,
                 FightStructureId = category.FightStructureId,
                 ContestPoints = category.ContestTypePoints != null ? (ContestPointsDto)category.ContestTypePoints : new ContestPointsDto(),
