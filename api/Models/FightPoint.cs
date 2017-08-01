@@ -13,7 +13,8 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int Id { get; set; }
         [Required]
         public int RoundId{ get; set; }
-   
+        [Required]
+        public string FighterId { get; set; }
         [Required]
         public int Points { get; set; }
         [Required]

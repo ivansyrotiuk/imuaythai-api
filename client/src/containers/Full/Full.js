@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route, Redirect } from 'react-router-dom'
-import Header from '../../components/Header/';
+import Header from '../../containers/Header/HeaderContainer';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
-import Aside from '../../components/Aside/';
+//import Aside from '../../components/Aside/';
 //import {requireAuthentication} from '../../utils/requireAuthentication'
 
 import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir, userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from '../../auth/auth'
@@ -48,11 +48,13 @@ import DoctorsPageContainer from "../../containers/Users/Doctors/DoctorsPageCont
 import UserEditPageContainer from "../../containers/Users/UserEditPageContainer"
 import UserViewPageContainer from "../../containers/Users/UserViewPageContainer"
 
+
 import UserRolesPageContainer from "../../containers/Users/UserRolesPageContainer"
 import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageContainer"
 import ContestsContainer from "../Contest/ContestsContainer"
 import ContestEditContainer from '../Contest/ContestEditContainer'
 import ContestViewContainer from '../Contest/ContestViewContainer'
+import CreateFightsDiagram from '../Fight/CreateDiagramContainer'
 
 class Full extends Component {
   render() {
@@ -108,11 +110,11 @@ class Full extends Component {
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />
                 <Route path="/contests/" name="Contests" component={ ContestsContainer } />
+                <Route path="/fight" name="fights" component={ CreateFightsDiagram } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </div>
           </main>
-          <Aside/>
         </div>
         <Footer/>
       </div>
