@@ -25,18 +25,31 @@ export const saveContest = (contest) => {
     }
 }
 
-export const fetchContest = (filter) => {
-    return (dispatch) => {
-        dispatch(createAction(actionTypes.FETCH_SINGLE_CONTEST_REQUEST, filter));
+export function addContest(contest) {
+    return {
+        type: actionTypes.ADD_NEW_CONTEST,
+        payload: contest
+    }
+}
 
-        return axios.post(host + "api/contests/get", filter)
+export const fetchContest = (id) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.FETCH_SINGLE_CONTEST
+        });
+
+        return axios.get(host + "api/contests/" + id)
             .then((response) => {
-                dispatch(createAction(actionTypes.FETCH_SINGLE_CONTEST_SUCCESS, response.data))
+                dispatch({
+                    type: actionTypes.FETCH_SINGLE_CONTEST_FULFILLED,
+                    payload: response.data
+                })
             })
             .catch((err) => {
-                dispatch(createAction(actionTypes.FETCH_SINGLE_CONTEST_REJECTED, err.response != null
-                    ? err.response.data
-                    : "Cannot connect to server"))
+                dispatch({
+                    type: actionTypes.FETCH_SINGLE_CONTEST_REJECTED,
+                    payload: err
+                })
             })
     }
 }
@@ -50,7 +63,7 @@ export const fetchConstests = () => {
         return axios.get(host + "api/contests/")
             .then((response) => {
                 dispatch({
-                    type: actionTypes.FETCH_CONTESTS_SUCCESS,
+                    type: actionTypes.FETCH_CONTESTS_FULFILLED,
                     payload: response.data
                 })
             })

@@ -31,10 +31,10 @@ class ContestsPage extends Component {
 
     const mappedContests = contests.map((contest, i) => <tr>
                                                           <td>
-                                                            contest.id
+                                                            { contest.id }
                                                           </td>
                                                           <td>
-                                                            contest.name
+                                                            { contest.name }
                                                           </td>
                                                           <td>
                                                             <Link to={ "/contests/" + contest.id + "/edit" }>

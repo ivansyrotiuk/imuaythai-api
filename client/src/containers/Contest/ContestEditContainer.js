@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-import CreateContestPage from '../../views/Contest/CreateContestPage';
+import ContestEditForm from '../../views/Contest/ContestEditForm';
+import Spinner from '../../views/Components/Spinners/Spinner';
 import { connect } from 'react-redux';
 import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchTypes } from "../../actions/Dictionaries/ContestTypesActions";
 import { fetchRanges } from "../../actions/Dictionaries/ContestRangesActions";
 import { fetchContestCategories } from "../../actions/Dictionaries/ContestCategoriesActions";
-import { fetchContest, saveContest } from '../../actions/ContestActions';
+import { addContest, fetchContest, saveContest } from '../../actions/ContestActions';
 
 class ContestEditContainer extends Component {
 
     componentWillMount() {
-        var contestId = this.props.match.params;
+        var id = this.props.match.params.id;
+        if (id) {
+            this.props.fetchContest(id);
+        } else {
+            const contest = {
+                date: new Date(),
+                endRegistrationDate: new Date(),
+            }
+            this.props.addContest(contest);
+        }
+
         if (!this.props.countries.length) {
             this.props.fetchCountries();
         }
@@ -25,14 +36,13 @@ class ContestEditContainer extends Component {
         }
     }
     render() {
-        const initialValues = {
-            date: new Date(),
-            endRegisterDate: new Date()
+        const {contest, fetching, countries, contestTypes, contestRanges, contestCategories, onSubmit} = this.props;
+        if (fetching) {
+            return <Spinner />
         }
-
         return (
-            <CreateContestPage initialValues={ initialValues } countries={ this.props.countries } contestTypes={ this.props.contestTypes } contestRanges={ this.props.contestRanges } categories={ this.props.contestCategories }
-              onSubmit={ this.props.onSubmit } />
+            <ContestEditForm initialValues={ contest } countries={ countries } contestTypes={ contestTypes } contestRanges={ contestRanges } categories={ contestCategories }
+              onSubmit={ onSubmit } />
             );
     }
 }
@@ -43,7 +53,9 @@ const mapStateToProps = (state, ownProps) => {
         countries: state.Countries.countries,
         contestTypes: state.ContestTypes.types,
         contestCategories: state.ContestCategories.categories,
-        contestRanges: state.ContestRanges.ranges
+        contestRanges: state.ContestRanges.ranges,
+        contest: state.Contest.singleContest,
+        fetching: state.Contest.fetching
     }
 }
 
@@ -60,6 +72,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         fetchRanges: () => {
             dispatch(fetchRanges())
+        },
+        fetchContest: (id) => {
+            dispatch(fetchContest(id))
+        },
+        addContest: (contest) => {
+            dispatch(addContest(contest))
         },
         onSubmit: (values) => {
             return dispatch(saveContest(values));

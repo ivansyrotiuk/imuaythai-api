@@ -8,10 +8,10 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
         public int ContestTypePointsId { get; set; }
         public int FightStructureId { get; set; }
         public string Name { get; set; }
-        public string ContestTypeName => ContestPoints.ContestType.Name;
-        public string ContestRangeName => ContestPoints.ContestRange.Name;
-        public string RoundName => FightStructure.Round.Name;
-        public string WeightCategoryName => FightStructure.WeightAgeCategory.Name;
+        public string ContestTypeName => ContestPoints?.ContestType?.Name;
+        public string ContestRangeName => ContestPoints?.ContestRange?.Name;
+        public string RoundName => FightStructure?.Round?.Name;
+        public string WeightCategoryName => FightStructure?.WeightAgeCategory?.Name;
 
         public ContestPointsDto ContestPoints { get; set; }
         public FightStructureDto FightStructure { get; set; }

@@ -24,8 +24,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var contests = await _repository.GetAll();
-              
+                var contestsEntities = await _repository.GetAll();
+                var contests = contestsEntities.Select(c => (ContestDto)c).ToList();
                 return Ok(contests);
             }
             catch (Exception ex)
@@ -34,12 +34,13 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
         [HttpGet]
-        [Route("contest/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> GetContest([FromRoute]int id)
         {
             try
             {
-                var contest = await _repository.Get(id);
+                var contestEntity = await _repository.Get(id);
+                var contest = (ContestDto)contestEntity;
                 return Ok(contest);
             }
             catch (Exception ex)
@@ -69,8 +70,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 contestEntity.VK = contest.VK;
                 contestEntity.Twitter = contest.Twitter;
                 contestEntity.Instagram = contest.Instagram;
+                contestEntity.EndRegistrationDate = contest.EndRegistrationDate;
+                contestEntity.ContestRangeId = contest.ContestRangeId;
+                contestEntity.ContestTypeId = contest.ContestTypeId;
                
                 await _repository.Save(contestEntity);
+                await _repository.SaveCategoryMappings(contestEntity, contest.ContestCategories);
 
                 return Created("Add", contest);
             }

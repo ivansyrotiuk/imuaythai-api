@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Data;
 using Microsoft.EntityFrameworkCore;
+using MuaythaiSportManagementSystemApi.Dictionaries;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -25,7 +26,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task<Contest> Get(int id)
         {
-            return _context.Contests.FirstOrDefaultAsync(i => i.Id == id);
+            return _context.Contests.Include(c => c.Country).Include(c => c.Institution).Include(c => c.ContestCategoriesMappings).ThenInclude(c => c.ContestCategory).FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public Task<List<Contest>> GetAll()
@@ -47,6 +48,20 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 _context.Contests.Add(contest);
             }
 
+            return _context.SaveChangesAsync();
+        }
+
+        public Task SaveCategoryMappings(Contest contest, List<ContestCategoryDto> mappings)
+        {
+            _context.ContestCategoriesMappings.RemoveRange(_context.ContestCategoriesMappings.Where(m => m.ContestId == contest.Id));
+
+            var contestCategoryMappings = mappings.Select(m => new ContestCategoriesMapping
+            {
+                ContestCategoryId = m.Id,
+                ContestId = contest.Id
+            }).ToList();
+
+            _context.ContestCategoriesMappings.AddRange(contestCategoryMappings);
             return _context.SaveChangesAsync();
         }
     }
