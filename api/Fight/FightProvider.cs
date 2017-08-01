@@ -1,4 +1,5 @@
 ﻿using MuaythaiSportManagementSystemApi.Fights.FightsStructure;
+using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,135 +7,125 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Fights
 {
-    public class FightProvider
+    public class FighDiagramtProvider
     {
 
-        private GameGroup group;
-        private Division division;
-        private Court court;
+        private List<Fight> _fights;
+        private List<Game> _games;
+        private string _rootFightId;
 
-        public FightProvider()
+        public FighDiagramtProvider(List<Fight> fights)
         {
-            court = GenerateCourt();
-            division = new Division
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Name = "GameGroup test",
-                ExternalId = "GameGrouptest",
-                Tourney = new Tourney
-                {
-                    Id = Guid.NewGuid().ToString().Substring(0, 10),
-                    Version = 0,
-                    Created = 1465591789000,
-                    Updated = 1465591789000,
-                    Name = "GameGroup test",
-                }
-            };
-            group = new GameGroup
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 2,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Division = division,
-                Name = "Test test",
-                ExternalId = "Testtest",
-                Type = "Bracket"
 
-            };
+            _fights = fights;
+            _games = new List<Game>();
+
+           
         }
 
-        public Game GenerateGame()
+        public List<Game> GenerateFightDiagram()
         {
-            GameGroup pool = new GameGroup
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Name = "HomeA",
-                ExternalId = "HomeA",
-                Type = "Pool",
-                Division = division
-            };
+            var rootFight = _fights.FirstOrDefault(f => f.NextFightId == null);
 
-            GameGroup poolVisitor = new GameGroup
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Name = "VisitorB",
-                ExternalId = "VisitorB",
-                Type = "Pool",
-                Division = division
-            };
+            if (rootFight == null)
+                return new List<Game>();
+            _rootFightId = rootFight.Id.ToString();
+            BuildFightDiagram(rootFight);
 
-            ScoreNode homeScore = new ScoreNode
-            {
-                Score = 10
-            };
+            return _games;
+        }
 
-            Seed homeSeed = new Seed
-            {
-               DisplayName = "Winner of something",
-               Rank  = 2,
-               SourcePool = pool
-            };
+        private void BuildFightDiagram(Fight root)
+        {
+            var figthsToRoot = _fights.Where(f => f.NextFightId == root.Id).ToList();
 
-            Team homeTeam = new Team
+            foreach (var fight in figthsToRoot)
             {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Pool = pool,
-                Name = "Tommy Gun Wales",
-                ExternalId = "FightTommyGunWales",
-                NumGames = 3
-            };
+                BuildFightDiagram(fight);
+            }
 
-            ScoreNode visitorScore = new ScoreNode
+            var parsedFight = ParseToFightBracket(root);
+
+            if (figthsToRoot.Count != 0)
             {
-                Score = 5
-            };
+                foreach (var subFight in figthsToRoot)
+                {
+                    var game = _games.FirstOrDefault(g => g.Id == subFight.Id.ToString());
 
-            Seed visitorSeed = new Seed
+                    AddDepedencyBetweenFights(game, parsedFight);
+                }
+            }
+            else
             {
-                DisplayName = "Winner of sub something",
-                Rank = 2,
-                SourcePool = poolVisitor,
+                parsedFight.HomeSeed.Rank = 2;
+                parsedFight.VisitorSeed.Rank = 2;
 
-            };
+            }
 
-            Team visitorTeam = new Team
+            if(_rootFightId == parsedFight.Id)
             {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Pool = poolVisitor,
-                Name = "Chuck Norris",
-                ExternalId = "FightTommyGunWales",
-                NumGames = 3
-            };
+                parsedFight.Name = "Mistrzostwa Świata Muaythai IFMA w Mińsku";
+            }
+
+            _games.Add(parsedFight);
+
+
+        }
+
+        private void AddDepedencyBetweenFights(Game game, Game parsedFight)
+        {
+            if(parsedFight.HomeSeed.SourceGame == null)
+            {
+                parsedFight.HomeSeed.SourceGame = game;
+                parsedFight.HomeSeed.Rank = 1;
+                var team = GetTeam(game);
+                parsedFight.HomeTeam = team;
+                parsedFight.Sides.Home.Team = team;
+
+            }
+            else
+            {
+                parsedFight.VisitorSeed.SourceGame = game;
+                parsedFight.VisitorSeed.Rank = 1;
+                var team = GetTeam(game);
+                parsedFight.VisitorTeam = team;
+                parsedFight.Sides.Visitor.Team = team;
+                
+            }
+        }
+
+        private Team GetTeam(Game game)
+        {
+            if(game.HomeScore != null && game.VisitorScore != null && game.VisitorScore.Score > 0 && game.HomeScore.Score > 0)
+            {
+                return game.VisitorScore.Score > game.HomeScore.Score ? game.VisitorTeam : game.HomeTeam;
+            }
+
+            return null;
+        }
+
+        private Game ParseToFightBracket(Fight fight)
+        {
+            var homeTeam = fight.RedAthlete != null ? BuildTeam(fight.RedAthlete) : null;
+            var homeSeed = BuildSeed(fight);
+            var homeScore = fight.FightPoints != null ? BuildScore(fight.FightPoints, fight.RedAthleteId) : null;
+
+            var visitorTeam = fight.BlueAthlete != null ? BuildTeam(fight.BlueAthlete) : null;
+            var visitorSeed = BuildSeed(fight);
+            var visitorScore = fight.FightPoints != null ? BuildScore(fight.FightPoints, fight.BlueAthleteId) : null;
 
             return new Game
             {
                 Created = 1465591789000,
                 EventType = "Game",
-                ExternalId = Guid.NewGuid().ToString().Substring(0, 10),
-                GameGroup = group,
+                ExternalId = fight.Id.ToString(),
+                //GameGroup = group,
                 HomeScore = homeScore,
-                HomeSeed = homeSeed,
+                HomeSeed = homeSeed ,
                 HomeTeam = homeTeam,
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
+                Id = fight.Id.ToString(),
                 IgnoreStandings = false,
                 LocalDate = DateTime.Now.ToString("dd-MM-yyyy"),
-                Name = "Semi finals",
                 Scheduled = 1465591789000,
                 Sides = new Sides
                 {
@@ -156,164 +147,35 @@ namespace MuaythaiSportManagementSystemApi.Fights
                 VisitorScore = visitorScore,
                 VisitorSeed = visitorSeed,
                 VisitorTeam = visitorTeam,
-                Court = court
-
-
+                //Court = court
             };
         }
 
-        public Game GenerateComplexGame(Game visitor, Game home)
+        private Team BuildTeam(ApplicationUser redAthlete)
         {
-            
-            GameGroup pool = new GameGroup
+            return new Team
             {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Name = "HomeA",
-                ExternalId = "HomeA",
-                Type = "Pool",
-                Division = division
-            };
-
-            GameGroup poolVisitor = new GameGroup
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Name = "VisitorB",
-                ExternalId = "VisitorB",
-                Type = "Pool",
-                Division = division
-            };
-
-            ScoreNode homeScore = new ScoreNode
-            {
-                Score = 10
-            };
-
-            Seed homeSeed = new Seed
-            {
-                DisplayName = "Winner of something",
-                Rank = 1,
-                SourceGame = home
-            };
-
-            Team homeTeam = new Team
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Pool = pool,
-                Name = "Tommy Gun Wales",
-                ExternalId = "FightTommyGunWales",
-                NumGames = 3
-            };
-
-            ScoreNode visitorScore = new ScoreNode
-            {
-                Score = 5
-            };
-
-            Seed visitorSeed = new Seed
-            {
-                DisplayName = "Winner of sub something",
-                Rank = 1,
-                SourceGame = visitor
-
-            };
-
-            Team visitorTeam = new Team
-            {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Name = "Chuck Norris",
-                ExternalId = "FightTommyGunWales",
-                NumGames = 3
-            };
-
-            return new Game
-            {
-                Created = 1465591789000,
-                EventType = "Game",
-                ExternalId = Guid.NewGuid().ToString().Substring(0, 10),
-                GameGroup = group,
-                HomeSeed = homeSeed,
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                IgnoreStandings = false,
-                LocalDate = DateTime.Now.ToString("dd-MM-yyyy"),
-                Name = "Finals",
-                Scheduled = 1465591789000,
-                Sides = new Sides
-                {
-                    Home = new Side
-                    {
-                        
-                        Seed = homeSeed,
-      
-                    },
-                    Visitor = new Side
-                    {
-                        Seed = visitorSeed,
-                    }
-                },
-                Version = 1,
-                Updated = 1465591789000,
-                VisitorSeed = visitorSeed,
-                Court = court
-
-
+                Id = redAthlete.Id,
+                ExternalId = redAthlete.Id,
+                Name = $"{redAthlete.FirstName} {redAthlete.Surname}",
+                //NumGames = redAthlete.WonFights.Count()
             };
         }
 
-        public Court GenerateCourt()
+        private Seed BuildSeed(Fight fight)
         {
-            return new Court
+            return new Seed
             {
-                Id = Guid.NewGuid().ToString().Substring(0, 10),
-                Version = 0,
-                Created = 1465591789000,
-                Updated = 1465591789000,
-                Venue = new Venue
-                {
-                    Id = Guid.NewGuid().ToString().Substring(0, 10),
-                    Version = 0,
-                    Created = 1465591789000,
-                    Updated = 1465591789000,
-                    Name = "Hala sportowa Wisla",
-                    NickName = "Wisla",
-                    Location = new Location
-                    {
-                        Address = new Address
-                        {
-                            Address1 = "budryka 1/2",
-                            City = "Krakow",
-                            Country = "Poland",
-                            PostalCode="30-123",
-                            Province = "Małopolskie"
-                        },
-                        Id = Guid.NewGuid().ToString().Substring(0, 10),
-                        LatLang = new LatLang
-                        {
-                            Latitude = "1234",
-                            Longitude = "324",
-                            ZoneId = "Poland"
-                        }
-                    },
-                    Tourney = new Tourney
-                    {
-                        Id = Guid.NewGuid().ToString().Substring(0, 10),
-                        Version = 0,
-                        Created = 1465591789000,
-                        Updated = 1465591789000,
-                    }
-                },
-                Name = "RING A"
+                DisplayName = "Fight",
+                Rank = 2
+            };
+        }
+
+        private ScoreNode BuildScore(ICollection<FightPoint> fightPoints, string fighterId)
+        {
+            return new ScoreNode
+            {
+                Score = fightPoints.Where(f => f.FighterId == fighterId).Select(f => f.Points).Count()
             };
         }
     }
