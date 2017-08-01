@@ -65,6 +65,10 @@ namespace MuaythaiSportManagementSystemApi.Institutions
 
         public static explicit operator InstitutionDto(Institution institution)
         {
+            if (institution == null)
+            {
+                return null;
+            }
             return new InstitutionDto(institution);
         }
     }

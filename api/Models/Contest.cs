@@ -39,7 +39,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public bool AllowUnassociated { get; set; }
 
         public virtual ICollection<Fight> Fights { get; set; }
-        public virtual ICollection<ContestCategory> ContestCategories { get; set; }
+        public virtual ICollection<ContestCategoriesMapping> ContestCategoriesMappings { get; set; }
         public virtual ICollection<ContestRequest> ContestRequests { get; set; }
         public virtual ICollection<ContestDocumentsMapping> ContestDocumentsMappings { get; set; }
         public virtual Institution Institution { get; set; }

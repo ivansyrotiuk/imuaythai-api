@@ -52,7 +52,7 @@ import UserRolesPageContainer from "../../containers/Users/UserRolesPageContaine
 import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageContainer"
 import ContestsContainer from "../Contest/ContestsContainer"
 import ContestEditContainer from '../Contest/ContestEditContainer'
-
+import ContestViewContainer from '../Contest/ContestViewContainer'
 
 class Full extends Component {
   render() {
@@ -105,7 +105,8 @@ class Full extends Component {
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
-                <Route path="/contests/:id/edit" name="Edit contest" component={ ContestEditContainer } />
+                <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
+                <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />
                 <Route path="/contests/" name="Contests" component={ ContestsContainer } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>

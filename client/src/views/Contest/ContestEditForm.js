@@ -71,7 +71,7 @@ class CreateContestPage extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Date of registration end</label>
-                        <Field name="endRegisterDate" component={ RenderDatePicker } className="form-control" type="input" />
+                        <Field name="endRegistrationDate" component={ RenderDatePicker } className="form-control" type="input" />
                       </div>
                     </div>
                   </div>
@@ -223,6 +223,7 @@ class CreateContestPage extends Component {
 
 CreateContestPage = reduxForm({
   form: 'CreateContestPage',
+  enableReinitialize: true
 })(CreateContestPage);
 
 const selector = formValueSelector('CreateContestPage');

@@ -14,6 +14,10 @@ namespace MuaythaiSportManagementSystemApi.Locations
 
         public static explicit operator CountryDto(Country country)
         {
+            if (country == null)
+            {
+                return null;
+            }
             return new CountryDto
             {
                 Id = country.Id,

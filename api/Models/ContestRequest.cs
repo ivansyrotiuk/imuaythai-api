@@ -12,11 +12,14 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int Type { get; set; }
         public DateTime Date { get; set; }
         public string UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public int? InstitutionId { get; set; }
+        public int ContestId { get; set; }
+        public int ContestCategoryId { get; set; }
+        public string AcceptedByUserId { get; set; }
+        public virtual ApplicationUser User { get; set; }     
         public virtual Institution Institution { get; set; }
         public virtual Contest Contest { get; set; }
-        public string AcceptedByUserId { get; set; }
         public virtual ApplicationUser AcceptedByUser { get; set; }
-        public ContestCategory ContestCategory { get; set; }
+        public virtual ContestCategory ContestCategory { get; set; }
     }
 }

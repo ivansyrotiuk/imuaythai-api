@@ -9,31 +9,36 @@ const reducerInitialState = {
 }
 const reducer = (state = reducerInitialState, action) => {
     switch (action.type) {
+        case actionTypes.ADD_NEW_CONTEST:
+            return {
+                ...state,
+                singleContest: action.payload
+            }
         case actionTypes.FETCH_CONTESTS:
             return {
                 ...state,
                 fetching: true
             }
-        case actionTypes.FETCH_CONTESTS_SUCCESS:
+        case actionTypes.FETCH_CONTESTS_FULFILLED:
             return {
                 ...state,
                 fetching: false,
                 fetched: true,
                 contests: action.payload
             }
-        case actionTypes.FETCH_CONTESTS_REJECTED:
+        case actionTypes.FETCH_CONTESTS:
             return {
                 ...state,
                 fetching: false,
                 fetched: false,
                 error: action.payload
             }
-        case actionTypes.FETCH_SINGLE_CONTEST_REQUEST:
+        case actionTypes.FETCH_SINGLE_CONTEST:
             return {
                 ...state,
                 fetching: true
             }
-        case actionTypes.FETCH_SINGLE_CONTEST_SUCCESS:
+        case actionTypes.FETCH_SINGLE_CONTEST_FULFILLED:
             return {
                 ...state,
                 fetching: false,
