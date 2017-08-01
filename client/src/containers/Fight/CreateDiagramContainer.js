@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CreateFightsDiagram from '../../views/Fight/CreateFightsDiagram'
 import { fetchFights } from '../../actions/FightActions';
 import { connect } from 'react-redux';
+import Spinner from '../../views/Components/Spinners/Spinner'
 
 class CreateFightsDiagramContainer extends Component {
 
@@ -13,13 +14,17 @@ class CreateFightsDiagramContainer extends Component {
 
     render() {
         return (
-            <CreateFightsDiagram fights={ this.props.fights } />
+            <div>
+              { this.props.fetching ? <Spinner/> : <CreateFightsDiagram fights={ this.props.fights } fetching={ this.props.fetching } /> }
+            </div>
+
             );
     }
 }
 const mapStateToProps = (state, ownProps) => {
     return {
-        fights: state.Fight.games
+        fights: state.Fight.games,
+        fetching: state.Fight.fetching
     }
 }
 

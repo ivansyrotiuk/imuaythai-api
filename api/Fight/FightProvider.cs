@@ -1,4 +1,5 @@
-﻿using MuaythaiSportManagementSystemApi.Fights.FightsStructure;
+﻿using MuaythaiSportManagementSystemApi.Extensions;
+using MuaythaiSportManagementSystemApi.Fights.FightsStructure;
 using MuaythaiSportManagementSystemApi.Models;
 using System;
 using System.Collections.Generic;
@@ -116,7 +117,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
 
             return new Game
             {
-                Created = 1465591789000,
+                Created = DateTime.Now.ToUnixDateTime(),
                 EventType = "Game",
                 ExternalId = fight.Id.ToString(),
                 //GameGroup = group,
@@ -126,7 +127,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
                 Id = fight.Id.ToString(),
                 IgnoreStandings = false,
                 LocalDate = DateTime.Now.ToString("dd-MM-yyyy"),
-                Scheduled = 1465591789000,
+                Scheduled = DateTime.Now.ToUnixDateTime(),
                 Sides = new Sides
                 {
                     Home = new Side
@@ -143,7 +144,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
                     }
                 },
                 Version = 1,
-                Updated = 1465591789000,
+                Updated = DateTime.Now.ToUnixDateTime(),
                 VisitorScore = visitorScore,
                 VisitorSeed = visitorSeed,
                 VisitorTeam = visitorTeam,
@@ -166,7 +167,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
         {
             return new Seed
             {
-                DisplayName = "Fight",
+                DisplayName = "Fighter",
                 Rank = 2
             };
         }
@@ -175,7 +176,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
         {
             return new ScoreNode
             {
-                Score = fightPoints.Where(f => f.FighterId == fighterId).Select(f => f.Points).Count()
+                Score = fightPoints.Where(f => f.FighterId == fighterId).Sum(f => f.Points)
             };
         }
     }

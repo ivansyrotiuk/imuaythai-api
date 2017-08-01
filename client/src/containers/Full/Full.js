@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, Switch, Route, Redirect } from 'react-router-dom'
-import Header from '../../components/Header/';
+import Header from '../../containers/Header/HeaderContainer';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
-import Aside from '../../components/Aside/';
+//import Aside from '../../components/Aside/';
 //import {requireAuthentication} from '../../utils/requireAuthentication'
 
 import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir, userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from '../../auth/auth'
@@ -48,8 +48,7 @@ import DoctorsPageContainer from "../../containers/Users/Doctors/DoctorsPageCont
 import UserEditPageContainer from "../../containers/Users/UserEditPageContainer"
 import UserViewPageContainer from "../../containers/Users/UserViewPageContainer"
 
-import ContestsContainer from "../Contest/ContestsContainer"
-import ContestEditContainer from '../Contest/ContestEditContainer'
+
 import UserRolesPageContainer from "../../containers/Users/UserRolesPageContainer"
 import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageContainer"
 import ContestsContainer from "../Contest/ContestsContainer"
@@ -116,7 +115,6 @@ class Full extends Component {
               </Switch>
             </div>
           </main>
-          <Aside/>
         </div>
         <Footer/>
       </div>

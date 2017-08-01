@@ -101,6 +101,11 @@ export default function reduer(state = {
                 ...state,
                 error: action.payload,
             }
+        case actionTypes.ACCOUNT_LOGOUT:
+            return {
+                ...state,
+                authToken: ''
+            }
         default:
             return state;
     }
