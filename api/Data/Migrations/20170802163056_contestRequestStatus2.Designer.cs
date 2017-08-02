@@ -9,9 +9,10 @@ using MuaythaiSportManagementSystemApi.Models;
 namespace MuaythaiSportManagementSystemApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170802163056_contestRequestStatus2")]
+    partial class contestRequestStatus2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -370,17 +371,15 @@ namespace MuaythaiSportManagementSystemApi.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("AcceptanceDate");
-
                     b.Property<string>("AcceptedByUserId");
 
                     b.Property<int>("ContestCategoryId");
 
                     b.Property<int>("ContestId");
 
-                    b.Property<int?>("InstitutionId");
+                    b.Property<DateTime>("Date");
 
-                    b.Property<DateTime>("IssueDate");
+                    b.Property<int?>("InstitutionId");
 
                     b.Property<int>("Status");
 

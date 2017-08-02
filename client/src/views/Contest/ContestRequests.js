@@ -6,7 +6,8 @@ import moment from 'moment'
 import Page from '../Components/Page'
 import EditButton from '../Components/Buttons/EditButton'
 import ContestInfoCard from './ContestInfoCard'
-
+import { CONTEST_FIGHTER, CONTEST_JUDGE, CONTEST_DOCTOR } from '../../common/contestRoleTypes'
+import { CONTEST_REQUEST_PENDING, CONTEST_REQUEST_ACCEPTED, CONTEST_REQUEST_REJECTED } from '../../common/contestRequestStatuses'
 
 class ContestRequests extends Component {
   constructor(props) {
@@ -26,7 +27,36 @@ class ContestRequests extends Component {
     }
   }
   render() {
-    const {contest} = this.props;
+    const {contest, requests} = this.props;
+
+    const mappedPendingFighters = requests.filter(r => r.type === CONTEST_FIGHTER && r.status === CONTEST_REQUEST_PENDING)
+      .map((request, i) => <tr key={ i }>
+                             <td className="col-2">
+                               { request.userName }
+                             </td>
+                             <td className="col-2">
+                               { request.institutionName }
+                             </td>
+                             <td className="col-1">
+                               { request.user.city }
+                             </td>
+                             <td className="col-2">
+                               { request.user.countryName }
+                             </td>
+                             <td>
+                               { request.contestCategoryName }
+                             </td>
+                             <td>
+                               { request.status === CONTEST_REQUEST_PENDING && <span className="badge badge-warning">Pending</span> }
+                               { request.status === CONTEST_REQUEST_ACCEPTED && <span className="badge badge-success">Accepted</span> }
+                               { request.status === CONTEST_REQUEST_REJECTED && <span className="badge badge-danger">Rejected</span> }
+                             </td>
+                             <td>
+                               { request.acceptedByUserName }
+                             </td>
+                             <td>Actions</td>
+                           </tr>)
+
     return (
       <div>
         <Nav tabs>
@@ -60,6 +90,7 @@ class ContestRequests extends Component {
         </Nav>
         <TabContent activeTab={ this.state.activeTab }>
           <TabPane tabId="1">
+            <div className="h6">Pending requests:</div>
             <table className="table table-hover mb-0 hidden-sm-down">
               <thead>
                 <tr>
@@ -74,6 +105,7 @@ class ContestRequests extends Component {
                 </tr>
               </thead>
               <tbody>
+                { mappedPendingFighters }
               </tbody>
             </table>
           </TabPane>

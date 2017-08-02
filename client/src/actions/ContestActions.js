@@ -100,6 +100,28 @@ export const fetchContestCandidates = () => {
     }
 }
 
+export const fetchContestRequests = (contestId) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.FETCH_CONTEST_REQUESTS
+        })
+
+        return axios.get("api/contests/requests?contestId=" + contestId)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_REQUESTS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_REQUESTS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
 export function addContestRequest(request) {
     return {
         type: actionTypes.ADD_CONTEST_REQUEST,

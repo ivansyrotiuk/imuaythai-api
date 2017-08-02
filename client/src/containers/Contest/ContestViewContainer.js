@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import ContestViewPage from '../../views/Contest/ContestViewPage'
 import Spinner from '../../views/Components/Spinners/Spinner'
-import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest } from '../../actions/ContestActions'
+import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest, fetchContestRequests } from '../../actions/ContestActions'
 import { fetchContestRoles } from '../../actions/RolesActions'
+
+
 class ContestViewPageContainer extends Component {
     constructor(props) {
         super(props);
@@ -14,6 +16,7 @@ class ContestViewPageContainer extends Component {
     componentWillMount() {
         var id = this.props.match.params.id;
         this.props.fetchContest(id);
+        this.props.fetchContestRequests(id);
         this.props.fetchContestCandidates();
         this.props.fetchContestRoles();
     }
@@ -48,7 +51,7 @@ const mapStateToProps = (state, ownProps) => {
         candidates: state.Contest.candidates,
         requests: state.Contest.requests,
         showRequestForm: state.Contest.showRequestForm,
-        singleRequest: state.Contest.singleRequest
+        singleRequest: state.Contest.singleRequest,
     }
 }
 
@@ -59,6 +62,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         fetchContestRoles: () => {
             dispatch(fetchContestRoles())
+        },
+        fetchContestRequests: (contestId) => {
+            dispatch(fetchContestRequests(contestId))
         },
         fetchContestCandidates: () => {
             dispatch(fetchContestCandidates())

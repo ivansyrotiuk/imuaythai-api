@@ -10,7 +10,7 @@ import { Route, Link } from 'react-router-dom';
 
 class ContestViewPage extends Component {
   render() {
-    const {contest, roles, candidates, singleRequest, saveRequest, addRequest, editContest, cancelRequest, showRequestForm} = this.props;
+    const {contest, requests, roles, candidates, singleRequest, saveRequest, addRequest, editContest, cancelRequest, showRequestForm} = this.props;
     if (!contest) {
       return <div></div>
     }
@@ -31,7 +31,7 @@ class ContestViewPage extends Component {
                                            </div> }
                    </div>
                    <div className="card-block">
-                     { !showRequestForm && <ContestRequests contest={ contest } /> }
+                     { !showRequestForm && <ContestRequests contest={ contest } requests={ requests } /> }
                      { !showRequestForm && <div className="btn btn-primary pull-right" onClick={ addRequest }><i className="fa fa-plus fa-1x" aria-hidden="true"> </i> Add</div> }
                      { showRequestForm && <ContestRequestForm onSubmit={ saveRequest } initialValues={ singleRequest } roles={ roles } candidates={ candidates } categories={ contest.contestCategories }
                                             onCancel={ cancelRequest } /> }

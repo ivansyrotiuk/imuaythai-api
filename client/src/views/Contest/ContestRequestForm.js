@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { connect } from 'react-redux';
+import { ROLE_TYPE_MAPPINGS } from '../../common/contestRoleTypes'
 
 class ContestRequestForm extends Component {
   render() {
-    const {handleSubmit, categories, onRoleChange, onCancel, pristine, submitting, roles, candidates} = this.props;
-    const mappedRoles = roles.map((role, i) => <option key={ i } value={ role.id }>
+    const {selectedRoleId, handleSubmit, categories, onRoleChange, onCancel, pristine, submitting, roles, candidates} = this.props;
+    const mappedRoles = roles.map((role, i) => <option key={ i } value={ ROLE_TYPE_MAPPINGS[role.normalizedName] }>
                                                  { role.name }
                                                </option>
     );
-    const mappedCandidates = candidates.directCandidates.map((candidate, i) => <option key={ i } value={ candidate.id }>
-                                                                                 { candidate.firstname + ' ' + candidate.surname }
-                                                                               </option>
+    const mappedCandidates = candidates.directCandidates
+      .filter(candidate => selectedRoleId === undefined ||
+        candidate.roles.find(role => role === selectedRoleId) !== undefined)
+      .map((candidate, i) => <option key={ i } value={ candidate.id }>
+                               { candidate.firstname + ' ' + candidate.surname }
+                             </option>
     );
     const mappedCategories = categories.map((category, i) => <option key={ i } value={ category.id }>
                                                                { category.name + ' (' + category.contestRangeName + ' ' + category.contestTypeName + ' - ' + category.weightCategoryName + ')' }
@@ -22,7 +27,7 @@ class ContestRequestForm extends Component {
                 <div className="form-group row">
                   <label className="col-md-3 form-control-label" htmlFor="text-input">Please select the user type</label>
                   <div className="col-md-9">
-                    <Field name="roleId" className="form-control" component="select" onChange={ onRoleChange }>
+                    <Field name="type" className="form-control" component="select" onChange={ onRoleChange }>
                       <option key={ -1 } value={ null }>
                         -
                       </option>
@@ -44,7 +49,7 @@ class ContestRequestForm extends Component {
                 <div className="form-group row">
                   <label className="col-md-3 form-control-label" htmlFor="text-input">Please the user</label>
                   <div className="col-md-9">
-                    <Field name="categoryId" className="form-control" component="select">
+                    <Field name="contestCategoryId" className="form-control" component="select">
                       <option key={ -1 } value={ null }>
                         -
                       </option>
@@ -61,6 +66,19 @@ class ContestRequestForm extends Component {
     )
   }
 }
-export default reduxForm({
+const selector = formValueSelector('ContestRequestForm');
+
+ContestRequestForm = reduxForm({
   form: 'ContestRequestForm'
 })(ContestRequestForm);
+
+ContestRequestForm = connect(
+  state => {
+    const selectedRoleId = selector(state, 'roleId')
+    return {
+      selectedRoleId
+    }
+  }
+)(ContestRequestForm)
+
+export default ContestRequestForm;

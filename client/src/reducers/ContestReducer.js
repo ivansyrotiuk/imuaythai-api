@@ -112,7 +112,23 @@ const reducer = (state = reducerInitialState, action) => {
                 ...state,
                 error: action.payload
             }
-
+        case actionTypes.FETCH_CONTEST_REQUESTS:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_CONTEST_REQUESTS_FULFILLED:
+            return {
+                ...state,
+                fetching: false,
+                requests: action.payload
+            }
+        case actionTypes.FETCH_CONTEST_REQUESTS_REJECTED:
+            return {
+                ...state,
+                fetching: true,
+                error: action.payload
+            }
         default:
             return state
     }

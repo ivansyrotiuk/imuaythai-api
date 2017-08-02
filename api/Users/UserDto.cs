@@ -57,6 +57,10 @@ namespace MuaythaiSportManagementSystemApi.Users
 
         public static explicit operator UserDto(ApplicationUser user)
         {
+            if (user == null)
+            {
+                return null;
+            }
             return new UserDto(user);
         }
     }

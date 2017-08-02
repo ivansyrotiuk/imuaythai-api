@@ -51,8 +51,10 @@ namespace MuaythaiSportManagementSystemApi
         {
             // Add framework services.
             //services.AddOptions();
-            services.AddMvc();
-       
+            services.AddMvc().AddJsonOptions(
+            options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        );
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -85,6 +87,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddSingleton<IUserRoleRequestsRepository, UserRoleRequestsRepository>();
             services.AddSingleton<IContestRepository, ContestRepository>();
             services.AddSingleton<IContestCategoriesRepository, ContestCategoriesRepository>();
+            services.AddSingleton<IContestRequestRepository, ContestRequestRepository>();
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
             services.Configure<EmailConfiguration>(Configuration);

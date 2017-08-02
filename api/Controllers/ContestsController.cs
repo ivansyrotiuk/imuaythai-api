@@ -19,12 +19,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         private readonly IContestRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUsersRepository _userRepository;
+        private readonly IContestRequestRepository _contestRequestsRepository;
 
-        public ContestsController(IContestRepository repository, IUsersRepository userRepository, UserManager<ApplicationUser> userManager)
+        public ContestsController(IContestRepository repository, IUsersRepository userRepository, IContestRequestRepository contestRequestsRepository, UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _userManager = userManager;
             _userRepository = userRepository;
+            _contestRequestsRepository = contestRequestsRepository;
         }
 
         [HttpGet]
@@ -141,6 +143,122 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 candidates.DirectCandidates = institutionMembers.Select(u => (UserDto)u).ToList();
 
                 return Ok(candidates);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("requests")]
+        public async Task<IActionResult> GetContestRequests([FromQuery] int contestId)
+        {
+            try
+            {
+                var requestEntities = await _contestRequestsRepository.GetByContest(contestId);
+
+                var requests = requestEntities.Select(r => (ContestRequestDto)r).ToList();
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("requests/save")]
+        public async Task<IActionResult> SaveContestRequest([FromBody] ContestRequestDto request)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                if (user == null)
+                {
+                    return BadRequest("Cannot create request. User not found");
+                }
+
+                ContestRequest requestEntity = request.Id == 0 ? 
+                        new ContestRequest() { IssueDate = DateTime.UtcNow } : 
+                        await _contestRequestsRepository.Get(request.Id);
+
+                requestEntity.ContestId = request.ContestId;
+                requestEntity.ContestCategoryId = request.ContestCategoryId;
+                requestEntity.InstitutionId = request.InstitutionId ?? user.InstitutionId;
+                requestEntity.Status = request.Status;
+                requestEntity.Type = request.Type;
+                requestEntity.UserId = request.UserId;
+
+                await _contestRequestsRepository.Save(requestEntity);
+
+                return Ok((ContestRequestDto)requestEntity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("requests/accept")]
+        public async Task<IActionResult> AcceptContestRequest([FromBody] ContestRequestDto request)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                ContestRequest requestEntity = await _contestRequestsRepository.Get(request.Id);
+                if (requestEntity == null)
+                {
+                    return BadRequest("Request not found");
+                }
+
+                requestEntity.Status = ContestRoleRequestStatus.Accepted;
+                requestEntity.AcceptedByUserId = userId;
+                requestEntity.AcceptanceDate = DateTime.UtcNow;
+
+                await _contestRequestsRepository.Save(requestEntity);
+
+                return Ok((ContestRequestDto)requestEntity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("requests/reject")]
+        public async Task<IActionResult> RejectContestRequest([FromBody] ContestRequestDto request)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                ContestRequest requestEntity = await _contestRequestsRepository.Get(request.Id);
+                if (requestEntity == null)
+                {
+                    return BadRequest("Request not found");
+                }
+
+                requestEntity.Status = ContestRoleRequestStatus.Rejected;
+                requestEntity.AcceptedByUserId = userId;
+                requestEntity.AcceptanceDate = DateTime.UtcNow;
+
+                await _contestRequestsRepository.Save(requestEntity);
+
+                return Ok((ContestRequestDto)requestEntity);
             }
             catch (Exception ex)
             {
