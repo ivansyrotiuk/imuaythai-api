@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import Login from '../../views/Pages/Login/'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/AccountActions'
-import {saveState, loadState} from '../../localStorage'
+import { saveState, loadState } from '../../localStorage'
 import jwtDecode from 'jwt-decode';
-import {setAuthToken} from "../../axiosConfiguration"
+import { setAuthToken } from "../../axiosConfiguration"
 
 class LoginContainer extends Component {
 
@@ -13,21 +13,19 @@ class LoginContainer extends Component {
     }
     render() {
         if (this.props.authToken != "") {
-            if (this.props.rememberMe) {
-                const authAccount = {
-                    authToken: this.props.authToken,
-                    error: null,
-                    fetching: false,
-                    fetched: false,
-                    isRegistered: false,
-                    isLoggedIn: false,
-                    isResseted: false,
-                    isConfimed: false,
-                    rememberMe: !this.props.rememberMe,
-                    user: jwtDecode(this.props.authToken)
-                }
-                saveState(authAccount)
+            const authAccount = {
+                authToken: this.props.authToken,
+                error: null,
+                fetching: false,
+                fetched: false,
+                isRegistered: false,
+                isLoggedIn: false,
+                isResseted: false,
+                isConfimed: false,
+                rememberMe: !this.props.rememberMe,
+                user: jwtDecode(this.props.authToken)
             }
+            saveState(authAccount)
 
             setAuthToken(this.props.authToken);
 

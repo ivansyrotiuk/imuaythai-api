@@ -1,6 +1,7 @@
 import { host } from "../global"
 import axios from "axios";
 import * as actionTypes from './actionTypes';
+import { removeState } from '../localStorage'
 
 function receiveAction(type, payload) {
     return {
@@ -133,5 +134,12 @@ export function finishRegister(finishData) {
                     payload: err
                 })
             })
+    }
+}
+
+export function logout() {
+    return function(dispatch) {
+        removeState('authAccount')
+        dispatch(requestAction(actionTypes.ACCOUNT_LOGOUT))
     }
 }

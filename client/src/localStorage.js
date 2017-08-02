@@ -22,3 +22,12 @@ export const saveState = (state) => {
         //ignore
     }
 }
+
+export const removeState = (id) => {
+    try {
+        localStorage.removeItem(id);
+
+    } catch (err) {
+        return undefined
+    }
+}
