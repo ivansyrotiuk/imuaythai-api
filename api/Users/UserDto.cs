@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 
 namespace MuaythaiSportManagementSystemApi.Users
 {
@@ -29,6 +31,7 @@ namespace MuaythaiSportManagementSystemApi.Users
         public string CountryName { get; set; }
         public string Email { get; set; }
         public List<string> Roles { get; set; }
+        public object AvatarFile { get; set; }
 
         public UserDto()
         {

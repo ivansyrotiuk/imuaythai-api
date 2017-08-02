@@ -63,7 +63,7 @@ export default class RenderAvatarEditor extends Component {
     }
 
     render() {
-        return <div className="col-md-12">
+        return <div className="col-md-7">
                  <div className="btn btn-primary" onClick={ this.toggle }>Choose avatar</div>
                  <Modal isOpen={ this.state.modal } toggle={ this.toggle } className={ this.props.className }>
                    <ModalHeader toggle={ this.toggle }>Choose avatar</ModalHeader>

@@ -66,7 +66,7 @@ class Header extends Component {
           <li className="nav-item">
             <Dropdown isOpen={ this.state.dropdownOpen } toggle={ this.toggle }>
               <button onClick={ this.toggle } className="nav-link" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded={ this.state.dropdownOpen }>
-                <UserAvatar size="40" name={ this.props.username } className="float-left" />
+                <UserAvatar size="40" name={ this.props.username } src="http://dc-centrum.pl/wp-content/uploads/avatar-1.png" className="float-left" />
                 <div className="float-left" style={ { lineHeight: 3, paddingLeft: 10 } }>
                   <span className="d-md-down-none">{ this.props.username }</span>
                 </div>
