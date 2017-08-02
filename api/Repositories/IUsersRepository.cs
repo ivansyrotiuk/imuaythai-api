@@ -13,6 +13,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<ApplicationUser> Get(string id);
         Task<List<ApplicationUser>> GetAll();
         Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate);
+        Task<List<ApplicationUser>> GetInstitutionMembers(int value);
         Task Save(ApplicationUser user);
         Task Remove(string id);
     }
@@ -39,6 +40,11 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         public Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate)
         {
             return _context.Users.Where(predicate).AsQueryable().ToListAsync();
+        }
+
+        public Task<List<ApplicationUser>> GetInstitutionMembers(int institutionId)
+        {
+            return _context.Users.Include(u => u.Roles).Where(u => u.InstitutionId == institutionId).ToListAsync();
         }
 
         public Task Save(ApplicationUser user)

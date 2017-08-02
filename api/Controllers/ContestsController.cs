@@ -6,17 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Contests;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using MuaythaiSportManagementSystemApi.Users;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class ContestsController : Controller
     {
         private readonly IContestRepository _repository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUsersRepository _userRepository;
 
-        public ContestsController(IContestRepository repository)
+        public ContestsController(IContestRepository repository, IUsersRepository userRepository, UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
+            _userManager = userManager;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -95,6 +103,44 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 await _repository.Remove(contest.Id);
 
                 return Ok(contest.Id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("candidates")]
+        public async Task<IActionResult> GetContestCandidates()
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Count == 0 || 
+                    !roles.Contains("NationalFederation") && !roles.Contains("WorldFederation") && 
+                    !roles.Contains("ContinentalFederation") && !roles.Contains("Gym") && !roles.Contains("Admin"))
+                {
+                    return BadRequest("No permissions");
+                }
+
+                if (user.InstitutionId == null)
+                {
+                    return BadRequest("No permissions. You are not assigned to any institution.");
+                }
+
+                ContestCandidatesDto candidates = new ContestCandidatesDto();
+                var institutionMembers = await _userRepository.GetInstitutionMembers(user.InstitutionId.Value);
+                candidates.DirectCandidates = institutionMembers.Select(u => (UserDto)u).ToList();
+
+                return Ok(candidates);
             }
             catch (Exception ex)
             {

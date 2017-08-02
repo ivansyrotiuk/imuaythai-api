@@ -29,7 +29,7 @@ class ContestsPage extends Component {
                       </th>
                     </tr>
 
-    const mappedContests = contests.map((contest, i) => <tr>
+    const mappedContests = contests.map((contest, i) => <tr key={ i }>
                                                           <td>
                                                             { contest.id }
                                                           </td>

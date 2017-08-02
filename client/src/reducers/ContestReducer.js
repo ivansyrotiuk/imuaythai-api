@@ -4,8 +4,12 @@ const reducerInitialState = {
     fetching: false,
     error: null,
     fetched: false,
+    contests: [],
     singleContest: null,
-    contests: []
+    candidates: [],
+    requests: [],
+    showRequestForm: false,
+    singleRequest: null
 }
 const reducer = (state = reducerInitialState, action) => {
     switch (action.type) {
@@ -52,7 +56,26 @@ const reducer = (state = reducerInitialState, action) => {
                 fetched: true,
                 error: action.payload
             }
-        case actionTypes.SAVE_CONTEST_REQUEST:
+        case actionTypes.FETCH_CONTEST_CANDIDATES:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_CONTEST_CANDIDATES_FULFILLED:
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                candidates: action.payload
+            }
+        case actionTypes.FETCH_CONTEST_CANDIDATES_REJECTED:
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                error: action.payload
+            }
+        case actionTypes.SAVE_CONTEST:
             return state;
         case actionTypes.SAVE_CONTEST_SUCCESS:
             return {
@@ -63,6 +86,32 @@ const reducer = (state = reducerInitialState, action) => {
 
         case actionTypes.SAVE_CONTEST_REJECTED:
             return state;
+        case actionTypes.ADD_CONTEST_REQUEST:
+            return {
+                ...state,
+                showRequestForm: true,
+                singleRequest: action.payload
+            }
+        case actionTypes.CANCEL_CONTEST_REQUEST:
+            return {
+                ...state,
+                showRequestForm: false,
+                singleRequest: null
+            }
+        case actionTypes.SAVE_CONTEST_REQUEST:
+            return state;
+        case actionTypes.SAVE_CONTEST_REQUEST_SUCCESS:
+            return {
+                ...state,
+                showRequestForm: false,
+                singleRequest: null,
+                requests: [...state.requests, action.payload]
+            }
+        case actionTypes.SAVE_CONTEST_REQUEST_REJECTED:
+            return {
+                ...state,
+                error: action.payload
+            }
 
         default:
             return state

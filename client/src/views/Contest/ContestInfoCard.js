@@ -3,14 +3,14 @@ import EditButton from '../Components/Buttons/EditButton'
 import moment from 'moment'
 
 export const ContestInfoCard = (props) => {
-  const {contest, editClick} = props;
+  const {contest, editContest} = props;
 
   return (
     <div className="card">
       <div className="card-header">
         <strong>Contest</strong>
         <div className="pull-right">
-          <EditButton click={ editClick } />
+          <EditButton click={ editContest } />
         </div>
       </div>
       <div className="card-block">

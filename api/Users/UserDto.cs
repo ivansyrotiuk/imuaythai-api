@@ -52,7 +52,7 @@ namespace MuaythaiSportManagementSystemApi.Users
             CountryId = user.CountryId;
             CountryName = user.Country?.Name;
             Email = user.Email;
-            Roles = user.Roles.Select(r => r.RoleId).ToList();
+            Roles = user.Roles?.Select(r => r.RoleId).ToList();
         }
 
         public static explicit operator UserDto(ApplicationUser user)
