@@ -137,7 +137,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     return BadRequest("User not found");
                 }
 
-                Institution gym = model.OwnGym == true && model.InstitutionId.HasValue ? new Institution
+                Institution gym = model.OwnGym == true ? new Institution
                 {
                     Name = model.GymName,
                     CountryId = model.CountryId
