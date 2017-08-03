@@ -31,7 +31,7 @@ namespace MuaythaiSportManagementSystemApi.Users
         public string CountryName { get; set; }
         public string Email { get; set; }
         public List<string> Roles { get; set; }
-        public object AvatarFile { get; set; }
+        public object AvatarFileVytes { get; set; }
 
         public UserDto()
         {

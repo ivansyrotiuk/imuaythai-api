@@ -69,6 +69,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(fetchUser(id));
         },
         saveUser: (user) => {
+            user.avatarFileBytes = new Uint8Array(user.avatarFile);
+            console.log('====================================');
+            console.log(user.avatarFileBytes);
+            console.log('====================================');
             return dispatch(saveUser(user));
         }
     }

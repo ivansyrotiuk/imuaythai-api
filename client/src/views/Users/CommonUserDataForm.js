@@ -136,8 +136,8 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                          <i className="fa fa-facebook" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                      </span>
+                                                                                                                                                                                                                                                <i className="fa fa-facebook" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                            </span>
                   <Field name="facebook" component="input" type="text" className="form-control" placeholder="Facebook" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
@@ -146,8 +146,8 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                                                                                    <i className="fa fa-instagram" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                          <i className="fa fa-instagram" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                                                                                      </span>
                   <Field name="instagram" component="input" className="form-control" type="text" placeholder="Instagram" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
@@ -156,8 +156,8 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                                                                                    <i className="fa fa-twitter" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                          <i className="fa fa-twitter" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                                                                                      </span>
                   <Field name="twitter" component="input" className="form-control" type="input" placeholder="Twitter" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
@@ -166,14 +166,15 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                                                                                    <i className="fa fa-vk" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                          <i className="fa fa-vk" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                                                                                      </span>
                   <Field name="vk" component="input" className="form-control" type="input" placeholder="Vk" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <Field name="avatarFileBytes" component="input" className="form-control" type="hidden" />
         <button type="submit" disabled={ pristine || submitting } className="btn btn-primary pull-right">
           { submitting && <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> } Save
         </button>
