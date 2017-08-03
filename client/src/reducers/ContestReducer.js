@@ -129,6 +129,80 @@ const reducer = (state = reducerInitialState, action) => {
                 fetching: true,
                 error: action.payload
             }
+        case actionTypes.ACCEPT_CONTEST_REQUEST:
+            let requests = [...state.requests];
+            let index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].accepting = true;
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.ACCEPT_CONTEST_REQUEST_SUCCESS:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].accepting = false;
+            requests[index] = action.payload;
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.ACCEPT_CONTEST_REQUEST_REJECTED:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].accepting = false;
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.REJECT_CONTEST_REQUEST:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].rejecting = true;
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.REJECT_CONTEST_REQUEST_SUCCESS:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].rejecting = false;
+            requests[index] = action.payload;
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.REJECT_CONTEST_REQUEST_REJECTED:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].rejecting = false;
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.REMOVE_CONTEST_REQUEST:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].removing = true;
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.REMOVE_CONTEST_REQUEST_SUCCESS:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests.splice(index, 1);
+            return {
+                ...state,
+                requests: requests
+            }
+        case actionTypes.REMOVE_CONTEST_REQUEST_REJECTED:
+            requests = [...state.requests];
+            index = requests.findIndex(r => r.id === action.payload.id);
+            requests[index].removing = false;
+            return {
+                ...state,
+                requests: requests
+            }
         default:
             return state
     }

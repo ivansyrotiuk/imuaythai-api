@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
-import { ROLE_TYPE_MAPPINGS } from '../../common/contestRoleTypes'
+import { ROLE_TYPE_MAPPINGS, CONTEST_FIGHTER } from '../../common/contestRoleTypes'
 
 class ContestRequestForm extends Component {
   render() {
     const {selectedRoleType, handleSubmit, categories, onRoleChange, onCancel, pristine, submitting, roles, candidates} = this.props;
+
+    console.log(selectedRoleType);
     const mappedRoles = roles.map((role, i) => <option key={ i } value={ ROLE_TYPE_MAPPINGS[role.normalizedName] }>
                                                  { role.name }
                                                </option>
@@ -24,6 +26,18 @@ class ContestRequestForm extends Component {
                                                                { category.name + ' (' + category.contestRangeName + ' ' + category.contestTypeName + ' - ' + category.weightCategoryName + ')' }
                                                              </option>
     );
+
+    const categoresField = selectedRoleType == CONTEST_FIGHTER ? <div className="form-group row">
+                                                                   <label className="col-md-3 form-control-label" htmlFor="text-input">Please the category</label>
+                                                                   <div className="col-md-9">
+                                                                     <Field name="contestCategoryId" className="form-control" component="select">
+                                                                       <option key={ -1 } value={ null }>
+                                                                         -
+                                                                       </option>
+                                                                       { mappedCategories }
+                                                                     </Field>
+                                                                   </div>
+                                                                 </div> : null;
     return (<div>
               <div className="h4">Add a fighter, a judge or a doctor to the contest</div>
               <form onSubmit={ handleSubmit }>
@@ -49,17 +63,7 @@ class ContestRequestForm extends Component {
                     </Field>
                   </div>
                 </div>
-                <div className="form-group row">
-                  <label className="col-md-3 form-control-label" htmlFor="text-input">Please the user</label>
-                  <div className="col-md-9">
-                    <Field name="contestCategoryId" className="form-control" component="select">
-                      <option key={ -1 } value={ null }>
-                        -
-                      </option>
-                      { mappedCategories }
-                    </Field>
-                  </div>
-                </div>
+                { categoresField }
                 <button type="reset" className="btn btn-sm btn-danger pull-right" onClick={ onCancel }><i className="fa fa-ban"></i> Cancel</button>
                 <button type="submit" disabled={ pristine || submitting } className="btn btn-sm btn-primary pull-right">
                   { submitting && <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> } Save

@@ -5,6 +5,9 @@ import classnames from 'classnames';
 import moment from 'moment'
 import Page from '../Components/Page'
 import EditButton from '../Components/Buttons/EditButton'
+import AcceptButton from '../Components/Buttons/AcceptButton'
+import RejectButton from '../Components/Buttons/RejectButton'
+import RemoveButton from '../Components/Buttons/RemoveButton'
 import ContestInfoCard from './ContestInfoCard'
 import { CONTEST_FIGHTER, CONTEST_JUDGE, CONTEST_DOCTOR } from '../../common/contestRoleTypes'
 import { CONTEST_REQUEST_PENDING, CONTEST_REQUEST_ACCEPTED, CONTEST_REQUEST_REJECTED } from '../../common/contestRequestStatuses'
@@ -14,6 +17,7 @@ class ContestRequests extends Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.mapRequest = this.mapRequest.bind(this);
     this.state = {
       activeTab: '1'
     };
@@ -28,6 +32,7 @@ class ContestRequests extends Component {
   }
 
   mapRequest(request, i) {
+    const {acceptContestRequest, rejectContestRequest, removeContestRequest} = this.props;
     return <tr key={ i }>
              <td className="col-2">
                { request.userName }
@@ -41,9 +46,9 @@ class ContestRequests extends Component {
              <td className="col-2">
                { request.user.countryName }
              </td>
-             <td>
-               { request.contestCategoryName }
-             </td>
+             { request.contestCategoryId && <td>
+                                              { request.contestCategoryName }
+                                            </td> }
              <td>
                { request.status === CONTEST_REQUEST_PENDING && <span className="badge badge-warning">Pending</span> }
                { request.status === CONTEST_REQUEST_ACCEPTED && <span className="badge badge-success">Accepted</span> }
@@ -52,21 +57,25 @@ class ContestRequests extends Component {
              <td>
                { request.acceptedByUserName }
              </td>
-             <td>Actions</td>
+             <td>
+               <RemoveButton removing={ request.removing } click={ () => removeContestRequest(request) } />
+               <RejectButton rejecting={ request.rejecting } click={ () => rejectContestRequest(request) } />
+               <AcceptButton accepting={ request.accepting } click={ () => acceptContestRequest(request) } />
+             </td>
            </tr>
   }
 
   render() {
-    const {contest, requests} = this.props;
+    const {contest, requests, acceptContestRequest, rejectContestRequest} = this.props;
 
     const mappedFightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER)
-      .map((request, i) => this.mapRequest(request, i))
+      .map((request, i) => this.mapRequest(request, i, acceptContestRequest, rejectContestRequest))
 
     const mappedJudgesRequests = requests.filter(r => r.type === CONTEST_JUDGE)
-      .map((request, i) => this.mapRequest(request, i))
+      .map((request, i) => this.mapRequest(request, i, acceptContestRequest, rejectContestRequest))
 
     const mappedDoctorsRequests = requests.filter(r => r.type === CONTEST_DOCTOR)
-      .map((request, i) => this.mapRequest(request, i))
+      .map((request, i) => this.mapRequest(request, i, acceptContestRequest, rejectContestRequest))
 
     return (
       <div>
@@ -77,7 +86,7 @@ class ContestRequests extends Component {
                                  }) } onClick={ () => {
                                                                                                                                                                           this.toggle('1');
                                                                                                                                                                         } }>
-              <i className="fa fa-user"></i> Fighters  <span className="badge badge-pill badge-primary">78</span>
+              <i className="fa fa-user"></i> Fighters  <span className="badge badge-pill badge-primary"> { mappedFightersRequests.length }</span>
             </NavLink>
           </NavItem>
           <NavItem>
@@ -86,7 +95,7 @@ class ContestRequests extends Component {
                                  }) } onClick={ () => {
                                                                                                                                                                           this.toggle('2');
                                                                                                                                                                         } }>
-              <i className="fa fa-gavel"></i> Judges <span className="badge badge-pill badge-success">15</span>
+              <i className="fa fa-gavel"></i> Judges <span className="badge badge-pill badge-success"> { mappedJudgesRequests.length }</span>
             </NavLink>
           </NavItem>
           <NavItem>
@@ -95,7 +104,7 @@ class ContestRequests extends Component {
                                  }) } onClick={ () => {
                                                                                                                                                                           this.toggle('3');
                                                                                                                                                                         } }>
-              <i className="fa fa-user-md"></i> Doctors <span className="badge badge-pill badge-danger"> 7</span>
+              <i className="fa fa-user-md"></i> Doctors <span className="badge badge-pill badge-danger"> { mappedDoctorsRequests.length }</span>
             </NavLink>
           </NavItem>
         </Nav>
@@ -106,13 +115,13 @@ class ContestRequests extends Component {
               <thead>
                 <tr>
                   <th className="col-2">Name</th>
-                  <th className="col-2">Gym</th>
-                  <th className="col-1">City</th>
-                  <th className="col-2">Country</th>
-                  <th className="col-2">Category</th>
+                  <th>Gym</th>
+                  <th>City</th>
+                  <th>Country</th>
+                  <th>Category</th>
                   <th>Status</th>
                   <th>Accepted by</th>
-                  <th>Actions</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -125,12 +134,12 @@ class ContestRequests extends Component {
               <thead>
                 <tr>
                   <th className="col-2">Name</th>
-                  <th className="col-2">Gym</th>
-                  <th className="col-1">City</th>
-                  <th className="col-2">Country</th>
+                  <th>Gym</th>
+                  <th>City</th>
+                  <th>Country</th>
                   <th>Status</th>
                   <th>Accepted by</th>
-                  <th>Actions</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,12 +152,12 @@ class ContestRequests extends Component {
               <thead>
                 <tr>
                   <th className="col-2">Name</th>
-                  <th className="col-2">Gym</th>
-                  <th className="col-1">City</th>
-                  <th className="col-2">Country</th>
+                  <th>Gym</th>
+                  <th>City</th>
+                  <th>Country</th>
                   <th>Status</th>
                   <th>Accepted by</th>
-                  <th>Actions</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>

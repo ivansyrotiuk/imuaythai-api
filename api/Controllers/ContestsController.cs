@@ -83,7 +83,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 contestEntity.EndRegistrationDate = contest.EndRegistrationDate;
                 contestEntity.ContestRangeId = contest.ContestRangeId;
                 contestEntity.ContestTypeId = contest.ContestTypeId;
-               
+
                 await _repository.Save(contestEntity);
                 await _repository.SaveCategoryMappings(contestEntity, contest.ContestCategories);
 
@@ -126,8 +126,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 }
 
                 var roles = await _userManager.GetRolesAsync(user);
-                if (roles.Count == 0 || 
-                    !roles.Contains("NationalFederation") && !roles.Contains("WorldFederation") && 
+                if (roles.Count == 0 ||
+                    !roles.Contains("NationalFederation") && !roles.Contains("WorldFederation") &&
                     !roles.Contains("ContinentalFederation") && !roles.Contains("Gym") && !roles.Contains("Admin"))
                 {
                     return BadRequest("No permissions");
@@ -179,8 +179,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     return BadRequest("Cannot create request. User not found");
                 }
 
-                ContestRequest requestEntity = request.Id == 0 ? 
-                        new ContestRequest() { IssueDate = DateTime.UtcNow } : 
+                ContestRequest requestEntity = request.Id == 0 ?
+                        new ContestRequest() { IssueDate = DateTime.UtcNow } :
                         await _contestRequestsRepository.Get(request.Id);
 
                 requestEntity.ContestId = request.ContestId;
@@ -259,6 +259,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 await _contestRequestsRepository.Save(requestEntity);
 
                 return Ok((ContestRequestDto)requestEntity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("requests/remove")]
+        public async Task<IActionResult> RemoveContestRequest([FromBody] ContestRequestDto request)
+        {
+            try
+            {
+                ContestRequest requestEntity = await _contestRequestsRepository.Get(request.Id);
+                if (requestEntity == null)
+                {
+                    return BadRequest("Request not found");
+                }
+
+                await _contestRequestsRepository.Remove(requestEntity);
+
+                return Ok();
             }
             catch (Exception ex)
             {

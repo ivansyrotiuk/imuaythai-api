@@ -159,3 +159,73 @@ export const saveContestRequest = (request) => {
     }
 }
 
+export const acceptContestRequest = (request) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.ACCEPT_CONTEST_REQUEST,
+            payload: request
+        });
+
+        return axios.post(host + "api/contests/requests/accept", request)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.ACCEPT_CONTEST_REQUEST_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.ACCEPT_CONTEST_REQUEST_REJECTED,
+                    payload: request
+                })
+            })
+    }
+}
+
+export const rejectContestRequest = (request) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.REJECT_CONTEST_REQUEST,
+            payload: request
+        });
+
+        return axios.post(host + "api/contests/requests/reject", request)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.REJECT_CONTEST_REQUEST_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.REJECT_CONTEST_REQUEST_REJECTED,
+                    payload: request
+                })
+            })
+    }
+}
+
+export const removeContestRequest = (request) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.REMOVE_CONTEST_REQUEST,
+            payload: request
+        });
+
+        return axios.post(host + "api/contests/requests/remove", request)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.REMOVE_CONTEST_REQUEST_SUCCESS,
+                    payload: request
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.REMOVE_CONTEST_REQUEST_REJECTED,
+                    payload: request
+                })
+            })
+    }
+}
+
+
