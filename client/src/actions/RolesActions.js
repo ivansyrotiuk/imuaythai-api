@@ -45,3 +45,26 @@ export function fetchPublicRoles() {
             })
     }
 }
+
+export function fetchContestRoles() {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_CONTEST_ROLES
+        });
+        axios
+            .get(host + "api/roles/contest")
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_ROLES_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_ROLES_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+

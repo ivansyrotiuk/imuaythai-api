@@ -99,7 +99,7 @@ class Sidebar extends Component {
               </ul>
             </li>
             <li className={ this.activeRoute("/contests") }>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="icon-puzzle"></i> Contests</a>
+              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="fa fa-trophy"></i> Contests</a>
               <ul className="nav-dropdown-items">
                 <li className="nav-item">
                   <ContestsLink/>

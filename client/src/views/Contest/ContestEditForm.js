@@ -176,7 +176,7 @@ class CreateContestPage extends Component {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>Instagram</label>
-                        <Field name="intagram" component="input" className="form-control" placeholder="Instagram" />
+                        <Field name="instagram" component="input" className="form-control" placeholder="Instagram" />
                       </div>
                     </div>
                   </div>

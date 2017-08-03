@@ -42,10 +42,10 @@ namespace MuaythaiSportManagementSystemApi.Models
         public InstitutionType InstitutionType { get; set; }
 
         public virtual ICollection<InstitutionDocumentsMapping> InstitutionDocumentsMappings { get; set; }
-        public virtual ICollection<ContestRequest> ContestRequests { get; set; }
-        public virtual ICollection<ApplicationUser> Users { get; set; }
+        //public virtual ICollection<ContestRequest> ContestRequests { get; set; }
+        //public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<ExecutionBoard> ExecutionBoards { get; set; }
-        public virtual ICollection<Contest> Contests { get; set; }
+        //public virtual ICollection<Contest> Contests { get; set; }
         public virtual Country Country { get; set; }
         public virtual ApplicationUser HeadCoach { get; set; }
     }
