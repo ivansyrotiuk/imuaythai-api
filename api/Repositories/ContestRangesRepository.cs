@@ -49,4 +49,45 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.SaveChangesAsync();
         }
     }
+
+    public class FightStructuresRepository : IFightStructuresRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public FightStructuresRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public Task<FightStructure> Get(int id)
+        {
+            return _context.ContestRanges.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public Task<List<ContestRange>> GetAll()
+        {
+            return _context.ContestRanges.ToListAsync();
+        }
+
+        public Task<List<ContestRange>> Find(Func<ContestRange, bool> predicate)
+        {
+            return _context.ContestRanges.Where(predicate).AsQueryable().ToListAsync();
+        }
+
+        public Task Save(ContestRange contestRange)
+        {
+            if (contestRange.Id == 0)
+            {
+                _context.ContestRanges.Add(contestRange);
+            }
+
+            return _context.SaveChangesAsync();
+        }
+
+        public Task Remove(int id)
+        {
+            var contestRange = _context.ContestRanges.FirstOrDefault(i => i.Id == id);
+            _context.ContestRanges.Remove(contestRange);
+            return _context.SaveChangesAsync();
+        }
+    }
 }
