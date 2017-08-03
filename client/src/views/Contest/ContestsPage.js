@@ -3,6 +3,7 @@ import { Table } from 'reactstrap'
 import RemoveButton from '../Components/Buttons/RemoveButton'
 import EditButton from '../Components/Buttons/EditButton'
 import AddButton from '../Components/Buttons/AddButton'
+import PreviewButton from '../Components/Buttons/PreviewButton'
 import TablePage from '../Components/TablePage'
 import { Link } from 'react-router-dom'
 
@@ -21,10 +22,10 @@ class ContestsPage extends Component {
                       <th className="col-md-1">
                         No.
                       </th>
-                      <th className="col-md-10">
+                      <th className="col-md-9">
                         Contest name
                       </th>
-                      <th className="col-md-1">
+                      <th className="col-md-2 text-center">
                         Action
                       </th>
                     </tr>
@@ -37,6 +38,9 @@ class ContestsPage extends Component {
                                                             { contest.name }
                                                           </td>
                                                           <td>
+                                                            <Link to={ "/contests/" + contest.id }>
+                                                            <PreviewButton/>
+                                                            </Link>
                                                             <Link to={ "/contests/" + contest.id + "/edit" }>
                                                             <EditButton/>
                                                             </Link>

@@ -26,36 +26,47 @@ class ContestRequests extends Component {
       });
     }
   }
+
+  mapRequest(request, i) {
+    return <tr key={ i }>
+             <td className="col-2">
+               { request.userName }
+             </td>
+             <td className="col-2">
+               { request.institutionName }
+             </td>
+             <td className="col-1">
+               { request.user.city }
+             </td>
+             <td className="col-2">
+               { request.user.countryName }
+             </td>
+             <td>
+               { request.contestCategoryName }
+             </td>
+             <td>
+               { request.status === CONTEST_REQUEST_PENDING && <span className="badge badge-warning">Pending</span> }
+               { request.status === CONTEST_REQUEST_ACCEPTED && <span className="badge badge-success">Accepted</span> }
+               { request.status === CONTEST_REQUEST_REJECTED && <span className="badge badge-danger">Rejected</span> }
+             </td>
+             <td>
+               { request.acceptedByUserName }
+             </td>
+             <td>Actions</td>
+           </tr>
+  }
+
   render() {
     const {contest, requests} = this.props;
 
-    const mappedPendingFighters = requests.filter(r => r.type === CONTEST_FIGHTER && r.status === CONTEST_REQUEST_PENDING)
-      .map((request, i) => <tr key={ i }>
-                             <td className="col-2">
-                               { request.userName }
-                             </td>
-                             <td className="col-2">
-                               { request.institutionName }
-                             </td>
-                             <td className="col-1">
-                               { request.user.city }
-                             </td>
-                             <td className="col-2">
-                               { request.user.countryName }
-                             </td>
-                             <td>
-                               { request.contestCategoryName }
-                             </td>
-                             <td>
-                               { request.status === CONTEST_REQUEST_PENDING && <span className="badge badge-warning">Pending</span> }
-                               { request.status === CONTEST_REQUEST_ACCEPTED && <span className="badge badge-success">Accepted</span> }
-                               { request.status === CONTEST_REQUEST_REJECTED && <span className="badge badge-danger">Rejected</span> }
-                             </td>
-                             <td>
-                               { request.acceptedByUserName }
-                             </td>
-                             <td>Actions</td>
-                           </tr>)
+    const mappedFightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER)
+      .map((request, i) => this.mapRequest(request, i))
+
+    const mappedJudgesRequests = requests.filter(r => r.type === CONTEST_JUDGE)
+      .map((request, i) => this.mapRequest(request, i))
+
+    const mappedDoctorsRequests = requests.filter(r => r.type === CONTEST_DOCTOR)
+      .map((request, i) => this.mapRequest(request, i))
 
     return (
       <div>
@@ -105,7 +116,7 @@ class ContestRequests extends Component {
                 </tr>
               </thead>
               <tbody>
-                { mappedPendingFighters }
+                { mappedFightersRequests }
               </tbody>
             </table>
           </TabPane>
@@ -123,6 +134,7 @@ class ContestRequests extends Component {
                 </tr>
               </thead>
               <tbody>
+                { mappedJudgesRequests }
               </tbody>
             </table>
           </TabPane>
@@ -140,6 +152,7 @@ class ContestRequests extends Component {
                 </tr>
               </thead>
               <tbody>
+                { mappedDoctorsRequests }
               </tbody>
             </table>
           </TabPane>

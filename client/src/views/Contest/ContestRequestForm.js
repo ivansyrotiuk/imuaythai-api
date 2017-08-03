@@ -5,14 +5,17 @@ import { ROLE_TYPE_MAPPINGS } from '../../common/contestRoleTypes'
 
 class ContestRequestForm extends Component {
   render() {
-    const {selectedRoleId, handleSubmit, categories, onRoleChange, onCancel, pristine, submitting, roles, candidates} = this.props;
+    const {selectedRoleType, handleSubmit, categories, onRoleChange, onCancel, pristine, submitting, roles, candidates} = this.props;
     const mappedRoles = roles.map((role, i) => <option key={ i } value={ ROLE_TYPE_MAPPINGS[role.normalizedName] }>
                                                  { role.name }
                                                </option>
     );
+
+    const roleName = Object.keys(ROLE_TYPE_MAPPINGS).find(k => ROLE_TYPE_MAPPINGS[k] == selectedRoleType);
+    const role = roles.find(r => r.normalizedName === roleName)
     const mappedCandidates = candidates.directCandidates
-      .filter(candidate => selectedRoleId === undefined ||
-        candidate.roles.find(role => role === selectedRoleId) !== undefined)
+      .filter(candidate => selectedRoleType === undefined ||
+        candidate.roles.find(r => r === role.id) !== undefined)
       .map((candidate, i) => <option key={ i } value={ candidate.id }>
                                { candidate.firstname + ' ' + candidate.surname }
                              </option>
@@ -74,9 +77,9 @@ ContestRequestForm = reduxForm({
 
 ContestRequestForm = connect(
   state => {
-    const selectedRoleId = selector(state, 'roleId')
+    const selectedRoleType = selector(state, 'type')
     return {
-      selectedRoleId
+      selectedRoleType
     }
   }
 )(ContestRequestForm)
