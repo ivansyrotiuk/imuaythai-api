@@ -1,0 +1,3 @@
+export const CONTEST_REQUEST_PENDING = 0;
+export const CONTEST_REQUEST_ACCEPTED = 1;
+export const CONTEST_REQUEST_REJECTED = 2;

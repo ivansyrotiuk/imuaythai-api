@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 export default function reduer(state = {
         authToken: '',
+        user: null,
         fetching: false,
         isRegistered: false,
         isLoggedIn: false,
@@ -89,7 +90,22 @@ export default function reduer(state = {
                 isConfimed: false,
                 fetched: false,
             }
-
+        case actionTypes.FINISH_REGISTRATION_SUCCESS:
+            return {
+                ...state,
+                authToken: action.payload,
+                user: jwtDecode(action.payload)
+            }
+        case actionTypes.FINISH_REGISTRATION_REJECTED:
+            return {
+                ...state,
+                error: action.payload,
+            }
+        case actionTypes.ACCOUNT_LOGOUT:
+            return {
+                ...state,
+                authToken: ''
+            }
         default:
             return state;
     }

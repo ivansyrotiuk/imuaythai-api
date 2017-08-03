@@ -1,0 +1,11 @@
+export const CONTEST_FIGHTER = 0;
+export const CONTEST_JUDGE = 1;
+export const CONTEST_DOCTOR = 2;
+export const CONTEST_COACH = 3;
+
+export const ROLE_TYPE_MAPPINGS = {
+    FIGHTER: CONTEST_FIGHTER,
+    JUDGE: CONTEST_JUDGE,
+    DOCTOR: CONTEST_DOCTOR,
+    COACH: CONTEST_COACH,
+}

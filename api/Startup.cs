@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Services;
 using MuaythaiSportManagementSystemApi.Repositories;
+using MuaythaiSportManagementSystemApi.Users;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -50,8 +51,10 @@ namespace MuaythaiSportManagementSystemApi
         {
             // Add framework services.
             //services.AddOptions();
-            services.AddMvc();
-       
+            services.AddMvc().AddJsonOptions(
+            options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        );
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -71,7 +74,7 @@ namespace MuaythaiSportManagementSystemApi
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddSingleton<IInstitutionsRepository, InstitutionsesRepository>();
+            services.AddSingleton<IInstitutionsRepository, InstitutionsRepository>();
             services.AddSingleton<IUsersRepository, UsersRepository>();
             services.AddSingleton<IContestTypesRepository, ContestTypesRepository>();
             services.AddSingleton<IContestRangesRepository, ContestRangesRepository>();
@@ -84,6 +87,9 @@ namespace MuaythaiSportManagementSystemApi
             services.AddSingleton<IUserRoleRequestsRepository, UserRoleRequestsRepository>();
             services.AddSingleton<IContestRepository, ContestRepository>();
             services.AddSingleton<IContestCategoriesRepository, ContestCategoriesRepository>();
+            services.AddSingleton<IContestRequestRepository, ContestRequestRepository>();
+            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
             services.Configure<EmailConfiguration>(Configuration);
         }
 

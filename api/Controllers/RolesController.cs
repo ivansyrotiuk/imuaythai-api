@@ -33,5 +33,37 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("public")]
+        public async Task<IActionResult> GetPublicRoles()
+        {
+            try
+            {
+                var rolesEntities = await _rolesRepository.GetPublicRoles();
+                var roles = rolesEntities.Select(r => (RoleDto)r).ToList();
+                return Ok(roles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("contest")]
+        public async Task<IActionResult> GetContestRoles()
+        {
+            try
+            {
+                var rolesEntities = await _rolesRepository.GetContestRoles();
+                var roles = rolesEntities.Select(r => (RoleDto)r).ToList();
+                return Ok(roles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

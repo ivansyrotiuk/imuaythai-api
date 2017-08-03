@@ -1,6 +1,7 @@
 import { host } from "../global"
 import axios from "axios";
 import * as actionTypes from './actionTypes';
+import { removeState } from '../localStorage'
 
 function receiveAction(type, payload) {
     return {
@@ -114,5 +115,31 @@ export function errorAction(errorMessage) {
 export function resetErrorAction() {
     return function(dispatch) {
         dispatch(requestAction(actionTypes.RESET_ERRORS))
+    }
+}
+
+export function finishRegister(finishData) {
+    return function(dispatch) {
+        return axios
+            .post(host + "api/account/register/finish", finishData)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FINISH_REGISTRATION_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FINISH_REGISTRATION_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
+export function logout() {
+    return function(dispatch) {
+        removeState('authAccount')
+        dispatch(requestAction(actionTypes.ACCOUNT_LOGOUT))
     }
 }

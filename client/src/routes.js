@@ -16,12 +16,16 @@ const routes = {
   '/icons/font-awesome': 'Font Awesome',
   '/icons/simple-line-icons': 'Simple Line Icons',
   '/widgets': 'Widgets',
-  '/gyms':"Gyms",
-  '/contest/types':"Contest type",
-  '/fighters':"Fighters",
-  '/coaches':"Coaches",
-  '/judges':"Judges",
-  '/contests/add': 'Create contest'
+  '/gyms': "Gyms",
+  '/contest/types': "Contest type",
+  '/fighters': "Fighters",
+  '/coaches': "Coaches",
+  '/judges': "Judges",
+  '/contests/add': 'Create contest',
   '/contests/edit': 'Edit contest',
+  '/federations/national': "Nation federations",
+  '/federations/world': "World federations",
+  '/federations/continental': "Continental federations"
+
 };
 export default routes;
