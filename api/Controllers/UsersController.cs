@@ -4,13 +4,10 @@ using MuaythaiSportManagementSystemApi.Repositories;
 using System.Linq;
 using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.Models;
-using System.Threading;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Threading.Tasks;
-using MuaythaiSportManagementSystemApi.Roles;
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -117,13 +114,15 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+       
         [HttpPost]
         [Route("Save")]
         public async Task<IActionResult> SaveUser([FromBody]UserDto user)
         {
             try
             {
+               var bytes = Convert.FromBase64String(user.AvatarFile);
+                System.IO.File.WriteAllBytes($"./img/{user.CountryName}.png", bytes);
                 ApplicationUser userEntity = string.IsNullOrEmpty(user.Id) ? new ApplicationUser() : await _repository.Get(user.Id);
                 userEntity.Id = user.Id;
                 userEntity.FirstName = user.Firstname;
