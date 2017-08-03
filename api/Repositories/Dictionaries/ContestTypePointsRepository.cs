@@ -18,12 +18,16 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         }
         public Task<ContestTypePoints> Get(int id)
         {
-            return _context.ContestTypePoints.FirstOrDefaultAsync(c => c.Id == id);
+            return _context.ContestTypePoints
+                .Include(p=>p.ContestType)
+                .Include(p => p.ContestRange).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public Task<List<ContestTypePoints>> GetAll()
         {
-            return _context.ContestTypePoints.ToListAsync();
+            return _context.ContestTypePoints
+                .Include(p => p.ContestType)
+                .Include(p => p.ContestRange).ToListAsync();
         }
 
         public Task<List<ContestTypePoints>> Find(Func<ContestTypePoints, bool> predicate)

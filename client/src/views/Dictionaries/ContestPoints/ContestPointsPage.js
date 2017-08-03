@@ -39,7 +39,10 @@ class ContestPointsPage extends Component {
                                                       { point.id }
                                                     </td>
                                                     <td>
-                                                      { point.name }
+                                                      { point.contestRange.name } { point.contestType.name }
+                                                    </td>
+                                                                                                <td>
+                                                      { point.points }
                                                     </td>
                                                     <td>
                                                       <Link to={ "/dictionaries/points/" + point.id }>
@@ -68,6 +71,7 @@ class ContestPointsPage extends Component {
                     <tr>
                       <th>Id</th>
                       <th className="col-md-9">Name</th>
+                      <th>Points</th>
                       <th>Action</th>
                     </tr>
                   </thead>
