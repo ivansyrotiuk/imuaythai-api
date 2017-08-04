@@ -89,7 +89,9 @@ namespace MuaythaiSportManagementSystemApi
             services.AddSingleton<IContestCategoriesRepository, ContestCategoriesRepository>();
             services.AddSingleton<IContestRequestRepository, ContestRequestRepository>();
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-
+            services.AddSingleton<IRoundsRepository, RoundsRepository>();
+            services.AddSingleton<IWeightAgeCategoriesRepository, WeightAgeCategoriesRepository>();
+            services.AddSingleton<IFightStructuresRepository, FightStructuresRepository>();
             services.Configure<EmailConfiguration>(Configuration);
         }
 

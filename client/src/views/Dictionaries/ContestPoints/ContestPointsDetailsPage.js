@@ -8,14 +8,8 @@ import Spinner from "../../Components/Spinners/Spinner"
 import { fetchRanges } from "../../../actions/Dictionaries/ContestRangesActions"
 import { fetchTypes } from "../../../actions/Dictionaries/ContestTypesActions"
 import ContestPointDataForm from './ContestPointDataForm'
-connect((store) => {
-  return {
-    types: store.ContestTypes.types,
-    ranges: store.ContestRanges.ranges
-  };
-})
 
-export default class ContestPointsDetailsPage extends Component {
+class ContestPointsDetailsPage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.handleSubmit.bind(this);
@@ -55,13 +49,13 @@ export default class ContestPointsDetailsPage extends Component {
 
   dispatchFetchTypes() {
     if (this.props.types.length == 0) {
-      this.props.dispatch(fetchTypes());
+      this.props.fetchTypes();
     }
   }
 
   dispatchFetchRanges() {
     if (this.props.ranges.length == 0) {
-      this.props.dispatch(fetchRanges());
+      this.props.fetchRanges();
     }
   }
 
@@ -113,3 +107,25 @@ export default class ContestPointsDetailsPage extends Component {
       );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    types: state.ContestTypes.types,
+    ranges: state.ContestRanges.ranges
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+
+    fetchTypes: () => {
+      dispatch(fetchTypes())
+    },
+
+    fetchRanges: () => {
+      dispatch(fetchRanges())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContestPointsDetailsPage)
