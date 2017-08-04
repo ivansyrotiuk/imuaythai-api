@@ -40,8 +40,7 @@ class ContestPointsPage extends Component {
                                                       { point.id }
                                                     </td>
                                                     <td>
-                                                      { point.contestRange.name }
-                                                      { point.contestType.name }
+                                                      { point.contestRange.name + ' ' + point.contestType.name }
                                                     </td>
                                                     <td>
                                                       { point.points }

@@ -55,7 +55,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("structures/save")]
-        public async Task<IActionResult> SaveRage([FromBody]FightStructureDto structure)
+        public async Task<IActionResult> Save([FromBody]FightStructureDto structure)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("structures/remove")]
-        public async Task<IActionResult> RemoveRange([FromBody]FightStructureDto structure)
+        public async Task<IActionResult> Remove([FromBody]FightStructureDto structure)
         {
             try
             {

@@ -53,7 +53,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("suspensions/save")]
-        public async Task<IActionResult> SaveRage([FromBody]SuspensionTypeDto type)
+        public async Task<IActionResult> Save([FromBody]SuspensionTypeDto type)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("suspensions/remove")]
-        public async Task<ActionResult> RemoveRange([FromBody]KhanLevelDto type)
+        public async Task<ActionResult> Remove([FromBody]KhanLevelDto type)
         {
             try
             {

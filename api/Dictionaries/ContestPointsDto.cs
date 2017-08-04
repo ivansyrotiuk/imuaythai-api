@@ -24,6 +24,8 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
             {
                 Id = points.Id,
                 Points = points.Points,
+                ContestRangeId = points.ContestRangeId,
+                ContestTypeId = points.ContestTypeId,
                 ContestRange = points.ContestRange != null ? (ContestRangeDto)points.ContestRange : new ContestRangeDto(),
                 ContestType = points.ContestType != null ? (ContestTypeDto)points.ContestType : new ContestTypeDto()
             };

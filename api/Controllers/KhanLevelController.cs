@@ -53,7 +53,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("levels/save")]
-        public async Task<IActionResult> SaveRage([FromBody]KhanLevelDto level)
+        public async Task<IActionResult> Save([FromBody]KhanLevelDto level)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("levels/remove")]
-        public async Task<IActionResult> RemoveRange([FromBody]KhanLevelDto level)
+        public async Task<IActionResult> Remove([FromBody]KhanLevelDto level)
         {
             try
             {
