@@ -11,7 +11,7 @@ class HeaderContainer extends Component {
     }
 
     gotoProfile() {
-        this.props.history.push('users/' + this.props.userId)
+        this.props.history.push('/users/' + this.props.userId)
     }
 
     render() {

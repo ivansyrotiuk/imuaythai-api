@@ -83,7 +83,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 contestEntity.EndRegistrationDate = contest.EndRegistrationDate;
                 contestEntity.ContestRangeId = contest.ContestRangeId;
                 contestEntity.ContestTypeId = contest.ContestTypeId;
-
+                contestEntity.InstitutionId = contest.InstitutionId;
                 await _repository.Save(contestEntity);
                 await _repository.SaveCategoryMappings(contestEntity, contest.ContestCategories);
 
