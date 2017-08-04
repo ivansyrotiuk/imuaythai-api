@@ -22,7 +22,7 @@ class KhanLevelsPage extends Component {
         Id: id
       })
       .then(function(response) {
-        self.deleteLevel(response.data)
+        self.props.deleteLevel(response.data)
       })
       .catch(function(error) {
         console.log(error);
@@ -35,23 +35,24 @@ class KhanLevelsPage extends Component {
     if (fetching) {
       return <Spinner />
     }
-    const mappedLevels = levels.map((level, i) => <tr key={ i }>
-                                                    <td>
-                                                      { level.id }
-                                                    </td>
-                                                    <td>
-                                                      { level.name }
-                                                    </td>
-                                                    <td>
-                                                      { level.level }
-                                                    </td>
-                                                    <td>
-                                                      <Link to={ "/dictionaries/levels/" + level.id }>
-                                                      <EditButton id={ level.id } />
-                                                      </Link>
-                                                      <RemoveButton id={ level.id } click={ this.removeLevel.bind(this, level.id) } />
-                                                    </td>
-                                                  </tr>);
+    const mappedLevels = levels.map((level, i) => (
+      <tr key={ i }>
+        <td>
+          { level.id }
+        </td>
+        <td>
+          { level.name }
+        </td>
+        <td>
+          { level.level }
+        </td>
+        <td>
+          <Link to={ "/dictionaries/levels/" + level.id }>
+          <EditButton id={ level.id } />
+          </Link>
+          <RemoveButton id={ level.id } click={ this.removeLevel.bind(this, level.id) } />
+        </td>
+      </tr>));
 
 
     return (

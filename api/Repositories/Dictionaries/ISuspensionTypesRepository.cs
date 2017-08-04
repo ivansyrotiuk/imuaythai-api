@@ -10,7 +10,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<SuspensionType> Get(int id);
         Task<List<SuspensionType>> GetAll();
         Task<List<SuspensionType>> Find(Func<SuspensionType, bool> predicate);
-        Task Save(SuspensionType institution);
+        Task Save(SuspensionType type);
         Task Remove(int id);
     }
 }

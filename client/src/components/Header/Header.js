@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import { NavLink } from 'react-router-dom'
 import UserAvatar from 'react-user-avatar'
 
 class Header extends Component {
@@ -13,6 +14,8 @@ class Header extends Component {
     };
     document.body.classList.toggle('aside-menu-hidden');
   }
+
+
 
   toggle() {
     this.setState({
@@ -73,8 +76,12 @@ class Header extends Component {
                 <div className="float-left" style={ { lineHeight: 3, paddingLeft: 5 } }> <span className="dropdown-toggle"></span></div>
               </button>
               <DropdownMenu className="dropdown-menu-right">
-                <DropdownItem header className="text-center"><strong>Account</strong></DropdownItem>
-                <DropdownItem><i className="fa fa-user"></i> Profile</DropdownItem>
+                <DropdownItem header className="text-center">
+                  <strong>Account</strong>
+                </DropdownItem>
+                <DropdownItem onClick={ this.props.gotoProfile }>
+                  <i className="fa fa-user"></i> Profile
+                </DropdownItem>
                 <DropdownItem><i className="fa fa-wrench"></i> Settings</DropdownItem>
                 <DropdownItem><i className="fa fa-usd"></i> Payments</DropdownItem>
                 <DropdownItem onClick={ this.props.logout }><i className="fa fa-lock"></i> Logout</DropdownItem>

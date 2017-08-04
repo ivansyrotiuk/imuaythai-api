@@ -18,6 +18,7 @@ class ContestEditContainer extends Component {
             const contest = {
                 date: new Date(),
                 endRegistrationDate: new Date(),
+
             }
             this.props.addContest(contest);
         }

@@ -269,9 +269,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 //"Judge",
                 //"Doctor",
                 //"Guest",
-                "NationalFederation",
-                "ContinentalFederation",
-                "WorldFederation",
+                //"NationalFederation",
+                //"ContinentalFederation",
+                //"WorldFederation",
             };
 
             foreach (var role in rolesList)
@@ -283,10 +283,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 });
             }
 
-            //var user = await _userManager.FindByIdAsync("38920a18-ba62-49b6-a0b8-415cdd5a692c");
-            //await _userManager.AddToRoleAsync(user, "Admin");
-       
-            //var roles = _roleManager.Roles.ToList();
+            var user = await _userManager.FindByIdAsync(User.GetUserId());
+            await _userManager.AddToRoleAsync(user, "Admin");
+
+            var roles = _userManager.GetRolesAsync(user);
 
             return Ok(rolesList);
         }

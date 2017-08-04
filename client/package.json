@@ -20,6 +20,7 @@
     "input-moment": "^0.3.4",
     "jsog": "^1.0.7",
     "jwt-decode": "^2.2.0",
+    "query-string": "^5.0.0",
     "rc-progress": "^2.1.2",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "15.5.2",
