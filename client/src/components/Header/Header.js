@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
-import { NavLink } from 'react-router-dom'
-import UserAvatar from 'react-user-avatar'
+import { NavLink } from 'react-router-dom';
+import UserAvatar from 'react-user-avatar';
 
 class Header extends Component {
 
@@ -69,9 +69,9 @@ class Header extends Component {
           <li className="nav-item">
             <Dropdown isOpen={ this.state.dropdownOpen } toggle={ this.toggle }>
               <button onClick={ this.toggle } className="nav-link" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded={ this.state.dropdownOpen }>
-                <UserAvatar size="40" name={ this.props.username } src="http://dc-centrum.pl/wp-content/uploads/avatar-1.png" className="float-left" />
+                <UserAvatar size="40" name={ this.props.user.firstname + " " + this.props.user.surname } src={ this.props.user.photo } className="float-left" />
                 <div className="float-left" style={ { lineHeight: 3, paddingLeft: 10 } }>
-                  <span className="d-md-down-none">{ this.props.username }</span>
+                  <span className="d-md-down-none">{ this.props.user.firstname + " " + this.props.user.surname }</span>
                 </div>
                 <div className="float-left" style={ { lineHeight: 3, paddingLeft: 5 } }> <span className="dropdown-toggle"></span></div>
               </button>
@@ -93,5 +93,4 @@ class Header extends Component {
     )
   }
 }
-
 export default Header;

@@ -31,7 +31,7 @@ namespace MuaythaiSportManagementSystemApi.Users
         public string CountryName { get; set; }
         public string Email { get; set; }
         public List<string> Roles { get; set; }
-        public string AvatarFile { get; set; }
+        public string AvatarImage { get; set; }
 
         public UserDto()
         {
@@ -56,6 +56,7 @@ namespace MuaythaiSportManagementSystemApi.Users
             CountryName = user.Country?.Name;
             Email = user.Email;
             Roles = user.Roles?.Select(r => r.RoleId).ToList();
+            Photo = user.Photo;
         }
 
         public static explicit operator UserDto(ApplicationUser user)

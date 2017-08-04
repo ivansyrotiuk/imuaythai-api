@@ -121,7 +121,6 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-               var bytes = Convert.FromBase64String(user.AvatarFile);
                 ApplicationUser userEntity = string.IsNullOrEmpty(user.Id) ? new ApplicationUser() : await _repository.Get(user.Id);
                 userEntity.Id = user.Id;
                 userEntity.FirstName = user.Firstname;
@@ -136,11 +135,25 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.Gender = user.Gender;
                 userEntity.CountryId = user.CountryId;
                 userEntity.InstitutionId = user.InstitutionId;
-                if(bytes.Length > 0)
+
+                if (user.AvatarImage != null)
                 {
-                    System.IO.File.WriteAllBytes($"./wwwroot/imgages/{Guid.NewGuid().ToString().Substring(0, 10)}.png", bytes);
-                    
-                    userEntity.Photo = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Request);
+                    var imageBase64 = user.AvatarImage.Split(',');
+                    var bytes = Convert.FromBase64String(imageBase64[1]);
+                    if (bytes.Length > 0)
+                    {
+                        if (!string.IsNullOrEmpty(userEntity.Photo))
+                        {
+                            var pathToImage = "./wwwroot" + userEntity.Photo.Replace($"{Request.Scheme}://{Request.Host}", "");
+                            System.IO.File.Delete(pathToImage);
+                        }
+                        var imageName = $"images/{Guid.NewGuid().ToString().Substring(0, 10)}.png";
+                        System.IO.File.WriteAllBytes($"./wwwroot/{imageName}", bytes);
+                        var location = new Uri($"{Request.Scheme}://{Request.Host}");
+
+                        userEntity.Photo = location.AbsoluteUri + imageName;
+                        user.Photo = userEntity.Photo;
+                    }
                 }
 
 
