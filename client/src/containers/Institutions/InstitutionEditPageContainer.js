@@ -17,9 +17,11 @@ class InstitutionEditPageContainer extends Component {
     }
 
     const type = this.props.match.params.type;
+
     if (type) {
       this.props.addInstitution(type);
     }
+   
 
     if (this.props.countries === undefined ||
       this.props.countries.length === 0) {
@@ -28,15 +30,15 @@ class InstitutionEditPageContainer extends Component {
   }
 
   render() {
-    const {institution, fetching} = this.props;
+    const { institution, fetching } = this.props;
 
     if (fetching) {
-      return (<Spinner/>);
+      return (<Spinner />);
     }
-
-    const header = <strong>Gym</strong>;
-    const content = <InstitutionDataForm initialValues={ this.props.institution } onSubmit={ this.props.saveInstitution } countries={ this.props.countries } />;
-    return <Page header={ header } content={ content } />;
+    const type = this.props.match.params.type;
+    const header = <strong>Add {type} </strong>;
+    const content = <InstitutionDataForm initialValues={this.props.institution} onSubmit={this.props.saveInstitution} countries={this.props.countries} />;
+    return <Page header={header} content={content} />;
   }
 }
 

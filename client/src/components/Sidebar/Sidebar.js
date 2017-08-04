@@ -25,10 +25,11 @@ class Sidebar extends Component {
     const CoachesLink = userIsAdmin(() => <NavLink to="/coaches" className="nav-link" activeClassName="active"><i className="fa fa-male"></i> Coaches</NavLink>)
     const DoctorsLink = userIsAdmin(() => <NavLink to="/doctors" className="nav-link" activeClassName="active"><i className="fa fa-user-md"></i> Doctors</NavLink>)
 
-    const GymsLink = userIsAdmin(() => <NavLink to="/gyms" className="nav-link" activeClassName="active"><i className="fa fa-flag"></i> Gyms</NavLink>);
-    const NationalFederationsLink = userIsAdmin(() => <NavLink to="/federations/national" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> National federations</NavLink>)
-    const ContinetalFederationsLink = userIsAdmin(() => <NavLink to="/federations/continental" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> Continental federations</NavLink>)
-    const WorldFederationsLink = userIsAdmin(() => <NavLink to="/federations/world" className="nav-link" activeClassName="active"><i className="fa fa-globe "></i> World federations</NavLink>)
+    const GymsLink = userIsAdmin(() => <NavLink to="/institutions/gyms" className="nav-link" activeClassName="active"><i className="fa fa-flag"></i> Gyms</NavLink>);
+    const NationalFederationsLink = userIsAdmin(() => <NavLink to="/institutions/national" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> National federations</NavLink>)
+    const ContinetalFederationsLink = userIsAdmin(() => <NavLink to="/institutions/continental" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> Continental federations</NavLink>)
+    const WorldFederationsLink = userIsAdmin(() => <NavLink to="/institutions/world" className="nav-link" activeClassName="active"><i className="fa fa-globe "></i> World federations</NavLink>)
+    
     const ContestsLink = userIsAdmin(() => <NavLink to="/contests" className="nav-link" activeClassName="active"><i className="fa fa-trophy"></i>Contests list</NavLink>)
 
 

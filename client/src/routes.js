@@ -25,7 +25,9 @@ const routes = {
   '/contests/edit': 'Edit contest',
   '/federations/national': "Nation federations",
   '/federations/world': "World federations",
-  '/federations/continental': "Continental federations"
+  '/institutions/continental': "Continental federations",
+  '/institutions/continental/add':'Add continental federation',
+  '/institutions/continental/edit': 'Edit continental federation'
 
 };
 export default routes;
