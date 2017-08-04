@@ -37,6 +37,8 @@ import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/Con
 import GymsPageContainer from "../../containers/Institutions/Gyms/GymsPageContainer"
 import NationalFederationsPageContainer from "../../containers/Institutions/NationalFederations/NationalFederationsPageContainer"
 import ContinentalFederationsPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationsPageContainer"
+import ContinentalFederationViewPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationViewPageContainer"
+
 import WorldFederationsPageContainer from "../../containers/Institutions/WorldFederations/WorldFederationsPageContainer"
 import InstitutionEditPageContainer from "../../containers/Institutions/InstitutionEditPageContainer"
 
@@ -67,75 +69,57 @@ class Full extends Component {
             <Breadcrumb />
             <div className="container-fluid">
               <Switch>
-                <Route path="/dashboard" name="Dashboard" component={Dashboard} />
-                <Route path="/components/buttons" name="Buttons" component={Buttons} />
-                <Route path="/components/cards" name="Cards" component={Cards} />
-                <Route path="/components/forms" name="Forms" component={Forms} />
-                <Route path="/components/modals" name="Modals" component={Modals} />
-                <Route path="/components/social-buttons" name="Social Buttons" component={SocialButtons} />
-                <Route path="/components/switches" name="Swithces" component={Switches} />
-                <Route path="/components/tables" name="Tables" component={Tables} />
-                <Route path="/components/tabs" name="Tabs" component={Tabs} />
-                <Route path="/icons/font-awesome" name="Font Awesome" component={FontAwesome} />
-                <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={SimpleLineIcons} />
-                <Route path="/widgets" name="Widgets" component={Widgets} />
-                <Route path="/charts" name="Charts" component={Charts} />
-
-                <Route path="/institutions/:type/add" name="Add institution" component={InstitutionEditPageContainer} />
-
-                <Route path="/institutions/continental/edit/:id" name="Edit institution" component={InstitutionEditPageContainer} />
-                <Route path="/institutions/continental" component={ContinentalFederationsPageContainer} />
-                <Route path="/institutions/continental/:id" component={ContinentalFederationsPageContainer} />
-
-                <Route path="/institutions/national/edit/:id" name="Edit institution" component={InstitutionEditPageContainer} />
-                <Route path="/institutions/national" component={NationalFederationsPageContainer} />
-                <Route path="/institutions/national/:id" component={NationalFederationsPageContainer} />
-
-                <Route path="/institutions/world/edit/:id" name="Edit institution" component={InstitutionEditPageContainer} />
-                <Route path="/institutions/world" component={WorldFederationsPageContainer} />
-                <Route path="/institutions/world/:id" component={WorldFederationsPageContainer} />
-
-                <Route path="/institutions/gyms/edit/:id" name="Edit institution" component={InstitutionEditPageContainer} />
-                <Route path="/institutions/gyms" component={GymsPageContainer} />
-                <Route path="/institutions/gyms/:id" component={GymsPageContainer} />
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <Route path="/users/(role_requests)" name="RoleRequests" component={RoleRequestsPageContainer} />
-                <Route path="/users/:id/(edit)" name="UserEdit" component={UserEditPageContainer} />
-                <Route path="/users/:id/(roles)" name="UserRoles" component={UserRolesPageContainer} />
-                <Route path="/users/:id" name="User" component={UserViewPageContainer} />
-                <Route path="/fighters/" name="Fighters" component={FightersPageContainer} />
-                <Route path="/judges/" name="Judges" component={JudgesPageContainer} />
-                <Route path="/coaches/" name="Coaches" component={CoachesPageContainer} />
-                <Route path="/doctors/" name="Doctors" component={DoctorsPageContainer} />
-                <Route path="/dictionaries/types" name="ContestTypes" component={ContestTypesPage} />
-                <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ContestRangesDetailsPage} />
-                <Route path="/dictionaries/ranges/" name="ContestRanges" component={ContestRangesPage} />
-                <Route path="/dictionaries/levels/:id" name="KhanLevel" component={KhanLevelsDetailsPage} />
-                <Route path="/dictionaries/levels/" name="KhanLevels" component={KhanLevelsPage} />
-                <Route path="/dictionaries/levels" name="KhanLevels" component={KhanLevelsPage} />
-                <Route path="/dictionaries/suspensions/:id" name="SuspensionType" component={SuspensionsDetailsPage} />
-                <Route path="/dictionaries/suspensions/" name="SuspensionTypes" component={SuspensionTypesPage} />
-                <Route path="/dictionaries/suspensions" name="SuspensionTypes" component={SuspensionTypesPage} />
-                <Route path="/dictionaries/points/:id" name="ContestPoint" component={ContestPointsDetailsPage} />
-                <Route path="/dictionaries/points/" name="ContestPoints" component={ContestPointsPage} />
-                <Route path="/dictionaries/points" name="ContestPoints" component={ContestPointsPage} />
-                <Route path="/contests/add" name="Create contest" component={ContestEditContainer} />
-                <Route path="/contests/:id/(edit)" name="Edit contest" component={ContestEditContainer} />
-                <Route path="/contests/:id" name="Contest view" component={ContestViewContainer} />
-                <Route path="/contests/" name="Contests" component={ContestsContainer} />
-                <Route path="/fight" name="fights" component={CreateFightsDiagram} />
+                <Route path="/dashboard" name="Dashboard" component={ Dashboard } />
+                <Route path="/components/buttons" name="Buttons" component={ Buttons } />
+                <Route path="/components/cards" name="Cards" component={ Cards } />
+                <Route path="/components/forms" name="Forms" component={ Forms } />
+                <Route path="/components/modals" name="Modals" component={ Modals } />
+                <Route path="/components/social-buttons" name="Social Buttons" component={ SocialButtons } />
+                <Route path="/components/switches" name="Swithces" component={ Switches } />
+                <Route path="/components/tables" name="Tables" component={ Tables } />
+                <Route path="/components/tabs" name="Tabs" component={ Tabs } />
+                <Route path="/icons/font-awesome" name="Font Awesome" component={ FontAwesome } />
+                <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={ SimpleLineIcons } />
+                <Route path="/widgets" name="Widgets" component={ Widgets } />
+                <Route path="/charts" name="Charts" component={ Charts } />
+                <Route path="/institutions/:type/add" name="Add institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/continental/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/continental/:id" component={ ContinentalFederationViewPageContainer } />
+                <Route path="/institutions/continental" component={ ContinentalFederationsPageContainer } />
+                <Route path="/institutions/national/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/national" component={ NationalFederationsPageContainer } />
+                <Route path="/institutions/national/:id" component={ NationalFederationsPageContainer } />
+                <Route path="/institutions/world/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/world" component={ WorldFederationsPageContainer } />
+                <Route path="/institutions/world/:id" component={ WorldFederationsPageContainer } />
+                <Route path="/institutions/gyms/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/gyms" component={ GymsPageContainer } />
+                <Route path="/institutions/gyms/:id" component={ GymsPageContainer } />
+                <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPageContainer } />
+                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPageContainer } />
+                <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPageContainer } />
+                <Route path="/users/:id" name="User" component={ UserViewPageContainer } />
+                <Route path="/fighters/" name="Fighters" component={ FightersPageContainer } />
+                <Route path="/judges/" name="Judges" component={ JudgesPageContainer } />
+                <Route path="/coaches/" name="Coaches" component={ CoachesPageContainer } />
+                <Route path="/doctors/" name="Doctors" component={ DoctorsPageContainer } />
+                <Route path="/dictionaries/types" name="ContestTypes" component={ ContestTypesPage } />
+                <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ ContestRangesDetailsPage } />
+                <Route path="/dictionaries/ranges/" name="ContestRanges" component={ ContestRangesPage } />
+                <Route path="/dictionaries/levels/:id" name="KhanLevel" component={ KhanLevelsDetailsPage } />
+                <Route path="/dictionaries/levels/" name="KhanLevels" component={ KhanLevelsPage } />
+                <Route path="/dictionaries/levels" name="KhanLevels" component={ KhanLevelsPage } />
+                <Route path="/dictionaries/suspensions/:id" name="SuspensionType" component={ SuspensionsDetailsPage } />
+                <Route path="/dictionaries/suspensions/" name="SuspensionTypes" component={ SuspensionTypesPage } />
+                <Route path="/dictionaries/suspensions" name="SuspensionTypes" component={ SuspensionTypesPage } />
+                <Route path="/dictionaries/points/:id" name="ContestPoint" component={ ContestPointsDetailsPage } />
+                <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
+                <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
+                <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
+                <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
+                <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />
+                <Route path="/contests/" name="Contests" component={ ContestsContainer } />
+                <Route path="/fight" name="fights" component={ CreateFightsDiagram } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </div>
@@ -143,7 +127,7 @@ class Full extends Component {
         </div>
         <Footer />
       </div>
-    );
+      );
   }
 }
 

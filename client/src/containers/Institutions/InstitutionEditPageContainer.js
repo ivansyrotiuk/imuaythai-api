@@ -7,8 +7,6 @@ import axios from "axios";
 import Spinner from "../../views/Components/Spinners/Spinner"
 import InstitutionDataForm from "../../views/Institutions/InstitutionDataForm"
 import Page from "../../views/Components/Page"
-import { reset } from 'redux-form';
-
 class InstitutionEditPageContainer extends Component {
   componentWillMount() {
     const id = this.props.match.params.id;
@@ -21,7 +19,7 @@ class InstitutionEditPageContainer extends Component {
     if (type) {
       this.props.addInstitution(type);
     }
-   
+
 
     if (this.props.countries === undefined ||
       this.props.countries.length === 0) {
@@ -30,15 +28,15 @@ class InstitutionEditPageContainer extends Component {
   }
 
   render() {
-    const { institution, fetching } = this.props;
+    const {institution, fetching} = this.props;
 
     if (fetching) {
       return (<Spinner />);
     }
     const type = this.props.match.params.type;
-    const header = <strong>Add {type} </strong>;
-    const content = <InstitutionDataForm initialValues={this.props.institution} onSubmit={this.props.saveInstitution} countries={this.props.countries} />;
-    return <Page header={header} content={content} />;
+    const header = <strong>Add { type } </strong>;
+    const content = <InstitutionDataForm initialValues={ this.props.institution } onSubmit={ this.props.saveInstitution } countries={ this.props.countries } />;
+    return <Page header={ header } content={ content } />;
   }
 }
 

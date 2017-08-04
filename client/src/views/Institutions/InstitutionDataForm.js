@@ -43,7 +43,7 @@ class InstitutionDataForm extends Component {
     return (
 
       <form onSubmit={ handleSubmit }>
-        <div class="container">
+        <div className="container">
           <div className="row ustify-content-between">
             <div className="col-md-6">
               <div className="card">
@@ -121,8 +121,8 @@ class InstitutionDataForm extends Component {
                     <div className="col-md-12">
                       <div className="input-group">
                         <span className="input-group-addon">
-                                                                                                                      <i className="fa fa-facebook" style={ inputIconStyle }></i>
-                                                                                                                      </span>
+                                                                                                                                  <i className="fa fa-facebook" style={ inputIconStyle }></i>
+                                                                                                                                  </span>
                         <Field name="facebook" component="input" type="text" className="form-control" placeholder="Facebook" style={ socialMediaInputStyleStyle } />
                       </div>
                     </div>
@@ -131,8 +131,8 @@ class InstitutionDataForm extends Component {
                     <div className="col-md-12">
                       <div className="input-group">
                         <span className="input-group-addon">
-                                                                                                                      <i className="fa fa-instagram" style={ inputIconStyle }></i>
-                                                                                                                      </span>
+                                                                                                                                  <i className="fa fa-instagram" style={ inputIconStyle }></i>
+                                                                                                                                  </span>
                         <Field name="instagram" component="input" className="form-control" type="text" placeholder="Instagram" style={ socialMediaInputStyleStyle } />
                       </div>
                     </div>
@@ -141,8 +141,8 @@ class InstitutionDataForm extends Component {
                     <div className="col-md-12">
                       <div className="input-group">
                         <span className="input-group-addon">
-                                                                                                                      <i className="fa fa-twitter" style={ inputIconStyle }></i>
-                                                                                                                      </span>
+                                                                                                                                  <i className="fa fa-twitter" style={ inputIconStyle }></i>
+                                                                                                                                  </span>
                         <Field name="twitter" component="input" className="form-control" type="input" placeholder="Twitter" style={ socialMediaInputStyleStyle } />
                       </div>
                     </div>
@@ -151,8 +151,8 @@ class InstitutionDataForm extends Component {
                     <div className="col-md-12">
                       <div className="input-group">
                         <span className="input-group-addon">
-                                                                                                                      <i className="fa fa-vk" style={ inputIconStyle }></i>
-                                                                                                                      </span>
+                                                                                                                                  <i className="fa fa-vk" style={ inputIconStyle }></i>
+                                                                                                                                  </span>
                         <Field name="vk" component="input" className="form-control" type="input" placeholder="Vk" style={ socialMediaInputStyleStyle } />
                       </div>
                     </div>
@@ -161,8 +161,8 @@ class InstitutionDataForm extends Component {
                     <div className="col-md-12">
                       <div className="input-group">
                         <span className="input-group-addon">
-                                                                                                                      <i className="fa fa-globe" style={ inputIconStyle }></i>
-                                                                                                                  </span>
+                                                                                                                                  <i className="fa fa-globe" style={ inputIconStyle }></i>
+                                                                                                                              </span>
                         <Field name="website" component="input" className="form-control" type="input" placeholder="Website" style={ socialMediaInputStyleStyle } />
                       </div>
                     </div>
