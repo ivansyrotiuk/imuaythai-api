@@ -50,6 +50,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public virtual ICollection<Fight> WonFights { get; set; }
         public virtual ICollection<FightJudgesMapping> FightJudgesMappings { get; set; }
         public virtual ICollection<FightPoint> FightPoints { get; set; }
+        public virtual ICollection<FightPoint> JudgeFightPoints { get; set; }
         public virtual Institution Institution { get; set; }
         public virtual Country Country { get; set; }
         public virtual KhanLevel KhanLevel { get; set; }

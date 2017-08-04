@@ -24,7 +24,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Phone { get; set; }
         [StringLength(500)]
         public string Email { get; set; }
-        [StringLength(450)]
+       
         public string HeadCoachId { get; set; }
         [StringLength(500)]
         public string Owner { get; set; }
@@ -42,10 +42,10 @@ namespace MuaythaiSportManagementSystemApi.Models
         public InstitutionType InstitutionType { get; set; }
 
         public virtual ICollection<InstitutionDocumentsMapping> InstitutionDocumentsMappings { get; set; }
-        //public virtual ICollection<ContestRequest> ContestRequests { get; set; }
-        //public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<ContestRequest> ContestRequests { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<ExecutionBoard> ExecutionBoards { get; set; }
-        //public virtual ICollection<Contest> Contests { get; set; }
+        public virtual ICollection<Contest> Contests { get; set; }
         public virtual Country Country { get; set; }
         public virtual ApplicationUser HeadCoach { get; set; }
     }
