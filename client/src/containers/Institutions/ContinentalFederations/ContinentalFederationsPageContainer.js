@@ -47,13 +47,21 @@ class ContinentalFederationsPageContainer extends Component {
                                                                    </td>
                                                                    <td>Europe</td>
                                                                    <td>
-                                                                     <RemoveButton id={ federation.id } click={ this.props.deleteFederation.bind(this, federation.id) } />
-                                                                     <Link to={ "/institutions/continental/edit/" + federation.id }>
-                                                                     <EditButton id={ federation.id } />
-                                                                     </Link>
-                                                                     <Link to={ "/institutions/continental/" + federation.id }>
-                                                                     <PreviewButton id={ federation.id } />
-                                                                     </Link>
+                                                                     <div className="row">
+                                                                       <div className="col-4">
+                                                                         <Link to={ "/institutions/continental/" + federation.id }>
+                                                                         <PreviewButton id={ federation.id } />
+                                                                         </Link>
+                                                                       </div>
+                                                                       <div className="col-4">
+                                                                         <Link to={ "/institutions/continental/edit/" + federation.id }>
+                                                                         <EditButton id={ federation.id } />
+                                                                         </Link>
+                                                                       </div>
+                                                                       <div className="col-4">
+                                                                         <RemoveButton id={ federation.id } click={ this.props.deleteFederation.bind(this, federation.id) } />
+                                                                       </div>
+                                                                     </div>
                                                                    </td>
                                                                  </tr>);
 

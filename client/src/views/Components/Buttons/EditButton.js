@@ -19,11 +19,13 @@ export default class EditButton extends Component {
   }
 
   render() {
-    const { text, click} = this.props;
-    return(
-    <div>
-      <button id="EditButton" type="button" className="btn btn-link pull-right" onClick={click}><i className="fa fa-pencil text-primary"></i>{text}</button>
-      <Tooltip placement="down" isOpen={this.state.tooltipOpen} target="EditButton" toggle={this.toggle}>Edit</Tooltip>
-    </div>)
+    const {text, click} = this.props;
+    return (
+      <div>
+        <button id="EditButton" type="button" className="btn btn-link pull-right" onClick={ click }><i className="fa fa-pencil text-primary"></i>
+          { text }
+        </button>
+        <Tooltip placement="down" isOpen={ this.state.tooltipOpen } target="EditButton" toggle={ this.toggle }>Edit</Tooltip>
+      </div>)
   }
 }

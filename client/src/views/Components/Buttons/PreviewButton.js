@@ -20,11 +20,13 @@ export default class PreviewButton extends Component {
   }
 
   render() {
-    const { text, click} = this.props;
+    const {text, click} = this.props;
     return (
       <div>
-        <button id="PreviewButton" type="button" className="btn btn-link pull-right" onClick={click}><i className="fa fa-external-link"></i>{text}</button>
-        <Tooltip placement="down" isOpen={this.state.tooltipOpen} target="PreviewButton" toggle={this.toggle}>Preview</Tooltip>
+        <button id="PreviewButton" type="button" className="btn btn-link pull-right" onClick={ click }><i className="fa fa-external-link"></i>
+          { text }
+        </button>
+        <Tooltip placement="down" isOpen={ this.state.tooltipOpen } target="PreviewButton" toggle={ this.toggle }>Preview</Tooltip>
       </div>
     )
   }

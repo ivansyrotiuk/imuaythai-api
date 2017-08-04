@@ -51,9 +51,9 @@ class ContinentalFederationViewPageContainer extends Component {
                                                                                  });
                                                                                } }>
                            <DropdownToggle caret color="link">
-                             <i className="fa fa-bars" aria-hidden="true">  Options</i>
+                             <i className="fa fa-bars" aria-hidden="true"></i>
                            </DropdownToggle>
-                           <DropdownMenu>
+                           <DropdownMenu className="dropdown-menu-right">
                              <DropdownItem onClick={ this.goToEditPageClick.bind(this) }>
                                <i className="fa fa-pencil" aria-hidden="true"></i>  Edit
                              </DropdownItem>

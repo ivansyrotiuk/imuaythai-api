@@ -20,10 +20,16 @@ class InstitutionEditPageContainer extends Component {
       this.props.addInstitution(type);
     }
 
-
     if (this.props.countries === undefined ||
       this.props.countries.length === 0) {
       this.props.fetchCountries();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.saved) {
+      this.props.resetInstitution();
+      this.props.history.goBack();
     }
   }
 
@@ -34,10 +40,7 @@ class InstitutionEditPageContainer extends Component {
       return (<Spinner />);
     }
 
-    if (saved) {
-      this.props.resetInstitution();
-      this.props.history.goBack();
-    }
+
 
     const type = this.props.match.params.type;
     const header = <strong>Add { type } </strong>;
