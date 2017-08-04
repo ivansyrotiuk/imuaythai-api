@@ -3,6 +3,7 @@ import { host } from "../../../global"
 import { saveRange, fetchRanges, deleteRange } from "../../../actions/Dictionaries/ContestRangesActions"
 import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
+import AddButton from "../../Components/Buttons/AddButton"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import axios from "axios";
@@ -61,7 +62,9 @@ class ContestRangesPage extends Component {
               <div className="card-header">
                 <strong>Ranges</strong>
                 <div className="pull-right">
-                  <Link to={ "/dictionaries/ranges/new" }><i className="fa fa-plus-square-o" aria-hidden="true"> Create</i></Link>
+                  <Link to={ "/dictionaries/ranges/new" }>
+                  <AddButton/>
+                  </Link>
                 </div>
               </div>
               <div className="card-block">

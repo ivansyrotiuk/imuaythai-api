@@ -3,6 +3,7 @@ import { host } from "../../../global"
 import { savePoint, fetchPoints, deletePoint } from "../../../actions/Dictionaries/ContestPointsActions"
 import RemoveButton from "../../Components/Buttons/RemoveButton"
 import EditButton from "../../Components/Buttons/EditButton"
+import AddButton from "../../Components/Buttons/AddButton"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import axios from "axios";
@@ -39,7 +40,11 @@ class ContestPointsPage extends Component {
                                                       { point.id }
                                                     </td>
                                                     <td>
-                                                      { point.name }
+                                                      { point.contestRange.name }
+                                                      { point.contestType.name }
+                                                    </td>
+                                                    <td>
+                                                      { point.points }
                                                     </td>
                                                     <td>
                                                       <Link to={ "/dictionaries/points/" + point.id }>
@@ -59,7 +64,9 @@ class ContestPointsPage extends Component {
               <div className="card-header">
                 <strong>Points</strong>
                 <div className="pull-right">
-                  <Link to={ "/dictionaries/points/new" }><i className="fa fa-plus-square-o" aria-hidden="true"> Create</i></Link>
+                  <Link to={ "/dictionaries/points/new" }>
+                  <AddButton/>
+                  </Link>
                 </div>
               </div>
               <div className="card-block">
@@ -68,6 +75,7 @@ class ContestPointsPage extends Component {
                     <tr>
                       <th>Id</th>
                       <th className="col-md-9">Name</th>
+                      <th>Points</th>
                       <th>Action</th>
                     </tr>
                   </thead>

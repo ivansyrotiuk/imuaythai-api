@@ -62,7 +62,7 @@ class Full extends Component {
   render() {
     return (
       <div className="app">
-        <Header />
+        <Header {...this.props}/>
         <div className="app-body">
           <Sidebar {...this.props} />
           <main className="main">
@@ -103,10 +103,12 @@ class Full extends Component {
                 <Route path="/judges/" name="Judges" component={ JudgesPageContainer } />
                 <Route path="/coaches/" name="Coaches" component={ CoachesPageContainer } />
                 <Route path="/doctors/" name="Doctors" component={ DoctorsPageContainer } />
+                <Route path="/dictionaries/types/(name)" name="ContestTypes" component={ ContestTypesDetailsPage } />
+                <Route path="/dictionaries/types/:id" name="ContestTypes" component={ ContestTypesDetailsPage } />
                 <Route path="/dictionaries/types" name="ContestTypes" component={ ContestTypesPage } />
                 <Route path="/dictionaries/ranges/:id" name="ContestRange" component={ ContestRangesDetailsPage } />
                 <Route path="/dictionaries/ranges/" name="ContestRanges" component={ ContestRangesPage } />
-                <Route path="/dictionaries/levels/:id" name="KhanLevel" component={ KhanLevelsDetailsPage } />
+                <Route path="/dictionaries/levels/:id" name="KhanLevel" component={ KhanLevelsDetailsPage } />;
                 <Route path="/dictionaries/levels/" name="KhanLevels" component={ KhanLevelsPage } />
                 <Route path="/dictionaries/levels" name="KhanLevels" component={ KhanLevelsPage } />
                 <Route path="/dictionaries/suspensions/:id" name="SuspensionType" component={ SuspensionsDetailsPage } />
