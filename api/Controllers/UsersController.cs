@@ -122,7 +122,6 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                var bytes = Convert.FromBase64String(user.AvatarFile);
-                System.IO.File.WriteAllBytes($"./img/{user.CountryName}.png", bytes);
                 ApplicationUser userEntity = string.IsNullOrEmpty(user.Id) ? new ApplicationUser() : await _repository.Get(user.Id);
                 userEntity.Id = user.Id;
                 userEntity.FirstName = user.Firstname;
@@ -137,6 +136,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.Gender = user.Gender;
                 userEntity.CountryId = user.CountryId;
                 userEntity.InstitutionId = user.InstitutionId;
+                if(bytes.Length > 0)
+                {
+                    System.IO.File.WriteAllBytes($"./wwwroot/imgages/{Guid.NewGuid().ToString().Substring(0, 10)}.png", bytes);
+                    
+                    userEntity.Photo = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Request);
+                }
+
+
 
                 await _repository.Save(userEntity);
 

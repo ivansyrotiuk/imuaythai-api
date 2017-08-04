@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-import RenderAvatarEditor from '../Components/RenderAvatarEditor';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import Dropzone from 'react-dropzone';
+import RenderDropZone from './RenderDropZone'
 
 const inputIconStyle = {
   width: '25px'
@@ -27,35 +26,6 @@ const RenderDatePicker = props => {
 };
 
 class CommonUserDataForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      base64: ""
-    }
-
-    this.convertBlobToBase64 = this.convertBlobToBase64.bind(this);
-  }
-
-  onDrop(files) {
-    var file = files[0];
-    var base64Data = null;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      console.log(event.target.result);
-      this.setState({
-        base64: event.target.result
-      })
-    };
-    reader.readAsDataURL(file);
-  }
-
-  convertBlobToBase64(blob) {
-    var reader = new FileReader();
-    reader.readAsDataURL(blob);
-
-    return reader.result;
-  }
-
   render() {
     const {handleSubmit, pristine, reset, submitting, countries, gyms} = this.props;
     const mappedCountries = countries.map((country, i) => <option key={ i } value={ country.id }>
@@ -66,13 +36,7 @@ class CommonUserDataForm extends Component {
                                               { gym.name }
                                             </option>);
 
-    const style = {
-      display: "block",
-      maxWidth: "197px",
-      maxHeight: "196px",
-      width: "auto",
-      height: "auto"
-    }
+
 
     return (
       <form onSubmit={ handleSubmit }>
@@ -81,9 +45,7 @@ class CommonUserDataForm extends Component {
             <i className="fa fa-user" aria-hidden="true"></i> Avatar
           </div>
           <div className="card-block">
-            <Dropzone onDrop={ this.onDrop.bind(this) }>
-              { this.state.base64 != "" ? <img src={ this.state.base64 } style={ style } /> : <p>Try dropping some files here, or click to select files to upload.</p> }
-            </Dropzone>
+            <Field name="avatarImage" component={ RenderDropZone } />
           </div>
         </div>
         <div className="card">
@@ -159,8 +121,8 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                                                                                                                                            <i className="fa fa-facebook" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                                                                                                                    <i className="fa fa-facebook" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                                                                                                                                                                </span>
                   <Field name="facebook" component="input" type="text" className="form-control" placeholder="Facebook" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
@@ -169,8 +131,8 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                                                                                                                                                                                                      <i className="fa fa-instagram" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                  </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                              <i className="fa fa-instagram" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                          </span>
                   <Field name="instagram" component="input" className="form-control" type="text" placeholder="Instagram" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
@@ -179,8 +141,8 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                                                                                                                                                                                                      <i className="fa fa-twitter" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                  </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                              <i className="fa fa-twitter" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                          </span>
                   <Field name="twitter" component="input" className="form-control" type="input" placeholder="Twitter" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
@@ -189,8 +151,8 @@ class CommonUserDataForm extends Component {
               <div className="col-md-12">
                 <div className="input-group">
                   <span className="input-group-addon">
-                                                                                                                                                                                                                                                                                                                                                                                                                      <i className="fa fa-vk" style={ inputIconStyle }></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                  </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                              <i className="fa fa-vk" style={ inputIconStyle }></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                          </span>
                   <Field name="vk" component="input" className="form-control" type="input" placeholder="Vk" style={ socialMediaInputStyleStyle } />
                 </div>
               </div>
@@ -210,17 +172,4 @@ class CommonUserDataForm extends Component {
 CommonUserDataForm = reduxForm({
   form: 'CommonUserDataForm'
 })(CommonUserDataForm);
-
-const selector = formValueSelector('CommonUserDataForm');
-
-CommonUserDataForm = connect(
-  state => {
-    const avatarImage = selector(state, 'avatarImage')
-
-    return {
-      avatarImage
-    }
-  }
-)(CommonUserDataForm)
-
 export default CommonUserDataForm;
