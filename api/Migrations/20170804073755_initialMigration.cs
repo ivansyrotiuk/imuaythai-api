@@ -521,7 +521,6 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     Facebook = table.Column<string>(maxLength: 500, nullable: true),
                     Instagram = table.Column<string>(maxLength: 500, nullable: true),
                     InstitutionId = table.Column<int>(nullable: false),
-                 
                     Name = table.Column<string>(maxLength: 500, nullable: false),
                     RingsCount = table.Column<int>(nullable: false),
                     Twitter = table.Column<string>(maxLength: 500, nullable: true),
@@ -555,7 +554,6 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                         principalTable: "Institutions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                   
                 });
 
             migrationBuilder.CreateTable(
@@ -855,8 +853,6 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                 name: "IX_Contests_InstitutionId",
                 table: "Contests",
                 column: "InstitutionId");
-
-       
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContestCategoriesMappings_ContestCategoryId",

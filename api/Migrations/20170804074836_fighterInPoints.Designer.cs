@@ -9,8 +9,8 @@ using MuaythaiSportManagementSystemApi.Models;
 namespace MuaythaiSportManagementSystemApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170803211931_initialMigration")]
-    partial class initialMigration
+    [Migration("20170804074836_fighterInPoints")]
+    partial class fighterInPoints
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -261,8 +261,6 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<int>("InstitutionId");
 
-                    b.Property<int?>("InstitutionId1");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(500);
@@ -287,8 +285,6 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("InstitutionId");
-
-                    b.HasIndex("InstitutionId1");
 
                     b.ToTable("Contests");
                 });
@@ -573,13 +569,11 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<bool>("Accepted");
 
-                    b.Property<string>("Cautions")
-                        .IsRequired();
+                    b.Property<string>("Cautions");
 
                     b.Property<int?>("FightId");
 
-                    b.Property<string>("FighterId")
-                        .IsRequired();
+                    b.Property<string>("FighterId");
 
                     b.Property<string>("JudgeId");
 
@@ -587,12 +581,13 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<int>("RoundId");
 
-                    b.Property<string>("Warnings")
-                        .IsRequired();
+                    b.Property<string>("Warnings");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FightId");
+
+                    b.HasIndex("FighterId");
 
                     b.HasIndex("JudgeId");
 
@@ -948,12 +943,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution", "Institution")
-                        .WithMany()
-                        .HasForeignKey("InstitutionId");
-
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Institution")
                         .WithMany("Contests")
-                        .HasForeignKey("InstitutionId1");
+                        .HasForeignKey("InstitutionId");
                 });
 
             modelBuilder.Entity("MuaythaiSportManagementSystemApi.Models.ContestCategoriesMapping", b =>
@@ -1099,8 +1090,12 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                         .WithMany("FightPoints")
                         .HasForeignKey("FightId");
 
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "Judge")
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "Fighter")
                         .WithMany("FightPoints")
+                        .HasForeignKey("FighterId");
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "Judge")
+                        .WithMany("JudgeFightPoints")
                         .HasForeignKey("JudgeId");
                 });
 

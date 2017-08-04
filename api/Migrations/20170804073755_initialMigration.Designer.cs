@@ -9,9 +9,10 @@ using MuaythaiSportManagementSystemApi.Models;
 namespace MuaythaiSportManagementSystemApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170804073755_initialMigration")]
+    partial class initialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -568,11 +569,13 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<bool>("Accepted");
 
-                    b.Property<string>("Cautions");
+                    b.Property<string>("Cautions")
+                        .IsRequired();
 
                     b.Property<int?>("FightId");
 
-                    b.Property<string>("FighterId");
+                    b.Property<string>("FighterId")
+                        .IsRequired();
 
                     b.Property<string>("JudgeId");
 
@@ -580,13 +583,12 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<int>("RoundId");
 
-                    b.Property<string>("Warnings");
+                    b.Property<string>("Warnings")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("FightId");
-
-                    b.HasIndex("FighterId");
 
                     b.HasIndex("JudgeId");
 
@@ -1089,12 +1091,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                         .WithMany("FightPoints")
                         .HasForeignKey("FightId");
 
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "Fighter")
-                        .WithMany("FightPoints")
-                        .HasForeignKey("FighterId");
-
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "Judge")
-                        .WithMany("JudgeFightPoints")
+                        .WithMany("FightPoints")
                         .HasForeignKey("JudgeId");
                 });
 

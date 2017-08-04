@@ -72,10 +72,24 @@ namespace MuaythaiSportManagementSystemApi.Data
                .HasForeignKey(k => k.CountryId);
 
             builder.Entity<Contest>()
-               .HasOne(h => h.Institution)
-               .WithMany()
-               .HasForeignKey(k => k.InstitutionId)
+               .HasOne(c => c.Institution)
+               .WithMany(i => i.Contests)
                .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+           .HasOne(c => c.Institution)
+           .WithMany(i => i.Users)
+           .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+
+            builder.Entity<FightPoint>()
+              .HasOne(h => h.Fighter)
+              .WithMany(u => u.FightPoints)
+              .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+
+            builder.Entity<FightPoint>()
+             .HasOne(h => h.Judge)
+             .WithMany(u => u.JudgeFightPoints)
+             .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
 
         }
 
