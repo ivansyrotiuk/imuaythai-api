@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const singleInstitutionInitialState = {
     institution: null,
     fetching: false,
-    error: null
+    error: null,
+    saved: false,
 }
 export default function(state = singleInstitutionInitialState, action) {
     switch (action.type) {
@@ -32,7 +33,13 @@ export default function(state = singleInstitutionInitialState, action) {
         case actionTypes.RESET_INSTITUTION:
             return {
                 ...state,
-                institution: null
+                institution: null,
+                saved: false
+            }
+        case actionTypes.SAVE_INSTITUTION_SUCCESS:
+            return {
+                ...state,
+                saved: true
             }
         default:
             return state

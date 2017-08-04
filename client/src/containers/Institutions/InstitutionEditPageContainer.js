@@ -28,11 +28,17 @@ class InstitutionEditPageContainer extends Component {
   }
 
   render() {
-    const {institution, fetching} = this.props;
+    const {institution, fetching, saved} = this.props;
 
     if (fetching) {
       return (<Spinner />);
     }
+
+    if (saved) {
+      this.props.resetInstitution();
+      this.props.history.goBack();
+    }
+
     const type = this.props.match.params.type;
     const header = <strong>Add { type } </strong>;
     const content = <InstitutionDataForm initialValues={ this.props.institution } onSubmit={ this.props.saveInstitution } countries={ this.props.countries } />;
@@ -46,7 +52,8 @@ const mapStateToProps = (state, ownProps) => {
     countries: state.Countries.countries,
     institution: state.SingleInstitution.institution,
     fetching: state.SingleInstitution.fetching,
-    fetched: state.SingleInstitution.fetched
+    fetched: state.SingleInstitution.fetched,
+    saved: state.SingleInstitution.saved
   }
 }
 
@@ -65,6 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     saveInstitution: (institution) => {
       return dispatch(saveInstitution(institution));
+    },
+    resetInstitution: () => {
+      dispatch(resetInstitution())
     }
   }
 }
