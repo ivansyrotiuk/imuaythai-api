@@ -101,7 +101,7 @@ namespace MuaythaiSportManagementSystemApi
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-
+            app.UseStaticFiles();
             app.UseCors("MyPolicy");            
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
