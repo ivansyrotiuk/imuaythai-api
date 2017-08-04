@@ -19,6 +19,10 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
 
         public static explicit operator ContestCategoryDto(ContestCategory category)
         {
+            if (category == null)
+            {
+                return null;
+            }
             return new ContestCategoryDto
             {
                 Id = category.Id,

@@ -50,7 +50,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("rounds/save")]
-        public async Task<IActionResult> SaveRage([FromBody]Round round)
+        public async Task<IActionResult> Save([FromBody]Round round)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("rounds/remove")]
-        public async Task<IActionResult> RemoveRange([FromBody]WeightAgeCategory round)
+        public async Task<IActionResult> Remove([FromBody]WeightAgeCategory round)
         {
             try
             {

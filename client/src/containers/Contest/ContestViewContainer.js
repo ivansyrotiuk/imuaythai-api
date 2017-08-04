@@ -4,8 +4,8 @@ import ContestViewPage from '../../views/Contest/ContestViewPage'
 import Spinner from '../../views/Components/Spinners/Spinner'
 import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest, fetchContestRequests, acceptContestRequest, rejectContestRequest, removeContestRequest } from '../../actions/ContestActions'
 import { fetchContestRoles } from '../../actions/RolesActions'
-
-
+import { SubmissionError } from 'redux-form'
+import { CONTEST_FIGHTER } from '../../common/contestRoleTypes'
 class ContestViewPageContainer extends Component {
     constructor(props) {
         super(props);
@@ -76,6 +76,22 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(cancelContestRequest())
         },
         saveContestRequest: (request) => {
+            console.log(request)
+            if (!request.type) {
+                throw new SubmissionError({
+                    _error: 'Please, select your role type'
+                })
+            }
+            if (!request.userId) {
+                throw new SubmissionError({
+                    _error: 'Please, select a user'
+                })
+            }
+            if (request.type == CONTEST_FIGHTER && !request.contestCategoryId) {
+                throw new SubmissionError({
+                    _error: 'Please, select a category'
+                })
+            }
             return dispatch(saveContestRequest(request))
         },
         acceptContestRequest: (request) => {

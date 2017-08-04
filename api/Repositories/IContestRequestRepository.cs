@@ -64,7 +64,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         {
             if (request.Id == 0)
             {
-                _context.ContestRequests.Add(request);
+                _context.ContestRequests.AddAsync(request);
             }
             else
             {

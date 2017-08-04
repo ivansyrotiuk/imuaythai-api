@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {host} from "../../../global"
-import {connect} from "react-redux"
+import React, { Component } from 'react';
+import { host } from "../../../global"
+import { connect } from "react-redux"
 import axios from "axios";
 import LoadButton from "../../Components/Buttons/LoadButton";
 import SimpleDictionaryDataForm from "../SimpleDictionaryDataForm";
@@ -12,7 +12,9 @@ export default class SuspensionTypesDetailsPage extends Component {
     super(props);
     this.onSubmit = this.handleSubmit.bind(this);
     this.fetchType = this.fetchType.bind(this);
-    this.state = {fetching: true};
+    this.state = {
+      fetching: true
+    };
     this.fetchType(this.props.match.params.id);
 
   }
@@ -22,12 +24,20 @@ export default class SuspensionTypesDetailsPage extends Component {
 
     var self = this;
     axios
-      .get(host + "api/dictionaries/suspensions/"+id)
+      .get(host + "api/dictionaries/suspensions/" + id)
       .then((response) => {
-        self.setState({...self.state, fetching: false, type: response.data});
+        self.setState({
+          ...self.state,
+          fetching: false,
+          suspensionType: response.data
+        });
       })
       .catch((err) => {
-        self.setState({...self.state, fetching: false, error: err});
+        self.setState({
+          ...self.state,
+          fetching: false,
+          error: err
+        });
       })
   }
 
@@ -36,13 +46,13 @@ export default class SuspensionTypesDetailsPage extends Component {
 
     axios
       .post(host + 'api/dictionaries/suspensions/save', values)
-      .then(function (response) {
+      .then(function(response) {
         self
           .props
           .history
           .goBack();
       })
-      .catch(function (error) {
+      .catch(function(error) {
         self
           .props
           .history
@@ -53,12 +63,12 @@ export default class SuspensionTypesDetailsPage extends Component {
 
   render() {
 
-    const {type, fetching, error} = this.state;
-    if (fetching) 
+    const {suspensionType, fetching, error} = this.state;
+    if (fetching)
       return <Spinner />
-    if (error != null) 
+    if (error != null)
       return (
-        this.props.history.push('/500')
+      this.props.history.push('/500')
       );
 
     return (
@@ -70,12 +80,12 @@ export default class SuspensionTypesDetailsPage extends Component {
                 <strong>Type</strong>
               </div>
               <div className="card-block">
-                <SimpleDictionaryDataForm initialValues={type} onSubmit={this.onSubmit}/>
-            </div>
+                <SimpleDictionaryDataForm initialValues={ suspensionType } onSubmit={ this.onSubmit } />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    );
+      );
   }
 }
