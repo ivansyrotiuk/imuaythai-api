@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
 import { ROLE_TYPE_MAPPINGS, CONTEST_FIGHTER } from '../../common/contestRoleTypes'
 
+
 class ContestRequestForm extends Component {
   render() {
     const {error, selectedRoleType, handleSubmit, categories, onRoleChange, onCancel, pristine, submitting, roles, candidates} = this.props;

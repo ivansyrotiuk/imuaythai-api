@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
 import EditButton from '../Components/Buttons/EditButton'
 import moment from 'moment'
+import { userCanAcceptContestRequest } from '../../auth/auth'
 
 export default class ContestInfoCard extends Component {
   render() {
-    const {contest, editContest} = this.props;
+    const {contest, editContest, pendingRequestsClick, addRequestsClick} = this.props;
+
+    const PendingRequestsButton = userCanAcceptContestRequest(() => <div className="col-sm-2">
+                                                                      <div className="btn btn-warning" onClick={ pendingRequestsClick }>
+                                                                        <div>Pending requests</div>
+                                                                      </div>
+                                                                    </div>)
 
     return (
       <div className="card">
@@ -61,6 +68,13 @@ export default class ContestInfoCard extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-2">
+                  <div className="callout callout-warning">
+                    <small className="text-muted">Pending requests</small>
+                    <br/>
+                    <strong className="h4">7</strong>
+                  </div>
+                </div>
+                <div className="col-sm-2">
                   <div className="callout callout-info">
                     <small className="text-muted">Fighters</small>
                     <br/>
@@ -79,6 +93,14 @@ export default class ContestInfoCard extends Component {
                     <small className="text-muted">Doctors</small>
                     <br/>
                     <strong className="h4">7</strong>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <PendingRequestsButton/>
+                <div className="col-sm-2">
+                  <div className="btn btn-primary" onClick={ addRequestsClick }>
+                    <div>Add request</div>
                   </div>
                 </div>
               </div>

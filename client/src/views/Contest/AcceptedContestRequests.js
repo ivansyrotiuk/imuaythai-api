@@ -12,7 +12,7 @@ import ContestInfoCard from './ContestInfoCard'
 import { CONTEST_FIGHTER, CONTEST_JUDGE, CONTEST_DOCTOR } from '../../common/contestRoleTypes'
 import { CONTEST_REQUEST_PENDING, CONTEST_REQUEST_ACCEPTED, CONTEST_REQUEST_REJECTED } from '../../common/contestRequestStatuses'
 
-class ContestRequests extends Component {
+class AcceptedContestRequests extends Component {
   constructor(props) {
     super(props);
 
@@ -32,16 +32,12 @@ class ContestRequests extends Component {
   }
 
   mapRequest(request, i) {
-    const {acceptContestRequest, rejectContestRequest, removeContestRequest} = this.props;
     return <tr key={ i }>
              <td className="col-2">
                { request.userName }
              </td>
              <td className="col-2">
                { request.institutionName }
-             </td>
-             <td className="col-1">
-               { request.user.city }
              </td>
              <td className="col-2">
                { request.user.countryName }
@@ -50,32 +46,22 @@ class ContestRequests extends Component {
                                               { request.contestCategoryName }
                                             </td> }
              <td>
-               { request.status === CONTEST_REQUEST_PENDING && <span className="badge badge-warning">Pending</span> }
-               { request.status === CONTEST_REQUEST_ACCEPTED && <span className="badge badge-success">Accepted</span> }
-               { request.status === CONTEST_REQUEST_REJECTED && <span className="badge badge-danger">Rejected</span> }
-             </td>
-             <td>
                { request.acceptedByUserName }
-             </td>
-             <td>
-               <RemoveButton removing={ request.removing } click={ () => removeContestRequest(request) } />
-               <RejectButton rejecting={ request.rejecting } click={ () => rejectContestRequest(request) } />
-               <AcceptButton accepting={ request.accepting } click={ () => acceptContestRequest(request) } />
              </td>
            </tr>
   }
 
   render() {
-    const {contest, requests, acceptContestRequest, rejectContestRequest} = this.props;
+    const {contest, requests} = this.props;
 
-    const mappedFightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER)
-      .map((request, i) => this.mapRequest(request, i, acceptContestRequest, rejectContestRequest))
+    const mappedFightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER && r.status == CONTEST_REQUEST_ACCEPTED)
+      .map((request, i) => this.mapRequest(request, i))
 
-    const mappedJudgesRequests = requests.filter(r => r.type === CONTEST_JUDGE)
-      .map((request, i) => this.mapRequest(request, i, acceptContestRequest, rejectContestRequest))
+    const mappedJudgesRequests = requests.filter(r => r.type === CONTEST_JUDGE && r.status == CONTEST_REQUEST_ACCEPTED)
+      .map((request, i) => this.mapRequest(request, i))
 
-    const mappedDoctorsRequests = requests.filter(r => r.type === CONTEST_DOCTOR)
-      .map((request, i) => this.mapRequest(request, i, acceptContestRequest, rejectContestRequest))
+    const mappedDoctorsRequests = requests.filter(r => r.type === CONTEST_DOCTOR && r.status == CONTEST_REQUEST_ACCEPTED)
+      .map((request, i) => this.mapRequest(request, i))
 
     return (
       <div>
@@ -114,14 +100,11 @@ class ContestRequests extends Component {
             <table className="table table-hover mb-0 hidden-sm-down">
               <thead>
                 <tr>
-                  <th className="col-2">Name</th>
+                  <th>Name</th>
                   <th>Gym</th>
-                  <th>City</th>
                   <th>Country</th>
                   <th>Category</th>
-                  <th>Status</th>
                   <th>Accepted by</th>
-                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -133,13 +116,10 @@ class ContestRequests extends Component {
             <table className="table table-hover mb-0 hidden-sm-down">
               <thead>
                 <tr>
-                  <th className="col-2">Name</th>
+                  <th>Name</th>
                   <th>Gym</th>
-                  <th>City</th>
                   <th>Country</th>
-                  <th>Status</th>
                   <th>Accepted by</th>
-                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -151,13 +131,10 @@ class ContestRequests extends Component {
             <table className="table table-hover mb-0 hidden-sm-down">
               <thead>
                 <tr>
-                  <th className="col-2">Name</th>
+                  <th>Name</th>
                   <th>Gym</th>
-                  <th>City</th>
                   <th>Country</th>
-                  <th>Status</th>
                   <th>Accepted by</th>
-                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -171,4 +148,4 @@ class ContestRequests extends Component {
   }
 }
 
-export default ContestRequests
+export default AcceptedContestRequests

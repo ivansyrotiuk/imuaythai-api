@@ -1,7 +1,7 @@
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
-
+import authWrapper from 'redux-auth-wrapper/authWrapper'
 import Spinner from '../views/Components/Spinners/Spinner'
 
 const locationHelper = locationHelperBuilder({})
@@ -19,10 +19,6 @@ export const userIsAuthenticatedRedir = connectedRouterRedirect({
   AuthenticatingComponent: Spinner,
   redirectPath: '/login'
 })
-
-
-
-
 
 export const userIsAdminRedir = connectedRouterRedirect({
   redirectPath: '/',
@@ -67,6 +63,12 @@ const userCanManageRolesDefaults = {
 
 export const userCanManageRoles = connectedAuthWrapper(userCanManageRolesDefaults)
 
+
+export const userCanAcceptContestRequest = connectedAuthWrapper({
+  authenticatedSelector: state => state.Contest.singleContest && state.Account.user.InstitutionId == state.Contest.singleContest.institutionId &&
+    state.Account.user.roles.find(r => r == "Admin" || r == "Gym" || r == "NationalFederation" || r == "ContinentalFederation" || r == "WorldFederation") != undefined,
+  wrapperDisplayName: 'userCanManageRoles'
+})
 
 const userIsFighterDefaults = {
   authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r == "Fighter") != undefined,

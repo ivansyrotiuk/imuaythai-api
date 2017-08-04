@@ -44,6 +44,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Roles="Admin")]
         [Route("{id}")]
         public async Task<IActionResult> GetContest([FromRoute]int id)
         {
