@@ -1,69 +1,59 @@
 export default function reducer(state = {
-  types: [],
-  fetching: false,
-  fetched: false,
-  error: null
-}, action) {
+        suspensionTypes: [],
+        fetching: false,
+        fetched: false,
+        error: null
+    } , action) {
 
-  switch (action.type) {
-    case "FETCH_TYPES":
-      {
-        return {
-          ...state,
-          fetching: true
+    switch (action.type) {
+        case "FETCH_SUSPENSION_TYPES": {
+            return {
+                ...state,
+                fetching: true
+            }
         }
-      }
-
-    case "FETCH_TYPES_REJECTED":
-      {
-        return {
-          ...state,
-          fetching: false,
-          error: action.payload
+        case "FETCH_SUSPENSION_TYPES_REJECTED": {
+            return {
+                ...state,
+                fetching: false,
+                error: action.payload
+            }
         }
-      }
-
-    case "FETCH_TYPES_FULFILLED":
-      {
-        return {
-          ...state,
-          fetching: false,
-          fetched: true,
-          types: action.payload
+        case "FETCH_SUSPENSION_TYPES_FULFILLED": {
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                suspensionTypes: action.payload
+            }
         }
-      }
+        case "SAVE_SUSPENSION_TYPE": {
 
-    case "SAVE_TYPE":
-      {
+            const type = action.payload
+            const newTypes = [...state.suspensionTypes]
+            const typeToUpdate = newTypes.findIndex(t => t.id === type.id)
+            if (typeToUpdate > -1) {
+                newTypes[typeToUpdate] = type;
+                return {
+                    ...state,
+                    suspensionTypes: newTypes
+                }
+            } else {
+                return {
+                    ...state,
+                    suspensionTypes: [...state.suspensionTypes, type]
+                }
+            }
 
-        const type = action.payload
-        const newTypes = [...state.types]
-        const typeToUpdate = newTypes.findIndex(t => t.id === type.id)
-        if (typeToUpdate > -1) {
-          newTypes[typeToUpdate] = type;
-          return {
-            ...state,
-            types: newTypes
-          }
-        } else {
-          return {
-            ...state,
-            types: [...state.types, type]
-          }
         }
-
-      }
-
-    case "DELETE_TYPE":
-      {
-        return {
-          ...state,
-          types: state
-            .types
-            .filter(t => t.id !== action.payload)
+        case "DELETE_SUSPENSION_TYPE": {
+            return {
+                ...state,
+                suspensionTypes: state
+                    .suspensionTypes
+                    .filter(t => t.id !== action.payload)
+            }
         }
-      }
-    
-  }
-  return state
+    }
+    return state
 }

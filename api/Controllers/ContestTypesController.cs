@@ -57,7 +57,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("types/save")]
-        public async Task<IActionResult> SaveType([FromBody]ContestTypeDto type)
+        public async Task<IActionResult> Save([FromBody]ContestTypeDto type)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("types/remove")]
-        public async Task<IActionResult> RemoveType([FromBody]ContestTypeDto type)
+        public async Task<IActionResult> Remove([FromBody]ContestTypeDto type)
         {
             try
             {

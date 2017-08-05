@@ -55,15 +55,15 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("points/save")]
-        public async  Task<IActionResult> SaveRage([FromBody]ContestPointsDto points)
+        public async  Task<IActionResult> Save([FromBody]ContestPointsDto points)
         {
             try
             {
                 ContestTypePoints pointsEntity = points.Id == 0 ? new ContestTypePoints() : await _repository.Get(points.Id);
                 pointsEntity.Id = points.Id;
                 pointsEntity.Points = points.Points;
-                pointsEntity.ContestRangeId = points.ContestRange.Id;
-                pointsEntity.ContestTypeId = points.ContestType.Id;
+                pointsEntity.ContestRangeId = points.ContestRangeId;
+                pointsEntity.ContestTypeId = points.ContestTypeId;
                 await _repository.Save(pointsEntity);
 
                 points.Id = pointsEntity.Id;
@@ -78,7 +78,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("points/remove")]
-        public async Task<IActionResult> RemoveRange([FromBody]ContestPointsDto points)
+        public async Task<IActionResult> Remove([FromBody]ContestPointsDto points)
         {
             try
             {

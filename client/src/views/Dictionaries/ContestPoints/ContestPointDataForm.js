@@ -22,21 +22,16 @@ let ContestPointDataForm = props => {
     <form onSubmit={ handleSubmit }>
       <div className="card-block">
         <div className="form-group row">
-          <label className="col-md-3 form-control-label" htmlFor="text-input">Name</label>
+          <label className="col-md-3 form-control-label" htmlFor="text-input">Points</label>
           <div className="col-md-9">
-            <Field name="name" component="input" type="text" className="form-control" placeholder="Name" />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label className="col-md-3 form-control-label" htmlFor="text-input">Level</label>
-          <div className="col-md-9">
-            <Field name="level" component="input" type="number" className="form-control" placeholder="Level" />
+            <Field name="points" component="input" type="number" className="form-control" placeholder="Points" />
           </div>
         </div>
         <div className="form-group row">
           <label className="col-md-3 form-control-label" htmlFor="text-input">Contest type</label>
           <div className="col-md-9">
-            <Field name="typeId" className="form-control" component="select">
+            <Field name="contestTypeId" className="form-control" component="select">
+              <option value="0"></option>
               { mappedTypes }
             </Field>
           </div>
@@ -44,7 +39,8 @@ let ContestPointDataForm = props => {
         <div className="form-group row">
           <label className="col-md-3 form-control-label" htmlFor="text-input">Contest range</label>
           <div className="col-md-9">
-            <Field name="rangeId" className="form-control" component="select">
+            <Field name="contestRangeId" className="form-control" component="select">
+              <option value="0"></option>
               { mappedRanges }
             </Field>
           </div>

@@ -4,13 +4,10 @@ using MuaythaiSportManagementSystemApi.Repositories;
 using System.Linq;
 using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.Models;
-using System.Threading;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Threading.Tasks;
-using MuaythaiSportManagementSystemApi.Roles;
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -117,7 +114,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+       
         [HttpPost]
         [Route("Save")]
         public async Task<IActionResult> SaveUser([FromBody]UserDto user)
@@ -138,6 +135,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 userEntity.Gender = user.Gender;
                 userEntity.CountryId = user.CountryId;
                 userEntity.InstitutionId = user.InstitutionId;
+
+                if (user.AvatarImage != null)
+                {
+                    var imageBase64 = user.AvatarImage.Split(',');
+                    var bytes = Convert.FromBase64String(imageBase64[1]);
+                    if (bytes.Length > 0)
+                    {
+                        if (!string.IsNullOrEmpty(userEntity.Photo))
+                        {
+                            var pathToImage = "./wwwroot" + userEntity.Photo.Replace($"{Request.Scheme}://{Request.Host}", "");
+                            System.IO.File.Delete(pathToImage);
+                        }
+                        var imageName = $"images/{Guid.NewGuid().ToString().Substring(0, 10)}.png";
+                        System.IO.File.WriteAllBytes($"./wwwroot/{imageName}", bytes);
+                        var location = new Uri($"{Request.Scheme}://{Request.Host}");
+
+                        userEntity.Photo = location.AbsoluteUri + imageName;
+                        user.Photo = userEntity.Photo;
+                    }
+                }
+
+
 
                 await _repository.Save(userEntity);
 
