@@ -70,6 +70,11 @@ export const userCanAcceptContestRequest = connectedAuthWrapper({
   wrapperDisplayName: 'userCanManageRoles'
 })
 
+export const userCanAddContestRequest = connectedAuthWrapper({
+  authenticatedSelector: state => state.Account.user.roles.find(r => r == "Admin" || r == "Gym" || r == "NationalFederation" || r == "ContinentalFederation" || r == "WorldFederation") != undefined,
+  wrapperDisplayName: 'userCanManageRoles'
+})
+
 const userIsFighterDefaults = {
   authenticatedSelector: state => state.Account.authToken.length != 0 && state.Account.user.roles.find(r => r == "Fighter") != undefined,
   authenticatingSelector: state => state.Account.fetching,

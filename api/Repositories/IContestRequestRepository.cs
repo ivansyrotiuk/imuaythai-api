@@ -13,10 +13,13 @@ namespace MuaythaiSportManagementSystemApi.Repositories
     {
         Task<ContestRequest> Get(int id);
         Task<List<ContestRequest>> GetByContest(int contestId);
+        Task<List<ContestRequest>> GetByInstitution(int contestId, int institutionId);
+        Task<List<ContestRequest>> GetByUnassociatedUser(int contestId, string userId);
         Task<List<ContestRequest>> GetAll();
         Task<List<ContestRequest>> Find(Expression<Func<ContestRequest, bool>> predicate);
         Task Save(ContestRequest request);
         Task Remove(ContestRequest request);
+       
     }
 
     public class ContestRequestRepository : IContestRequestRepository
@@ -30,9 +33,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task<List<ContestRequest>> Find(Expression<Func<ContestRequest, bool>> predicate)
         {
-            return _context.ContestRequests.Include(c => c.User).ThenInclude(u => u.Country)
-                .Include(c => c.ContestCategory)
-                .Include(c => c.AcceptedByUser).Include(c => c.Institution).Where(predicate).ToListAsync();
+            return _context.ContestRequests.Where(predicate).ToListAsync();
         }
 
         public Task<ContestRequest> Get(int id)
@@ -52,6 +53,21 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.ContestRequests.Where(r => r.ContestId == contestId).Include(c => c.User).ThenInclude(u => u.Country)
                 .Include(c => c.ContestCategory)
                 .Include(c => c.AcceptedByUser).Include(c => c.Institution).ToListAsync();
+        }
+
+        public Task<List<ContestRequest>> GetByInstitution(int contestId, int institutionId)
+        {
+            return _context.ContestRequests.Where(r => r.ContestId == contestId && r.InstitutionId == institutionId).Include(c => c.User).ThenInclude(u => u.Country)
+                .Include(c => c.ContestCategory)
+                .Include(c => c.AcceptedByUser).Include(c => c.Institution).ToListAsync();
+        }
+
+        public Task<List<ContestRequest>> GetByUnassociatedUser(int contestId, string userId)
+        {
+            return _context.ContestRequests.Where(r => r.ContestId == contestId && r.InstitutionId == null && r.UserId == userId)
+               .Include(c => c.User).ThenInclude(u => u.Country)
+               .Include(c => c.ContestCategory)
+               .Include(c => c.AcceptedByUser).Include(c => c.Institution).ToListAsync();
         }
 
         public Task Remove(ContestRequest request)

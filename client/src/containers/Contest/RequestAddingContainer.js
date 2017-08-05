@@ -5,7 +5,7 @@ import ContestRequestForm from '../../views/Contest/ContestRequestForm'
 import AddButton from '../../views/Components/Buttons/AddButton'
 import { Route, Link } from 'react-router-dom';
 import Spinner from '../../views/Components/Spinners/Spinner'
-import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest, fetchContestRequests, acceptContestRequest, rejectContestRequest, removeContestRequest } from '../../actions/ContestActions'
+import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest, fetchInstitutionContestRequests, acceptContestRequest, rejectContestRequest, removeContestRequest } from '../../actions/ContestActions'
 import { fetchContestRoles } from '../../actions/RolesActions'
 import { SubmissionError } from 'redux-form'
 import { CONTEST_FIGHTER } from '../../common/contestRoleTypes'
@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
     fetching: state.Contest.fetching,
     roles: state.Roles.contestRoles,
     candidates: state.Contest.candidates,
-    requests: state.Contest.requests,
+    requests: state.Contest.institutionRequests,
     showRequestForm: state.Contest.showRequestForm,
     singleRequest: state.Contest.singleRequest,
   }
@@ -85,7 +85,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchContestRoles())
     },
     fetchContestRequests: (contestId) => {
-      dispatch(fetchContestRequests(contestId))
+      dispatch(fetchInstitutionContestRequests(contestId))
     },
     fetchContestCandidates: () => {
       dispatch(fetchContestCandidates())

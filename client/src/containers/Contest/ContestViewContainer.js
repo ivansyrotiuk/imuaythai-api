@@ -5,7 +5,9 @@ import Spinner from '../../views/Components/Spinners/Spinner'
 import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest, fetchContestRequests, acceptContestRequest, rejectContestRequest, removeContestRequest } from '../../actions/ContestActions'
 import { fetchContestRoles } from '../../actions/RolesActions'
 import { SubmissionError } from 'redux-form'
-import { CONTEST_FIGHTER } from '../../common/contestRoleTypes'
+import { CONTEST_FIGHTER, CONTEST_JUDGE, CONTEST_DOCTOR } from '../../common/contestRoleTypes'
+import { CONTEST_REQUEST_PENDING, CONTEST_REQUEST_ACCEPTED, CONTEST_REQUEST_REJECTED } from '../../common/contestRequestStatuses'
+
 
 class ContestViewPageContainer extends Component {
     constructor(props) {
@@ -37,17 +39,18 @@ class ContestViewPageContainer extends Component {
     }
 
     render() {
-        const {contest, user, fetching, roles, candidates, requests, singleRequest, showRequestForm, acceptContestRequest, rejectContestRequest, removeContestRequest} = this.props;
+        const {contest, fetching, roles, candidates, requests, singleRequest, showRequestForm, acceptContestRequest, rejectContestRequest, removeContestRequest} = this.props;
         if (fetching) {
             return <Spinner/>
         }
 
-        const showAcceptReject = user.roles.find(r => r === "Admin" || r === "Gym" || r === "NationalFederation" || r === "WorldFederation" || r === "ContinentalFederation") != undefined &&
-            contest && contest.institutionId == user.InstitutionId;
+        const fightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER && r.status == CONTEST_REQUEST_ACCEPTED)
+        const judgesRequests = requests.filter(r => r.type === CONTEST_JUDGE && r.status == CONTEST_REQUEST_ACCEPTED)
+        const doctorsRequests = requests.filter(r => r.type === CONTEST_DOCTOR && r.status == CONTEST_REQUEST_ACCEPTED)
+        const pendingRequests = requests.filter(r => r.status == CONTEST_REQUEST_PENDING)
 
-
-        return <ContestViewPage contest={ contest } requests={ requests } user={ user } editContest={ this.editContest } addRequestsClick={ this.addRequestsClick }
-                 pendingRequestsClick={ this.pendingRequestsClick } />
+        return <ContestViewPage contest={ contest } pendingRequests={ pendingRequests } doctorsRequests={ doctorsRequests } judgesRequests={ judgesRequests } fightersRequests={ fightersRequests }
+                 editContest={ this.editContest } addRequestsClick={ this.addRequestsClick } pendingRequestsClick={ this.pendingRequestsClick } />
 
     }
 }
@@ -57,7 +60,6 @@ const mapStateToProps = (state, ownProps) => {
         contest: state.Contest.singleContest,
         fetching: state.Contest.fetching,
         requests: state.Contest.requests,
-        user: state.Account.user
     }
 }
 

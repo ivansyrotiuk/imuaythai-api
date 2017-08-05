@@ -168,6 +168,31 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("requests/institution")]
+        public async Task<IActionResult> GetContestInstitutionRequests([FromQuery] int contestId)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(User.GetUserId());
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                var requestEntities = user.InstitutionId.HasValue ?
+                    await _contestRequestsRepository.GetByInstitution(contestId, user.InstitutionId.Value) :
+                    await _contestRequestsRepository.GetByUnassociatedUser(contestId, user.Id);
+
+                var requests = requestEntities.Select(r => (ContestRequestDto)r).ToList();
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("requests/save")]
         public async Task<IActionResult> SaveContestRequest([FromBody] ContestRequestDto request)
@@ -178,6 +203,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 if (user == null)
                 {
                     return BadRequest("Cannot create request. User not found");
+                }
+
+                var existedRequests = await _contestRequestsRepository.Find(r => r.UserId == request.UserId && r.Type == request.Type && r.ContestId == request.ContestId);
+                if (existedRequests.Count > 0)
+                {
+                    return BadRequest("The same request is already added");
                 }
 
                 ContestRequest requestEntity = request.Id == 0 ?

@@ -2,15 +2,10 @@ import React, { Component } from 'react'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import { Route, Link } from 'react-router-dom';
 import classnames from 'classnames';
-import moment from 'moment'
-import Page from '../Components/Page'
 import EditButton from '../Components/Buttons/EditButton'
 import AcceptButton from '../Components/Buttons/AcceptButton'
 import RejectButton from '../Components/Buttons/RejectButton'
 import RemoveButton from '../Components/Buttons/RemoveButton'
-import ContestInfoCard from './ContestInfoCard'
-import { CONTEST_FIGHTER, CONTEST_JUDGE, CONTEST_DOCTOR } from '../../common/contestRoleTypes'
-import { CONTEST_REQUEST_PENDING, CONTEST_REQUEST_ACCEPTED, CONTEST_REQUEST_REJECTED } from '../../common/contestRequestStatuses'
 
 class AcceptedContestRequests extends Component {
   constructor(props) {
@@ -52,16 +47,11 @@ class AcceptedContestRequests extends Component {
   }
 
   render() {
-    const {contest, requests} = this.props;
+    const {contest, doctorsRequests, judgesRequests, fightersRequests} = this.props;
 
-    const mappedFightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER && r.status == CONTEST_REQUEST_ACCEPTED)
-      .map((request, i) => this.mapRequest(request, i))
-
-    const mappedJudgesRequests = requests.filter(r => r.type === CONTEST_JUDGE && r.status == CONTEST_REQUEST_ACCEPTED)
-      .map((request, i) => this.mapRequest(request, i))
-
-    const mappedDoctorsRequests = requests.filter(r => r.type === CONTEST_DOCTOR && r.status == CONTEST_REQUEST_ACCEPTED)
-      .map((request, i) => this.mapRequest(request, i))
+    const mappedFightersRequests = fightersRequests.map((request, i) => this.mapRequest(request, i))
+    const mappedJudgesRequests = judgesRequests.map((request, i) => this.mapRequest(request, i))
+    const mappedDoctorsRequests = doctorsRequests.map((request, i) => this.mapRequest(request, i))
 
     return (
       <div>
