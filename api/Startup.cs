@@ -72,26 +72,26 @@ namespace MuaythaiSportManagementSystemApi
             }));
 
             // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddSingleton<IInstitutionsRepository, InstitutionsRepository>();
-            services.AddSingleton<IUsersRepository, UsersRepository>();
-            services.AddSingleton<IContestTypesRepository, ContestTypesRepository>();
-            services.AddSingleton<IContestRangesRepository, ContestRangesRepository>();
-            services.AddSingleton<IKhanLevelsRepository, KhanLevelRepository>();
-            services.AddSingleton<ISuspensionTypesRepository, SuspensionTypesRepository>();
+            services.AddScoped<IEmailSender, AuthMessageSender>();
+            services.AddScoped<ISmsSender, AuthMessageSender>();
+            services.AddScoped<IInstitutionsRepository, InstitutionsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IContestTypesRepository, ContestTypesRepository>();
+            services.AddScoped<IContestRangesRepository, ContestRangesRepository>();
+            services.AddScoped<IKhanLevelsRepository, KhanLevelRepository>();
+            services.AddScoped<ISuspensionTypesRepository, SuspensionTypesRepository>();
 
-            services.AddSingleton<IContestTypePointsRepository, ContestTypePointsRepository>();
-            services.AddSingleton<ICountriesRepository, CountriesRepository>();
-            services.AddSingleton<IRolesRepository, RolesRepository>();
-            services.AddSingleton<IUserRoleRequestsRepository, UserRoleRequestsRepository>();
-            services.AddSingleton<IContestRepository, ContestRepository>();
-            services.AddSingleton<IContestCategoriesRepository, ContestCategoriesRepository>();
-            services.AddSingleton<IContestRequestRepository, ContestRequestRepository>();
-            services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-            services.AddSingleton<IRoundsRepository, RoundsRepository>();
-            services.AddSingleton<IWeightAgeCategoriesRepository, WeightAgeCategoriesRepository>();
-            services.AddSingleton<IFightStructuresRepository, FightStructuresRepository>();
+            services.AddScoped<IContestTypePointsRepository, ContestTypePointsRepository>();
+            services.AddScoped<ICountriesRepository, CountriesRepository>();
+            services.AddScoped<IRolesRepository, RolesRepository>();
+            services.AddScoped<IUserRoleRequestsRepository, UserRoleRequestsRepository>();
+            services.AddScoped<IContestRepository, ContestRepository>();
+            services.AddScoped<IContestCategoriesRepository, ContestCategoriesRepository>();
+            services.AddScoped<IContestRequestRepository, ContestRequestRepository>();
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<IRoundsRepository, RoundsRepository>();
+            services.AddScoped<IWeightAgeCategoriesRepository, WeightAgeCategoriesRepository>();
+            services.AddScoped<IFightStructuresRepository, FightStructuresRepository>();
             services.Configure<EmailConfiguration>(Configuration);
         }
 
