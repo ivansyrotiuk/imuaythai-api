@@ -47,7 +47,7 @@ import JudgesPageContainer from "../../containers/Users/Judges/JudgesPageContain
 import CoachesPageContainer from "../../containers/Users/Coaches/CoachesPageContainer"
 import DoctorsPageContainer from "../../containers/Users/Doctors/DoctorsPageContainer"
 
-import UserEditPageContainer from "../../containers/Users/UserEditPageContainer"
+import UserEditWrapperContainer from "../../containers/Users/UserEditWrapperContainer"
 import UserViewPageContainer from "../../containers/Users/UserViewPageContainer"
 
 
@@ -93,7 +93,7 @@ class Full extends Component {
                 <Route path="/federations/continental" name="Continental federation" component={ ContinentalFederationsPageContainer } />
                 <Route path="/federations/world" name="World federation" component={ WorldFederationsPageContainer } />
                 <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPageContainer } />
-                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPageContainer } />
+                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditWrapperContainer } />
                 <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPageContainer } />
                 <Route path="/users/:id" name="User" component={ UserViewPageContainer } />
                 <Route path="/fighters/" name="Fighters" component={ FightersPageContainer } />
