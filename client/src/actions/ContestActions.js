@@ -177,6 +177,13 @@ export const saveContestRequest = (request) => {
                         ? err.response.data
                         : "Cannot connect to server"
                 })
+
+                dispatch({
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.response != null
+                        ? err.response.data
+                        : "Cannot connect to server"
+                })
             })
     }
 }
