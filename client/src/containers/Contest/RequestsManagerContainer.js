@@ -17,10 +17,6 @@ class RequestsManagerContainer extends Component {
       return <Spinner />
     }
 
-    if (!contest) {
-      return <div></div>
-    }
-
     return <div className="animated fadeIn">
              <div className="row">
                <div className="col-12">

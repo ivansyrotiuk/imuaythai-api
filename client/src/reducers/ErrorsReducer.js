@@ -3,6 +3,7 @@ import * as actionType from '../actions/actionTypes'
 const errorsInitialState = {
     error: null
 }
+
 export default function (state = errorsInitialState, action) {
     switch (action.type) {
         case actionType.SHOW_ERROR:
