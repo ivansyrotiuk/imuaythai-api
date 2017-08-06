@@ -8,10 +8,7 @@ class RequestsManagerContainer extends Component {
 
   componentWillMount() {
     var id = this.props.match.params.id;
-    if (!this.props.contest || this.props.contest.id != id) {
-      this.props.fetchContest(id);
-      this.props.fetchContestRequests(id);
-    }
+    this.props.fetchContestRequests(id);
   }
 
   render() {
@@ -32,8 +29,7 @@ class RequestsManagerContainer extends Component {
                      <strong>Requests</strong>
                    </div>
                    <div className="card-block">
-                     <ContestRequestsManager contest={ contest } requests={ requests } acceptContestRequest={ acceptContestRequest } rejectContestRequest={ rejectContestRequest }
-                     />
+                     <ContestRequestsManager requests={ requests } acceptContestRequest={ acceptContestRequest } rejectContestRequest={ rejectContestRequest } />
                    </div>
                  </div>
                </div>
@@ -46,7 +42,6 @@ class RequestsManagerContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    contest: state.Contest.singleContest,
     fetching: state.Contest.fetching,
     requests: state.Contest.requests,
     user: state.Account.user
@@ -55,9 +50,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchContest: (id) => {
-      dispatch(fetchContest(id))
-    },
     fetchContestRequests: (contestId) => {
       dispatch(fetchContestRequests(contestId))
     },

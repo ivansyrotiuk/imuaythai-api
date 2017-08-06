@@ -19,11 +19,9 @@ class ContestViewPageContainer extends Component {
 
     componentWillMount() {
         var id = this.props.match.params.id;
-        if (!this.props.contest || this.props.contest.id != id) {
-            this.props.fetchContest(id);
-            this.props.fetchContestRequests(id);
-        }
 
+        this.props.fetchContest(id);
+        this.props.fetchContestRequests(id);
     }
 
     editContest() {
