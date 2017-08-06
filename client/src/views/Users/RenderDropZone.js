@@ -22,7 +22,6 @@ class RenderDropZone extends Component {
         return (
             <Dropzone onDrop={ (filesToUpload, e) => {
                        var file = filesToUpload[0];
-                       var base64Data = null;
                        const reader = new FileReader();
                        reader.onload = (event) => {
                            input.onChange(event.target.result);
@@ -33,7 +32,7 @@ class RenderDropZone extends Component {
                        }
                        reader.readAsDataURL(file);
                    } }>
-              { this.state.base64 != "" ? <img src={ this.state.base64 } style={ style } /> : <p>Drop your avatar here, or click to select image to upload.</p> }
+              <img src={ this.state.base64 != "" ? this.state.base64 : this.props.imageUrl } style={ style } />
             </Dropzone>
             );
     }

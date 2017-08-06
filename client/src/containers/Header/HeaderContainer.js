@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import Login from '../../views/Pages/Login/'
 import { connect } from 'react-redux'
-import { logout } from '../../actions/AccountActions'
-import { fetchUser } from '../../actions/UsersActions'
+import { logout, fetchUser } from '../../actions/AccountActions'
 import Header from '../../components/Header/Header'
 
 class HeaderContainer extends Component {
@@ -18,17 +17,18 @@ class HeaderContainer extends Component {
     }
 
     render() {
-        return (<div>
-                  { this.props.user ? <Header user={ this.props.user } logout={ this.props.logout } gotoProfile={ this.gotoProfile } /> : "" }
-                </div>
-            );
+        if (this.props.user)
+            return <Header user={ this.props.user } logout={ this.props.logout } gotoProfile={ this.gotoProfile } />
+        else
+            return <div></div>
+
     }
 }
 
 const mapStateToProps = (state) => {
     return {
         userId: state.Account.user.UserId,
-        user: state.SingleUser.user
+        user: state.Account.loggedUser
     }
 }
 
