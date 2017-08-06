@@ -3,8 +3,6 @@ import { Link, Switch, Route, Redirect } from 'react-router-dom'
 import Header from '../../containers/Header/HeaderContainer';
 import Sidebar from '../../components/Sidebar/';
 import Breadcrumb from '../../components/Breadcrumb/';
-import Alert from 'react-s-alert';
-import 'react-s-alert/dist/s-alert-default.css';
 //import Aside from '../../components/Aside/';
 //import {requireAuthentication} from '../../utils/requireAuthentication'
 
@@ -68,9 +66,8 @@ class Full extends Component {
         <div className="app-body">
           <Sidebar {...this.props}/>
           <main className="main">
-            <Alert />
-            <Errors />
             <Breadcrumb/>
+            <Errors />
             <div className="container-fluid">
               <Switch>
                 <Route path="/dashboard" name="Dashboard" component={ Dashboard } />

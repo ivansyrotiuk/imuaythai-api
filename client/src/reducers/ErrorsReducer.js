@@ -10,7 +10,7 @@ export default function (state = errorsInitialState, action) {
                 ...state,
                 error: action.payload
             }
-        case actionType.RESET_ERROR:
+        case actionType.DISMISS_ERROR:
             return {
                 ...state,
                 error: null
