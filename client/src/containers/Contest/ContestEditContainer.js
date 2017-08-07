@@ -6,7 +6,7 @@ import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchTypes } from "../../actions/Dictionaries/ContestTypesActions";
 import { fetchRanges } from "../../actions/Dictionaries/ContestRangesActions";
 import { fetchContestCategories } from "../../actions/Dictionaries/ContestCategoriesActions";
-import { addContest, fetchContest, saveContest } from '../../actions/ContestActions';
+import { addContest, fetchContest, saveContest, resetContest } from '../../actions/ContestActions';
 import queryString from 'query-string'
 
 class ContestEditContainer extends Component {
@@ -39,6 +39,15 @@ class ContestEditContainer extends Component {
         }
     }
 
+    componentWillUpdate(nextProps, nextState) {
+        const {contestSaved} = nextProps;
+        if (contestSaved) {
+            this.props.history.goBack();
+            this.props.resetContest();
+        }
+    }
+
+
     render() {
         const {contest, fetching, countries, contestTypes, contestRanges, contestCategories, onSubmit} = this.props;
         if (fetching) {
@@ -59,7 +68,8 @@ const mapStateToProps = (state, ownProps) => {
         contestCategories: state.ContestCategories.categories,
         contestRanges: state.ContestRanges.ranges,
         contest: state.Contest.singleContest,
-        fetching: state.Contest.fetching
+        fetching: state.Contest.fetching,
+        contestSaved: state.Contest.contestSaved
     }
 }
 
@@ -86,6 +96,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onSubmit: (values) => {
             return dispatch(saveContest(values));
         },
+        resetContest: () => {
+            return dispatch(resetContest())
+        }
     }
 }
 

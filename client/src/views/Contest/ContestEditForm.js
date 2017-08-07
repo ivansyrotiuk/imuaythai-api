@@ -19,7 +19,7 @@ const RenderDatePicker = props => {
 class CreateContestPage extends Component {
 
   render() {
-    const {handleSubmit, submitting, countries, contestCategoryId, contestTypes, contestRanges, categories, contestCategories} = this.props;
+    const {handleSubmit, submitting, pristine, countries, contestCategoryId, contestTypes, contestRanges, categories, contestCategories} = this.props;
 
 
     const mappedContestTypes = contestTypes.map((type, i) => (
@@ -181,7 +181,8 @@ class CreateContestPage extends Component {
                     </div>
                   </div>
                   <div>
-                    <button type="submit" className="btn btn-primary" disabled={ submitting }>Submit</button>
+                    <button type="submit" className="btn btn-primary pull-right" disabled={ pristine || submitting }>
+                      { submitting && <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> } Save</button>
                   </div>
                 </form>
               </div>
