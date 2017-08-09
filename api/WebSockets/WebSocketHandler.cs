@@ -7,6 +7,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using MuaythaiSportManagementSystemApi.WebSockets;
+using System.Collections.Generic;
 
 namespace MuaythaiSportManagementSystemApi.WebSockets
 {
@@ -26,11 +27,11 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         {
             WebSocketConnectionManager.AddSocket(socket);
 
-            await SendMessageAsync(socket, new Message()
+            await SendMessageToAllAsync(new Request()
             {
-                MessageType = MessageType.ConnectionEvent,
-                Data = WebSocketConnectionManager.GetId(socket)
-            }).ConfigureAwait(false);
+                RequestType = RequestType.Connect,
+                Data = $"{WebSocketConnectionManager.GetId(socket)} is now connected"
+            }, new List<string>()).ConfigureAwait(false);
         }
 
         public virtual async Task OnDisconnected(WebSocket socket)
@@ -38,7 +39,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             await WebSocketConnectionManager.RemoveSocket(WebSocketConnectionManager.GetId(socket)).ConfigureAwait(false);
         }
 
-        public async Task SendMessageAsync(WebSocket socket, Message message)
+        public virtual async Task SendMessageAsync(WebSocket socket, Request message)
         {
             if (socket.State != WebSocketState.Open)
                 return;
@@ -52,86 +53,30 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                                    cancellationToken: CancellationToken.None).ConfigureAwait(false);
         }
 
-        public async Task SendMessageAsync(string socketId, Message message)
+        public virtual async Task SendMessageAsync(string socketId, Request message)
         {
             await SendMessageAsync(WebSocketConnectionManager.GetSocketById(socketId), message).ConfigureAwait(false);
         }
 
-        public async Task SendMessageToAllAsync(Message message)
+        public virtual async Task SendMessageToAllAsync(Request message, List<string> excluededSockets)
         {
-            foreach (var pair in WebSocketConnectionManager.GetAll())
+            var sockets = WebSocketConnectionManager.GetAll();
+            foreach (var pair in sockets)
             {
-                if (pair.Value.State == WebSocketState.Open)
+                if (pair.Value.State == WebSocketState.Open && !excluededSockets.Contains(pair.Key))
                     await SendMessageAsync(pair.Value, message).ConfigureAwait(false);
             }
         }
 
-        public async Task InvokeClientMethodAsync(string socketId, string methodName, object[] arguments)
+
+
+        public virtual async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
         {
-            var message = new Message()
-            {
-                MessageType = MessageType.ClientMethodInvocation,
-                Data = JsonConvert.SerializeObject(new InvocationDescriptor()
+            await SendMessageAsync(socket, new Request()
                 {
-                    MethodName = methodName,
-                    Arguments = arguments
-                }, _jsonSerializerSettings)
-            };
-
-            await SendMessageAsync(socketId, message).ConfigureAwait(false);
-        }
-
-        public async Task InvokeClientMethodToAllAsync(string methodName, params object[] arguments)
-        {
-            foreach (var pair in WebSocketConnectionManager.GetAll())
-            {
-                if (pair.Value.State == WebSocketState.Open)
-                    await InvokeClientMethodAsync(pair.Key, methodName, arguments).ConfigureAwait(false);
-            }
-        }
-
-        public async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
-        {
-           // var invocationDescriptor = JsonConvert.DeserializeObject<InvocationDescriptor>(serializedInvocationDescriptor);
-
-            //var method = this.GetType().GetMethod(invocationDescriptor.MethodName);
-
-           /* if (method == null)
-            {
-                await SendMessageAsync(socket, new Message()
-                {
-                    MessageType = MessageType.Text,
-                    Data = $"Cannot find method {invocationDescriptor.MethodName}"
+                    RequestType = RequestType.Connect,
+                    Data = serializedInvocationDescriptor
                 }).ConfigureAwait(false);
-                return;
-            }*/
-
-            try
-            {
-               await SendMessageToAllAsync( new Message()
-                {
-                    MessageType = MessageType.Text,
-                    Data = $"{serializedInvocationDescriptor}"
-                }).ConfigureAwait(false);
-                
-            }
-            catch (TargetParameterCountException e)
-            {
-                /*await SendMessageAsync(socket, new Message()
-                {
-                    MessageType = MessageType.Text,
-                    Data = $"The {invocationDescriptor.MethodName} method does not take {invocationDescriptor.Arguments.Length} parameters!"
-                }).ConfigureAwait(false);*/
-            }
-
-            catch (ArgumentException e)
-            {
-               /* await SendMessageAsync(socket, new Message()
-                {
-                    MessageType = MessageType.Text,
-                    Data = $"The {invocationDescriptor.MethodName} method takes different arguments!"
-                }).ConfigureAwait(false);*/
-            }
         }
     }
 }

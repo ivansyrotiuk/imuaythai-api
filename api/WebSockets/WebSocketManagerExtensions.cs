@@ -13,7 +13,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
             foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
             {
-                if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
+                if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler) || type.GetTypeInfo().BaseType == typeof(FightHandler))
                 {
                     services.AddScoped(type);
                 }

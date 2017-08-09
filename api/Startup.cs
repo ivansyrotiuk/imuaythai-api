@@ -20,6 +20,7 @@ using MuaythaiSportManagementSystemApi.Services;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.WebSockets;
+using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -121,7 +122,10 @@ namespace MuaythaiSportManagementSystemApi
                 }
             });
 
-            app.MapWebSocketManager("/ring", serviceProvider.GetService<FightHandler>());
+            app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
+            app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
+            //app.MapWebSocketManager("/ringC", serviceProvider.GetService<FightHandler>());
+
 
             app.UseIdentity();
             app.UseMvc();
