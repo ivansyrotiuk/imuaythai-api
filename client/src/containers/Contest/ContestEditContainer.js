@@ -8,20 +8,16 @@ import { fetchRanges } from "../../actions/Dictionaries/ContestRangesActions";
 import { fetchContestCategories } from "../../actions/Dictionaries/ContestCategoriesActions";
 import { addContest, fetchContest, saveContest, resetContest } from '../../actions/ContestActions';
 import queryString from 'query-string'
+import { createContest } from '../../common/contestConstructors'
 
 class ContestEditContainer extends Component {
-
     componentWillMount() {
         var id = this.props.match.params.id;
         if (id) {
             this.props.fetchContest(id);
         } else {
             const query = queryString.parse(this.props.location.search);
-            const contest = {
-                date: new Date(),
-                endRegistrationDate: new Date(),
-                institutionId: query.institution
-            }
+            const contest = createContest(query.institution);
             this.props.addContest(contest);
         }
 
@@ -46,7 +42,6 @@ class ContestEditContainer extends Component {
             this.props.resetContest();
         }
     }
-
 
     render() {
         const {contest, fetching, countries, contestTypes, contestRanges, contestCategories, onSubmit} = this.props;

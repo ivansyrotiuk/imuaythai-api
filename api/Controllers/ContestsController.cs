@@ -43,6 +43,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet]
         [Authorize(Roles="Admin")]
         [Route("{id}")]
@@ -60,13 +61,21 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
-
         [HttpPost]
         [Route("Save")]
         public async Task<IActionResult> SaveContest([FromBody]ContestDto contest)
         {
             try
             {
+                var userId = User.GetUserId();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                int institutionId = contest.InstitutionId == 0 && user.InstitutionId.HasValue ? user.InstitutionId.Value : contest.InstitutionId;
+
                 Contest contestEntity = contest.Id == 0 ? new Contest() : await _repository.Get(contest.Id);
                 contestEntity.Id = contest.Id;
                 contestEntity.Name = contest.Name;
@@ -84,10 +93,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 contestEntity.EndRegistrationDate = contest.EndRegistrationDate;
                 contestEntity.ContestRangeId = contest.ContestRangeId;
                 contestEntity.ContestTypeId = contest.ContestTypeId;
-                contestEntity.InstitutionId = contest.InstitutionId;
+                contestEntity.InstitutionId = institutionId;
                 await _repository.Save(contestEntity);
                 await _repository.SaveCategoryMappings(contestEntity, contest.ContestCategories);
-
+                await _repository.SaveCategoryRings(contestEntity, contest.Rings);
                 return Created("Add", contest);
             }
             catch (Exception ex)
@@ -95,7 +104,6 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpPost]
         [Route("Remove")]

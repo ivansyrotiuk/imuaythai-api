@@ -42,6 +42,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public virtual ICollection<ContestCategoriesMapping> ContestCategoriesMappings { get; set; }
         public virtual ICollection<ContestRequest> ContestRequests { get; set; }
         public virtual ICollection<ContestDocumentsMapping> ContestDocumentsMappings { get; set; }
+        public virtual ICollection<ContestRing> Rings { get; set; }
         public virtual Institution Institution { get; set; }
         public virtual Country Country { get; set; }
         public virtual ContestRange ContestRange { get; set; }
