@@ -18,16 +18,6 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         {
             _context = context;
         }
-        public override async Task OnConnected(WebSocket socket)
-        {
-            await base.OnConnected(socket);
-            var fights = _context.Fights.Where(f => f.Ring == Ring).OrderBy(f => f.StartDate).ToArray();
-            await SendMessageAsync(socket, new Request
-            {
-                RequestType = RequestType.Fights,
-                Data = JsonConvert.SerializeObject(fights)
-            });
-        }
 
         public override async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
         {
@@ -48,16 +38,6 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                         RequestType = request.RequestType,
                         Data = "Points has been accepted"
                     }, new List<string>());
-                    break;
-
-                case RequestType.SelectedFight:
-                    var fightInfo = _context.Fights.FirstOrDefault(f => f.Id == request.Data.ToInt());
-                    await SendMessageAsync(socket, new Request
-                    {
-                        RequestType = RequestType.SelectedFight,
-                        Data = JsonConvert.SerializeObject(fightInfo)
-                    });
-
                     break;
 
                 case RequestType.JuryConnected:
@@ -101,7 +81,8 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
         private Task SavePoints(string data)
         {
-            _context.FightPoints
+           // _context.FightPoints
+           throw new Exception();
         }
 
         public override async Task OnDisconnected(WebSocket socket)
@@ -110,12 +91,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
             await base.OnDisconnected(socket);
 
-            var message = new Request()
-            {
-                RequestType = RequestType.Disconnect,
-                Data = $"{socketId} disconnected"
-            };
-            await SendMessageToAllAsync(message, new List<string>());
+           
         }
     }
 }

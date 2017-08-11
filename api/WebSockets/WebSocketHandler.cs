@@ -36,7 +36,14 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
         public virtual async Task OnDisconnected(WebSocket socket)
         {
-            await WebSocketConnectionManager.RemoveSocket(WebSocketConnectionManager.GetId(socket)).ConfigureAwait(false);
+            var id = WebSocketConnectionManager.GetId(socket);
+             var message = new Request()
+            {
+                RequestType = RequestType.Disconnect,
+                Data = $"{id} disconnected"
+            };
+            await SendMessageToAllAsync(message, new List<string>());
+            await WebSocketConnectionManager.RemoveSocket(id).ConfigureAwait(false);
         }
 
         public virtual async Task SendMessageAsync(WebSocket socket, Request message)
