@@ -74,8 +74,8 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 ring.ContestDay = ring.ContestDay.Date.ToUniversalTime();
                 ring.RingsAvilability.ForEach(item =>
                 {
-                    item.From = item.From.AddSeconds(-item.From.Second).ToUniversalTime();
-                    item.To = item.To.AddSeconds(-item.To.Second).ToUniversalTime();
+                    item.From = item.From.AddSeconds(-item.From.Second);
+                    item.To = item.To.AddSeconds(-item.To.Second);
                 });
             });
 

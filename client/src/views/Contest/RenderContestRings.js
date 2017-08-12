@@ -8,40 +8,45 @@ import Datetime from 'react-datetime';
 import { createRingAvailability } from '../../common/contestConstructors'
 
 const renderField = ({input, label, type, meta: {touched, error}}) => (
-    <div>
-      <label>
-        { label }
-      </label>
-      <div className="form-group">
-        <input {...input} type={ type } placeholder={ label } className="form-control" />
-      </div>
+  <div>
+    <label>
+      { label }
+    </label>
+    <div className="form-group">
+      <input {...input} type={ type } placeholder={ label } className="form-control" />
     </div>
+  </div>
 )
 
-const renderDatePicker = props => <div>
-                                    <label>
-                                      { props.label }
-                                    </label>
-                                    <div className="form-group">
-                                      <Datetime {...props.input} selected={ props.input.value } dateFormat="" timeFormat="HH:mm" />
-                                    </div>
-                                  </div>
+const renderDatePicker = props => {
+  if (!props.input.value._isAMomentObject) {
+    props.input.value = moment.utc(props.input.value)
+  }
+  return <div>
+           <label>
+             { props.label }
+           </label>
+           <div className="form-group">
+             <Datetime {...props.input} dateFormat="" timeFormat="HH:mm" />
+           </div>
+         </div>
+}
 
 
 const ringsCountChange = (fields, e) => {
-    const ringsArray = ['A', 'B', 'C'];
-    const ringsCount = e.target.value;
+  const ringsArray = ['A', 'B', 'C'];
+  const ringsCount = e.target.value;
 
-    for (let i = 0; i < ringsCount - fields.length; i++) {
-        const contestDay = fields.get(0).from;
-        const ringName = ringsArray[fields.length];
-        const ringAvailability = createRingAvailability(contestDay, ringName);
-        fields.push(ringAvailability);
-    }
+  for (let i = 0; i < ringsCount - fields.length; i++) {
+    const contestDay = fields.get(0).from;
+    const ringName = ringsArray[fields.length];
+    const ringAvailability = createRingAvailability(contestDay, ringName);
+    fields.push(ringAvailability);
+  }
 
-    for (let i = 0; i < fields.length - e.target.value; i++) {
-        fields.pop();
-    }
+  for (let i = 0; i < fields.length - e.target.value; i++) {
+    fields.pop();
+  }
 
 }
 
@@ -87,44 +92,44 @@ const renderRingAvailability = ({fields}) => <div>
 
 
 class RenderContestRings extends React.Component {
-    constructor(props) {
-        super(props);
-        this.renderRings = this.renderRings.bind(this);
-        this.removeLast = this.removeLast.bind(this);
+  constructor(props) {
+    super(props);
+    this.renderRings = this.renderRings.bind(this);
+    this.removeLast = this.removeLast.bind(this);
+  }
+
+
+  renderRings(rings) {
+    if (rings === undefined) {
+      return;
+    }
+    for (let i = 0; i < rings.length; i++)
+      this.props.fields.push(rings[i]);
+  }
+
+  addRing(ring) {
+    if (ring === undefined) {
+      return;
     }
 
+    this.props.fields.push(ring);
+  }
 
-    renderRings(rings) {
-        if (rings === undefined) {
-            return;
-        }
-        for (let i = 0; i < rings.length; i++)
-            this.props.fields.push(rings[i]);
-    }
+  removeLast() {
+    this.props.fields.pop();
+  }
 
-    addRing(ring) {
-        if (ring === undefined) {
-            return;
-        }
-
-        this.props.fields.push(ring);
-    }
-
-    removeLast() {
-        this.props.fields.pop();
-    }
-
-    render() {
-        const {fields} = this.props;
+  render() {
+    const {fields} = this.props;
 
 
 
-        return <div>
-                 { fields.map((member, index) => <div key={ index }>
-                                                   <FieldArray name={ `${member}.ringsAvilability` } component={ renderRingAvailability } />
-                                                 </div>) }
-               </div>
-    }
+    return <div>
+             { fields.map((member, index) => <div key={ index }>
+                                               <FieldArray name={ `${member}.ringsAvilability` } component={ renderRingAvailability } />
+                                             </div>) }
+           </div>
+  }
 }
 
 export default RenderContestRings
