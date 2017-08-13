@@ -20,13 +20,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUsersRepository _userRepository;
         private readonly IContestRequestRepository _contestRequestsRepository;
+        private readonly IContestCategoryMappingsRepository _contestCategoryMappingsRepository;
+        private readonly IContestRingsRepository _contestRingsRepository;
 
-        public ContestsController(IContestRepository repository, IUsersRepository userRepository, IContestRequestRepository contestRequestsRepository, UserManager<ApplicationUser> userManager)
+        public ContestsController(IContestRepository repository,
+            IContestRequestRepository contestRequestsRepository,
+            IContestCategoryMappingsRepository contestCategoryMappingsRepository,
+            IContestRingsRepository contestRingsRepository,
+            IUsersRepository userRepository, 
+            UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _userManager = userManager;
             _userRepository = userRepository;
             _contestRequestsRepository = contestRequestsRepository;
+            _contestCategoryMappingsRepository = contestCategoryMappingsRepository;
+            _contestRingsRepository = contestRingsRepository;
         }
 
         [HttpGet]
@@ -45,7 +54,6 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles="Admin")]
         [Route("{id}")]
         public async Task<IActionResult> GetContest([FromRoute]int id)
         {
@@ -95,8 +103,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 contestEntity.ContestTypeId = contest.ContestTypeId;
                 contestEntity.InstitutionId = institutionId;
                 await _repository.Save(contestEntity);
-                await _repository.SaveCategoryMappings(contestEntity, contest.ContestCategories);
-                await _repository.SaveCategoryRings(contestEntity, contest.Rings);
+                await _contestCategoryMappingsRepository.SaveCategoryMappings(contestEntity.Id, contest.ContestCategories);
+                await _contestRingsRepository.SaveCategoryRings(contestEntity.Id, contest.Rings);
                 return Created("Add", contest);
             }
             catch (Exception ex)

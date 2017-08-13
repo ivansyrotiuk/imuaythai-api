@@ -52,44 +52,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.SaveChangesAsync();
         }
 
-        public Task SaveCategoryMappings(Contest contest, List<ContestCategoryDto> mappings)
-        {
-            _context.ContestCategoriesMappings.RemoveRange(_context.ContestCategoriesMappings.Where(m => m.ContestId == contest.Id));
-
-            var contestCategoryMappings = mappings.Select(m => new ContestCategoriesMapping
-            {
-                ContestCategoryId = m.Id,
-                ContestId = contest.Id
-            }).ToList();
-
-            _context.ContestCategoriesMappings.AddRange(contestCategoryMappings);
-            return _context.SaveChangesAsync();
-        }
-
-        public Task SaveCategoryRings(Contest contest, List<ContestRingDto> rings)
-        {
-            rings.ForEach(ring =>
-            {
-                ring.ContestId = contest.Id;
-                ring.ContestDay = ring.ContestDay.Date.ToUniversalTime();
-                ring.RingsAvilability.ForEach(item =>
-                {
-                    item.From = item.From.AddSeconds(-item.From.Second);
-                    item.To = item.To.AddSeconds(-item.To.Second);
-                });
-            });
-
-            var ringEntities = rings.SelectMany(ring => ring.RingsAvilability.Select(item => new ContestRing
-            {
-                ContestId = ring.ContestId,
-                Name = item.Name,
-                From = item.From,
-                To = item.To,
-            })).ToList();
-
-            _context.ContestRings.RemoveRange(_context.ContestRings.Where(r => r.ContestId == contest.Id));
-            _context.ContestRings.AddRange(ringEntities);
-            return _context.SaveChangesAsync();
-        }
+       
+       
     }
 }

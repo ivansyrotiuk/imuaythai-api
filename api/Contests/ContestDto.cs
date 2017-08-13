@@ -29,6 +29,7 @@ namespace MuaythaiSportManagementSystemApi.Contests
         public int CountryId { get; set; }
         public int? ContestRangeId { get; set; }
         public int? ContestTypeId { get; set; }
+        public int WaiKhruTime { get; set; }
         public List<ContestCategoryDto> ContestCategories { get; set; }
         public CountryDto Country { get; set; }
         public List<ContestRingDto> Rings { get; set; } 
@@ -59,6 +60,7 @@ namespace MuaythaiSportManagementSystemApi.Contests
             CountryId = contest.CountryId;
             ContestRangeId = contest.ContestRangeId;
             ContestTypeId = contest.ContestTypeId;
+            WaiKhruTime = contest.WaiKhruTime;
             Country = (CountryDto) contest.Country;
             Institution = (InstitutionDto)contest.Institution;
             ContestCategories = contest.ContestCategoriesMappings?.Select(c => (ContestCategoryDto)c.ContestCategory).ToList() ?? new List<ContestCategoryDto>();

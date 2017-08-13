@@ -36,6 +36,8 @@ namespace MuaythaiSportManagementSystemApi.Models
         [StringLength(500)]
         public string Twitter { get; set; }
 
+        public int WaiKhruTime { get; set; }
+
         public bool AllowUnassociated { get; set; }
 
         public virtual ICollection<Fight> Fights { get; set; }
