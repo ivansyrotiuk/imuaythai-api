@@ -32,7 +32,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             switch (request.RequestType)
             {
                 case RequestType.AcceptPoints:
-                    await SavePoints(request.Data);
+                    //accept points
                     await SendMessageToAllAsync(new Request
                     {
                         RequestType = request.RequestType,
@@ -50,6 +50,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
 
                 case RequestType.SendPoints:
+                //save points
                     await SendMessageAsync(_jurySocketId, request);
                     break;
 

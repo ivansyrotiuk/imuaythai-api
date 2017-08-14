@@ -84,7 +84,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IContestRangesRepository, ContestRangesRepository>();
             services.AddScoped<IKhanLevelsRepository, KhanLevelRepository>();
             services.AddScoped<ISuspensionTypesRepository, SuspensionTypesRepository>();
-
+            services.AddScoped<IFightRepository, FightRepository>();
             services.AddScoped<IContestTypePointsRepository, ContestTypePointsRepository>();
             services.AddScoped<ICountriesRepository, CountriesRepository>();
             services.AddScoped<IRolesRepository, RolesRepository>();
@@ -124,7 +124,7 @@ namespace MuaythaiSportManagementSystemApi
 
             app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
-            //app.MapWebSocketManager("/ringC", serviceProvider.GetService<FightHandler>());
+            app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
 
             app.UseIdentity();

@@ -5,13 +5,44 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
 using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
     [Route("api/[controller]")]
+    //[Authorize]
     public class FightController : Controller
     {
-        public IActionResult Index()
+
+        private readonly IFightRepository _repository;
+        public FightController(IFightRepository repository){
+            _repository = repository;
+        }
+
+        [HttpGet]
+        [Route("get/{ring}")]
+        public async Task<IActionResult> GetFightsToRing([FromRoute] string ring){
+            var fights = await _repository.Find(f => f.Ring == ring);
+
+            if(fights == null || fights.Count == 0)
+                return BadRequest("No fights found");
+
+            return Ok(fights);
+        }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<IActionResult> GetFight([FromRoute] int id){
+            var fight = await _repository.Get(id);
+
+            if(fight == null)
+                return BadRequest("No fight found");
+
+            return Ok(fight);
+
+        }
+        public async Task<IActionResult> GetFightDiagram()
         {
             List<Fight> fights = new List<Fight>
             {
@@ -137,6 +168,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             };
 
+           // var fights = await _repository.GetAll();
+
             Fights.FighDiagramtProvider provider = new Fights.FighDiagramtProvider(fights);
 
             var gameList = provider.GenerateFightDiagram();
@@ -148,5 +181,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             return Ok(games);
         }
+
+        
     }
 }
