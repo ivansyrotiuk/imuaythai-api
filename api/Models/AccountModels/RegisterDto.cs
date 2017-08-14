@@ -26,6 +26,8 @@ namespace MuaythaiSportManagementSystemApi.Models.AccountModels
     public class FinishRegisterDto
     {
         public string UserId { get; set; }
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
         public string RoleId { get; set; }
         public bool? OwnGym { get; set; }
         public string GymName { get; set; }

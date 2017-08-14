@@ -15,6 +15,90 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             List<Fight> fights = new List<Fight>
             {
+                  new Fight
+                {
+                    Id = 100,
+                    BlueAthlete = new ApplicationUser
+                    {
+                        Id ="123Blue",
+                        FirstName = "Tommy Gun",
+                        Surname = "Wales",
+
+                    },
+                    BlueAthleteId = "123Blue",
+                    RedAthlete = new ApplicationUser
+                    {
+                        Id ="123Red",
+                        FirstName = "Rocky",
+                        Surname = "Balboa",
+
+                    },
+                    RedAthleteId = "123Red",
+                    NextFightId = 1,
+                    FightPoints = new List<FightPoint>
+                    {
+                        new FightPoint
+                        {
+                            FighterId = "123Blue",
+                            Id = 1,
+                            Points = 2
+                        },
+                        new FightPoint
+                        {
+                            FighterId = "123Blue",
+                            Id = 2,
+                            Points = 4
+                        },
+                        new FightPoint
+                        {
+                            FighterId = "123Red",
+                            Id = 3,
+                            Points = 2
+                        }
+                    }
+                },
+                new Fight
+                {
+                    Id = 0,
+                    BlueAthlete = new ApplicationUser
+                    {
+                        Id ="123Blue",
+                        FirstName = "Tommy Gun",
+                        Surname = "Wales",
+
+                    },
+                    BlueAthleteId = "123Blue",
+                    RedAthlete = new ApplicationUser
+                    {
+                        Id ="123Red",
+                        FirstName = "Rocky",
+                        Surname = "Balboa",
+
+                    },
+                    RedAthleteId = "123Red",
+                    NextFightId = 1,
+                    FightPoints = new List<FightPoint>
+                    {
+                        new FightPoint
+                        {
+                            FighterId = "123Blue",
+                            Id = 1,
+                            Points = 2
+                        },
+                        new FightPoint
+                        {
+                            FighterId = "123Blue",
+                            Id = 2,
+                            Points = 4
+                        },
+                        new FightPoint
+                        {
+                            FighterId = "123Red",
+                            Id = 3,
+                            Points = 2
+                        }
+                    }
+                },
                 new Fight
                 {
                     Id = 1,
@@ -98,7 +182,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     },
                     RedAthleteId = "12453Red",
                     NextFightId = 7
-                }, new Fight
+                },
+                new Fight
                 {
                     Id = 4,
                     BlueAthlete = new ApplicationUser

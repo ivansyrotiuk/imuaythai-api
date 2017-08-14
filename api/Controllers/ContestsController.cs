@@ -98,6 +98,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 contestEntity.VK = contest.VK;
                 contestEntity.Twitter = contest.Twitter;
                 contestEntity.Instagram = contest.Instagram;
+                contestEntity.WaiKhruTime = contest.WaiKhruTime;
                 contestEntity.EndRegistrationDate = contest.EndRegistrationDate;
                 contestEntity.ContestRangeId = contest.ContestRangeId;
                 contestEntity.ContestTypeId = contest.ContestTypeId;

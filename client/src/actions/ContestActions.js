@@ -17,8 +17,8 @@ export const fetchConstests = () => {
             })
             .catch((err) => {
                 dispatch({
-                    type: actionTypes.FETCH_CONTESTS_REJECTED,
-                    payload: err
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.message
                 })
             })
     }
