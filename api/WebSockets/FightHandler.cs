@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using MuaythaiSportManagementSystemApi.Extensions;
+using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.WebSockets
 {
@@ -50,7 +51,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
 
                 case RequestType.SendPoints:
-                await SavePoints(request.Data);
+                    await SavePoints(request.Data);
                     await SendMessageAsync(_jurySocketId, request);
                     break;
 
@@ -82,8 +83,10 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
         private Task SavePoints(string data)
         {
-           // _context.FightPoints
-           throw new Exception();
+           var points = JsonConvert.DeserializeObject<FightPoint>(data);
+           //_context.FightPoints.Add(points);
+
+           return _context.SaveChangesAsync();
         }
 
         public override async Task OnDisconnected(WebSocket socket)
