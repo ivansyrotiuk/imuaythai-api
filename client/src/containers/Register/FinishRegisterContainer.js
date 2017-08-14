@@ -8,6 +8,7 @@ import { setRequestedRole } from '../../actions/UserRolesActions'
 import { fetchCountryGyms } from '../../actions/InstitutionsActions'
 import { finishRegister } from '../../actions/AccountActions'
 import { saveState } from '../../localStorage'
+import { SubmissionError } from 'redux-form'
 import jwtDecode from 'jwt-decode';
 
 class FinishRegisterContainer extends Component {
@@ -78,6 +79,26 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(fetchCountryGyms(countryId));
         },
         finishRegister: (finishData) => {
+            if (!finishData.countryId) {
+                throw new SubmissionError({
+                    _error: 'Please, select your country'
+                })
+            }
+            if (!finishData.roleId) {
+                throw new SubmissionError({
+                    _error: 'Please, your user role'
+                })
+            }
+            if (finishData.ownGym && !finishData.gymName) {
+                throw new SubmissionError({
+                    _error: 'Please, enter your gym name'
+                })
+            }
+            if (!finishData.ownGym && !finishData.institutionId) {
+                throw new SubmissionError({
+                    _error: 'Please, select your gym'
+                })
+            }
             return dispatch(finishRegister(finishData));
         }
     }

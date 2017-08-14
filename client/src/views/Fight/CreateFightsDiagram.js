@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Bracket, BracketGame, BracketGenerator } from 'react-tournament-bracket';
-
+import Page from '../Components/Page'
 const GameComponent = props => {
     return (
         <BracketGame {...props}/>
@@ -36,16 +36,16 @@ class CreateFightsDiagram extends Component {
             display: "none"
         }
 
-        return (
-            <div>
-              <iframe id="ifmcontentstoprint" style={ style } scrolling="no"></iframe>
-              <button className="btn btn-primary" onClick={ this.handleClick }>Print</button>
-              <div id="divcontents">
-                <BracketGenerator GameComponent={ GameComponent } games={ this.props.fights } homeOnTop={ false } />
-              </div>
-            </div>
+        const header = <strong>Fight draw demo</strong>
 
-            );
+        const content = <div>
+                          <iframe id="ifmcontentstoprint" style={ style } scrolling="no"></iframe>
+                          <button className="btn btn-primary" onClick={ this.handleClick }>Print</button>
+                          <div id="divcontents">
+                            <BracketGenerator GameComponent={ GameComponent } games={ this.props.fights } homeOnTop={ false } />
+                          </div>
+                        </div>
+        return <Page header={ header } content={ content } />
     }
 }
 

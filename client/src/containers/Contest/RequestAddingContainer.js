@@ -5,8 +5,9 @@ import ContestRequestForm from '../../views/Contest/ContestRequestForm'
 import AddButton from '../../views/Components/Buttons/AddButton'
 import { Route, Link } from 'react-router-dom';
 import Spinner from '../../views/Components/Spinners/Spinner'
-import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest, fetchInstitutionContestRequests, acceptContestRequest, rejectContestRequest, removeContestRequest } from '../../actions/ContestActions'
+import * as contestActions from '../../actions/ContestActions'
 import { fetchContestRoles } from '../../actions/RolesActions'
+import { dismissError } from '../../actions/ErrorsActions'
 import { SubmissionError } from 'redux-form'
 import { CONTEST_FIGHTER } from '../../common/contestRoleTypes'
 
@@ -58,8 +59,10 @@ class RequestAddingContainer extends Component {
                </div>
              </div>
            </div>
+  }
 
-
+  componentWillUnmount() {
+    this.props.dismissError();
   }
 }
 
@@ -78,22 +81,22 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchContest: (id) => {
-      dispatch(fetchContest(id))
+      dispatch(contestActions.fetchContest(id))
     },
     fetchContestRoles: () => {
       dispatch(fetchContestRoles())
     },
     fetchContestRequests: (contestId) => {
-      dispatch(fetchInstitutionContestRequests(contestId))
+      dispatch(contestActions.fetchInstitutionContestRequests(contestId))
     },
     fetchContestCandidates: () => {
-      dispatch(fetchContestCandidates())
+      dispatch(contestActions.fetchContestCandidates())
     },
     addContestRequest: (request) => {
-      dispatch(addContestRequest(request))
+      dispatch(contestActions.addContestRequest(request))
     },
     cancelContestRequest: () => {
-      dispatch(cancelContestRequest())
+      dispatch(contestActions.cancelContestRequest())
     },
     saveContestRequest: (request) => {
       if (!request.type) {
@@ -111,10 +114,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           _error: 'Please, select a category'
         })
       }
-      return dispatch(saveContestRequest(request))
+      return dispatch(contestActions.saveContestRequest(request))
     },
     removeContestRequest: (request) => {
-      dispatch(removeContestRequest(request))
+      dispatch(contestActions.removeContestRequest(request))
+    },
+    dismissError: () => {
+      dispatch(dismissError())
     }
   }
 }

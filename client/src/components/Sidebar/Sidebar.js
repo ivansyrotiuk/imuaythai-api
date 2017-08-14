@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 
-import { userIsAdmin, userCanManageRoles } from '../../auth/auth'
+import { userIsAdmin, userCanManageRoles, userCanSeeContests } from '../../auth/auth'
 
 class Sidebar extends Component {
 
@@ -29,7 +29,17 @@ class Sidebar extends Component {
     const NationalFederationsLink = userIsAdmin(() => <NavLink to="/federations/national" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> National federations</NavLink>)
     const ContinetalFederationsLink = userIsAdmin(() => <NavLink to="/federations/continental" className="nav-link" activeClassName="active"><i className="fa fa-building"></i> Continental federations</NavLink>)
     const WorldFederationsLink = userIsAdmin(() => <NavLink to="/federations/world" className="nav-link" activeClassName="active"><i className="fa fa-globe "></i> World federations</NavLink>)
-    const ContestsLink = userIsAdmin(() => <NavLink to="/contests" className="nav-link" activeClassName="active"><i className="fa fa-trophy"></i>Contests list</NavLink>)
+    const ContestsDropdown = userCanSeeContests(() => <li className={ this.activeRoute("/contests") }>
+                                                        <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="fa fa-trophy"></i> Contests</a>
+                                                        <ul className="nav-dropdown-items">
+                                                          <li className="nav-item">
+                                                            <NavLink to="/contests" className="nav-link" activeClassName="active"><i className="fa fa-trophy"></i>Contests list</NavLink>
+                                                          </li>
+                                                          <li className="nav-item">
+                                                            <NavLink to="/fight" className="nav-link" activeClassName="active"><i className="fa fa-bar-chart"></i>Fight draw demo</NavLink>
+                                                          </li>
+                                                        </ul>
+                                                      </li>)
 
 
     const UserRoleRequestLink = userCanManageRoles(() => <NavLink to="/users/role_requests" className="nav-link" activeClassName="active"><i className="fa fa-user-plus"></i> Role requests</NavLink>)
@@ -98,14 +108,7 @@ class Sidebar extends Component {
                 </li>
               </ul>
             </li>
-            <li className={ this.activeRoute("/contests") }>
-              <a className="nav-link nav-dropdown-toggle" href="#" onClick={ this.handleClick.bind(this) }><i className="fa fa-trophy"></i> Contests</a>
-              <ul className="nav-dropdown-items">
-                <li className="nav-item">
-                  <ContestsLink/>
-                </li>
-              </ul>
-            </li>
+            <ContestsDropdown/>
             <li className="nav-title">
               UI Elements
             </li>

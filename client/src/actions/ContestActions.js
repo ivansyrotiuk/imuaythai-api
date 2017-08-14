@@ -53,6 +53,12 @@ export function addContest(contest) {
     }
 }
 
+export function resetContest() {
+    return {
+        type: actionTypes.RESET_CONTEST,
+    }
+}
+
 export const saveContest = (contest) => {
     return (dispatch) => {
         dispatch({

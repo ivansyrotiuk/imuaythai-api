@@ -26,9 +26,9 @@ class UserRolesForm extends Component {
                  </Field>
                </div>
              </div>
-             <button type="reset" className="btn btn-sm btn-danger pull-right" onClick={ onCancel }><i class="fa fa-ban"></i> Cancel</button>
+             <button type="reset" className="btn btn-sm btn-danger pull-right" onClick={ onCancel }><i className="fa fa-ban"></i> Cancel</button>
              <button type="submit" disabled={ pristine || submitting } className="btn btn-sm btn-primary pull-right">
-               { submitting && <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> } Save
+               { submitting && <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> } Save
              </button>
            </form>
   }

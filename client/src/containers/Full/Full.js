@@ -112,9 +112,9 @@ class Full extends Component {
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/contests/:id/(institution_requests)" name="Add contest requests" component={ RequestAddingContainer } />
+                <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
-                <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />
                 <Route path="/contests/" name="Contests" component={ ContestsContainer } />
                 <Route path="/fight" name="fights" component={ CreateFightsDiagram } />

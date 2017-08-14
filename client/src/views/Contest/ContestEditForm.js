@@ -4,10 +4,11 @@ import RemoveButton from "../Components/Buttons/RemoveButton";
 import EditButton from "../Components/Buttons/EditButton";
 import { connect } from 'react-redux';
 import RenderContestCategoriesTable from './RenderContestCategoriesTable';
+import RenderContestRings from './RenderContestRings'
 import moment from 'moment';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css'
-
+import { createContestRing } from '../../common/contestConstructors'
 
 
 const RenderDatePicker = props => {
@@ -16,10 +17,42 @@ const RenderDatePicker = props => {
     );
 };
 
+const RenderRingCountInput = props => <input {...props.input} type="number" name="quantity" min="1" max="3" className="form-control" placeholder="Rings count" />
+const RenderCondestDurationInput = props => <input {...props.input} type="number" name="quantity" min="1" max="5" className="form-control" onkeydown="return false" placeholder="Contest duration in days" />
+
 class CreateContestPage extends Component {
+  constructor(props) {
+    super(props);
+    this.contestDurationChange = this.contestDurationChange.bind(this);
+  }
+
+  contestDurationChange(e) {
+    const {startDate} = this.props;
+    const rings = this.refs.rings.value;
+    const duration = e.target.value;
+    const contestDuration = duration > 5 ? 5 : duration;
+    const ringsCount = rings !== undefined ? rings.length : 0;
+    if (contestDuration > ringsCount) {
+
+      const lastDate = ringsCount > 0 ? moment(rings[ringsCount - 1].contestDay) : moment(startDate);
+      const start = ringsCount > 0 ? 1 : 0;
+      const end = contestDuration - ringsCount + start;
+
+      for (let i = start; i < end; i++) {
+        const contestDay = lastDate.add(i, 'days').toDate();
+        const ringItem = createContestRing(contestDay);
+        this.refs.rings.value.push(ringItem);
+      }
+    } else if (contestDuration < ringsCount) {
+      for (let i = 0; i < ringsCount - contestDuration; i++) {
+        this.refs.rings.getRenderedComponent().removeLast();
+      }
+    }
+  }
+
 
   render() {
-    const {handleSubmit, submitting, countries, contestCategoryId, contestTypes, contestRanges, categories, contestCategories} = this.props;
+    const {handleSubmit, submitting, duration, startDate, pristine, countries, contestCategoryId, contestTypes, contestRanges, categories, contestCategories} = this.props;
 
 
     const mappedContestTypes = contestTypes.map((type, i) => (
@@ -43,10 +76,11 @@ class CreateContestPage extends Component {
       </option>));
 
 
+
     return (
       <div className="animated fadeIn">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-7">
             <div className="card">
               <div className="card-header">
                 <strong>Basic information</strong>
@@ -92,20 +126,6 @@ class CreateContestPage extends Component {
                           <option>-</option>
                           { mappedContestTypes }
                         </Field>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>Contest duration</label>
-                        <Field name="duration" component="input" className="form-control" placeholder="Contest duration in days" />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>Rings count</label>
-                        <Field name="ringsCount" component="input" className="form-control" placeholder="Rings count" />
                       </div>
                     </div>
                   </div>
@@ -181,13 +201,14 @@ class CreateContestPage extends Component {
                     </div>
                   </div>
                   <div>
-                    <button type="submit" className="btn btn-primary" disabled={ submitting }>Submit</button>
+                    <button type="submit" className="btn btn-primary pull-right" disabled={ pristine || submitting }>
+                      { submitting && <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> } Save</button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-5">
             <div className="card">
               <div className="card-header">
                 <strong>Contest category</strong>
@@ -213,6 +234,26 @@ class CreateContestPage extends Component {
                 <FieldArray name="contestCategories" component={ RenderContestCategoriesTable } withRef ref="contestCategories" />
               </div>
             </div>
+            <div className="card">
+              <div className="card-header">
+                <strong>Rings</strong>
+              </div>
+              <div className="card-block">
+                <div className="row mb-4">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>Contest duration</label>
+                      <Field name="duration" component={ RenderCondestDurationInput } onChange={ this.contestDurationChange } />
+                    </div>
+                  </div>
+                </div>
+                <div className="row mb-4">
+                  <div className="col-md-12">
+                    <FieldArray name="rings" component={ RenderContestRings } withRef ref="rings" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -230,12 +271,17 @@ const selector = formValueSelector('CreateContestPage');
 
 CreateContestPage = connect(
   state => {
-    const contestCategoryId = selector(state, 'contestCategoryId')
-    const contestCategories = selector(state, "contestCategories")
-
+    const contestCategoryId = selector(state, 'contestCategoryId');
+    const contestCategories = selector(state, 'contestCategories');
+    const duration = selector(state, 'duration');
+    const startDate = selector(state, 'date');
+    const rings = selector(state, 'rings');
     return {
       contestCategoryId,
-      contestCategories
+      contestCategories,
+      duration,
+      startDate,
+      rings
     }
   }
 )(CreateContestPage)

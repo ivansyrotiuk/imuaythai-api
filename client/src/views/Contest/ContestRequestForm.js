@@ -26,7 +26,7 @@ class ContestRequestForm extends Component {
     );
 
     const mappedCategories = categories.map((category, i) => <option key={ i } value={ category.id }>
-                                                               { category.name + ' (' + category.contestRangeName + ' ' + category.contestTypeName + ' - ' + category.weightCategoryName + ')' }
+                                                               { category.name }
                                                              </option>
     );
 
