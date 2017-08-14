@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MuaythaiSportManagementSystemApi.Models;
 
@@ -10,6 +11,6 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<List<Fight>> GetAll();
         Task<Fight> Get(int id);
         Task Save(Fight fight);
-        Task<List<Fight>> Find(Func<Fight, bool> predicate);
+        Task<List<Fight>> Find(Expression<Func<Fight, bool>> predicate);
     }
 }

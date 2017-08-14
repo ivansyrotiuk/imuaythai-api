@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Data;
@@ -17,7 +18,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
-        public Task<List<Fight>> Find(Func<Fight, bool> predicate)
+        public Task<List<Fight>> Find(Expression<Func<Fight, bool>> predicate)
         {
              var fights = _context.Fights.Include(f=> f.BlueAthlete)
             .Include(f=> f.RedAthlete).Where(predicate).AsQueryable();

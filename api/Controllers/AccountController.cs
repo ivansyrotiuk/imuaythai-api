@@ -77,7 +77,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
                 string encodedToken = _tokenGenerator.GenerateToken(user, roles);
 
-                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe });
+                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe, userId = user.Id, firstName=user.FirstName, surname=user.Surname });
             }
 
             if (result.IsLockedOut)

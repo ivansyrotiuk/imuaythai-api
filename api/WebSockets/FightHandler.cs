@@ -50,7 +50,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
 
                 case RequestType.SendPoints:
-                //save points
+                await SavePoints(request.Data);
                     await SendMessageAsync(_jurySocketId, request);
                     break;
 
