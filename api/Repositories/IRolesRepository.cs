@@ -37,7 +37,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task<List<IdentityRole>> GetContestRoles()
         {
-            return _context.Roles.Where(r => r.NormalizedName == "FIGHTER" || r.NormalizedName == "JUDGE" || r.NormalizedName == "DOCTOR").ToListAsync();
+            return _context.Roles.Where(r => r.NormalizedName.Contains( "FIGHTER") || r.NormalizedName.Contains("JUDGE") || r.NormalizedName.Contains("DOCTOR")).ToListAsync();
         }
 
         public Task<List<IdentityRole>> GetPublicRoles()

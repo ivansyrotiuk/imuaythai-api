@@ -5,19 +5,22 @@ import Spinner from '../../views/Components/Spinners/Spinner'
 import { fetchContest, fetchContestCandidates, addContestRequest, cancelContestRequest, saveContestRequest, fetchContestRequests, acceptContestRequest, rejectContestRequest, removeContestRequest } from '../../actions/ContestActions'
 import { fetchContestRoles } from '../../actions/RolesActions'
 import { SubmissionError } from 'redux-form'
-import { CONTEST_FIGHTER } from '../../common/contestRoleTypes'
+import { CONTEST_FIGHTER, CONTEST_JUDGE, CONTEST_DOCTOR } from '../../common/contestRoleTypes'
+import { CONTEST_REQUEST_PENDING, CONTEST_REQUEST_ACCEPTED, CONTEST_REQUEST_REJECTED } from '../../common/contestRequestStatuses'
+
+
 class ContestViewPageContainer extends Component {
     constructor(props) {
         super(props);
         this.editContest = this.editContest.bind(this);
-        this.addRequest = this.addRequest.bind(this);
+        this.pendingRequestsClick = this.pendingRequestsClick.bind(this);
+        this.addRequestsClick = this.addRequestsClick.bind(this);
     }
 
     componentWillMount() {
         var id = this.props.match.params.id;
+
         this.props.fetchContest(id);
-        this.props.fetchContestCandidates();
-        this.props.fetchContestRoles();
         this.props.fetchContestRequests(id);
     }
 
@@ -25,11 +28,12 @@ class ContestViewPageContainer extends Component {
         this.props.history.push(this.props.match.url + '/edit');
     }
 
-    addRequest() {
-        const request = {
-            contestId: this.props.contest.id
-        }
-        this.props.addContestRequest(request);
+    pendingRequestsClick() {
+        this.props.history.push(this.props.match.url + '/requests');
+    }
+
+    addRequestsClick() {
+        this.props.history.push(this.props.match.url + '/institution_requests');
     }
 
     render() {
@@ -37,9 +41,15 @@ class ContestViewPageContainer extends Component {
         if (fetching) {
             return <Spinner/>
         }
-        return <ContestViewPage contest={ contest } candidates={ candidates } roles={ roles } requests={ requests } singleRequest={ singleRequest }
-                 showRequestForm={ showRequestForm } editContest={ this.editContest } addRequest={ this.addRequest } saveRequest={ this.props.saveContestRequest } cancelRequest={ this.props.cancelContestRequest }
-                 acceptContestRequest={ acceptContestRequest } rejectContestRequest={ rejectContestRequest } removeContestRequest={ removeContestRequest } />
+
+        const fightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER && r.status == CONTEST_REQUEST_ACCEPTED)
+        const judgesRequests = requests.filter(r => r.type === CONTEST_JUDGE && r.status == CONTEST_REQUEST_ACCEPTED)
+        const doctorsRequests = requests.filter(r => r.type === CONTEST_DOCTOR && r.status == CONTEST_REQUEST_ACCEPTED)
+        const pendingRequests = requests.filter(r => r.status == CONTEST_REQUEST_PENDING)
+
+        return <ContestViewPage contest={ contest } pendingRequests={ pendingRequests } doctorsRequests={ doctorsRequests } judgesRequests={ judgesRequests } fightersRequests={ fightersRequests }
+                 editContest={ this.editContest } addRequestsClick={ this.addRequestsClick } pendingRequestsClick={ this.pendingRequestsClick } />
+
     }
 }
 
@@ -47,11 +57,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         contest: state.Contest.singleContest,
         fetching: state.Contest.fetching,
-        roles: state.Roles.contestRoles,
-        candidates: state.Contest.candidates,
         requests: state.Contest.requests,
-        showRequestForm: state.Contest.showRequestForm,
-        singleRequest: state.Contest.singleRequest,
     }
 }
 
@@ -60,48 +66,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         fetchContest: (id) => {
             dispatch(fetchContest(id))
         },
-        fetchContestRoles: () => {
-            dispatch(fetchContestRoles())
-        },
         fetchContestRequests: (contestId) => {
             dispatch(fetchContestRequests(contestId))
-        },
-        fetchContestCandidates: () => {
-            dispatch(fetchContestCandidates())
-        },
-        addContestRequest: (request) => {
-            dispatch(addContestRequest(request))
-        },
-        cancelContestRequest: () => {
-            dispatch(cancelContestRequest())
-        },
-        saveContestRequest: (request) => {
-            console.log(request)
-            if (!request.type) {
-                throw new SubmissionError({
-                    _error: 'Please, select your role type'
-                })
-            }
-            if (!request.userId) {
-                throw new SubmissionError({
-                    _error: 'Please, select a user'
-                })
-            }
-            if (request.type == CONTEST_FIGHTER && !request.contestCategoryId) {
-                throw new SubmissionError({
-                    _error: 'Please, select a category'
-                })
-            }
-            return dispatch(saveContestRequest(request))
-        },
-        acceptContestRequest: (request) => {
-            dispatch(acceptContestRequest(request))
-        },
-        rejectContestRequest: (request) => {
-            dispatch(rejectContestRequest(request))
-        },
-        removeContestRequest: (request) => {
-            dispatch(removeContestRequest(request))
         }
     }
 }

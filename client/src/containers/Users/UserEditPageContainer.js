@@ -10,7 +10,7 @@ import Page from "../../views/Components/Page"
 
 class UserEditPageContainer extends Component {
     componentWillMount() {
-        const userId = this.props.match.params.id;
+        const userId = this.props.userId;
 
         this.props.fetchUser(userId);
 

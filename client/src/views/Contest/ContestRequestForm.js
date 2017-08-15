@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
 import { ROLE_TYPE_MAPPINGS, CONTEST_FIGHTER } from '../../common/contestRoleTypes'
 
+
 class ContestRequestForm extends Component {
   render() {
     const {error, selectedRoleType, handleSubmit, categories, onRoleChange, onCancel, pristine, submitting, roles, candidates} = this.props;
@@ -25,7 +26,7 @@ class ContestRequestForm extends Component {
     );
 
     const mappedCategories = categories.map((category, i) => <option key={ i } value={ category.id }>
-                                                               { category.name + ' (' + category.contestRangeName + ' ' + category.contestTypeName + ' - ' + category.weightCategoryName + ')' }
+                                                               { category.name }
                                                              </option>
     );
 

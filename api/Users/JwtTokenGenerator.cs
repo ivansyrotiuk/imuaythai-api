@@ -18,6 +18,7 @@ namespace MuaythaiSportManagementSystemApi.Users
                         new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim("UserId", user.Id),
+                        new Claim("InstitutionId", user.InstitutionId?.ToString() ?? string.Empty),
                         };
 
 

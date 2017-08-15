@@ -16,6 +16,7 @@ import ContestCategories from "./ContestCategoriesReducer"
 import SingleUser from "./UserReducer"
 import SingleInstitution from "./SingleInstitutionReducer"
 import Fight from './FightReducer'
+import Errors from './ErrorsReducer'
 import { reducer as reduxFormReducer } from 'redux-form';
 
 export default combineReducers({
@@ -36,5 +37,6 @@ export default combineReducers({
     Contest,
     ContestCategories,
     Fight,
+    Errors,
     form: reduxFormReducer,
 })

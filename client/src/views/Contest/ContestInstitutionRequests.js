@@ -12,7 +12,7 @@ import ContestInfoCard from './ContestInfoCard'
 import { CONTEST_FIGHTER, CONTEST_JUDGE, CONTEST_DOCTOR } from '../../common/contestRoleTypes'
 import { CONTEST_REQUEST_PENDING, CONTEST_REQUEST_ACCEPTED, CONTEST_REQUEST_REJECTED } from '../../common/contestRequestStatuses'
 
-class ContestRequests extends Component {
+class ContestInstitutionRequests extends Component {
   constructor(props) {
     super(props);
 
@@ -32,7 +32,8 @@ class ContestRequests extends Component {
   }
 
   mapRequest(request, i) {
-    const {acceptContestRequest, rejectContestRequest, removeContestRequest} = this.props;
+    const {removeContestRequest} = this.props;
+
     return <tr key={ i }>
              <td className="col-2">
                { request.userName }
@@ -59,8 +60,6 @@ class ContestRequests extends Component {
              </td>
              <td>
                <RemoveButton removing={ request.removing } click={ () => removeContestRequest(request) } />
-               <RejectButton rejecting={ request.rejecting } click={ () => rejectContestRequest(request) } />
-               <AcceptButton accepting={ request.accepting } click={ () => acceptContestRequest(request) } />
              </td>
            </tr>
   }
@@ -171,4 +170,4 @@ class ContestRequests extends Component {
   }
 }
 
-export default ContestRequests
+export default ContestInstitutionRequests

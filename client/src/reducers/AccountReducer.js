@@ -5,14 +5,18 @@ export default function reduer(state = {
         authToken: '',
         user: null,
         fetching: false,
+        fetchingUser: false,
+        fetchedUser: false,
         isRegistered: false,
         isLoggedIn: false,
         isResseted: false,
         isConfimed: false,
         fetched: false,
         rememberMe: false,
-        error: null
+        error: null,
+        loggedUser: null
     } , action) {
+
     switch (action.type) {
         case actionTypes.LOGIN_ACCOUNT_REQUEST:
         case actionTypes.REGISTER_ACCOUNT_REQUEST:
@@ -30,6 +34,14 @@ export default function reduer(state = {
                 error: null
             }
 
+        case actionTypes.FETCH_LOGGED_USER_REQUEST:
+        case actionTypes.SAVE_LOGGED_USER_REQUEST:
+            return {
+                ...state,
+                fetchingUser: true,
+                fetchedUser: false
+            }
+
         case actionTypes.LOGIN_ACCOUNT_REJECTED:
         case actionTypes.REGISTER_ACCOUNT_REJECTED:
         case actionTypes.CONFIRM_EMAIL_REJECTED:
@@ -39,7 +51,15 @@ export default function reduer(state = {
             return {
                 ...state,
                 fetching: false,
-                error: action.error
+                error: action.payload
+            }
+
+        case actionTypes.FETCH_LOGGED_USER_REJECTED:
+        case actionTypes.SAVE_LOGGED_USER_REJECTED:
+            return {
+                ...state,
+                fetchingUser: false,
+                error: action.payload
             }
 
         case actionTypes.LOGIN_ACCOUNT_SUCCESS:
@@ -104,7 +124,23 @@ export default function reduer(state = {
         case actionTypes.ACCOUNT_LOGOUT:
             return {
                 ...state,
-                authToken: ''
+                authToken: '',
+                loggedUser: null,
+                user: null
+            }
+        case actionTypes.FETCH_LOGGED_USER_SUCCESS:
+            return {
+                ...state,
+                loggedUser: action.payload,
+                fetchingUser: false
+            }
+        case actionTypes.SAVE_LOGGED_USER_SUCCESS:
+            return {
+                ...state,
+                loggedUser: action.payload,
+                fetchingUser: false,
+                fetchedUser: true
+
             }
         default:
             return state;

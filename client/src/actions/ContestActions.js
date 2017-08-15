@@ -53,6 +53,12 @@ export function addContest(contest) {
     }
 }
 
+export function resetContest() {
+    return {
+        type: actionTypes.RESET_CONTEST,
+    }
+}
+
 export const saveContest = (contest) => {
     return (dispatch) => {
         dispatch({
@@ -122,6 +128,28 @@ export const fetchContestRequests = (contestId) => {
     }
 }
 
+export const fetchInstitutionContestRequests = (contestId) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS
+        })
+
+        return axios.get("api/contests/requests/institution?contestId=" + contestId)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS_REJECTED,
+                    payload: err
+                })
+            })
+    }
+}
+
 export function addContestRequest(request) {
     return {
         type: actionTypes.ADD_CONTEST_REQUEST,
@@ -151,6 +179,13 @@ export const saveContestRequest = (request) => {
             .catch((err) => {
                 dispatch({
                     type: actionTypes.SAVE_CONTEST_REQUEST_REJECTED,
+                    payload: err.response != null
+                        ? err.response.data
+                        : "Cannot connect to server"
+                })
+
+                dispatch({
+                    type: actionTypes.SHOW_ERROR,
                     payload: err.response != null
                         ? err.response.data
                         : "Cannot connect to server"

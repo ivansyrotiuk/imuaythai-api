@@ -1,11 +1,22 @@
 import React, { Component } from 'react'
 import EditButton from '../Components/Buttons/EditButton'
 import moment from 'moment'
+import { userCanAcceptContestRequest, userCanAddContestRequest } from '../../auth/auth'
 
 export default class ContestInfoCard extends Component {
   render() {
-    const {contest, editContest} = this.props;
+    const {contest, editContest, pendingRequestsClick, addRequestsClick, fightersCount, judgesCount, doctorsCount, pendingCount} = this.props;
 
+    const PendingRequestsButton = userCanAcceptContestRequest(() => <div className="col-sm-2">
+                                                                      <div className="btn btn-warning" onClick={ pendingRequestsClick }>
+                                                                        <div>Pending requests</div>
+                                                                      </div>
+                                                                    </div>)
+    const AddRequestsButton = userCanAddContestRequest(() => <div className="col-sm-2">
+                                                               <div className="btn btn-primary" onClick={ addRequestsClick }>
+                                                                 <div>Add request</div>
+                                                               </div>
+                                                             </div>)
     return (
       <div className="card">
         <div className="card-header">
@@ -61,26 +72,37 @@ export default class ContestInfoCard extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-2">
+                  <div className="callout callout-warning">
+                    <small className="text-muted">Pending requests</small>
+                    <br/>
+                    <strong className="h4">{ pendingCount }</strong>
+                  </div>
+                </div>
+                <div className="col-sm-2">
                   <div className="callout callout-info">
                     <small className="text-muted">Fighters</small>
                     <br/>
-                    <strong className="h4">78</strong>
+                    <strong className="h4">{ fightersCount }</strong>
                   </div>
                 </div>
                 <div className="col-sm-2">
                   <div className="callout callout-success">
                     <small className="text-muted">Judges</small>
                     <br/>
-                    <strong className="h4">15</strong>
+                    <strong className="h4">{ judgesCount }</strong>
                   </div>
                 </div>
                 <div className="col-sm-2">
                   <div className="callout callout-danger">
                     <small className="text-muted">Doctors</small>
                     <br/>
-                    <strong className="h4">7</strong>
+                    <strong className="h4">{ doctorsCount }</strong>
                   </div>
                 </div>
+              </div>
+              <div className="row">
+                <PendingRequestsButton/>
+                <AddRequestsButton />
               </div>
             </div>
           </div>

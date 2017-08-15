@@ -5,8 +5,8 @@ import { Alert } from 'reactstrap';
 class Register extends Component {
   render() {
     const {handleSubmit, pristine, reset, submitting, fetching, errorMessage, fetched, onDismiss} = this.props
-    const loadingButton = <a class="btn btn-block btn-success" disabled={ fetching || submitting }>
-                            <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Create Account
+    const loadingButton = <a className="btn btn-block btn-success" disabled={ fetching || submitting }>
+                            <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Create Account
                           </a>;
     const button = <button type="submit" className="btn btn-block btn-success" disabled={ fetching || submitting }>Create Account</button>;
     return (
@@ -30,20 +30,20 @@ class Register extends Component {
                       <p className="text-muted">Create your account</p>
                       <div className="input-group mb-3">
                         <span className="input-group-addon">
-                                                                    <i className="icon-user"></i>
-                                                                  </span>
+                                                                          <i className="icon-user"></i>
+                                                                        </span>
                         <Field name="login" className="form-control" component="input" type="e-mail" placeholder="E-mail" />
                       </div>
                       <div className="input-group mb-3">
                         <span className="input-group-addon">
-                                                                    <i className="icon-lock"></i>
-                                                                  </span>
+                                                                          <i className="icon-lock"></i>
+                                                                        </span>
                         <Field name="password" className="form-control" component="input" type="password" placeholder="Password" />
                       </div>
                       <div className="input-group mb-4">
                         <span className="input-group-addon">
-                                                                    <i className="icon-lock"></i>
-                                                                  </span>
+                                                                          <i className="icon-lock"></i>
+                                                                        </span>
                         <Field name="confirmpassword" className="form-control" component="input" type="password" placeholder="Repeat password" />
                       </div>
                       { fetching

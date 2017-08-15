@@ -47,7 +47,7 @@ import JudgesPageContainer from "../../containers/Users/Judges/JudgesPageContain
 import CoachesPageContainer from "../../containers/Users/Coaches/CoachesPageContainer"
 import DoctorsPageContainer from "../../containers/Users/Doctors/DoctorsPageContainer"
 
-import UserEditPageContainer from "../../containers/Users/UserEditPageContainer"
+import UserEditWrapperContainer from "../../containers/Users/UserEditWrapperContainer"
 import UserViewPageContainer from "../../containers/Users/UserViewPageContainer"
 
 
@@ -56,8 +56,10 @@ import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageCo
 import ContestsContainer from "../Contest/ContestsContainer"
 import ContestEditContainer from '../Contest/ContestEditContainer'
 import ContestViewContainer from '../Contest/ContestViewContainer'
+import RequestsManagerContainer from '../Contest/RequestsManagerContainer'
+import RequestAddingContainer from '../Contest/RequestAddingContainer'
 import CreateFightsDiagram from '../Fight/CreateDiagramContainer'
-
+import Errors from '../Errors/Errors'
 class Full extends Component {
   render() {
     return (
@@ -66,7 +68,10 @@ class Full extends Component {
         <div className="app-body">
           <Sidebar {...this.props} />
           <main className="main">
-            <Breadcrumb />
+
+            <Breadcrumb/>
+            <Errors />
+
             <div className="container-fluid">
               <Switch>
                 <Route path="/dashboard" name="Dashboard" component={ Dashboard } />
@@ -96,7 +101,7 @@ class Full extends Component {
                 <Route path="/institutions/gyms" component={ GymsPageContainer } />
                 <Route path="/institutions/gyms/:id" component={ GymsPageContainer } />
                 <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPageContainer } />
-                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditPageContainer } />
+                <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditWrapperContainer } />
                 <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPageContainer } />
                 <Route path="/users/:id" name="User" component={ UserViewPageContainer } />
                 <Route path="/fighters/" name="Fighters" component={ FightersPageContainer } />
@@ -117,6 +122,8 @@ class Full extends Component {
                 <Route path="/dictionaries/points/:id" name="ContestPoint" component={ ContestPointsDetailsPage } />
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
+                <Route path="/contests/:id/(institution_requests)" name="Add contest requests" component={ RequestAddingContainer } />
+                <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />

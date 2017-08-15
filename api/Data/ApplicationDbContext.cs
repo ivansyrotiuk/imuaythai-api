@@ -123,6 +123,8 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<Round> Rounds { get; set; }
         public virtual DbSet<WeightAgeCategory> WeightAgeCategories { get; set; }
         public virtual DbSet<ContestCategoriesMapping> ContestCategoriesMappings { get; set; }
+        public virtual DbSet<ContestRing> ContestRings { get; set; }
+
 
     }
 }

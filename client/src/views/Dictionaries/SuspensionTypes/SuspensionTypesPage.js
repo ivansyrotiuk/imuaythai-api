@@ -32,24 +32,24 @@ class SuspensionTypesPage extends Component {
 
   render() {
 
-    const {types, fetching} = this.props;
+    const {suspensionTypes, fetching} = this.props;
     if (fetching) {
       return <Spinner />
     }
-    const mappedTypes = types.map((type, i) => <tr key={ i }>
-                                                 <td>
-                                                   { type.id }
-                                                 </td>
-                                                 <td>
-                                                   { type.name }
-                                                 </td>
-                                                 <td>
-                                                   <Link to={ "/dictionaries/suspensions/" + type.id }>
-                                                   <EditButton id={ type.id } />
-                                                   </Link>
-                                                   <RemoveButton id={ type.id } click={ this.removeType.bind(this, type.id) } />
-                                                 </td>
-                                               </tr>);
+    const mappedTypes = suspensionTypes.map((type, i) => <tr key={ i }>
+                                                           <td>
+                                                             { type.id }
+                                                           </td>
+                                                           <td>
+                                                             { type.name }
+                                                           </td>
+                                                           <td>
+                                                             <Link to={ "/dictionaries/suspensions/" + type.id }>
+                                                             <EditButton id={ type.id } />
+                                                             </Link>
+                                                             <RemoveButton id={ type.id } click={ this.removeType.bind(this, type.id) } />
+                                                           </td>
+                                                         </tr>);
 
     return (
 
@@ -87,7 +87,7 @@ class SuspensionTypesPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    types: state.SuspensionTypes.types,
+    suspensionTypes: state.SuspensionTypes.suspensionTypes,
     fetching: state.SuspensionTypes.fetching,
     fetched: state.SuspensionTypes.fetched
   }

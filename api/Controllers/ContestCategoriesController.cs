@@ -53,7 +53,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("categories/save")]
-        public async Task<IActionResult> SaveRage([FromBody]ContestCategoryDto categories)
+        public async Task<IActionResult> Save([FromBody]ContestCategoryDto categories)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("categories/remove")]
-        public async Task<IActionResult> RemoveRange([FromBody]ContestCategoryDto categories)
+        public async Task<IActionResult> Remove([FromBody]ContestCategoryDto categories)
         {
             try
             {

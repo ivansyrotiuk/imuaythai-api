@@ -6,8 +6,10 @@ const reducerInitialState = {
     fetched: false,
     contests: [],
     singleContest: null,
+    contestSaved: false,
     candidates: [],
     requests: [],
+    institutionRequests: [],
     showRequestForm: false,
     singleRequest: null
 }
@@ -75,15 +77,36 @@ const reducer = (state = reducerInitialState, action) => {
                 fetched: true,
                 error: action.payload
             }
+        case actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS_FULFILLED:
+            return {
+                ...state,
+                fetching: false,
+                institutionRequests: action.payload
+            }
+        case actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS_REJECTED:
+            return {
+                ...state,
+                fetching: false,
+                error: action.payload
+            }
         case actionTypes.SAVE_CONTEST:
             return state;
         case actionTypes.SAVE_CONTEST_SUCCESS:
             return {
                 ...state,
-                fetching: false,
-                fetched: true
+                contestSaved: true
             }
-
+        case actionTypes.RESET_CONTEST:
+            return {
+                ...state,
+                contestSaved: false,
+                singleContest: null
+            }
         case actionTypes.SAVE_CONTEST_REJECTED:
             return state;
         case actionTypes.ADD_CONTEST_REQUEST:
@@ -105,7 +128,7 @@ const reducer = (state = reducerInitialState, action) => {
                 ...state,
                 showRequestForm: false,
                 singleRequest: null,
-                requests: [...state.requests, action.payload]
+                institutionRequests: [...state.institutionRequests, action.payload]
             }
         case actionTypes.SAVE_CONTEST_REQUEST_REJECTED:
             return {
@@ -180,28 +203,28 @@ const reducer = (state = reducerInitialState, action) => {
                 requests: requests
             }
         case actionTypes.REMOVE_CONTEST_REQUEST:
-            requests = [...state.requests];
-            index = requests.findIndex(r => r.id === action.payload.id);
-            requests[index].removing = true;
+            let institutionRequests = [...state.institutionRequests];
+            index = institutionRequests.findIndex(r => r.id === action.payload.id);
+            institutionRequests[index].removing = true;
             return {
                 ...state,
-                requests: requests
+                institutionRequests: institutionRequests
             }
         case actionTypes.REMOVE_CONTEST_REQUEST_SUCCESS:
-            requests = [...state.requests];
-            index = requests.findIndex(r => r.id === action.payload.id);
-            requests.splice(index, 1);
+            institutionRequests = [...state.institutionRequests];
+            index = institutionRequests.findIndex(r => r.id === action.payload.id);
+            institutionRequests.splice(index, 1);
             return {
                 ...state,
-                requests: requests
+                institutionRequests: institutionRequests
             }
         case actionTypes.REMOVE_CONTEST_REQUEST_REJECTED:
-            requests = [...state.requests];
-            index = requests.findIndex(r => r.id === action.payload.id);
-            requests[index].removing = false;
+            institutionRequests = [...state.institutionRequests];
+            index = institutionRequests.findIndex(r => r.id === action.payload.id);
+            institutionRequests[index].removing = false;
             return {
                 ...state,
-                requests: requests
+                institutionRequests: institutionRequests
             }
         default:
             return state
