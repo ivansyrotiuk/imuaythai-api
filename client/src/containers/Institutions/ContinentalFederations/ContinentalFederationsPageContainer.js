@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import RemoveButton from "../../../views/Components/Buttons/RemoveButton"
-import EditButton from "../../../views/Components/Buttons/EditButton"
 import AddButton from "../../../views/Components/Buttons/AddButton"
-import PreviewButton from "../../../views/Components/Buttons/PreviewButton"
 import Spinner from "../../../views/Components/Spinners/Spinner"
+import ActionButtonGroup from "../../../views/Components/Buttons/ActionButtonGroup"
 import TablePage from "../../../views/Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
@@ -47,21 +45,7 @@ class ContinentalFederationsPageContainer extends Component {
                                                                    </td>
                                                                    <td>Europe</td>
                                                                    <td>
-                                                                     <div className="row">
-                                                                       <div className="col-4">
-                                                                         <Link to={ "/institutions/continental/" + federation.id }>
-                                                                         <PreviewButton id={ federation.id } />
-                                                                         </Link>
-                                                                       </div>
-                                                                       <div className="col-4">
-                                                                         <Link to={ "/institutions/continental/edit/" + federation.id }>
-                                                                         <EditButton id={ federation.id } />
-                                                                         </Link>
-                                                                       </div>
-                                                                       <div className="col-4">
-                                                                         <RemoveButton id={ federation.id } click={ this.props.deleteFederation.bind(this, federation.id) } />
-                                                                       </div>
-                                                                     </div>
+                                                                     <ActionButtonGroup previewClick={ () => this.props.history.push("/institutions/continental/" + federation.id) } editClick={ () => this.props.history.push("/institutions/continental/edit/" + federation.id) } deleteClick={ this.props.deleteFederation.bind(this, federation.id) } />
                                                                    </td>
                                                                  </tr>);
 
