@@ -42,7 +42,7 @@ class CreateFightsDiagram extends Component {
                           <iframe id="ifmcontentstoprint" style={ style } scrolling="no"></iframe>
                           <button className="btn btn-primary" onClick={ this.handleClick }>Print</button>
                           <div id="divcontents">
-                            <BracketGenerator GameComponent={ GameComponent } games={ this.props.fights } homeOnTop={ false } />
+                            <BracketGenerator GameComponent={ GameComponent } games={ this.props.fights } homeOnTop={ true } />
                           </div>
                         </div>
         return <Page header={ header } content={ content } />

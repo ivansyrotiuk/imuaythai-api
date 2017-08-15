@@ -9,9 +9,10 @@ using MuaythaiSportManagementSystemApi.Models;
 namespace MuaythaiSportManagementSystemApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170815095835_FightNullFields")]
+    partial class FightNullFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -523,9 +524,9 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<int>("ContestId");
 
-                    b.Property<byte?>("KO");
+                    b.Property<byte>("KO");
 
-                    b.Property<DateTime?>("KOTime");
+                    b.Property<DateTime>("KOTime");
 
                     b.Property<int?>("NextFightId");
 
@@ -533,9 +534,10 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<string>("RefereeId");
 
-                    b.Property<string>("Ring");
+                    b.Property<string>("Ring")
+                        .IsRequired();
 
-                    b.Property<DateTime?>("StartDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<int>("StructureId");
 

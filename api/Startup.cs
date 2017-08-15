@@ -19,6 +19,7 @@ using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Services;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Users;
+using MuaythaiSportManagementSystemApi.Fights;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -94,7 +95,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IFightStructuresRepository, FightStructuresRepository>();
             services.AddScoped<IContestCategoryMappingsRepository, ContestCategoryMappingsRepository>();
             services.AddScoped<IContestRingsRepository, ContestRingsRepository>();
-
+            services.AddScoped<IFightsTreePersister, FightsTreePersister>();
 
             services.Configure<EmailConfiguration>(Configuration);
         }

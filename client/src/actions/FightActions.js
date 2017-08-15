@@ -13,7 +13,7 @@ export const fetchFights = () => {
     return (dispatch) => {
         dispatch(createAction(actionTypes.FETCH_FIGHTS_REQUEST));
 
-        return axios.get(host + "api/fight")
+        return axios.get(host + "api/fight?count=17")
             .then((response) => {
                 dispatch(createAction(actionTypes.FETCH_FIGHTS_SUCCESS, response.data))
             })
