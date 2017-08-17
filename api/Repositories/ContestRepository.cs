@@ -26,7 +26,10 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task<Contest> Get(int id)
         {
-            return _context.Contests.Include(c => c.Country).Include(c => c.Institution).Include(c => c.ContestCategoriesMappings).ThenInclude(c => c.ContestCategory).FirstOrDefaultAsync(i => i.Id == id);
+            return _context.Contests.Include(c => c.Country)
+                .Include(c => c.Institution)
+                .Include(c => c.ContestCategoriesMappings).ThenInclude(c => c.ContestCategory)
+                .FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public Task<List<Contest>> GetAll()

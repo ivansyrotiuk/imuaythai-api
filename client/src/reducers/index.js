@@ -17,6 +17,7 @@ import SingleUser from "./UserReducer"
 import SingleInstitution from "./SingleInstitutionReducer"
 import Fight from './FightReducer'
 import Errors from './ErrorsReducer'
+import WeightCategories from "./WeightCategoriesReducer"
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
@@ -37,5 +38,6 @@ export default combineReducers({
     ContestCategories,
     Fight,
     Errors,
+    WeightCategories,
     form: reduxFormReducer,
 })

@@ -96,6 +96,9 @@ class Sidebar extends Component {
                 <li className="nav-item">
                   <NavLink to="/dictionaries/points" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest points</NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/weightcategories" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Weight categories</NavLink>
+                </li>
               </ul>
             </li>
             <li className={ this.activeRoute("/contests") }>

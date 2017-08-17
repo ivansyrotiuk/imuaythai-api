@@ -33,6 +33,8 @@ import SuspensionTypesPage from "../../views/Dictionaries/SuspensionTypes/Suspen
 import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesDetailsPage"
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
+import WeightCategoriesPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesPage"
+import WeightCategoriesDetailsPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesDetailsPage"
 
 import GymsPageContainer from "../../containers/Institutions/GymsPageContainer"
 import NationalFederationsPageContainer from "../../containers/Institutions/NationalFederationsPageContainer"
@@ -108,6 +110,9 @@ class Full extends Component {
                 <Route path="/dictionaries/suspensions/:id" name="SuspensionType" component={ SuspensionsDetailsPage } />
                 <Route path="/dictionaries/suspensions/" name="SuspensionTypes" component={ SuspensionTypesPage } />
                 <Route path="/dictionaries/suspensions" name="SuspensionTypes" component={ SuspensionTypesPage } />
+                <Route path="/dictionaries/weightcategories/:id" name="WeightCategory" component={ WeightCategoriesDetailsPage } />
+                <Route path="/dictionaries/weightcategories/" name="WeightCategories" component={ WeightCategoriesPage } />
+                <Route path="/dictionaries/weightcategories" name="WeightCategories" component={ WeightCategoriesPage } />
                 <Route path="/dictionaries/points/:id" name="ContestPoint" component={ ContestPointsDetailsPage } />
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
