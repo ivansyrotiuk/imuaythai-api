@@ -61,10 +61,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             {
                 FightStructure structureEntity = structure.Id == 0 ? new FightStructure() : await _repository.Get(structure.Id);
                 structureEntity.Id = structure.Id;
-                structureEntity.Round = structure.Round;
-                structureEntity.RoundId = structure.Round.Id;
-                structureEntity.WeightAgeCategory = structure.WeightAgeCategory;
-                structureEntity.WeightAgeCategoryId = structure.WeightAgeCategory.Id;
+                structureEntity.RoundId = structure.RoundId;
+                structureEntity.WeightAgeCategoryId = structure.WeightAgeCategoryId;
                 await _repository.Save(structureEntity);
 
                 structure.Id = structureEntity.Id;

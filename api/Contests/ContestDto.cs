@@ -29,8 +29,10 @@ namespace MuaythaiSportManagementSystemApi.Contests
         public int CountryId { get; set; }
         public int? ContestRangeId { get; set; }
         public int? ContestTypeId { get; set; }
+        public int WaiKhruTime { get; set; }
         public List<ContestCategoryDto> ContestCategories { get; set; }
         public CountryDto Country { get; set; }
+        public List<ContestRingDto> Rings { get; set; } 
         public InstitutionDto Institution { get; set; }
 
         public ContestDto()
@@ -58,9 +60,17 @@ namespace MuaythaiSportManagementSystemApi.Contests
             CountryId = contest.CountryId;
             ContestRangeId = contest.ContestRangeId;
             ContestTypeId = contest.ContestTypeId;
+            WaiKhruTime = contest.WaiKhruTime;
             Country = (CountryDto) contest.Country;
             Institution = (InstitutionDto)contest.Institution;
             ContestCategories = contest.ContestCategoriesMappings?.Select(c => (ContestCategoryDto)c.ContestCategory).ToList() ?? new List<ContestCategoryDto>();
+            Rings = contest.Rings?.GroupBy(r => r.From.Date).Select(g => new ContestRingDto
+            {
+                ContestDay = g.Key,
+                RingsCount = g.Count(),
+                ContestId = g.Select(e => e.ContestId).FirstOrDefault(),
+                RingsAvilability = g.Select(a => (RingAvailabilityItem)a).ToList()
+            }).ToList();
         }
 
         public static explicit operator ContestDto(Contest contest)

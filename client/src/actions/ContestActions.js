@@ -17,8 +17,8 @@ export const fetchConstests = () => {
             })
             .catch((err) => {
                 dispatch({
-                    type: actionTypes.FETCH_CONTESTS_REJECTED,
-                    payload: err
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.message
                 })
             })
     }
@@ -50,6 +50,12 @@ export function addContest(contest) {
     return {
         type: actionTypes.ADD_NEW_CONTEST,
         payload: contest
+    }
+}
+
+export function resetContest() {
+    return {
+        type: actionTypes.RESET_CONTEST,
     }
 }
 

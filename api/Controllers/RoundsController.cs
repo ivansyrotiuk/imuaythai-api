@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Dictionaries;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -25,7 +26,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                 var rounds = await _repository.GetAll();
-                return Ok(rounds);
+                return Ok(rounds.Select(r=>(RoundDto)r).ToList());
             }
             catch (Exception ex)
             {
@@ -40,7 +41,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                 var result = await _repository.Get(id) ?? new Round();
-                return Ok(result);
+                return Ok((RoundDto)result);
             }
             catch (Exception ex)
             {
@@ -50,11 +51,19 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("rounds/save")]
-        public async Task<IActionResult> Save([FromBody]Round round)
+        public async Task<IActionResult> Save([FromBody]RoundDto round)
         {
             try
             {
-                await _repository.Save(round);
+                Round roundEntity = round.Id == 0 ? new Round() : await _repository.Get(round.Id);
+                roundEntity.Id = round.Id;
+                roundEntity.Name = round.Name;
+                roundEntity.Duration = round.Duration;
+                roundEntity.RoundsCount = round.RoundsCount;
+                await _repository.Save(roundEntity);
+
+                round.Id = roundEntity.Id;
+
                 return Created("Add", round);
             }
             catch (Exception ex)
@@ -66,7 +75,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("rounds/remove")]
-        public async Task<IActionResult> Remove([FromBody]WeightAgeCategory round)
+        public async Task<IActionResult> Remove([FromBody]RoundDto round)
         {
             try
             {

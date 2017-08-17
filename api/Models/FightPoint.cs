@@ -15,13 +15,18 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int RoundId{ get; set; }
 
         public string FighterId { get; set; }
-
+        public string JudgeId { get; set; }
         public int Points { get; set; }
-  
-        public string Cautions { get; set; }
+        public int FightId { get; set; }
+        public int Cautions { get; set; }
       
-        public string Warnings { get; set; }
-      
+        public int Warnings { get; set; }
+
+        public int KnockDown { get; set; }
+
+        public int J { get; set; }
+        public int X { get; set; }
+
         public bool Accepted { get; set; }
 
         public virtual Fight Fight { get; set; }

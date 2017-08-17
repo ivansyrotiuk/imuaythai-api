@@ -6,6 +6,7 @@ const reducerInitialState = {
     fetched: false,
     contests: [],
     singleContest: null,
+    contestSaved: false,
     candidates: [],
     requests: [],
     institutionRequests: [],
@@ -98,10 +99,14 @@ const reducer = (state = reducerInitialState, action) => {
         case actionTypes.SAVE_CONTEST_SUCCESS:
             return {
                 ...state,
-                fetching: false,
-                fetched: true
+                contestSaved: true
             }
-
+        case actionTypes.RESET_CONTEST:
+            return {
+                ...state,
+                contestSaved: false,
+                singleContest: null
+            }
         case actionTypes.SAVE_CONTEST_REJECTED:
             return state;
         case actionTypes.ADD_CONTEST_REQUEST:

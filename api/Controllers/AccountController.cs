@@ -137,17 +137,21 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     return BadRequest("User not found");
                 }
 
-                Institution gym = model.OwnGym == true ? new Institution
+                Institution gym;
+                if (model.OwnGym != true)
                 {
-                    Name = model.GymName,
-                    CountryId = model.CountryId
-                } : await _institutionsRepository.Get(model.InstitutionId.Value);
-
-                if (model.OwnGym == true)
+                    gym = await _institutionsRepository.Get(model.InstitutionId.Value);
+                }
+                else
                 {
+                    gym = new Institution
+                    {
+                        Name = model.GymName,
+                        CountryId = model.CountryId
+                    };
                     await _institutionsRepository.Save(gym);
                 }
-
+                
                 UserRoleRequest entity = new UserRoleRequest();
                 entity.RoleId = model.RoleId;
                 entity.UserId = userId;
@@ -157,8 +161,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
                 user.InstitutionId = gym.Id;
                 user.CountryId = model.CountryId;
+                user.Surname = model.Surname;
+                user.FirstName = model.FirstName;
 
-                
                 await _userManager.UpdateAsync(user);
                 await _userManager.AddToRoleAsync(user, "Guest");
                 var roles = await _userManager.GetRolesAsync(user);

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Fights
 {
-    public class FighDiagramtProvider
+    public class FightsDiagramBuilder
     {
 
         private List<Fight> _fights;
         private List<Game> _games;
         private string _rootFightId;
 
-        public FighDiagramtProvider(List<Fight> fights)
+        public FightsDiagramBuilder(List<Fight> fights)
         {
 
             _fights = fights;
@@ -39,7 +39,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
         private void BuildFightDiagram(Fight root)
         {
             var figthsToRoot = _fights.Where(f => f.NextFightId == root.Id).ToList();
-
+   
             foreach (var fight in figthsToRoot)
             {
                 BuildFightDiagram(fight);

@@ -18,6 +18,8 @@ import SingleInstitution from "./SingleInstitutionReducer"
 import Fight from './FightReducer'
 import Errors from './ErrorsReducer'
 import WeightCategories from "./WeightCategoriesReducer"
+import Rounds from "./RoundsReducer"
+import Structures from "./StructuresReducer"
 import { reducer as reduxFormReducer } from 'redux-form';
 export default combineReducers({
     Account,
@@ -39,5 +41,7 @@ export default combineReducers({
     Fight,
     Errors,
     WeightCategories,
+    Rounds,
+    Structures,
     form: reduxFormReducer,
 })

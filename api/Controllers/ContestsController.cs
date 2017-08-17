@@ -20,13 +20,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUsersRepository _userRepository;
         private readonly IContestRequestRepository _contestRequestsRepository;
+        private readonly IContestCategoryMappingsRepository _contestCategoryMappingsRepository;
+        private readonly IContestRingsRepository _contestRingsRepository;
 
-        public ContestsController(IContestRepository repository, IUsersRepository userRepository, IContestRequestRepository contestRequestsRepository, UserManager<ApplicationUser> userManager)
+        public ContestsController(IContestRepository repository,
+            IContestRequestRepository contestRequestsRepository,
+            IContestCategoryMappingsRepository contestCategoryMappingsRepository,
+            IContestRingsRepository contestRingsRepository,
+            IUsersRepository userRepository, 
+            UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _userManager = userManager;
             _userRepository = userRepository;
             _contestRequestsRepository = contestRequestsRepository;
+            _contestCategoryMappingsRepository = contestCategoryMappingsRepository;
+            _contestRingsRepository = contestRingsRepository;
         }
 
         [HttpGet]
@@ -43,8 +52,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet]
-        [Authorize(Roles="Admin")]
         [Route("{id}")]
         public async Task<IActionResult> GetContest([FromRoute]int id)
         {
@@ -60,13 +69,21 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
-
         [HttpPost]
         [Route("Save")]
         public async Task<IActionResult> SaveContest([FromBody]ContestDto contest)
         {
             try
             {
+                var userId = User.GetUserId();
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                int institutionId = contest.InstitutionId == 0 && user.InstitutionId.HasValue ? user.InstitutionId.Value : contest.InstitutionId;
+
                 Contest contestEntity = contest.Id == 0 ? new Contest() : await _repository.Get(contest.Id);
                 contestEntity.Id = contest.Id;
                 contestEntity.Name = contest.Name;
@@ -81,13 +98,14 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 contestEntity.VK = contest.VK;
                 contestEntity.Twitter = contest.Twitter;
                 contestEntity.Instagram = contest.Instagram;
+                contestEntity.WaiKhruTime = contest.WaiKhruTime;
                 contestEntity.EndRegistrationDate = contest.EndRegistrationDate;
                 contestEntity.ContestRangeId = contest.ContestRangeId;
                 contestEntity.ContestTypeId = contest.ContestTypeId;
-                contestEntity.InstitutionId = contest.InstitutionId;
+                contestEntity.InstitutionId = institutionId;
                 await _repository.Save(contestEntity);
-                await _repository.SaveCategoryMappings(contestEntity, contest.ContestCategories);
-
+                await _contestCategoryMappingsRepository.SaveCategoryMappings(contestEntity.Id, contest.ContestCategories);
+                await _contestRingsRepository.SaveCategoryRings(contestEntity.Id, contest.Rings);
                 return Created("Add", contest);
             }
             catch (Exception ex)
@@ -95,7 +113,6 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpPost]
         [Route("Remove")]

@@ -35,6 +35,12 @@ import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPoi
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
 import WeightCategoriesPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesPage"
 import WeightCategoriesDetailsPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesDetailsPage"
+import RoundsPage from "../../views/Dictionaries/Rounds/RoundsPage"
+import RoundsDetailsPage from "../../views/Dictionaries/Rounds/RoundsDetailsPage"
+import StructuresPage from "../../views/Dictionaries/FightStructures/StructuresPage"
+import StructuresDetailsPage from "../../views/Dictionaries/FightStructures/StructuresDetailsPage"
+import ContestCategoriesPage from "../../views/Dictionaries/ContestCategories/ContestCategoriesPage"
+import ContestCategoriesDetailsPage from "../../views/Dictionaries/ContestCategories/ContestCategoriesDetailsPage"
 
 import GymsPageContainer from "../../containers/Institutions/GymsPageContainer"
 import NationalFederationsPageContainer from "../../containers/Institutions/NationalFederationsPageContainer"
@@ -116,6 +122,15 @@ class Full extends Component {
                 <Route path="/dictionaries/points/:id" name="ContestPoint" component={ ContestPointsDetailsPage } />
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
+                <Route path="/dictionaries/rounds/:id" name="Rounds" component={ RoundsDetailsPage } />
+                <Route path="/dictionaries/rounds/" name="Rounds" component={ RoundsPage } />
+                <Route path="/dictionaries/rounds" name="Rounds" component={ RoundsPage } />
+                <Route path="/dictionaries/structures/:id" name="Structures" component={ StructuresDetailsPage } />
+                <Route path="/dictionaries/structures/" name="Structures" component={ StructuresPage } />
+                <Route path="/dictionaries/structures" name="Structures" component={ StructuresPage } />
+                <Route path="/dictionaries/categories/:id" name="ContestCategories" component={ ContestCategoriesDetailsPage } />
+                <Route path="/dictionaries/categories/" name="ContestCategories" component={ ContestCategoriesPage } />
+                <Route path="/dictionaries/categories" name="ContestCategories" component={ ContestCategoriesPage } />
                 <Route path="/contests/:id/(institution_requests)" name="Add contest requests" component={ RequestAddingContainer } />
                 <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />

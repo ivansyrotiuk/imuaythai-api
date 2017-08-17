@@ -60,5 +60,5 @@ let WeightCategoriesDataForm = props => {
 };
 
 export default reduxForm({
-  form: 'ContestPointDataForm', // a unique identifier for this form
+  form: 'WeightCategoriesDataForm', // a unique identifier for this form
 })(WeightCategoriesDataForm);

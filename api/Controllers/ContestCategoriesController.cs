@@ -41,8 +41,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var categories = await _repository.Get(id) ?? new ContestCategory();
-                var result = (ContestCategoryDto)categories;
+                var category = await _repository.Get(id) ?? new ContestCategory();
+                var result = (ContestCategoryDto)category;
                 return Ok(result);
             }
             catch (Exception ex)
@@ -59,6 +59,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             {
                 ContestCategory categoriesEntity = categories.Id == 0 ? new ContestCategory() : await _repository.Get(categories.Id);
                 categoriesEntity.Id = categories.Id;
+                categoriesEntity.Name = categories.Name;
                 categoriesEntity.ContestTypePointsId = categories.ContestTypePointsId;
                 categoriesEntity.FightStructureId = categories.FightStructureId;
                 await _repository.Save(categoriesEntity);

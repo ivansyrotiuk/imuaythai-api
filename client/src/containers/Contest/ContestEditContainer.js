@@ -6,22 +6,18 @@ import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchTypes } from "../../actions/Dictionaries/ContestTypesActions";
 import { fetchRanges } from "../../actions/Dictionaries/ContestRangesActions";
 import { fetchContestCategories } from "../../actions/Dictionaries/ContestCategoriesActions";
-import { addContest, fetchContest, saveContest } from '../../actions/ContestActions';
+import { addContest, fetchContest, saveContest, resetContest } from '../../actions/ContestActions';
 import queryString from 'query-string'
+import { createContest } from '../../common/contestConstructors'
 
 class ContestEditContainer extends Component {
-
     componentWillMount() {
         var id = this.props.match.params.id;
         if (id) {
             this.props.fetchContest(id);
         } else {
             const query = queryString.parse(this.props.location.search);
-            const contest = {
-                date: new Date(),
-                endRegistrationDate: new Date(),
-                institutionId: query.institution
-            }
+            const contest = createContest(query.institution);
             this.props.addContest(contest);
         }
 
@@ -36,6 +32,14 @@ class ContestEditContainer extends Component {
         }
         if (!this.props.contestRanges.length) {
             this.props.fetchRanges();
+        }
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        const {contestSaved} = nextProps;
+        if (contestSaved) {
+            this.props.history.goBack();
+            this.props.resetContest();
         }
     }
 
@@ -59,7 +63,8 @@ const mapStateToProps = (state, ownProps) => {
         contestCategories: state.ContestCategories.categories,
         contestRanges: state.ContestRanges.ranges,
         contest: state.Contest.singleContest,
-        fetching: state.Contest.fetching
+        fetching: state.Contest.fetching,
+        contestSaved: state.Contest.contestSaved
     }
 }
 
@@ -86,6 +91,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         onSubmit: (values) => {
             return dispatch(saveContest(values));
         },
+        resetContest: () => {
+            return dispatch(resetContest())
+        }
     }
 }
 

@@ -73,7 +73,7 @@ class WeightAgeCategoriesPage extends Component {
                     <tr>
                       <th>Id</th>
                       <th className="col-md-9">Name</th>
-                      <th>Categorys</th>
+                      <th>Categories</th>
                       <th>Action</th>
                     </tr>
                   </thead>

@@ -1,8 +1,8 @@
-import {host} from "../../global"
+import { host } from "../../global"
 import axios from "axios";
 
 export function fetchPoints() {
-    return function (dispatch) {
+    return function(dispatch) {
         dispatch({
             type: "FETCH_POINTS"
         });
@@ -25,14 +25,14 @@ export function fetchPoints() {
 
 export function savePoint(point) {
     return {
-        point: 'SAVE_POINT',
+        type: 'SAVE_POINT',
         payload: point
     }
 }
 
 export function deletePoint(id) {
     return {
-        point: 'DELETE_POINT',
+        type: 'DELETE_POINT',
         payload: id
     }
 }

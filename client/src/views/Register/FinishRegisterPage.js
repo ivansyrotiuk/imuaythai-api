@@ -58,6 +58,20 @@ class FinishRegisterPage extends Component {
                     <div className="card-block p-4">
                       <h1>Registration. Second step</h1>
                       <p className="text-muted">Set up your account</p>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="input-group mb-3">
+                            <span className="input-group-addon"><i className="fa fa-id-card-o"></i></span>
+                            <Field name="firstName" className="form-control" component="input" type="text" placeholder="First name" />
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="input-group mb-3">
+                            <span className="input-group-addon"><i className="fa fa-id-card-o"></i></span>
+                            <Field name="surname" className="form-control" component="input" type="text" placeholder="Surname" />
+                          </div>
+                        </div>
+                      </div>
                       <div className="input-group mb-3">
                         <span className="input-group-addon"><i className="fa fa-globe"></i></span>
                         <Field name="countryId" className="form-control" component="select" type="select" placeholder="Your country" onChange={ onCountryChange }>
@@ -90,19 +104,16 @@ class FinishRegisterPage extends Component {
   }
 }
 FinishRegisterPage = reduxForm({
-  form: 'SecondStepRegister', // a unique identifier for this form
+  form: 'FinishRegisterPage', // a unique identifier for this form
   destroyOnUnmount: false
 })(FinishRegisterPage)
 
-const selector = formValueSelector('SecondStepRegister') // <-- same as form name
+const selector = formValueSelector('FinishRegisterPage')
 FinishRegisterPage = connect(state => {
-  // can select values individually
   const hasOwnGym = selector(state, 'ownGym')
   const roleId = selector(state, 'roleId')
   const requestedRole = state.Roles.publicRoles.find(r => r.id === roleId);
   const selectedGymRole = requestedRole !== undefined && requestedRole.normalizedName === "GYMADMIN";
-
-
   return {
     hasOwnGym,
     selectedGymRole
