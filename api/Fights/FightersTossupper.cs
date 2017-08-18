@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Fights
 {
-    public class FightersTossupper
+    public class FightersTossupper: IFightersTossupper
     {
         public void Tossup(List<ApplicationUser> fighters, FightsTree tree)
         {
