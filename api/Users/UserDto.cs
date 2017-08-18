@@ -71,6 +71,8 @@ namespace MuaythaiSportManagementSystemApi.Users
 
     public class FighterDto : UserDto
     {
+        public string GymName { get; set; }
+
         public FighterDto()
         {
 
@@ -78,7 +80,7 @@ namespace MuaythaiSportManagementSystemApi.Users
 
         public FighterDto(ApplicationUser user):base(user)
         {
-
+            GymName = user.Institution?.Name;
         }
 
         public static explicit operator FighterDto(ApplicationUser user)

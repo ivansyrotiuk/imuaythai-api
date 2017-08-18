@@ -54,6 +54,7 @@ import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageCo
 import ContestsContainer from "../Contest/ContestsContainer"
 import ContestEditContainer from '../Contest/ContestEditContainer'
 import ContestViewContainer from '../Contest/ContestViewContainer'
+import ContestCategoriesViewContainer from '../Contest/ContestCategoriesViewContainer'
 import RequestsManagerContainer from '../Contest/RequestsManagerContainer'
 import RequestAddingContainer from '../Contest/RequestAddingContainer'
 import CreateFightsDiagram from '../Fight/CreateDiagramContainer'
@@ -113,6 +114,7 @@ class Full extends Component {
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/contests/:id/(institution_requests)" name="Add contest requests" component={ RequestAddingContainer } />
                 <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
+                <Route path="/contests/:id/(categories)" name="Contest categries" component={ ContestCategoriesViewContainer } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />

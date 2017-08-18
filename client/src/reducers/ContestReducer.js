@@ -6,12 +6,13 @@ const reducerInitialState = {
     fetched: false,
     contests: [],
     singleContest: null,
-    contestSaved: false,
     candidates: [],
     requests: [],
+    categories: [],
     institutionRequests: [],
+    singleRequest: null,
     showRequestForm: false,
-    singleRequest: null
+    contestSaved: false,
 }
 const reducer = (state = reducerInitialState, action) => {
     switch (action.type) {
@@ -225,6 +226,22 @@ const reducer = (state = reducerInitialState, action) => {
             return {
                 ...state,
                 institutionRequests: institutionRequests
+            }
+        case actionTypes.FETCH_CONTEST_CATEGORIES_WITH_FIGHTERS:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_CONTEST_CATEGORIES_WITH_FIGHTERS_SUCCESS:
+            return {
+                ...state,
+                fetching: false,
+                categories: action.payload
+            }
+        case action.CONTEST_CANCEL_FETCHING:
+            return {
+                ...state,
+                fetching: false
             }
         default:
             return state
