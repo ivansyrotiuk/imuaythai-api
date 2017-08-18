@@ -76,8 +76,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
 
                 string encodedToken = _tokenGenerator.GenerateToken(user, roles);
-
-                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe, user= new {id = user.Id, firstName = user.FirstName, surname = user.Surname} });
+                var u = new { authToken = encodedToken, rememberMe = model.RememberMe, user= new {id = user.Id, firstName = user.FirstName, surname = user.Surname} };
+                var qr = QRCodeGenerator.GenerateQRCode(u);
+                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe, qrcode = qr, user = new {id = user.Id, firstName = user.FirstName, surname = user.Surname}});
             }
 
             if (result.IsLockedOut)

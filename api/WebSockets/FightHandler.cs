@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MuaythaiSportManagementSystemApi.Extensions;
 using MuaythaiSportManagementSystemApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MuaythaiSportManagementSystemApi.WebSockets
 {
@@ -33,7 +34,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             switch (request.RequestType)
             {
                 case RequestType.AcceptPoints:
-                    //accept points
+                    await AcceptPoints(request.Data);
                     await SendMessageToAllAsync(new Request
                     {
                         RequestType = request.RequestType,
@@ -51,7 +52,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
 
                 case RequestType.SendPoints:
-                    await SavePoints(request.Data);
+                    request.Data = SavePoints(request.Data);
                     await SendMessageAsync(_jurySocketId, request);
                     break;
 
@@ -64,8 +65,15 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
 
                 case RequestType.StartRound:
+                var roundId =  GetRoundId();
+                 await SendMessageToAllAsync(new Request
+                    {
+                        RequestType = request.RequestType,
+                        Data = roundId
+                    }, new List<string>());
+                    break;
+                    
                 case RequestType.EndRound:
-                case RequestType.StartFight:
                 case RequestType.EndFight:
                 case RequestType.ShowPrematureEndPanel:
                     await SendMessageToAllAsync(new Request
@@ -80,13 +88,36 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
 
         }
+        int roundCount = 0;
+        private string GetRoundId()
+        {
+            roundCount++;
+            return roundCount.ToString();
+        }
 
-        private Task SavePoints(string data)
+        private async Task AcceptPoints(string data)
+        {
+            var points = JsonConvert.DeserializeObject<FightPoint>(data);
+            var entityPoints = await _context.FightPoints.FirstOrDefaultAsync(f => f.Id == points.Id);
+            entityPoints.Accepted = points.Accepted;
+            entityPoints.Cautions = points.Cautions;
+            entityPoints.J = points.J;
+            entityPoints.KnockDown = points.KnockDown;
+            entityPoints.Points = points.Points;
+            entityPoints.Warnings = points.Warnings;
+            entityPoints.X = points.X;
+            entityPoints.RoundId = points.RoundId;
+
+            await _context.SaveChangesAsync();
+        }
+
+        private string SavePoints(string data)
         {
            var points = JsonConvert.DeserializeObject<FightPoint>(data);
-           //_context.FightPoints.Add(points);
+           _context.FightPoints.Add(points);
+           _context.SaveChangesAsync();
 
-           return _context.SaveChangesAsync();
+           return JsonConvert.SerializeObject(points, _jsonSerializerSettings);
         }
 
         public override async Task OnDisconnected(WebSocket socket)

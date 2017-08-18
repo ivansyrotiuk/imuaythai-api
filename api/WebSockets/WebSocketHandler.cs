@@ -14,7 +14,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
     public abstract class WebSocketHandler
     {
         protected WebSocketConnectionManager WebSocketConnectionManager { get; set; }
-        private JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings()
+        protected JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };

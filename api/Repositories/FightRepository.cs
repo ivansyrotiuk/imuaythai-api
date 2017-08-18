@@ -31,9 +31,10 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             .Include(f=> f.BlueAthlete)
             .Include(f=> f.RedAthlete)
             .Include(f=>f.Referee)
-            .Include(f=>f.Structure)
+            .Include(f=>f.Structure).ThenInclude(s => s.WeightAgeCategory)
+            .Include(f=>f.Structure).ThenInclude(s => s.Round)
             .Include(f=>f.TimeKeeper)
-            .Include(f=> f.FightJudgesMappings)
+            .Include(f=> f.FightJudgesMappings).ThenInclude(j => j.Judge)
             .FirstOrDefaultAsync(f=> f.Id == id);
         }
 
@@ -44,10 +45,6 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task Save(Fight fight)
         {
-            if (fight.Id == 0)
-            {
-                _context.Fights.Add(fight);
-            }
 
             return _context.SaveChangesAsync();
         }
