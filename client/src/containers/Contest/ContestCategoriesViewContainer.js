@@ -14,11 +14,12 @@ export class ContestCategoriesViewContainer extends Component {
 
     render() {
         const {fetching, categories} = this.props;
+        const contestId = this.props.match.params.id;
         if (fetching) {
             return <Spinner />
         }
 
-        return <ContestCategoriesView categories={ categories } />
+        return <ContestCategoriesView categories={ categories } contestId={ contestId } />
     }
 }
 

@@ -95,8 +95,10 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IFightStructuresRepository, FightStructuresRepository>();
             services.AddScoped<IContestCategoryMappingsRepository, ContestCategoryMappingsRepository>();
             services.AddScoped<IContestRingsRepository, ContestRingsRepository>();
-            services.AddScoped<IFightsTreePersister, FightsTreePersister>();
+
             services.AddScoped<IFightersTossupper, FightersTossupper>();
+            services.AddScoped<IFightsRepository, FightsRepository>();
+            services.AddScoped<IFightsDiagramBuilder, FightsDiagramBuilder>();
 
             services.Configure<EmailConfiguration>(Configuration);
         }

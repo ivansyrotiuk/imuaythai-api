@@ -10,7 +10,7 @@ import { Route, Link, NavLink } from 'react-router-dom';
 
 class ContestViewPage extends Component {
   render() {
-    const {contest, pendingRequests, doctorsRequests, judgesRequests, fightersRequests, addRequestsClick, editContest, pendingRequestsClick} = this.props;
+    const {contest, pendingRequests, doctorsRequests, judgesRequests, fightersRequests, addRequestsClick, editContest, pendingRequestsClick, contestCategoriesClick} = this.props;
     if (!contest) {
       return <div></div>
     }
@@ -19,8 +19,8 @@ class ContestViewPage extends Component {
     return <div className="animated fadeIn">
              <div className="row">
                <div className="col-12">
-                 <ContestInfoCard contest={ contest } editContest={ editContest } addRequestsClick={ addRequestsClick } pendingRequestsClick={ pendingRequestsClick } fightersCount={ fightersRequests.length }
-                   judgesCount={ judgesRequests.length } doctorsCount={ doctorsRequests.length } pendingCount={ pendingRequests.length } />
+                 <ContestInfoCard contest={ contest } editContest={ editContest } addRequestsClick={ addRequestsClick } pendingRequestsClick={ pendingRequestsClick } contestCategoriesClick={ contestCategoriesClick }
+                   fightersCount={ fightersRequests.length } judgesCount={ judgesRequests.length } doctorsCount={ doctorsRequests.length } pendingCount={ pendingRequests.length } />
                </div>
              </div>
              <div className="row">

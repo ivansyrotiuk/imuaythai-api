@@ -1,23 +1,24 @@
 import React from "react"
 
-export default class LoadButton extends React.Component {
+export default class SpinnerButton extends React.Component {
 
     render() {
 
-        const {text, loading, click} = this.props;
+        const {text, loading, click, className = "btn btn-primary"} = this.props;
+
 
         if (loading) {
             return (
-                <a className="btn btn-primary">
+                <div className={ className }>
                   <i className="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
                   { text }
-                </a>
+                </div>
                 );
         } else {
             return (
-                <a onClick={ click } className="btn btn-primary">
+                <div onClick={ click } className={ className }>
                   { text }
-                </a>
+                </div>
                 );
         }
 

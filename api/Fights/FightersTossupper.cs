@@ -8,11 +8,16 @@ namespace MuaythaiSportManagementSystemApi.Fights
 {
     public class FightersTossupper: IFightersTossupper
     {
+        private Func<ApplicationUser, ApplicationUser, bool> _separateStrategy = (redFighter, blueFighter) =>
+        {
+            return true;
+        };
         public void Tossup(List<ApplicationUser> fighters, FightsTree tree)
         {
             foreach(var fighter in fighters.OrderBy(f => Guid.NewGuid()))
             {
-                TossupFighterToTree(fighter, tree.Root);
+                bool result = TossupFighterToTree(fighter, tree.Root);
+                Console.WriteLine(result);
             }
         }
 

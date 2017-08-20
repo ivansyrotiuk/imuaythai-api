@@ -57,7 +57,7 @@ import ContestViewContainer from '../Contest/ContestViewContainer'
 import ContestCategoriesViewContainer from '../Contest/ContestCategoriesViewContainer'
 import RequestsManagerContainer from '../Contest/RequestsManagerContainer'
 import RequestAddingContainer from '../Contest/RequestAddingContainer'
-import CreateFightsDiagram from '../Fight/CreateDiagramContainer'
+import FightsDrawsContainer from '../Fight/FightsDrawsContainer'
 import Errors from '../Errors/Errors'
 class Full extends Component {
   render() {
@@ -115,11 +115,11 @@ class Full extends Component {
                 <Route path="/contests/:id/(institution_requests)" name="Add contest requests" component={ RequestAddingContainer } />
                 <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
                 <Route path="/contests/:id/(categories)" name="Contest categries" component={ ContestCategoriesViewContainer } />
+                <Route path="/contests/:contestId/category/:categoryId/draws" name="Fights draws" component={ FightsDrawsContainer } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />
                 <Route path="/contests/" name="Contests" component={ ContestsContainer } />
-                <Route path="/fight" name="fights" component={ CreateFightsDiagram } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </div>

@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Controllers\ManageController.cs" />
+    <Compile Remove="Fights\FightsTreePersister.cs" />
+    <Compile Remove="Fights\IFightsTreePersister.cs" />
     <Compile Remove="Repositories\FightersRepository.cs" />
   </ItemGroup>
   <ItemGroup>
