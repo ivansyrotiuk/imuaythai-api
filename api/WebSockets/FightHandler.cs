@@ -52,7 +52,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
 
                 case RequestType.SendPoints:
-                    request.Data = SavePoints(request.Data);
+                    request.Data = await SavePoints(request.Data);
                     await SendMessageAsync(_jurySocketId, request);
                     break;
 
@@ -97,25 +97,24 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
         private async Task AcceptPoints(string data)
         {
-            var points = JsonConvert.DeserializeObject<FightPoint>(data);
-            var entityPoints = await _context.FightPoints.FirstOrDefaultAsync(f => f.Id == points.Id);
-            entityPoints.Accepted = points.Accepted;
-            entityPoints.Cautions = points.Cautions;
-            entityPoints.J = points.J;
-            entityPoints.KnockDown = points.KnockDown;
-            entityPoints.Points = points.Points;
-            entityPoints.Warnings = points.Warnings;
-            entityPoints.X = points.X;
-            entityPoints.RoundId = points.RoundId;
+            var pointsArray = JsonConvert.DeserializeObject<string[]>(data);
+            foreach (var pointString in pointsArray)
+            {
+                var points = JsonConvert.DeserializeObject<FightPoint>(pointString);
+                var entityPoints = await _context.FightPoints.FirstOrDefaultAsync(f => f.Id == points.Id && f.FighterId == points.FighterId && f.JudgeId == points.JudgeId);
+                entityPoints.Accepted = points.Accepted;
+                entityPoints.Points = points.Points;
 
             await _context.SaveChangesAsync();
+            }
+            
         }
 
-        private string SavePoints(string data)
+        private async Task<string> SavePoints(string data)
         {
            var points = JsonConvert.DeserializeObject<FightPoint>(data);
            _context.FightPoints.Add(points);
-           _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
 
            return JsonConvert.SerializeObject(points, _jsonSerializerSettings);
         }
