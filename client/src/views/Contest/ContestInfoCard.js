@@ -5,15 +5,22 @@ import { userCanAcceptContestRequest, userCanAddContestRequest } from '../../aut
 
 export default class ContestInfoCard extends Component {
   render() {
-    const {contest, editContest, pendingRequestsClick, addRequestsClick, fightersCount, judgesCount, doctorsCount, pendingCount} = this.props;
+    const {contest, editContest, pendingRequestsClick, addRequestsClick, contestCategoriesClick, fightersCount, judgesCount, doctorsCount, pendingCount} = this.props;
 
     const PendingRequestsButton = userCanAcceptContestRequest(() => <div className="col-sm-2">
-                                                                      <div className="btn btn-warning" onClick={ pendingRequestsClick }>
+                                                                      <div className="btn btn-warning btn-block" onClick={ pendingRequestsClick }>
                                                                         <div>Pending requests</div>
                                                                       </div>
                                                                     </div>)
+
+    const ContestCategoriesButton = userCanAcceptContestRequest(() => <div className="col-sm-2">
+                                                                        <div className="btn btn-success btn-block" onClick={ contestCategoriesClick }>
+                                                                          <div>Categories</div>
+                                                                        </div>
+                                                                      </div>)
+
     const AddRequestsButton = userCanAddContestRequest(() => <div className="col-sm-2">
-                                                               <div className="btn btn-primary" onClick={ addRequestsClick }>
+                                                               <div className="btn btn-primary btn-block" onClick={ addRequestsClick }>
                                                                  <div>Add request</div>
                                                                </div>
                                                              </div>)
@@ -71,28 +78,28 @@ export default class ContestInfoCard extends Component {
                 <div className="h6">Registration statistic</div>
               </div>
               <div className="row">
-                <div className="col-sm-2">
+                <div className="col-sm-3">
                   <div className="callout callout-warning">
                     <small className="text-muted">Pending requests</small>
                     <br/>
                     <strong className="h4">{ pendingCount }</strong>
                   </div>
                 </div>
-                <div className="col-sm-2">
+                <div className="col-sm-3">
                   <div className="callout callout-info">
                     <small className="text-muted">Fighters</small>
                     <br/>
                     <strong className="h4">{ fightersCount }</strong>
                   </div>
                 </div>
-                <div className="col-sm-2">
+                <div className="col-sm-3">
                   <div className="callout callout-success">
                     <small className="text-muted">Judges</small>
                     <br/>
                     <strong className="h4">{ judgesCount }</strong>
                   </div>
                 </div>
-                <div className="col-sm-2">
+                <div className="col-sm-3">
                   <div className="callout callout-danger">
                     <small className="text-muted">Doctors</small>
                     <br/>
@@ -101,6 +108,7 @@ export default class ContestInfoCard extends Component {
                 </div>
               </div>
               <div className="row">
+                <ContestCategoriesButton/>
                 <PendingRequestsButton/>
                 <AddRequestsButton />
               </div>

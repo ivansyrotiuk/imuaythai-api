@@ -9,9 +9,10 @@ using MuaythaiSportManagementSystemApi.Models;
 namespace MuaythaiSportManagementSystemApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170815095835_FightNullFields")]
+    partial class FightNullFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -521,13 +522,11 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<string>("BlueAthleteId");
 
-                    b.Property<int?>("ContestCategoryId");
-
                     b.Property<int>("ContestId");
 
-                    b.Property<byte?>("KO");
+                    b.Property<byte>("KO");
 
-                    b.Property<DateTime?>("KOTime");
+                    b.Property<DateTime>("KOTime");
 
                     b.Property<int?>("NextFightId");
 
@@ -535,9 +534,10 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<string>("RefereeId");
 
-                    b.Property<string>("Ring");
+                    b.Property<string>("Ring")
+                        .IsRequired();
 
-                    b.Property<DateTime?>("StartDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.Property<int>("StructureId");
 
@@ -549,11 +549,7 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.HasIndex("BlueAthleteId");
 
-                    b.HasIndex("ContestCategoryId");
-
                     b.HasIndex("ContestId");
-
-                    b.HasIndex("NextFightId");
 
                     b.HasIndex("RedAthleteId");
 
@@ -573,7 +569,7 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("FightId");
+                    b.Property<int?>("FightId");
 
                     b.Property<string>("JudgeId");
 
@@ -600,10 +596,6 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     b.Property<int>("FightId");
 
                     b.Property<string>("FighterId");
-
-                    b.Property<string>("Injury");
-
-                    b.Property<DateTime?>("InjuryTime");
 
                     b.Property<int>("J");
 
@@ -1090,18 +1082,10 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                         .WithMany("AsBlueFights")
                         .HasForeignKey("BlueAthleteId");
 
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestCategory", "ContestCategory")
-                        .WithMany()
-                        .HasForeignKey("ContestCategoryId");
-
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Contest", "Contest")
                         .WithMany("Fights")
                         .HasForeignKey("ContestId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Fight", "NextFight")
-                        .WithMany()
-                        .HasForeignKey("NextFightId");
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "RedAthlete")
                         .WithMany("AsRedFights")
@@ -1129,8 +1113,7 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                 {
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Fight", "Fight")
                         .WithMany("FightJudgesMappings")
-                        .HasForeignKey("FightId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FightId");
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "Judge")
                         .WithMany("FightJudgesMappings")

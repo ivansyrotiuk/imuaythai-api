@@ -15,6 +15,8 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<List<ContestRequest>> GetByContest(int contestId);
         Task<List<ContestRequest>> GetByInstitution(int contestId, int institutionId);
         Task<List<ContestRequest>> GetByUnassociatedUser(int contestId, string userId);
+        Task<List<ContestRequest>> GetContestAcceptedFighterRequests(int contestId);
+        Task<List<ContestRequest>> GetContestAcceptedFighterRequests(int contestId, int categoryId);
         Task<List<ContestRequest>> GetAll();
         Task<List<ContestRequest>> Find(Expression<Func<ContestRequest, bool>> predicate);
         Task Save(ContestRequest request);
@@ -68,6 +70,33 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                .Include(c => c.User).ThenInclude(u => u.Country)
                .Include(c => c.ContestCategory)
                .Include(c => c.AcceptedByUser).Include(c => c.Institution).ToListAsync();
+        }
+
+        public Task<List<ContestRequest>> GetContestAcceptedFighterRequests(int contestId)
+        {
+            return _context.ContestRequests.Where(m => m.ContestId == contestId &&
+                                                       m.Type == ContestRoleType.Fighter &&
+                                                       m.Status == ContestRoleRequestStatus.Accepted)
+                .Include(c => c.ContestCategory)
+                .Include(c => c.User)
+                .ThenInclude(c => c.Institution)
+                .Include(c => c.User)
+                .ThenInclude(i => i.Country)
+                .ToListAsync();
+        }
+
+        public Task<List<ContestRequest>> GetContestAcceptedFighterRequests(int contestId, int categoryId)
+        {
+            return _context.ContestRequests.Where(m => m.ContestId == contestId &&
+                                                       m.ContestCategoryId == categoryId && 
+                                                       m.Type == ContestRoleType.Fighter &&
+                                                       m.Status == ContestRoleRequestStatus.Accepted)
+                .Include(c => c.ContestCategory)
+                .Include(c => c.User)
+                .ThenInclude(c => c.Institution)
+                .Include(c => c.User)
+                .ThenInclude(i => i.Country)
+                .ToListAsync();
         }
 
         public Task Remove(ContestRequest request)

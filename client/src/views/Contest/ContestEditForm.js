@@ -7,18 +7,12 @@ import RenderContestCategoriesTable from './RenderContestCategoriesTable';
 import RenderContestRings from './RenderContestRings'
 import moment from 'moment';
 import Datetime from 'react-datetime';
-import 'react-datetime/css/react-datetime.css'
+
 import { createContestRing } from '../../common/contestConstructors'
+import { RenderDatePicker } from '../Forms/RenderDatePickers'
 
-
-const RenderDatePicker = props => {
-  return (
-    <Datetime {...props.input} selected={ props.input.value } dateFormat="DD-MM-YYYY" timeFormat="HH:mm" />
-    );
-};
-
-const RenderRingCountInput = props => <input {...props.input} type="number" name="quantity" min="1" max="3" className="form-control" placeholder="Rings count" />
-const RenderCondestDurationInput = props => <input {...props.input} type="number" name="quantity" min="1" max="5" className="form-control" onkeydown="return false" placeholder="Contest duration in days" />
+const RenderCondestDurationInput = props => <input {...props.input} type="number" name="quantity" min="1" max="5" className="form-control" placeholder="Contest duration in days" />
+const RenderWaiKhruTimeInput = props => <input {...props.input} type="number" name="quantity" min="1" max="5" className="form-control" placeholder="Wai Khru time" />
 
 class CreateContestPage extends Component {
   constructor(props) {
@@ -110,7 +104,7 @@ class CreateContestPage extends Component {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <label>Range</label>
                         <Field name="contestRangeId" component="select" className="form-control" type="select">
@@ -119,13 +113,19 @@ class CreateContestPage extends Component {
                         </Field>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <label>Type</label>
                         <Field name="contestTypeId" component="select" className="form-control" type="select">
                           <option>-</option>
                           { mappedContestTypes }
                         </Field>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Wai Khru time</label>
+                        <Field name="waiKhruTime" component={ RenderWaiKhruTimeInput } className="form-control" />
                       </div>
                     </div>
                   </div>

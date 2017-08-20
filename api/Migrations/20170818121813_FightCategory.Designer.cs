@@ -9,9 +9,10 @@ using MuaythaiSportManagementSystemApi.Models;
 namespace MuaythaiSportManagementSystemApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170818121813_FightCategory")]
+    partial class FightCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -600,10 +601,6 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     b.Property<int>("FightId");
 
                     b.Property<string>("FighterId");
-
-                    b.Property<string>("Injury");
-
-                    b.Property<DateTime?>("InjuryTime");
 
                     b.Property<int>("J");
 

@@ -4,6 +4,8 @@ using MuaythaiSportManagementSystemApi.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
@@ -15,6 +17,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         {
             _context = context;
         }
+
         public Task SaveCategoryMappings(int contestId, List<ContestCategoryDto> mappings)
         {
             _context.ContestCategoriesMappings.RemoveRange(_context.ContestCategoriesMappings.Where(m => m.ContestId == contestId));
