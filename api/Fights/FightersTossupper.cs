@@ -8,20 +8,44 @@ namespace MuaythaiSportManagementSystemApi.Fights
 {
     public class FightersTossupper: IFightersTossupper
     {
-        private Func<ApplicationUser, ApplicationUser, bool> _separateStrategy = (redFighter, blueFighter) =>
+        private Func<ApplicationUser, ApplicationUser, bool> _differentGymPredicate = (redFighter, blueFighter) =>
         {
-            return true;
+            return redFighter.InstitutionId != blueFighter.InstitutionId;
         };
+
+        private Func<ApplicationUser, ApplicationUser, bool> _sameGymAllowedPredicate = (redFighter, blueFighter) =>
+        {
+            return redFighter.Id != blueFighter.Id;
+        };
+
         public void Tossup(List<ApplicationUser> fighters, FightsTree tree)
         {
-            foreach(var fighter in fighters.OrderBy(f => Guid.NewGuid()))
+            for(int i = 0; i < 5; i++)
             {
-                bool result = TossupFighterToTree(fighter, tree.Root);
-                Console.WriteLine(result);
+                if (TryTossup(fighters.ToList(), tree, _differentGymPredicate))
+                {
+                    return;
+                }
             }
+
+            TryTossup(fighters.ToList(), tree, _sameGymAllowedPredicate);
         }
 
-        private bool TossupFighterToTree(ApplicationUser fighter, FightNode node)
+        private bool TryTossup(List<ApplicationUser> fighters, FightsTree tree, Func<ApplicationUser, ApplicationUser, bool> compatibilityPredicate)
+        {
+            bool result = true;
+            foreach (var fighter in fighters.OrderBy(f => Guid.NewGuid()))
+            {
+                if(!TossupFighterToTree(fighter, tree.Root, compatibilityPredicate))
+                {
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        private bool TossupFighterToTree(ApplicationUser fighter, FightNode node, Func<ApplicationUser, ApplicationUser, bool> compatibilityPredicate)
         {
             if (node.IsFilled)
             {
@@ -37,7 +61,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
                     return true;
                 }
 
-                if (string.IsNullOrEmpty(node.Fight.BlueAthleteId) && node.Fight.RedAthlete.InstitutionId != fighter.InstitutionId)
+                if (string.IsNullOrEmpty(node.Fight.BlueAthleteId) && compatibilityPredicate(node.Fight.RedAthlete, fighter))
                 {
                     node.Fight.BlueAthleteId = fighter.Id;
                     node.Fight.BlueAthlete = fighter;
@@ -50,7 +74,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
 
             foreach(var child in node.Children)
             {
-                if (TossupFighterToTree(fighter, child))
+                if (TossupFighterToTree(fighter, child, compatibilityPredicate))
                 {
                     return true;
                 }
