@@ -28,7 +28,7 @@ namespace MuaythaiSportManagementSystemApi.Models
 
         public string Ring { get; set; }
     
-        public DateTime? KOTime { get; set; }
+        public int? KOTime { get; set; }
 
         public int? NextFightId { get; set; }
 

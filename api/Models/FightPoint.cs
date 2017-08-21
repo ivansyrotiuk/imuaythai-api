@@ -27,7 +27,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int J { get; set; }
         public int X { get; set; }
         public string Injury { get; set; }
-        public DateTime? InjuryTime { get; set; }
+        public int? InjuryTime { get; set; }
         public bool Accepted { get; set; }
 
         public virtual Fight Fight { get; set; }
