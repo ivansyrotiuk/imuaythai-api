@@ -295,6 +295,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             return Ok(rolesList);
         }
-        
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("setup_roles")]
+        public async Task<ActionResult> SetupUserRoles()
+        {
+            var fighters = await _userManager.GetUsersInRoleAsync("Fighter");
+            var fightersIds = fighters.Select(f => f.Id);
+            var users = _userManager.Users.Where(u => !fightersIds.Contains(u.Id) ).ToList();
+            foreach (var user in users)
+            {
+                await _userManager.AddToRoleAsync(user, "Fighter");
+            }
+
+            return Ok(users);
+        }
     }
 }

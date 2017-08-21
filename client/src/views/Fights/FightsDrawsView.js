@@ -44,12 +44,20 @@ class FightsDrawsView extends Component {
                        </div>
 
         const content = <div>
-                          { fightsNotGenerated && <div className="btn btn-success" onClick={ this.props.generateContestDrawsClick }>Generate fights</div> }
+                          { fightsNotGenerated && <SpinnerButton className="btn btn-success" loading={ this.props.generating } click={ this.props.generateContestDrawsClick } text="Generate fights" /> }
                           <iframe id="ifmcontentstoprint" style={ style } scrolling="no"></iframe>
                           <div id="divcontents">
                             <BracketGenerator GameComponent={ GameComponent } games={ this.props.draws } homeOnTop={ true } />
                           </div>
-                          <SpinnerButton loading={ this.props.generating } className="btn btn-danger" click={ this.props.regenerateContestDrawsClick } text="Regenerate fights" />
+                          { !fightsNotGenerated &&
+                            <div className="row justify-content-between">
+                              <div className="col-md-6">
+                                <SpinnerButton loading={ this.props.tossingup } className="btn btn-warning" click={ this.props.tossupDrawsClick } text="Tossup again" />
+                              </div>
+                              <div className="col-md-6">
+                                <SpinnerButton loading={ this.props.generating } className="btn btn-danger pull-right" click={ this.props.regenerateContestDrawsClick } text="Regenerate fights" />
+                              </div>
+                            </div> }
                         </div>
         return <Page header={ header } content={ content } />
     }

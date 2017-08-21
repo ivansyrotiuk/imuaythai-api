@@ -138,12 +138,12 @@ namespace MuaythaiSportManagementSystemApi.Fights
             Console.WriteLine(offset + "Fight: ");
             if (root.Children.Count == 1)
             {
-                Console.WriteLine(offset + "       Blue fighter");
+                Console.WriteLine(offset + "       " + root.Children[0].Fight.BlueAthleteId);
             }
             if (root.Children.Count == 0)
             {
-                Console.WriteLine(offset + "       Red fighter");
-                Console.WriteLine(offset + "       Blue fighter");
+                Console.WriteLine(offset + "       " + root.Fight.RedAthleteId);
+                Console.WriteLine(offset + "       " + root.Fight.BlueAthleteId );
             }
             foreach (var node in root.Children)
             {

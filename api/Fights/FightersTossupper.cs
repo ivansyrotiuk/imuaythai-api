@@ -10,12 +10,12 @@ namespace MuaythaiSportManagementSystemApi.Fights
     {
         private Func<ApplicationUser, ApplicationUser, bool> _differentGymPredicate = (redFighter, blueFighter) =>
         {
-            return redFighter.InstitutionId != blueFighter.InstitutionId;
+            return redFighter?.InstitutionId != blueFighter?.InstitutionId;
         };
 
         private Func<ApplicationUser, ApplicationUser, bool> _sameGymAllowedPredicate = (redFighter, blueFighter) =>
         {
-            return redFighter.Id != blueFighter.Id;
+            return redFighter?.Id != blueFighter?.Id;
         };
 
         public void Tossup(List<ApplicationUser> fighters, FightsTree tree)
@@ -26,10 +26,14 @@ namespace MuaythaiSportManagementSystemApi.Fights
                 {
                     return;
                 }
+
+                ResetTree(tree.Root);
             }
 
             TryTossup(fighters.ToList(), tree, _sameGymAllowedPredicate);
         }
+
+        
 
         private bool TryTossup(List<ApplicationUser> fighters, FightsTree tree, Func<ApplicationUser, ApplicationUser, bool> compatibilityPredicate)
         {
@@ -72,7 +76,19 @@ namespace MuaythaiSportManagementSystemApi.Fights
                 return false;
             }
 
-            foreach(var child in node.Children)
+            if (node.Children.Count == 1 && node.Children[0].IsFilled)
+            {
+                if (string.IsNullOrEmpty(node.Fight.BlueAthleteId) && compatibilityPredicate(node.Fight.RedAthlete, fighter))
+                {
+                    node.Fight.BlueAthleteId = fighter.Id;
+                    node.Fight.BlueAthlete = fighter;
+                    node.IsFilled = true;
+                    return true;
+                }
+                return false;
+            }
+
+            foreach (var child in node.Children)
             {
                 if (TossupFighterToTree(fighter, child, compatibilityPredicate))
                 {
@@ -82,6 +98,19 @@ namespace MuaythaiSportManagementSystemApi.Fights
 
             node.IsFilled = true;
             return false;
+        }
+
+        private void ResetTree(FightNode node)
+        {
+            node.IsFilled = false;
+            node.Fight.RedAthleteId = null;
+            node.Fight.BlueAthleteId = null;
+
+            foreach (var child in node.Children)
+            {
+                ResetTree(child);
+            }
+
         }
     }
 }
