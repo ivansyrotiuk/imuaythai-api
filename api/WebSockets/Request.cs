@@ -16,6 +16,7 @@
         StartFight,
         EndFight,
         Fights,
+        SendTime
     }
 
     public class Request

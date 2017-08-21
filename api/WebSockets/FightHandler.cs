@@ -51,17 +51,18 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     }, new List<string>());
                     break;
 
+                case RequestType.SendTime:
+                    await SendMessageToAllAsync(request, new List<string>());
+                    break;
+                    
                 case RequestType.SendPoints:
                     request.Data = await SavePoints(request.Data);
                     await SendMessageAsync(_jurySocketId, request);
                     break;
 
                 case RequestType.PrematureEnd:
-                    await SendMessageToAllAsync(new Request
-                    {
-                        RequestType = request.RequestType,
-                        Data = null
-                    }, new List<string>());
+                    await SaveInjury(request.Data);
+                    await SendMessageAsync(_jurySocketId, request);
                     break;
 
                 case RequestType.StartRound:
@@ -87,6 +88,16 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             }
 
 
+        }
+
+        private async Task SaveInjury(string data)
+        {
+             var points = JsonConvert.DeserializeObject<FightPoint>(data);
+             var entityPoints = await _context.FightPoints.FirstOrDefaultAsync(f => f.Id == points.Id && f.FighterId == points.FighterId && f.JudgeId == points.JudgeId);
+                entityPoints.Injury = points.Injury;
+                entityPoints.InjuryTime = points.InjuryTime;
+
+            await _context.SaveChangesAsync();
         }
         int roundCount = 0;
         private string GetRoundId()
