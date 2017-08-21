@@ -67,3 +67,24 @@ export const regenerateContestDraws = (contestId, categoryId) => {
             })
     }
 }
+
+export const tossupContestDraws = (contestId, categoryId) => {
+    return (dispatch) => {
+        dispatch(createAction(actionTypes.TOSSUP_CONTEST_FIGHTS));
+
+        return axios.get(host + 'api/fights/draws/tossup?contestId=' + contestId + '&categoryId=' + categoryId, {
+            contestId: contestId,
+            categoryId: categoryId
+        })
+            .then((response) => {
+                dispatch(createAction(actionTypes.TOSSUP_CONTEST_FIGHTS_SUCCESS, response.data))
+            })
+            .catch((err) => {
+                dispatch(createAction(actionTypes.TOSSUP_CONTEST_FIGHTS_REJECTED))
+                dispatch(createAction(actionTypes.SHOW_ERROR, err.response != null
+                    ? err.response.data
+                    : "Cannot connect to server"))
+            })
+    }
+}
+

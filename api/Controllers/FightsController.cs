@@ -138,7 +138,39 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
                 _fightersTossupper.Tossup(fighters, fightsTree);
 
+                fightsTree.Print();
+
                 var fights = fightsTree.ToList();
+
+                await _fightsRepository.SaveFights(fights);
+
+                _fightsDiagramBuilder.GenerateFightDiagram(fights);
+                string fightsDrawsJson = _fightsDiagramBuilder.ToJson();
+
+                return Ok(fightsDrawsJson);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Draws/Tossup")]
+        public async Task<IActionResult> TossupFightsDraws([FromQuery] int contestId, [FromQuery] int categoryId)
+        {
+            try
+            {
+                var acceptedFighterRequests = await _contestRequestRepository.GetContestAcceptedFighterRequests(contestId, categoryId);
+                var fighters = acceptedFighterRequests.Select(r => r.User).ToList();
+                var fights = await _fightsRepository.GetFights(contestId, categoryId);
+
+                fights.ForEach(f => f.RedAthleteId = f.BlueAthleteId = null );
+
+                FightsTree fightsTree = new FightsTree(fights);
+                _fightersTossupper.Tossup(fighters, fightsTree);
+
+                fights = fightsTree.ToList();
 
                 await _fightsRepository.SaveFights(fights);
 

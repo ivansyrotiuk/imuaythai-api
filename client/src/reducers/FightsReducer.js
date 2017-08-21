@@ -5,7 +5,8 @@ const fightReducerInitialState = {
     fetched: false,
     error: null,
     draws: [],
-    generating: false
+    generating: false,
+    tossingup: false
 }
 const fightReducer = (state = fightReducerInitialState, action) => {
     switch (action.type) {
@@ -58,6 +59,22 @@ const fightReducer = (state = fightReducerInitialState, action) => {
             return {
                 ...state,
                 generating: false
+            }
+        case actionTypes.TOSSUP_CONTEST_FIGHTS:
+            return {
+                ...state,
+                tossingup: true
+            }
+        case actionTypes.TOSSUP_CONTEST_FIGHTS_SUCCESS:
+            return {
+                ...state,
+                tossingup: false,
+                draws: action.payload
+            }
+        case actionTypes.TOSSUP_CONTEST_FIGHTS_REJECTED:
+            return {
+                ...state,
+                tossingup: false
             }
         default:
             return state;
