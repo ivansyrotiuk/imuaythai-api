@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import RemoveButton from "../../views/Components/Buttons/RemoveButton"
-import EditButton from "../../views/Components/Buttons/EditButton"
-import AddButton from "../../views/Components/Buttons/AddButton"
-import Spinner from "../../views/Components/Spinners/Spinner"
-import TablePage from "../../views/Components/TablePage"
+import ActionButtonGroup from "../../../views/Components/Buttons/ActionButtonGroup"
+import AddButton from "../../../views/Components/Buttons/AddButton"
+import Spinner from "../../../views/Components/Spinners/Spinner"
+import TablePage from "../../../views/Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
-import { fetchNationalFederations, deleteInstitution } from "../../actions/InstitutionsActions"
+import { fetchNationalFederations, deleteInstitution } from "../../../actions/InstitutionsActions"
+
 
 class NationalFederationsPageContainer extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class NationalFederationsPageContainer extends Component {
   }
 
   addFederation() {
-    this.props.history.push('/institutions/add/national');
+    this.props.history.push('/institutions/national/add');
   }
 
   render() {
@@ -44,17 +44,14 @@ class NationalFederationsPageContainer extends Component {
                                                                      { federation.name }
                                                                    </td>
                                                                    <td>
-                                                                     <Link to={ "/institutions/" + federation.id }>
-                                                                     <EditButton id={ federation.id } />
-                                                                     </Link>
-                                                                     <RemoveButton id={ federation.id } click={ this.props.deleteFederation.bind(this, federation.id) } />
+                                                                     <ActionButtonGroup previewClick={ () => this.props.history.push("/institutions/national/" + federation.id) } editClick={ () => this.props.history.push("/institutions/national/edit/" + federation.id) } deleteClick={ this.props.deleteFederation.bind(this, federation.id) } />
                                                                    </td>
                                                                  </tr>);
 
     const headers = <tr>
-                      <th>Id</th>
-                      <th className="col-10">Name</th>
-                      <th>Action</th>
+                      <th className="col-1">Id</th>
+                      <th className="col-8">Name</th>
+                      <th className="col-3 text-center">Action</th>
                     </tr>
 
     return <TablePage pageHeader={ pageHeader } headers={ headers } content={ mappedFederations } />;

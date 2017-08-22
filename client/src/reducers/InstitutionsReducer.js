@@ -6,6 +6,7 @@ export default function reducer(state = {
     nationalFederations: [],
     continentalFederations: [],
     worldFederations: [],
+    institution: {},
     fetching: false,
     fetched: false,
     error: null
