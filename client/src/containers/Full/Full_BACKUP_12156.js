@@ -38,7 +38,6 @@ import GymsPageContainer from "../../containers/Institutions/Gyms/GymsPageContai
 import NationalFederationsPageContainer from "../../containers/Institutions/NationalFederations/NationalFederationsPageContainer"
 import ContinentalFederationsPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationsPageContainer"
 import ContinentalFederationViewPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationViewPageContainer"
-import GymViewPageContainer from "../../containers/Institutions/Gyms/GymViewPageContainer"
 
 import WorldFederationsPageContainer from "../../containers/Institutions/WorldFederations/WorldFederationsPageContainer"
 import InstitutionEditPageContainer from "../../containers/Institutions/InstitutionEditPageContainer"
@@ -69,8 +68,12 @@ class Full extends Component {
         <div className="app-body">
           <Sidebar {...this.props} />
           <main className="main">
+<<<<<<< HEAD
+            <Breadcrumb />
+=======
             <Breadcrumb/>
             <Errors />
+>>>>>>> 297dc523edd8d36e559f3fa3961bb166501232c2
             <div className="container-fluid">
               <Switch>
                 <Route path="/dashboard" name="Dashboard" component={ Dashboard } />
@@ -97,8 +100,8 @@ class Full extends Component {
                 <Route path="/institutions/world" component={ WorldFederationsPageContainer } />
                 <Route path="/institutions/world/:id" component={ WorldFederationsPageContainer } />
                 <Route path="/institutions/gyms/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
-                <Route path="/institutions/gyms/:id" component={ GymViewPageContainer } />
                 <Route path="/institutions/gyms" component={ GymsPageContainer } />
+                <Route path="/institutions/gyms/:id" component={ GymsPageContainer } />
                 <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPageContainer } />
                 <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditWrapperContainer } />
                 <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPageContainer } />

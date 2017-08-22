@@ -57,13 +57,14 @@ class GymsPageContainer extends Component {
                                                 { gym.country.name }
                                               </td>
                                               <td className="align-middle">
-                                                <ActionButtonGroup previewClick={ () => this.props.history.push("/institutions/gyms/" + gym.id) } editClick={ () => this.props.history.push("/institutions/gyms/edit/" + gym.id) } d eleteClick={ this.props.deleteGym.bind(this, gym.id) } />
+                                                <ActionButtonGroup previewClick={ () => this.props.history.push("/institutions/gyms/" + gym.id) } editClick={ () => this.props.history.push("/institutions/gyms/edit/" + gym.id) } deleteClick={ this.props.deleteGym.bind(this, gym.id) } />
                                               </td>
                                             </tr>);
 
     return <TablePage pageHeader={ pageHeader } headers={ tableHeaders } content={ mappedGyms } />;
   }
 }
+
 
 
 const mapStateToProps = (state, ownProps) => {

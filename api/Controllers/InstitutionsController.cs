@@ -183,6 +183,32 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 entity.VK = institution.VK;
                 entity.Website = institution.Website;
 
+                if (institution.Logo != null)
+                {
+                    var imageBase64 = institution.Logo.Split(',');
+                    if (imageBase64.Length>1)
+                    {
+                        var bytes = Convert.FromBase64String(imageBase64[1]);
+                        if (bytes.Length > 0)
+                        {
+                            if (!string.IsNullOrEmpty(entity.Logo))
+                            {
+                                var pathToImage = "./wwwroot" + entity.Logo.Replace($"{Request.Scheme}://{Request.Host}", "");
+                                System.IO.File.Delete(pathToImage);
+                            }
+                            var imageName = $"images/{Guid.NewGuid().ToString().Substring(0, 10)}.png";
+                            System.IO.File.WriteAllBytes($"./wwwroot/{imageName}", bytes);
+                            var location = new Uri($"{Request.Scheme}://{Request.Host}");
+
+                            entity.Logo = location.AbsoluteUri + imageName;
+                            institution.Logo = entity.Logo;
+                        }
+
+                    }
+                    
+                }
+
+
                 await _repository.Save(entity);
 
                 institution.Id = entity.Id;

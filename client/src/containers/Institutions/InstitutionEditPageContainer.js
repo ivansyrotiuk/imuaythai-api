@@ -40,20 +40,22 @@ class InstitutionEditPageContainer extends Component {
       return (<Spinner />);
     }
 
-
-
     const type = this.props.match.params.type;
     const header = <strong>Add { type } </strong>;
+
+
     const content = <InstitutionDataForm initialValues={ this.props.institution } onSubmit={ this.props.saveInstitution } countries={ this.props.countries } />;
+
     return <Page header={ header } content={ content } />;
+
   }
 }
 
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    countries: state.Countries.countries,
     institution: state.SingleInstitution.institution,
+    countries: state.Countries.countries,
     fetching: state.SingleInstitution.fetching,
     fetched: state.SingleInstitution.fetched,
     saved: state.SingleInstitution.saved
