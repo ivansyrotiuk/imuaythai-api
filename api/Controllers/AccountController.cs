@@ -76,8 +76,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
 
                 string encodedToken = _tokenGenerator.GenerateToken(user, roles);
-
-                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe });
+                var u = new { authToken = encodedToken, rememberMe = model.RememberMe, user= new {id = user.Id, firstName = user.FirstName, surname = user.Surname} };
+                var qr = QRCodeGenerator.GenerateQRCode(u);
+                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe, qrcode = qr, user = new {id = user.Id, firstName = user.FirstName, surname = user.Surname}});
             }
 
             if (result.IsLockedOut)
@@ -111,8 +112,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
              
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
+                   // await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                     //   $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
                         
                     _logger.LogInformation(3, "User created a new account with password.");
                     return Created("Email confirmation sent", null);
