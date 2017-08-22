@@ -14,14 +14,15 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
         public int RoundsCount { get; set; }
         public int BreakDuration { get; set; }
 
-        public static explicit operator RoundDto(Round category)
+        public static explicit operator RoundDto(Round round)
         {
             return new RoundDto
             {
-                Id = category.Id,
-                Name = category.Name,
-                Duration = category.Duration,
-                RoundsCount = category.RoundsCount
+                Id = round.Id,
+                Name = round.Name,
+                Duration = round.Duration,
+                RoundsCount = round.RoundsCount,
+                BreakDuration = round.BreakDuration
             };
         }
     }
