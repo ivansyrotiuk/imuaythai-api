@@ -19,6 +19,9 @@ using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Services;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Users;
+using MuaythaiSportManagementSystemApi.Fights;
+using MuaythaiSportManagementSystemApi.WebSockets;
+using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -71,6 +74,8 @@ namespace MuaythaiSportManagementSystemApi
                        .AllowAnyHeader();
             }));
 
+            services.AddWebSocketManager();
+
             // Add application services.
             services.AddScoped<IEmailSender, AuthMessageSender>();
             services.AddScoped<ISmsSender, AuthMessageSender>();
@@ -80,7 +85,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IContestRangesRepository, ContestRangesRepository>();
             services.AddScoped<IKhanLevelsRepository, KhanLevelRepository>();
             services.AddScoped<ISuspensionTypesRepository, SuspensionTypesRepository>();
-
+            services.AddScoped<IFightRepository, FightRepository>();
             services.AddScoped<IContestTypePointsRepository, ContestTypePointsRepository>();
             services.AddScoped<ICountriesRepository, CountriesRepository>();
             services.AddScoped<IRolesRepository, RolesRepository>();
@@ -95,17 +100,21 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IContestCategoryMappingsRepository, ContestCategoryMappingsRepository>();
             services.AddScoped<IContestRingsRepository, ContestRingsRepository>();
 
+            services.AddScoped<IFightersTossupper, FightersTossupper>();
+            services.AddScoped<IFightsRepository, FightsRepository>();
+            services.AddScoped<IFightsDiagramBuilder, FightsDiagramBuilder>();
 
             services.Configure<EmailConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseStaticFiles();
+            app.UseWebSockets();
             app.UseCors("MyPolicy");            
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
@@ -120,7 +129,11 @@ namespace MuaythaiSportManagementSystemApi
                     ValidateAudience = false 
                 }
             });
-         
+
+            app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
+            app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
+            app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
+
 
             app.UseIdentity();
             app.UseMvc();

@@ -106,6 +106,18 @@ class Sidebar extends Component {
                 <li className="nav-item">
                   <NavLink to="/dictionaries/points" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest points</NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/weightcategories" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Weight categories</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/rounds" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Rounds</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/structures" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Fight structures</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="/dictionaries/categories" className="nav-link" activeClassName="active"><i className="icon-puzzle"></i> Contest categories</NavLink>
+                </li>
               </ul>
             </li>
             <ContestsDropdown/>

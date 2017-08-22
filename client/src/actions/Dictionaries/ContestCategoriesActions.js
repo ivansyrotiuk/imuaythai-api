@@ -22,3 +22,12 @@ export function fetchContestCategories() {
             })
     }
 }
+export function deleteContestCategory(id) {
+    return function(dispatch) {
+        dispatch({
+            type: actionTypes.DELETE_CONTEST_CATEGORY,
+            payload: id
+        });
+
+    }
+}

@@ -76,8 +76,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
 
                 string encodedToken = _tokenGenerator.GenerateToken(user, roles);
-
-                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe });
+                var u = new { authToken = encodedToken, rememberMe = model.RememberMe, user= new {id = user.Id, firstName = user.FirstName, surname = user.Surname} };
+                var qr = QRCodeGenerator.GenerateQRCode(u);
+                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe, qrcode = qr, user = new {id = user.Id, firstName = user.FirstName, surname = user.Surname}});
             }
 
             if (result.IsLockedOut)
@@ -111,8 +112,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
              
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
+                   // await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                     //   $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
                         
                     _logger.LogInformation(3, "User created a new account with password.");
                     return Created("Email confirmation sent", null);
@@ -137,17 +138,21 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     return BadRequest("User not found");
                 }
 
-                Institution gym = model.OwnGym == true ? new Institution
+                Institution gym;
+                if (model.OwnGym != true)
                 {
-                    Name = model.GymName,
-                    CountryId = model.CountryId
-                } : await _institutionsRepository.Get(model.InstitutionId.Value);
-
-                if (model.OwnGym == true)
+                    gym = await _institutionsRepository.Get(model.InstitutionId.Value);
+                }
+                else
                 {
+                    gym = new Institution
+                    {
+                        Name = model.GymName,
+                        CountryId = model.CountryId
+                    };
                     await _institutionsRepository.Save(gym);
                 }
-
+                
                 UserRoleRequest entity = new UserRoleRequest();
                 entity.RoleId = model.RoleId;
                 entity.UserId = userId;
@@ -157,8 +162,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
                 user.InstitutionId = gym.Id;
                 user.CountryId = model.CountryId;
+                user.Surname = model.Surname;
+                user.FirstName = model.FirstName;
 
-                
                 await _userManager.UpdateAsync(user);
                 await _userManager.AddToRoleAsync(user, "Guest");
                 var roles = await _userManager.GetRolesAsync(user);
@@ -290,6 +296,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             return Ok(rolesList);
         }
-        
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("setup_roles")]
+        public async Task<ActionResult> SetupUserRoles()
+        {
+            var fighters = await _userManager.GetUsersInRoleAsync("Fighter");
+            var fightersIds = fighters.Select(f => f.Id);
+            var users = _userManager.Users.Where(u => !fightersIds.Contains(u.Id) ).ToList();
+            foreach (var user in users)
+            {
+                await _userManager.AddToRoleAsync(user, "Fighter");
+            }
+
+            return Ok(users);
+        }
     }
 }

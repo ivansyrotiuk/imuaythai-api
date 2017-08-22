@@ -321,6 +321,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("ServiceBreakDuration");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ContestTypePointsId");
@@ -521,11 +523,13 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<string>("BlueAthleteId");
 
+                    b.Property<int?>("ContestCategoryId");
+
                     b.Property<int>("ContestId");
 
-                    b.Property<byte>("KO");
+                    b.Property<byte?>("KO");
 
-                    b.Property<DateTime>("KOTime");
+                    b.Property<int?>("KOTime");
 
                     b.Property<int?>("NextFightId");
 
@@ -533,10 +537,9 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<string>("RefereeId");
 
-                    b.Property<string>("Ring")
-                        .IsRequired();
+                    b.Property<string>("Ring");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime?>("StartDate");
 
                     b.Property<int>("StructureId");
 
@@ -548,7 +551,11 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.HasIndex("BlueAthleteId");
 
+                    b.HasIndex("ContestCategoryId");
+
                     b.HasIndex("ContestId");
+
+                    b.HasIndex("NextFightId");
 
                     b.HasIndex("RedAthleteId");
 
@@ -568,7 +575,7 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("FightId");
+                    b.Property<int>("FightId");
 
                     b.Property<string>("JudgeId");
 
@@ -595,6 +602,10 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     b.Property<int>("FightId");
 
                     b.Property<string>("FighterId");
+
+                    b.Property<string>("Injury");
+
+                    b.Property<int?>("InjuryTime");
 
                     b.Property<int>("J");
 
@@ -784,6 +795,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BreakDuration");
 
                     b.Property<int>("Duration");
 
@@ -1081,10 +1094,18 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                         .WithMany("AsBlueFights")
                         .HasForeignKey("BlueAthleteId");
 
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ContestCategory", "ContestCategory")
+                        .WithMany()
+                        .HasForeignKey("ContestCategoryId");
+
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Contest", "Contest")
                         .WithMany("Fights")
                         .HasForeignKey("ContestId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MuaythaiSportManagementSystemApi.Models.Fight", "NextFight")
+                        .WithMany()
+                        .HasForeignKey("NextFightId");
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "RedAthlete")
                         .WithMany("AsRedFights")
@@ -1112,7 +1133,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                 {
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.Fight", "Fight")
                         .WithMany("FightJudgesMappings")
-                        .HasForeignKey("FightId");
+                        .HasForeignKey("FightId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser", "Judge")
                         .WithMany("FightJudgesMappings")

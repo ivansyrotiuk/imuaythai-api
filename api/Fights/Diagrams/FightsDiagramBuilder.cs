@@ -1,6 +1,7 @@
 ﻿using MuaythaiSportManagementSystemApi.Extensions;
 using MuaythaiSportManagementSystemApi.Fights.FightsStructure;
 using MuaythaiSportManagementSystemApi.Models;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +9,18 @@ using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Fights
 {
-    public class FighDiagramtProvider
+    public class FightsDiagramBuilder : IFightsDiagramBuilder
     {
 
         private List<Fight> _fights;
         private List<Game> _games;
         private string _rootFightId;
 
-        public FighDiagramtProvider(List<Fight> fights)
+        public List<Game> GenerateFightDiagram(List<Fight> fights)
         {
-
             _fights = fights;
             _games = new List<Game>();
 
-           
-        }
-
-        public List<Game> GenerateFightDiagram()
-        {
             var rootFight = _fights.FirstOrDefault(f => f.NextFightId == null);
 
             if (rootFight == null)
@@ -36,10 +31,20 @@ namespace MuaythaiSportManagementSystemApi.Fights
             return _games;
         }
 
+        public string ToJson()
+        {
+            string gamesJson = Newtonsoft.Json.JsonConvert.SerializeObject(_games.ToArray(), new Newtonsoft.Json.JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+
+            return gamesJson;
+        }
+
         private void BuildFightDiagram(Fight root)
         {
             var figthsToRoot = _fights.Where(f => f.NextFightId == root.Id).ToList();
-
+   
             foreach (var fight in figthsToRoot)
             {
                 BuildFightDiagram(fight);

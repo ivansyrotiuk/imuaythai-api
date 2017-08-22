@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Dictionaries;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -24,8 +25,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var structures = await _repository.GetAll();
-                return Ok(structures);
+                var categories = await _repository.GetAll();
+                return Ok(categories.Select(c=>(WeightAgeCategoryDto)c).ToList());
             }
             catch (Exception ex)
             {
@@ -40,7 +41,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                 var result = await _repository.Get(id) ?? new WeightAgeCategory();
-                return Ok(result);
+                return Ok((WeightAgeCategoryDto)result);
             }
             catch (Exception ex)
             {
@@ -50,11 +51,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("weightcategories/save")]
-        public async Task<IActionResult> Save([FromBody]WeightAgeCategory category)
+        public async Task<IActionResult> Save([FromBody]WeightAgeCategoryDto category)
         {
             try
             {
-                await _repository.Save(category);
+                WeightAgeCategory categoryEntity = category.Id == 0 ? new WeightAgeCategory() : await _repository.Get(category.Id);
+                categoryEntity.Id = category.Id;
+                categoryEntity.Name = category.Name;
+                categoryEntity.MaxAge = category.MaxAge;
+                categoryEntity.MinAge = category.MinAge;
+                categoryEntity.MinWeight = category.MinWeight;
+                categoryEntity.MaxWeight = category.MaxWeight;
+                categoryEntity.Gender = category.Gender;
+
+                await _repository.Save(categoryEntity);
+
+                category.Id = categoryEntity.Id;
                 return Created("Add", category);
             }
             catch (Exception ex)
@@ -66,7 +78,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpPost]
         [Route("weightcategories/remove")]
-        public async Task<IActionResult> Remove([FromBody]WeightAgeCategory category)
+        public async Task<IActionResult> Remove([FromBody]WeightAgeCategoryDto category)
         {
             try
             {

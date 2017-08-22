@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes'
 const contestCategoriesInitialState = {
     categories: [],
     fetching: false,
+    fetched: false,
     error: null
 }
 export default function (state = contestCategoriesInitialState, action) {
@@ -16,6 +17,7 @@ export default function (state = contestCategoriesInitialState, action) {
             return {
                 ...state,
                 fetching: false,
+                fetched: true,
                 categories: action.payload
             }
         case actionTypes.FETCH_CONTEST_CATEGORIES_REJECTED:
@@ -23,6 +25,13 @@ export default function (state = contestCategoriesInitialState, action) {
                 ...state,
                 fetching: false,
                 error: action.payload
+            }
+        case actionTypes.DELETE_CONTEST_CATEGORY:
+            return {
+                ...state,
+                points: state
+                    .points
+                    .filter(t => t.id !== action.payload)
             }
         default:
             return state

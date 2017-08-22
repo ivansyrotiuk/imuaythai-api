@@ -18,17 +18,26 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         }
         public Task<FightStructure> Get(int id)
         {
-            return _context.FightStructures.FirstOrDefaultAsync(c => c.Id == id);
+            return _context.FightStructures
+                .Include(f => f.WeightAgeCategory)
+                .Include(f => f.Round)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public Task<List<FightStructure>> GetAll()
         {
-            return _context.FightStructures.ToListAsync();
+            return _context.FightStructures
+                .Include(f => f.WeightAgeCategory)
+                .Include(f => f.Round)
+                .ToListAsync();
         }
 
         public Task<List<FightStructure>> Find(Func<FightStructure, bool> predicate)
         {
-            return _context.FightStructures.Where(predicate).AsQueryable().ToListAsync();
+            return _context.FightStructures
+                .Include(f => f.WeightAgeCategory)
+                .Include(f => f.Round)
+                .Where(predicate).AsQueryable().ToListAsync();
         }
 
         public Task Save(FightStructure structure)
