@@ -27,7 +27,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             IContestRequestRepository contestRequestsRepository,
             IContestCategoryMappingsRepository contestCategoryMappingsRepository,
             IContestRingsRepository contestRingsRepository,
-            IUsersRepository userRepository, 
+            IUsersRepository userRepository,
             UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
@@ -330,6 +330,27 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 await _contestRequestsRepository.Remove(requestEntity);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("categories")]
+        public async Task<IActionResult> GetContestCategoriesWithFighters([FromQuery] int contestId)
+        {
+            try
+            {
+                var requests = await _contestRequestsRepository.GetContestAcceptedFighterRequests(contestId);
+                var fightersInCategories = requests.GroupBy(r => r.ContestCategory)
+                    .Select(g => new ContestCategoryWithFightersDto(g.Key)
+                    {
+                        Fighters = g.Select(f => new FighterDto(f.User)).ToList()
+                    }).ToList();
+
+                return Ok(fightersInCategories);
             }
             catch (Exception ex)
             {

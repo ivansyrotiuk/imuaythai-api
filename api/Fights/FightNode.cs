@@ -17,10 +17,14 @@ namespace MuaythaiSportManagementSystemApi.Fights
             Children = new List<FightNode>(2);
         }
 
-        public FightNode(FightNode parentFight)
+        public FightNode(FightNode parentFight):this()
         {
             Parent = parentFight;
-            Children = new List<FightNode>(2);
+        }
+
+        public FightNode(Fight fight, FightNode parent) : this(parent)
+        {
+            Fight = fight;
         }
     }
 }

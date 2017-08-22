@@ -91,6 +91,12 @@ namespace MuaythaiSportManagementSystemApi.Data
              .WithMany(u => u.JudgeFightPoints)
              .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
 
+            builder.Entity<Fight>()
+           .HasOne(h => h.ContestCategory)
+           .WithMany()
+           .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict).IsRequired(false);
+
+
         }
 
         public virtual DbSet<Document> Documents { get; set; }

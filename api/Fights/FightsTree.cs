@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MuaythaiSportManagementSystemApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +11,12 @@ namespace MuaythaiSportManagementSystemApi.Fights
         private readonly int _fightersCount;
         private readonly int _contestId;
         private readonly int _fightStructureId;
+        private readonly int _contestCategoryId;
 
         private FightNode _root;
         public FightNode Root => _root;
 
-        public FightsTree(int contestId, int fightStructureId, int fighterCount)
+        public FightsTree(int contestId, int contestCategoryId, int fightStructureId, int fighterCount)
         {
             if (fighterCount < 1)
             {
@@ -24,12 +26,27 @@ namespace MuaythaiSportManagementSystemApi.Fights
             _fightersCount = fighterCount;
             _contestId = contestId;
             _fightStructureId = fightStructureId;
+            _contestCategoryId = contestCategoryId;
 
             _root = new FightNode();
             BuildTree(_root, _fightersCount);
         }
 
-        private void BuildTree(FightNode root , int fightersCount)
+        public FightsTree(List<Fight> fights)
+        {
+            _root = new FightNode();
+            BuildTree(_root, fights, parent: null);
+        }
+
+        public List<Fight> ToList()
+        {
+            List<Fight> fightsList = new List<Fight>();
+            NodeToList(_root, fightsList);
+
+            return fightsList;
+        }
+
+        private void BuildTree(FightNode root, int fightersCount)
         {
             if (fightersCount == 1)
             {
@@ -39,7 +56,8 @@ namespace MuaythaiSportManagementSystemApi.Fights
             root.Fight = new Models.Fight
             {
                 ContestId = _contestId,
-                StructureId = _fightStructureId
+                StructureId = _fightStructureId,
+                ContestCategoryId = _contestCategoryId
             };
 
 
@@ -70,6 +88,40 @@ namespace MuaythaiSportManagementSystemApi.Fights
             }
         }
 
+        private void BuildTree(FightNode node, List<Fight> fights, FightNode parent)
+        {
+            if (fights.Count == 0)
+            {
+                return;
+            }
+
+            var nodeFight = fights.FirstOrDefault(fight => fight.NextFightId == parent?.Fight.Id);
+            fights.Remove(nodeFight);
+            node.Fight = nodeFight;
+
+            var childrenFights = fights.Where(fight => fight.NextFightId == nodeFight.Id).ToList();
+
+            foreach(var fight in childrenFights)
+            {
+                FightNode childNode = new FightNode(fight, node);
+                node.Children.Add(childNode);
+                BuildTree(node:childNode, fights:fights, parent: node);
+            }
+        }
+
+        private void NodeToList(FightNode node, List<Fight> destinationList)
+        {
+            var fight = node.Fight;
+            fight.NextFight = node.Parent?.Fight;
+            destinationList.Add(fight);
+
+            foreach (var child in node.Children)
+            {
+                NodeToList(child, destinationList);
+            }
+        }
+
+
         public void Print()
         {
             PrintTree(_root);
@@ -78,7 +130,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
         private void PrintTree(FightNode root, int level = 0)
         {
             string offset = string.Empty;
-            for(int i=0;i <= level; i++)
+            for (int i = 0; i <= level; i++)
             {
                 offset += "         ";
             }
@@ -86,17 +138,17 @@ namespace MuaythaiSportManagementSystemApi.Fights
             Console.WriteLine(offset + "Fight: ");
             if (root.Children.Count == 1)
             {
-                Console.WriteLine(offset + "       Blue fighter");
+                Console.WriteLine(offset + "       " + root.Children[0].Fight.BlueAthleteId);
             }
             if (root.Children.Count == 0)
             {
-                Console.WriteLine(offset + "       Red fighter");
-                Console.WriteLine(offset + "       Blue fighter");
+                Console.WriteLine(offset + "       " + root.Fight.RedAthleteId);
+                Console.WriteLine(offset + "       " + root.Fight.BlueAthleteId );
             }
             foreach (var node in root.Children)
             {
                 PrintTree(node, level + 1);
             }
-        } 
+        }
     }
 }

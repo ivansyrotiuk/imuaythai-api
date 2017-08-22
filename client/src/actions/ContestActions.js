@@ -263,4 +263,29 @@ export const removeContestRequest = (request) => {
     }
 }
 
+export const fetchCategoriesWithFighters = (contestId) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.FETCH_CONTEST_CATEGORIES_WITH_FIGHTERS
+        });
+
+        return axios.get(host + "api/contests/categories?contestId=" + contestId)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_CATEGORIES_WITH_FIGHTERS_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.CONTEST_CANCEL_FETCHING
+                })
+                dispatch({
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.data
+                })
+            })
+    }
+}
+
 

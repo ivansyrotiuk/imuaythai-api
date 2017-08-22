@@ -15,7 +15,7 @@ import Contest from "./ContestReducer"
 import ContestCategories from "./ContestCategoriesReducer"
 import SingleUser from "./UserReducer"
 import SingleInstitution from "./SingleInstitutionReducer"
-import Fight from './FightReducer'
+import Fights from './FightsReducer'
 import Errors from './ErrorsReducer'
 import WeightCategories from "./WeightCategoriesReducer"
 import Rounds from "./RoundsReducer"
@@ -38,7 +38,7 @@ export default combineReducers({
     ContestPoints,
     Contest,
     ContestCategories,
-    Fight,
+    Fights,
     Errors,
     WeightCategories,
     Rounds,
