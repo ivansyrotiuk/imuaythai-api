@@ -56,7 +56,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
                     
                 case RequestType.SendPoints:
-                    request.Data = await SavePoints(request.Data);
+                    await SavePoints(request.Data);
                     await SendMessageAsync(_jurySocketId, request);
                     break;
 
@@ -75,7 +75,6 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
                     
                 case RequestType.EndRound:
-                case RequestType.EndFight:
                 case RequestType.ShowPrematureEndPanel:
                     await SendMessageToAllAsync(new Request
                     {
@@ -83,7 +82,14 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                         Data = null
                     }, new List<string>() { _jurySocketId });
                     break;
-
+                     case RequestType.EndFight:
+                     roundCount = 0;
+                    await SendMessageToAllAsync(new Request
+                    {
+                        RequestType = request.RequestType,
+                        Data = null
+                    }, new List<string>() { _jurySocketId });
+                    break;
 
             }
 
@@ -93,11 +99,8 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         private async Task SaveInjury(string data)
         {
              var points = JsonConvert.DeserializeObject<FightPoint>(data);
-             var entityPoints = await _context.FightPoints.FirstOrDefaultAsync(f => f.Id == points.Id && f.FighterId == points.FighterId && f.JudgeId == points.JudgeId);
-                entityPoints.Injury = points.Injury;
-                entityPoints.InjuryTime = points.InjuryTime;
-
-            await _context.SaveChangesAsync();
+             _context.FightPoints.Add(points);
+           await _context.SaveChangesAsync();
         }
         int roundCount = 0;
         private string GetRoundId()
@@ -112,7 +115,13 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             foreach (var pointString in pointsArray)
             {
                 var points = JsonConvert.DeserializeObject<FightPoint>(pointString);
-                var entityPoints = await _context.FightPoints.FirstOrDefaultAsync(f => f.Id == points.Id && f.FighterId == points.FighterId && f.JudgeId == points.JudgeId);
+                var entityPoints = await _context.FightPoints.FirstOrDefaultAsync(f=> 
+                f.FighterId == points.FighterId 
+                && f.JudgeId == points.JudgeId 
+                && f.RoundId == points.RoundId
+                && f.FightId == points.FightId);
+                if(entityPoints == null)
+                    return;
                 entityPoints.Accepted = points.Accepted;
                 entityPoints.Points = points.Points;
 
@@ -121,13 +130,11 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             
         }
 
-        private async Task<string> SavePoints(string data)
+        private async Task SavePoints(string data)
         {
            var points = JsonConvert.DeserializeObject<FightPoint>(data);
            _context.FightPoints.Add(points);
            await _context.SaveChangesAsync();
-
-           return JsonConvert.SerializeObject(points, _jsonSerializerSettings);
         }
 
         public override async Task OnDisconnected(WebSocket socket)
