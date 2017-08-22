@@ -33,20 +33,11 @@ import SuspensionTypesPage from "../../views/Dictionaries/SuspensionTypes/Suspen
 import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/SuspensionTypesDetailsPage"
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage"
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage"
-import WeightCategoriesPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesPage"
-import WeightCategoriesDetailsPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesDetailsPage"
-import RoundsPage from "../../views/Dictionaries/Rounds/RoundsPage"
-import RoundsDetailsPage from "../../views/Dictionaries/Rounds/RoundsDetailsPage"
-import StructuresPage from "../../views/Dictionaries/FightStructures/StructuresPage"
-import StructuresDetailsPage from "../../views/Dictionaries/FightStructures/StructuresDetailsPage"
-import ContestCategoriesPage from "../../views/Dictionaries/ContestCategories/ContestCategoriesPage"
-import ContestCategoriesDetailsPage from "../../views/Dictionaries/ContestCategories/ContestCategoriesDetailsPage"
 
 import GymsPageContainer from "../../containers/Institutions/Gyms/GymsPageContainer"
 import NationalFederationsPageContainer from "../../containers/Institutions/NationalFederations/NationalFederationsPageContainer"
 import ContinentalFederationsPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationsPageContainer"
 import ContinentalFederationViewPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationViewPageContainer"
-import GymViewPageContainer from "../../containers/Institutions/Gyms/GymViewPageContainer"
 
 import WorldFederationsPageContainer from "../../containers/Institutions/WorldFederations/WorldFederationsPageContainer"
 import InstitutionEditPageContainer from "../../containers/Institutions/InstitutionEditPageContainer"
@@ -65,10 +56,9 @@ import RoleRequestsPageContainer from "../../containers/Users/RoleRequestsPageCo
 import ContestsContainer from "../Contest/ContestsContainer"
 import ContestEditContainer from '../Contest/ContestEditContainer'
 import ContestViewContainer from '../Contest/ContestViewContainer'
-import ContestCategoriesViewContainer from '../Contest/ContestCategoriesViewContainer'
 import RequestsManagerContainer from '../Contest/RequestsManagerContainer'
 import RequestAddingContainer from '../Contest/RequestAddingContainer'
-import FightsDrawsContainer from '../Fight/FightsDrawsContainer'
+import CreateFightsDiagram from '../Fight/CreateDiagramContainer'
 import Errors from '../Errors/Errors'
 class Full extends Component {
   render() {
@@ -78,8 +68,12 @@ class Full extends Component {
         <div className="app-body">
           <Sidebar {...this.props} />
           <main className="main">
+<<<<<<< HEAD
+            <Breadcrumb />
+=======
             <Breadcrumb/>
             <Errors />
+>>>>>>> 297dc523edd8d36e559f3fa3961bb166501232c2
             <div className="container-fluid">
               <Switch>
                 <Route path="/dashboard" name="Dashboard" component={ Dashboard } />
@@ -106,8 +100,8 @@ class Full extends Component {
                 <Route path="/institutions/world" component={ WorldFederationsPageContainer } />
                 <Route path="/institutions/world/:id" component={ WorldFederationsPageContainer } />
                 <Route path="/institutions/gyms/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
-                <Route path="/institutions/gyms/:id" component={ GymViewPageContainer } />
                 <Route path="/institutions/gyms" component={ GymsPageContainer } />
+                <Route path="/institutions/gyms/:id" component={ GymsPageContainer } />
                 <Route path="/users/(role_requests)" name="RoleRequests" component={ RoleRequestsPageContainer } />
                 <Route path="/users/:id/(edit)" name="UserEdit" component={ UserEditWrapperContainer } />
                 <Route path="/users/:id/(roles)" name="UserRoles" component={ UserRolesPageContainer } />
@@ -127,29 +121,16 @@ class Full extends Component {
                 <Route path="/dictionaries/suspensions/:id" name="SuspensionType" component={ SuspensionsDetailsPage } />
                 <Route path="/dictionaries/suspensions/" name="SuspensionTypes" component={ SuspensionTypesPage } />
                 <Route path="/dictionaries/suspensions" name="SuspensionTypes" component={ SuspensionTypesPage } />
-                <Route path="/dictionaries/weightcategories/:id" name="WeightCategory" component={ WeightCategoriesDetailsPage } />
-                <Route path="/dictionaries/weightcategories/" name="WeightCategories" component={ WeightCategoriesPage } />
-                <Route path="/dictionaries/weightcategories" name="WeightCategories" component={ WeightCategoriesPage } />
                 <Route path="/dictionaries/points/:id" name="ContestPoint" component={ ContestPointsDetailsPage } />
                 <Route path="/dictionaries/points/" name="ContestPoints" component={ ContestPointsPage } />
                 <Route path="/dictionaries/points" name="ContestPoints" component={ ContestPointsPage } />
-                <Route path="/dictionaries/rounds/:id" name="Rounds" component={ RoundsDetailsPage } />
-                <Route path="/dictionaries/rounds/" name="Rounds" component={ RoundsPage } />
-                <Route path="/dictionaries/rounds" name="Rounds" component={ RoundsPage } />
-                <Route path="/dictionaries/structures/:id" name="Structures" component={ StructuresDetailsPage } />
-                <Route path="/dictionaries/structures/" name="Structures" component={ StructuresPage } />
-                <Route path="/dictionaries/structures" name="Structures" component={ StructuresPage } />
-                <Route path="/dictionaries/categories/:id" name="ContestCategories" component={ ContestCategoriesDetailsPage } />
-                <Route path="/dictionaries/categories/" name="ContestCategories" component={ ContestCategoriesPage } />
-                <Route path="/dictionaries/categories" name="ContestCategories" component={ ContestCategoriesPage } />
                 <Route path="/contests/:id/(institution_requests)" name="Add contest requests" component={ RequestAddingContainer } />
                 <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
-                <Route path="/contests/:id/(categories)" name="Contest categries" component={ ContestCategoriesViewContainer } />
-                <Route path="/contests/:contestId/category/:categoryId/draws" name="Fights draws" component={ FightsDrawsContainer } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />
                 <Route path="/contests/" name="Contests" component={ ContestsContainer } />
+                <Route path="/fight" name="fights" component={ CreateFightsDiagram } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </div>
