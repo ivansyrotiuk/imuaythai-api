@@ -21,6 +21,7 @@ import WeightCategories from "./WeightCategoriesReducer"
 import Rounds from "./RoundsReducer"
 import Structures from "./StructuresReducer"
 import { reducer as reduxFormReducer } from 'redux-form';
+
 export default combineReducers({
     Account,
     Institutions,

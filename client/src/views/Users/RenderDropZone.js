@@ -18,6 +18,7 @@ class RenderDropZone extends Component {
             maxHeight: "196px",
             width: "auto",
             height: "auto"
+
         }
         return (
             <Dropzone onDrop={ (filesToUpload, e) => {
@@ -34,7 +35,11 @@ class RenderDropZone extends Component {
                    } }>
               <img src={ this.state.base64 != "" ? this.state.base64 : this.props.imageUrl } style={ style } />
             </Dropzone>
-            );
+
+
+
+        )
+
     }
 }
 export default RenderDropZone;

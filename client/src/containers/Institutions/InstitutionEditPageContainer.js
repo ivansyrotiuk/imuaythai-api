@@ -7,8 +7,6 @@ import axios from "axios";
 import Spinner from "../../views/Components/Spinners/Spinner"
 import InstitutionDataForm from "../../views/Institutions/InstitutionDataForm"
 import Page from "../../views/Components/Page"
-import { reset } from 'redux-form';
-
 class InstitutionEditPageContainer extends Component {
   componentWillMount() {
     const id = this.props.match.params.id;
@@ -17,6 +15,7 @@ class InstitutionEditPageContainer extends Component {
     }
 
     const type = this.props.match.params.type;
+
     if (type) {
       this.props.addInstitution(type);
     }
@@ -27,26 +26,39 @@ class InstitutionEditPageContainer extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.saved) {
+      this.props.resetInstitution();
+      this.props.history.goBack();
+    }
+  }
+
   render() {
-    const {institution, fetching} = this.props;
+    const {institution, fetching, saved} = this.props;
 
     if (fetching) {
-      return (<Spinner/>);
+      return (<Spinner />);
     }
 
-    const header = <strong>Gym</strong>;
+    const type = this.props.match.params.type;
+    const header = <strong>Add { type } </strong>;
+
+
     const content = <InstitutionDataForm initialValues={ this.props.institution } onSubmit={ this.props.saveInstitution } countries={ this.props.countries } />;
+
     return <Page header={ header } content={ content } />;
+
   }
 }
 
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    countries: state.Countries.countries,
     institution: state.SingleInstitution.institution,
+    countries: state.Countries.countries,
     fetching: state.SingleInstitution.fetching,
-    fetched: state.SingleInstitution.fetched
+    fetched: state.SingleInstitution.fetched,
+    saved: state.SingleInstitution.saved
   }
 }
 
@@ -65,6 +77,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     saveInstitution: (institution) => {
       return dispatch(saveInstitution(institution));
+    },
+    resetInstitution: () => {
+      dispatch(resetInstitution())
     }
   }
 }

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import RemoveButton from "../../views/Components/Buttons/RemoveButton"
-import EditButton from "../../views/Components/Buttons/EditButton"
-import AddButton from "../../views/Components/Buttons/AddButton"
-import Spinner from "../../views/Components/Spinners/Spinner"
-import TablePage from "../../views/Components/TablePage"
+import AddButton from "../../../views/Components/Buttons/AddButton"
+import Spinner from "../../../views/Components/Spinners/Spinner"
+import ActionButtonGroup from "../../../views/Components/Buttons/ActionButtonGroup"
+import TablePage from "../../../views/Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
-import { fetchWorldFederations, deleteInstitution } from "../../actions/InstitutionsActions"
+import { fetchContinentalFederations, deleteInstitution } from "../../../actions/InstitutionsActions"
 
-class WorldFederationsPageContainer extends Component {
+class ContinentalFederationsPageContainer extends Component {
   constructor(props) {
     super(props);
     this.addFederation = this.addFederation.bind(this);
@@ -17,43 +16,44 @@ class WorldFederationsPageContainer extends Component {
   componentWillMount() {
     this.props.fetchFederations();
   }
+
   addFederation() {
-    this.props.history.push('/institutions/add/world');
+    this.props.history.push('/institutions/continental/add');
   }
 
   render() {
     const {federations, fetching} = this.props;
 
-
     if (fetching) {
       return <Spinner />
     }
 
-    const pageHeader = <div><strong>World federations</strong>
+    const pageHeader = <div><strong>Continental federations</strong>
                          <div className="pull-right">
-                           <AddButton click={ this.addFederation } />
+                           <AddButton click={ this.addFederation } tip={ "Add Federation" } />
                          </div>
                        </div>;
 
     const mappedFederations = federations.map((federation, i) => <tr key={ i }>
                                                                    <td>
+                                                                     <Link to={ "/institutions/continental/" + federation.id }>
                                                                      { federation.id }
+                                                                     </Link>
                                                                    </td>
                                                                    <td>
                                                                      { federation.name }
                                                                    </td>
+                                                                   <td>Europe</td>
                                                                    <td>
-                                                                     <Link to={ "/institutions/" + federation.id }>
-                                                                     <EditButton id={ federation.id } />
-                                                                     </Link>
-                                                                     <RemoveButton id={ federation.id } click={ this.props.deleteFederation.bind(this, federation.id) } />
+                                                                     <ActionButtonGroup previewClick={ () => this.props.history.push("/institutions/continental/" + federation.id) } editClick={ () => this.props.history.push("/institutions/continental/edit/" + federation.id) } deleteClick={ this.props.deleteFederation.bind(this, federation.id) } />
                                                                    </td>
                                                                  </tr>);
 
     const headers = <tr>
-                      <th>Id</th>
-                      <th className="col-10">Name</th>
-                      <th>Action</th>
+                      <th className="col-1">Id</th>
+                      <th className="col-5">Name</th>
+                      <th className="col-3">Continent</th>
+                      <th className="col-2 text-center">Actions</th>
                     </tr>
 
     return <TablePage pageHeader={ pageHeader } headers={ headers } content={ mappedFederations } />;
@@ -63,7 +63,7 @@ class WorldFederationsPageContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    federations: state.Institutions.worldFederations,
+    federations: state.Institutions.continentalFederations,
     fetching: state.Institutions.fetching,
     fetched: state.Institutions.fetched
   }
@@ -72,7 +72,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchFederations: () => {
-      dispatch(fetchWorldFederations())
+      dispatch(fetchContinentalFederations())
     },
     deleteFederation: (id) => {
       return dispatch(deleteInstitution(id));
@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorldFederationsPageContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ContinentalFederationsPageContainer)

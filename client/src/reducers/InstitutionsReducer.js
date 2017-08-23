@@ -6,6 +6,7 @@ export default function reducer(state = {
     nationalFederations: [],
     continentalFederations: [],
     worldFederations: [],
+    institution: {},
     fetching: false,
     fetched: false,
     error: null
@@ -115,6 +116,15 @@ export default function reducer(state = {
         fetching: false,
         fetched: true,
         countryGyms: action.payload
+      }
+    }
+    case actionTypes.DELETE_INSTITUTION_SUCCESS: {
+      return {
+        ...state,
+        gyms: state.gyms.filter(t => t.id !== action.payload),
+        nationalFederations: state.nationalFederations.filter(t => t.id !== action.payload),
+        continentalFederations: state.continentalFederations.filter(t => t.id !== action.payload),
+        worldFederations: state.worldFederations.filter(t => t.id !== action.payload)
       }
     }
   }

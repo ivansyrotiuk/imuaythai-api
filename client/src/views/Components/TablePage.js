@@ -20,6 +20,8 @@ export const TablePage = (props) => {
                   </div>
 
 
+
+
   return <Page header={ header } content={ content } colsCount={ colsCount } />
 }
 

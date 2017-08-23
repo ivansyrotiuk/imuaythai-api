@@ -46,7 +46,7 @@ class FightersPageContainer extends Component {
                       <th></th>
                       <th>Name</th>
                       <th>Country</th>
-                      <th>Action</th>
+                      <th className="text-center">Action</th>
                     </tr>
 
     return <TablePage caption="Fighters" headers={ headers } content={ mappedFighters } />;

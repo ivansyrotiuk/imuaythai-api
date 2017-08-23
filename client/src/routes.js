@@ -27,8 +27,18 @@ const routes = {
   '/judges': "Judges",
   '/contests/add': 'Create contest',
   '/contests/edit': 'Edit contest',
-  '/federations/national': "Nation federations",
-  '/federations/world': "World federations",
-  '/federations/continental': "Continental federations",
+  '/institutions/continental': "Continental federations",
+  '/institutions/continental/add': 'Add Continental federation',
+  '/institutions/continental/edit': 'Edit Continental federation',
+  '/institutions/gyms': 'Gyms',
+  '/institutions/gyms/add': 'Add gym',
+  '/institutions/gyms/edit': 'Edit gym',
+  '/institutions/world': "World federations",
+  '/institutions/world/add': "Add World federation",
+  '/institutions/world/edit': "Edit World federation",
+  '/institutions/national': "National federations",
+  '/institutions/national/add': "Add National federation",
+  '/institutions/national/edit': "Edit National federation",
+
 };
 export default routes;
