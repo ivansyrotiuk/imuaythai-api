@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap'
+import UserAvatar from 'react-user-avatar'
 import RemoveButton from '../Components/Buttons/RemoveButton'
 import EditButton from '../Components/Buttons/EditButton'
 import AddButton from '../Components/Buttons/AddButton'
@@ -32,19 +33,21 @@ class ContestsPage extends Component {
 
     const mappedContests = contests.map((contest, i) => <tr key={ i }>
                                                           <td>
-                                                            { contest.id }
+                                                            <UserAvatar size="40" name={ contest.name } src="http://localhost:3000/img/contest_poster.jpg" />
                                                           </td>
                                                           <td>
                                                             { contest.name }
                                                           </td>
                                                           <td>
-                                                            <Link to={ "/contests/" + contest.id }>
-                                                            <PreviewButton/>
-                                                            </Link>
-                                                            <Link to={ "/contests/" + contest.id + "/edit" }>
-                                                            <EditButton/>
-                                                            </Link>
-                                                            <RemoveButton/>
+                                                            <div className="row justify-content-between">
+                                                              <Link to={ "/contests/" + contest.id }>
+                                                              <PreviewButton/>
+                                                              </Link>
+                                                              <Link to={ "/contests/" + contest.id + "/edit" }>
+                                                              <EditButton/>
+                                                              </Link>
+                                                              <RemoveButton/>
+                                                            </div>
                                                           </td>
                                                         </tr>);
 

@@ -14,7 +14,8 @@ export default function reduer(state = {
         fetched: false,
         rememberMe: false,
         error: null,
-        loggedUser: null
+        loggedUser: null,
+        qrcode: ''
     } , action) {
 
     switch (action.type) {
@@ -69,6 +70,7 @@ export default function reduer(state = {
                 isLoggedIn: true,
                 error: null,
                 authToken: action.payload.authToken,
+                qrcode: action.payload.qrcode,
                 rememberMe: action.payload.rememberMe,
                 user: jwtDecode(action.payload.authToken)
             }
@@ -126,7 +128,8 @@ export default function reduer(state = {
                 ...state,
                 authToken: '',
                 loggedUser: null,
-                user: null
+                user: null,
+                qrcode: ''
             }
         case actionTypes.FETCH_LOGGED_USER_SUCCESS:
             return {

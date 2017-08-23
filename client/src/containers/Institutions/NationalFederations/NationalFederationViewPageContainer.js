@@ -11,40 +11,38 @@ import moment from 'moment';
 import Page from "../../../views/Components/Page"
 import InstitutionGeneralInformaitonBlock from "../../../views/Components/InstitutionGeneralInformaitonBlock"
 
-class GymViewPageContainer extends Component {
+class NationalFederationViewPageContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {}
   }
 
   componentWillMount() {
-    const gymId = this.props.match.params.id;
-    this.props.fetchInstitution(gymId);
+    const nationalId = this.props.match.params.id;
+    this.props.fetchInstitution(nationalId);
   }
 
   goToEditPageClick() {
-    const gymId = this.props.match.params.id;
-    this.props.history.push("/institutions/gyms/edit/" + gymId);
+    const nationalId = this.props.match.params.id;
+    this.props.history.push("/institutions/national/edit/" + nationalId);
   }
 
-  goToRolesPageClick() {
-    this.props.history.push(this.props.match.url + '/roles');
-  }
+
 
   render() {
-    const {fetching, gym} = this.props;
+    const {fetching, nationalFederation} = this.props;
 
     if (fetching) {
       return (<Spinner/>);
     }
-    if (!fetching && gym == undefined) {
+    if (!fetching && nationalFederation == undefined) {
       return (
         <div></div>
         );
     }
 
 
-    const header = <div><strong>{ gym.name }</strong>
+    const header = <div><strong>{ nationalFederation.name }</strong>
                      <div className="pull-right">
                        <div className="input-group-btn">
                          <ButtonDropdown isOpen={ this.state.fourth } toggle={ () => {
@@ -70,33 +68,33 @@ class GymViewPageContainer extends Component {
                         <div className="col-md-6">
                           <div className="row">
                             <div className="col-md-6">
-                              <UserAvatar size="150" name={ gym.name } src={ gym.logo } />
+                              <UserAvatar size="150" name={ nationalFederation.name } src={ nationalFederation.logo } />
                             </div>
                             <div className="col-md-6">
-                              <InstitutionGeneralInformaitonBlock name={ gym.name } address={ gym.address + ", " + gym.city + ", " + gym.zipCode + ", " + gym.country.name } owner={ gym.owner } contactPerson={ gym.contactPerson } email={ gym.email }
-                                phone={ gym.phone } />
+                              <InstitutionGeneralInformaitonBlock name={ nationalFederation.name } address={ nationalFederation.address + ", " + nationalFederation.city + ", " + nationalFederation.zipCode + ", " + nationalFederation.country.name } owner={ nationalFederation.owner } contactPerson={ nationalFederation.contactPerson } email={ nationalFederation.email }
+                                phone={ nationalFederation.phone } />
                             </div>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="row justify-content-end">
-                            { gym.facebook && <a href={ gym.facebook } target="_blank">
-                                                <button type="button" className="btn  btn-facebook">
-                                                  <span>Facebook</span>
-                                                </button> </a> }
-                            { gym.twitter && <a href={ gym.twitter } target="_blank">
-                                               <button type="button" className="btn  btn-twitter">
-                                                 <span>Twitter</span>
-                                               </button> </a> }
-                            { gym.instagram && <a href={ gym.instagram } target="_blank">
-                                                 <button type="button" className="btn btn-instagram">
-                                                   <span>Instagram</span>
-                                                 </button> </a> }
-                            { gym.vk && <a href={ gym.vk } target="_blank">
-                                          <button type="button" className="btn  btn-vk">
-                                            <span>VK</span>
-                                          </button>
-                                        </a> }
+                            { nationalFederation.facebook && <a href={ nationalFederation.facebook } target="_blank">
+                                                               <button type="button" className="btn  btn-facebook">
+                                                                 <span>Facebook</span>
+                                                               </button> </a> }
+                            { nationalFederation.twitter && <a href={ nationalFederation.twitter } target="_blank">
+                                                              <button type="button" className="btn  btn-twitter">
+                                                                <span>Twitter</span>
+                                                              </button> </a> }
+                            { nationalFederation.instagram && <a href={ nationalFederation.instagram } target="_blank">
+                                                                <button type="button" className="btn btn-instagram">
+                                                                  <span>Instagram</span>
+                                                                </button> </a> }
+                            { nationalFederation.vk && <a href={ nationalFederation.vk } target="_blank">
+                                                         <button type="button" className="btn  btn-vk">
+                                                           <span>VK</span>
+                                                         </button>
+                                                       </a> }
                           </div>
                         </div>
                       </div>
@@ -108,7 +106,7 @@ class GymViewPageContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    gym: state.SingleInstitution.institution,
+    nationalFederation: state.SingleInstitution.institution,
     fetching: state.SingleInstitution.fetching
   }
 }
@@ -121,4 +119,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GymViewPageContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(NationalFederationViewPageContainer)
