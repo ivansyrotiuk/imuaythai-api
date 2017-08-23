@@ -118,6 +118,15 @@ export default function reducer(state = {
         countryGyms: action.payload
       }
     }
+    case actionTypes.DELETE_INSTITUTION_SUCCESS: {
+      return {
+        ...state,
+        gyms: state.gyms.filter(t => t.id !== action.payload),
+        nationalFederations: state.nationalFederations.filter(t => t.id !== action.payload),
+        continentalFederations: state.continentalFederations.filter(t => t.id !== action.payload),
+        worldFederations: state.worldFederations.filter(t => t.id !== action.payload)
+      }
+    }
   }
   return state
 }

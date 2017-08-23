@@ -44,11 +44,13 @@ import ContestCategoriesDetailsPage from "../../views/Dictionaries/ContestCatego
 
 import GymsPageContainer from "../../containers/Institutions/Gyms/GymsPageContainer"
 import NationalFederationsPageContainer from "../../containers/Institutions/NationalFederations/NationalFederationsPageContainer"
+import NationalFederationViewPageContainer from "../../containers/Institutions/NationalFederations/NationalFederationViewPageContainer"
 import ContinentalFederationsPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationsPageContainer"
 import ContinentalFederationViewPageContainer from "../../containers/Institutions/ContinentalFederations/ContinentalFederationViewPageContainer"
 import GymViewPageContainer from "../../containers/Institutions/Gyms/GymViewPageContainer"
 
 import WorldFederationsPageContainer from "../../containers/Institutions/WorldFederations/WorldFederationsPageContainer"
+import WorldFederationViewPageContainer from "../../containers/Institutions/WorldFederations/WorldFederationViewPageContainer"
 import InstitutionEditPageContainer from "../../containers/Institutions/InstitutionEditPageContainer"
 
 import FightersPageContainer from "../../containers/Users/Fighters/FightersPageContainer"
@@ -100,11 +102,11 @@ class Full extends Component {
                 <Route path="/institutions/continental/:id" component={ ContinentalFederationViewPageContainer } />
                 <Route path="/institutions/continental" component={ ContinentalFederationsPageContainer } />
                 <Route path="/institutions/national/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/national/:id" component={ NationalFederationViewPageContainer } />
                 <Route path="/institutions/national" component={ NationalFederationsPageContainer } />
-                <Route path="/institutions/national/:id" component={ NationalFederationsPageContainer } />
                 <Route path="/institutions/world/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
+                <Route path="/institutions/world/:id" component={ WorldFederationViewPageContainer } />
                 <Route path="/institutions/world" component={ WorldFederationsPageContainer } />
-                <Route path="/institutions/world/:id" component={ WorldFederationsPageContainer } />
                 <Route path="/institutions/gyms/edit/:id" name="Edit institution" component={ InstitutionEditPageContainer } />
                 <Route path="/institutions/gyms/:id" component={ GymViewPageContainer } />
                 <Route path="/institutions/gyms" component={ GymsPageContainer } />
