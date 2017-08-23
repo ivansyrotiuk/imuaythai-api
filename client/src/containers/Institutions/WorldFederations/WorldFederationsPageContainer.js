@@ -7,6 +7,7 @@ import TablePage from "../../../views/Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import { fetchWorldFederations, deleteInstitution } from "../../../actions/InstitutionsActions"
+import ActionButtonGroup from "../../../views/Components/Buttons/ActionButtonGroup"
 
 class WorldFederationsPageContainer extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class WorldFederationsPageContainer extends Component {
     this.props.fetchFederations();
   }
   addFederation() {
-    this.props.history.push('/institutions/add/world');
+    this.props.history.push('/institutions/world/add');
   }
 
   render() {
@@ -31,22 +32,21 @@ class WorldFederationsPageContainer extends Component {
 
     const pageHeader = <div><strong>World federations</strong>
                          <div className="pull-right">
-                           <AddButton click={ this.addFederation } />
+                           <AddButton click={ this.addFederation } tip={ "Add federation" } />
                          </div>
                        </div>;
 
     const mappedFederations = federations.map((federation, i) => <tr key={ i }>
                                                                    <td>
+                                                                     <Link to={ "/institutions/world/" + federation.id }>
                                                                      { federation.id }
+                                                                     </Link>
                                                                    </td>
                                                                    <td>
                                                                      { federation.name }
                                                                    </td>
                                                                    <td>
-                                                                     <Link to={ "/institutions/" + federation.id }>
-                                                                     <EditButton id={ federation.id } />
-                                                                     </Link>
-                                                                     <RemoveButton id={ federation.id } click={ this.props.deleteFederation.bind(this, federation.id) } />
+                                                                     <ActionButtonGroup previewClick={ () => this.props.history.push("/institutions/world/" + federation.id) } editClick={ () => this.props.history.push("/institutions/world/edit/" + federation.id) } deleteClick={ this.props.deleteFederation.bind(this, federation.id) } />
                                                                    </td>
                                                                  </tr>);
 

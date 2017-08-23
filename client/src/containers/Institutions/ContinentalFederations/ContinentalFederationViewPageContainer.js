@@ -9,6 +9,7 @@ import { fetchCountries } from "../../../actions/CountriesActions";
 import { fetchInstitution } from "../../../actions/InstitutionsActions";
 import moment from 'moment';
 import Page from "../../../views/Components/Page"
+import InstitutionGeneralInformaitonBlock from "../../../views/Components/InstitutionGeneralInformaitonBlock"
 
 class ContinentalFederationViewPageContainer extends Component {
   constructor(props) {
@@ -17,32 +18,31 @@ class ContinentalFederationViewPageContainer extends Component {
   }
 
   componentWillMount() {
-    const federationId = this.props.match.params.id;
-    this.props.fetchInstitution(federationId);
+    const continentalId = this.props.match.params.id;
+    this.props.fetchInstitution(continentalId);
   }
 
   goToEditPageClick() {
-    this.props.history.push(this.props.match.url + '/edit');
+    const continentalId = this.props.match.params.id;
+    this.props.history.push("/institutions/continental/edit/" + continentalId);
   }
 
-  goToRolesPageClick() {
-    this.props.history.push(this.props.match.url + '/roles');
-  }
+
 
   render() {
-    const {fetching, federation} = this.props;
+    const {fetching, continentalFederation} = this.props;
 
     if (fetching) {
       return (<Spinner/>);
     }
-    if (!fetching && federation == undefined) {
+    if (!fetching && continentalFederation == undefined) {
       return (
         <div></div>
         );
     }
 
 
-    const header = <div><strong>Continental Federation</strong>
+    const header = <div><strong>{ continentalFederation.name }</strong>
                      <div className="pull-right">
                        <div className="input-group-btn">
                          <ButtonDropdown isOpen={ this.state.fourth } toggle={ () => {
@@ -63,54 +63,39 @@ class ContinentalFederationViewPageContainer extends Component {
                      </div>
                    </div>
 
-    const content = <div className="row">
-                      <div className="col-12 col-md-auto col-sm-6">
-                        <UserAvatar size="150" name={ federation.name } />
-                        <div className="caption">
-                          <button type="button" className="btn btn-link">
-                            <i className="fa fa-pencil"></i>  Change photo
-                          </button>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-6 col-sm-12">
-                        <div className="row justify-content-between">
-                          <div className="col">
-                            <div className="card">
-                              <div className="card-block p-3 clearfix">
-                                <i className="fa fa-trophy bg-success p-3 font-2xl mr-3 float-left"></i>
-                                <div className="h5 text-primary mb-0 mt-2">23</div>
-                                <div className="text-muted text-uppercase font-weight-bold font-xs">wins</div>
-                              </div>
+    const content = <div className="col-md-12">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="row">
+                            <div className="col-md-6">
+                              <UserAvatar size="150" name={ continentalFederation.name } src={ continentalFederation.logo } />
                             </div>
-                          </div>
-                          <div className="col">
-                            <div className="card">
-                              <div className="card-block p-3 clearfix">
-                                <i className="fa fa-frown-o bg-danger p-3 font-2xl mr-3 float-left"></i>
-                                <div className="h5 text-primary mb-0 mt-2">1</div>
-                                <div className="text-muted text-uppercase font-weight-bold font-xs">defeats</div>
-                              </div>
+                            <div className="col-md-6">
+                              <InstitutionGeneralInformaitonBlock name={ continentalFederation.name } address={ continentalFederation.address + ", " + continentalFederation.city + ", " + continentalFederation.zipCode + ", " + continentalFederation.country.name } owner={ continentalFederation.owner } contactPerson={ continentalFederation.contactPerson } email={ continentalFederation.email }
+                                phone={ continentalFederation.phone } />
                             </div>
                           </div>
                         </div>
-                        <div className="row justify-content-end">
-                          { federation.facebook && <a href={ federation.facebook } target="_blank">
-                                                     <button type="button" className="btn  btn-facebook">
-                                                       <span>Facebook</span>
-                                                     </button> </a> }
-                          { federation.twitter && <a href={ federation.twitter } target="_blank">
-                                                    <button type="button" className="btn  btn-twitter">
-                                                      <span>Twitter</span>
-                                                    </button> </a> }
-                          { federation.instagram && <a href={ federation.instagram } target="_blank">
-                                                      <button type="button" className="btn btn-instagram">
-                                                        <span>Instagram</span>
-                                                      </button> </a> }
-                          { federation.vk && <a href={ federation.vk } target="_blank">
-                                               <button type="button" className="btn  btn-vk">
-                                                 <span>VK</span>
-                                               </button>
-                                             </a> }
+                        <div className="col-md-6">
+                          <div className="row justify-content-end">
+                            { continentalFederation.facebook && <a href={ continentalFederation.facebook } target="_blank">
+                                                                  <button type="button" className="btn  btn-facebook">
+                                                                    <span>Facebook</span>
+                                                                  </button> </a> }
+                            { continentalFederation.twitter && <a href={ continentalFederation.twitter } target="_blank">
+                                                                 <button type="button" className="btn  btn-twitter">
+                                                                   <span>Twitter</span>
+                                                                 </button> </a> }
+                            { continentalFederation.instagram && <a href={ continentalFederation.instagram } target="_blank">
+                                                                   <button type="button" className="btn btn-instagram">
+                                                                     <span>Instagram</span>
+                                                                   </button> </a> }
+                            { continentalFederation.vk && <a href={ continentalFederation.vk } target="_blank">
+                                                            <button type="button" className="btn  btn-vk">
+                                                              <span>VK</span>
+                                                            </button>
+                                                          </a> }
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -121,7 +106,7 @@ class ContinentalFederationViewPageContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    federation: state.SingleInstitution.institution,
+    continentalFederation: state.SingleInstitution.institution,
     fetching: state.SingleInstitution.fetching
   }
 }

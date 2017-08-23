@@ -32,13 +32,15 @@ class NationalFederationsPageContainer extends Component {
 
     const pageHeader = <div><strong>National federations</strong>
                          <div className="pull-right">
-                           <AddButton click={ this.addFederation } />
+                           <AddButton click={ this.addFederation } tip={ "Add federation" } />
                          </div>
                        </div>;
 
     const mappedFederations = federations.map((federation, i) => <tr key={ i }>
                                                                    <td>
+                                                                     <Link to={ "/institutions/national/" + federation.id }>
                                                                      { federation.id }
+                                                                     </Link>
                                                                    </td>
                                                                    <td>
                                                                      { federation.name }

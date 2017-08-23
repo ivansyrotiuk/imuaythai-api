@@ -6,21 +6,27 @@ import TablePage from "../../../views/Components/TablePage"
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
 import { fetchGyms, deleteInstitution } from "../../../actions/InstitutionsActions"
+import DeleteConfirmationModal from "../../../views/Components/DeleteConfirmationModal"
+import DeleteConfirm from 'react-delete-confirm'
 
 
 class GymsPageContainer extends Component {
   constructor(props) {
     super(props);
     this.addGym = this.addGym.bind(this);
+
   }
+
 
   componentWillMount() {
     this.props.fetchGyms();
   }
 
   addGym() {
-    this.props.history.push('/institutions/add/gym');
+    this.props.history.push('/institutions/gyms/add');
   }
+
+
 
   render() {
     const {gyms, fetching} = this.props;
@@ -30,10 +36,11 @@ class GymsPageContainer extends Component {
       return <Spinner />
     }
 
+    var danger = true;
 
     const pageHeader = <div><strong>Gyms</strong>
                          <div className="pull-right">
-                           <AddButton click={ this.addGym } />
+                           <AddButton click={ this.addGym } tip="Add gym" />
                          </div>
                        </div>;
 
@@ -61,6 +68,10 @@ class GymsPageContainer extends Component {
                                               </td>
                                             </tr>);
 
+
+
+
+
     return <TablePage pageHeader={ pageHeader } headers={ tableHeaders } content={ mappedGyms } />;
   }
 }
@@ -71,7 +82,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     gyms: state.Institutions.gyms,
     fetching: state.Institutions.fetching,
-    fetched: state.Institutions.fetched
+    fetched: state.Institutions.fetched,
+    danger: false
   }
 }
 
