@@ -72,6 +72,9 @@ namespace MuaythaiSportManagementSystemApi.Users
     public class FighterDto : UserDto
     {
         public string GymName { get; set; }
+        public int FightsCount { get; set; }
+        public int Won { get; set; }
+        public int Lost { get; set; }
 
         public FighterDto()
         {
