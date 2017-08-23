@@ -33,6 +33,15 @@ class UserViewPageContainer extends Component {
   goToRolesPageClick() {
     this.props.history.push(this.props.match.url + '/roles');
   }
+  print() {
+    var content = document.getElementById("divcontents");
+    var pri = document.getElementById("ifmcontentstoprint").contentWindow;
+    pri.document.open();
+    pri.document.write(content.innerHTML);
+    pri.document.close();
+    pri.focus();
+    pri.print();
+  }
 
   render() {
     const {fetching, user} = this.props;
@@ -50,13 +59,22 @@ class UserViewPageContainer extends Component {
       color: '#697078'
     }
 
+    const style = {
+      height: "0px",
+      width: "0px",
+      position: "absolute",
+      overflow: "hidden",
+      size: "landscape",
+      display: "none"
+    }
+
     const gender = user.gender == 'male'
       ? <h6 style={ titleTextSyle }>
-                                                                                                                                                                                                          <i className="fa fa-mars" aria-hidden="true"></i>  Male
-                                                                                                                                                                                                        </h6>
+                                                                                                                                                                                                                                                          <i className="fa fa-mars" aria-hidden="true"></i>  Male
+                                                                                                                                                                                                                                                        </h6>
       : <h6 style={ titleTextSyle }>
-                                                                                                                                                                                                          <i className="fa fa-venus" aria-hidden="true"></i>  Female
-                                                                                                                                                                                                        </h6>;
+                                                                                                                                                                                                                                                          <i className="fa fa-venus" aria-hidden="true"></i>  Female
+                                                                                                                                                                                                                                                        </h6>;
 
     const userName = (user.firstname || 'No name') + ' ' + (user.surname || '');
 
@@ -78,8 +96,7 @@ class UserViewPageContainer extends Component {
                              <DropdownItem onClick={ this.goToRolesPageClick.bind(this) }>
                                <i className="fa fa-users" aria-hidden="true"></i>  Roles
                              </DropdownItem>
-                             <DropdownItem>Something </DropdownItem>
-                             <DropdownItem>Separated</DropdownItem>
+                             <DropdownItem onClick={ this.print.bind(this) }>Print QRCode</DropdownItem>
                            </DropdownMenu>
                          </ButtonDropdown>
                        </div>
@@ -87,26 +104,30 @@ class UserViewPageContainer extends Component {
                    </div>
 
     const content = <div className="row">
+                      <iframe id="ifmcontentstoprint" style={ style } scrolling="no"></iframe>
+                      <div id="divcontents" style={ { display: 'none' } }>
+                        <img src={ this.props.qrcode } />
+                      </div>
                       <div className="col-12 col-md-auto col-sm-6">
                         <UserAvatar size="150" name={ user.firstname + " " + user.surname || user.email } src={ user.photo } />
                       </div>
                       <div className="col-12 col-md-4 col-sm-6">
                         <div class="page-header">
                           <h2>{ userName }
-                                                                                                                                                                                                                                                                                                   </h2>
+                                                                                                                                                                                                                                                                                                                                                               </h2>
                           <a href={ 'mailto:' + user.email }>
                             { user.email }
                           </a>
                         </div>
                         <h6 style={ titleTextSyle }>
-                                                                                                                                                                                      <i class="fa fa-birthday-cake" aria-hidden="true"></i>  { moment(user.birthdate).format("YYYY-MM-DD") }
-                                                                                                                                                                                          </h6>
+                                                                                                                                                                                                                                                  <i class="fa fa-birthday-cake" aria-hidden="true"></i>  { moment(user.birthdate).format("YYYY-MM-DD") }
+                                                                                                                                                                                                                                                      </h6>
                         { gender }
                         { user.phone && <h6 style={ titleTextSyle }>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <i class="fa fa-1x fa-phone" aria-hidden="true"></i>  { user.phone }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </h6> }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <i class="fa fa-1x fa-phone" aria-hidden="true"></i>  { user.phone }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      </h6> }
                         { user.countryName && <h6 style={ titleTextSyle }>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </h6> }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </h6> }
                       </div>
                       <div className="col-12 col-md-6 col-sm-12">
                         <div className="row justify-content-between">
@@ -160,6 +181,7 @@ const mapStateToProps = (state, ownProps) => {
     countries: state.Countries.countries,
     user: state.SingleUser.user,
     fetching: state.SingleUser.fetching,
+    qrcode: state.Account.qrcode
   }
 }
 
