@@ -313,5 +313,57 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             return Ok(users);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("setup_users")]
+        public async Task<ActionResult> SetupUsers()
+        {
+            var fightersIndentities = new Dictionary<string, string>
+            { 
+                { Guid.NewGuid().ToString() + "@fighter.com", "Khaosai Galaxy" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "George Dixon" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Bob Fitzsimmons" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Tony Zale" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Ricardo Lopez" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Carlos Ortiz" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Manuel Ortiz" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Sonny Liston" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Wilfred Benitez" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Wilfredo Gomez" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Barbados Walcott" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Bob Foster" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Fighting Harada" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Pancho Villa" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Lennox Lewis" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Abe Attell" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Johnny Dundee" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Mike Tyson" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Beau Jack" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Aaron Pryor" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Tiger Flowers" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Tommy Loughran" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Charley Burley" },
+                { Guid.NewGuid().ToString() + "@fighter.com", "Carmen Basilio" },
+            };
+
+            foreach(var f in fightersIndentities)
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    InstitutionId = 12,
+                    Email = f.Key,
+                    FirstName = f.Value.Split(' ')[0],
+                    Surname = f.Value.Split(' ')[1],
+                    UserName = f.Value.Replace(" ", ""),
+                    CountryId = 177
+                };
+
+                await _userManager.CreateAsync(user);
+                await _userManager.AddToRoleAsync(user, "Fighter");
+            }
+
+            return Ok(fightersIndentities);
+        }
     }
 }
