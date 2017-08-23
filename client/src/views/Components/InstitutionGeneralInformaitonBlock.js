@@ -11,21 +11,38 @@ export default class InstitutionGeneralInformaitonBlock extends Component {
 
       <div>
         <h2> { name } </h2>
-        <p>
-          { address }
-        </p>
-        <p>
-          { owner }
-        </p>
-        <p>
-          { contactPerson }
-        </p>
-        <p>
-          { phone }
-        </p>
-        <p>
-          { email }
-        </p>
+        <div className="row">
+          <div className="col-2">
+            <i className="fa fa-home" aria-hidden="true"> </i>
+          </div>
+          <div className="col-10">
+            { address }
+          </div>
+          <div className="col-2">
+            <i className="fa fa-user" aria-hidden="true"> </i>
+          </div>
+          <div className="col-10">
+            { owner }
+          </div>
+          <div className="col-2">
+            <i className="fa fa-id-card" aria-hidden="true">  </i>
+          </div>
+          <div className="col-10">
+            { contactPerson }
+          </div>
+          <div className="col-2">
+            <i className="fa fa-phone" aria-hidden="true"></i>
+          </div>
+          <div className="col-10">
+            { phone }
+          </div>
+          <div className="col-2">
+            <i className="fa fa-envelope" aria-hidden="true"> </i>
+          </div>
+          <div className="col-10">
+            { email }
+          </div>
+        </div>
       </div>
 
     )
