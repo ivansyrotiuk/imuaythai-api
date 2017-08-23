@@ -84,7 +84,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
                      case RequestType.EndFight:
                      roundCount = 0;
-                     //await SaveWinner(request.Data);
+                    await SaveWinner(request.Data);
                     await SendMessageToAllAsync(new Request
                     {
                         RequestType = request.RequestType,
@@ -99,12 +99,45 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
         private async Task SaveWinner(string data)
         {
-            var fight = _context.Fights.FirstOrDefaultAsync(f => f.Id == data.ToInt());
+            var fight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == data.ToInt());
+            if(!string.IsNullOrEmpty(fight.WinnerId)) return;
+
+            var totalBluePoints = CalculateTotalPoints(fight.BlueAthleteId, fight.Id);
+            var totalRedPoints = CalculateTotalPoints(fight.RedAthleteId, fight.Id);
+
+            if(totalBluePoints.Result > totalRedPoints.Result)
+                fight.WinnerId = fight.BlueAthleteId;
+            else
+                fight.WinnerId = fight.RedAthleteId;
+
+            await _context.SaveChangesAsync();
+
+        }
+
+        private async Task<float> CalculateTotalPoints(string blueAthleteId, int id)
+        {
+            var points = await _context.FightPoints.Where(f => f.FightId == id && f.FighterId == blueAthleteId).ToListAsync();
+            return points.GroupBy(p=> p.RoundId).Select(g => new {
+                RoundId = g.Key,
+                Points = CalculateMedian(g)
+            })
+            .ToList()
+            .Sum(s => s.Points);
+        }
+
+        private float CalculateMedian(IGrouping<int, FightPoint> g)
+        {
+            int count = g.Count();
+            var orderedPoints = g.OrderBy(p => p.Points);
+            float median = orderedPoints.ElementAt(count/2).Points + orderedPoints.ElementAt((count-1)/2).Points;
+            return median / 2;
         }
 
         private async Task SaveInjury(string data)
         {
              var points = JsonConvert.DeserializeObject<FightPoint>(data);
+             var fight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == points.FightId);
+             fight.WinnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
              _context.FightPoints.Add(points);
            await _context.SaveChangesAsync();
         }
