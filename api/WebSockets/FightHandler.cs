@@ -84,6 +84,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
                      case RequestType.EndFight:
                      roundCount = 0;
+                     //await SaveWinner(request.Data);
                     await SendMessageToAllAsync(new Request
                     {
                         RequestType = request.RequestType,
@@ -94,6 +95,11 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             }
 
 
+        }
+
+        private async Task SaveWinner(string data)
+        {
+            var fight = _context.Fights.FirstOrDefaultAsync(f => f.Id == data.ToInt());
         }
 
         private async Task SaveInjury(string data)

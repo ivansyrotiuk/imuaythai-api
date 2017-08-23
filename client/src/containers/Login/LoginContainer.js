@@ -24,6 +24,7 @@ class LoginContainer extends Component {
                 isConfimed: false,
                 rememberMe: !this.props.rememberMe,
                 loggedUser: null,
+                qrcode: '',
                 fetchingUser: false,
                 fetchedUser: false,
                 user: jwtDecode(this.props.authToken)
