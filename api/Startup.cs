@@ -112,7 +112,7 @@ namespace MuaythaiSportManagementSystemApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseWebSockets();
             app.UseCors("MyPolicy");            

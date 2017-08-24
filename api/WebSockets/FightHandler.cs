@@ -52,6 +52,9 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     break;
 
                 case RequestType.SendTime:
+                case RequestType.PauseRound:
+                case RequestType.ResumeRound:
+                case RequestType.EndRound:
                     await SendMessageToAllAsync(request, new List<string>());
                     break;
                     
@@ -74,7 +77,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     }, new List<string>());
                     break;
                     
-                case RequestType.EndRound:
+                
                 case RequestType.ShowPrematureEndPanel:
                     await SendMessageToAllAsync(new Request
                     {
