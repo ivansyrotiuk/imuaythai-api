@@ -8,17 +8,20 @@ using System.Linq;
 using MuaythaiSportManagementSystemApi.Extensions;
 using MuaythaiSportManagementSystemApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace MuaythaiSportManagementSystemApi.WebSockets
 {
     public class FightHandler : WebSocketHandler 
     {
         private readonly ApplicationDbContext _context;
+        private SemaphoreSlim _mutex;
         private string _jurySocketId;
         protected string Ring { get; set; }
         public FightHandler(ApplicationDbContext context, WebSocketConnectionManager connectionManager) : base (connectionManager)
         {
             _context = context;
+            _mutex = new SemaphoreSlim(1);
         }
 
         public override async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
@@ -135,7 +138,17 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
              var fight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == points.FightId);
              fight.WinnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
              _context.FightPoints.Add(points);
-           await _context.SaveChangesAsync();
+             await _mutex.WaitAsync();
+             try
+             {
+                await _context.SaveChangesAsync();
+             }
+             finally
+             {
+                 _mutex.Release();
+             }
+
+           
         }
         int roundCount = 0;
         private string GetRoundId()
@@ -169,7 +182,15 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         {
            var points = JsonConvert.DeserializeObject<FightPoint>(data);
            _context.FightPoints.Add(points);
-           await _context.SaveChangesAsync();
+            await _mutex.WaitAsync();
+             try
+             {
+                await _context.SaveChangesAsync();
+             }
+             finally
+             {
+                 _mutex.Release();
+             }
         }
 
         public override async Task OnDisconnected(WebSocket socket)
