@@ -55,6 +55,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                 case RequestType.PauseRound:
                 case RequestType.ResumeRound:
                 case RequestType.EndRound:
+                case RequestType.ShowPrematureEndPanel:
                     await SendMessageToAllAsync(request, new List<string>());
                     break;
                     
@@ -77,14 +78,6 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     }, new List<string>());
                     break;
                     
-                
-                case RequestType.ShowPrematureEndPanel:
-                    await SendMessageToAllAsync(new Request
-                    {
-                        RequestType = request.RequestType,
-                        Data = null
-                    }, new List<string>() { _jurySocketId });
-                    break;
                      case RequestType.EndFight:
                      roundCount = 0;
                     await SaveWinner(request.Data);

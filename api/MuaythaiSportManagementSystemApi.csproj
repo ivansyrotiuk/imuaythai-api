@@ -59,4 +59,10 @@
     <Folder Include="Migrations\"/>
     <Folder Include="Migrations\"/>
   </ItemGroup>
+  <ItemGroup>
+      <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest"/>
+    </ItemGroup>
+  <ItemGroup>
+   <None Include="appsettings.json" CopyToPublishDirectory="Always" />
+</ItemGroup>
 </Project>
