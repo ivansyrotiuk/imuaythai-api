@@ -74,27 +74,27 @@ namespace MuaythaiSportManagementSystemApi.Data
             builder.Entity<Contest>()
                .HasOne(c => c.Institution)
                .WithMany(i => i.Contests)
-               .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ApplicationUser>()
            .HasOne(c => c.Institution)
            .WithMany(i => i.Users)
-           .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+           .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<FightPoint>()
               .HasOne(h => h.Fighter)
               .WithMany(u => u.FightPoints)
-              .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+              .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<FightPoint>()
              .HasOne(h => h.Judge)
              .WithMany(u => u.JudgeFightPoints)
-             .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Fight>()
            .HasOne(h => h.ContestCategory)
            .WithMany()
-           .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict).IsRequired(false);
+           .OnDelete(DeleteBehavior.Restrict).IsRequired(false);
 
 
         }

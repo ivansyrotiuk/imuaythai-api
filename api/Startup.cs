@@ -22,6 +22,7 @@ using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.Fights;
 using MuaythaiSportManagementSystemApi.WebSockets;
 using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -73,8 +74,20 @@ namespace MuaythaiSportManagementSystemApi
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
 
             services.AddWebSocketManager();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = key,
+                    ValidateLifetime = false,
+                    ValidateIssuer = false,
+                    ValidateAudience = false 
+            };
+        });
 
             // Add application services.
             services.AddScoped<IEmailSender, AuthMessageSender>();
@@ -117,25 +130,12 @@ namespace MuaythaiSportManagementSystemApi
             app.UseWebSockets();
             app.UseCors("MyPolicy");            
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
-            app.UseJwtBearerAuthentication(new JwtBearerOptions(){
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = new TokenValidationParameters(){
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ValidateLifetime = false,
-                    ValidateIssuer = false,
-                    ValidateAudience = false 
-                }
-            });
-
             app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
 
-            app.UseIdentity();
+            app.UseAuthentication();
             app.UseMvc();
   
         }
