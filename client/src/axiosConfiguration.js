@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const configApiHost = () => {
-    axios.defaults.baseURL = 'http://localhost:5000/';
+    axios.defaults.baseURL = 'https://imuaythai.herokuapp.com/';
 }
 
 export const setAuthToken = (token) => {
