@@ -32,13 +32,15 @@ class FightersPageContainer extends Component {
                                                             { fighter.countryName }
                                                           </td>
                                                           <td className="col-md-2">
-                                                            <Link to={ "/users/" + fighter.id }>
-                                                            <PreviewButton id={ fighter.id } />
-                                                            </Link>
-                                                            <Link to={ "/users/" + fighter.id + "/edit" }>
-                                                            <EditButton id={ fighter.id } />
-                                                            </Link>
-                                                            <RemoveButton id={ fighter.id } click={ this.props.deleteFighter.bind(this, fighter.id) } />
+                                                            <div className="row justify-content-between">
+                                                              <Link to={ "/users/" + fighter.id }>
+                                                              <PreviewButton id={ fighter.id } />
+                                                              </Link>
+                                                              <Link to={ "/users/" + fighter.id + "/edit" }>
+                                                              <EditButton id={ fighter.id } />
+                                                              </Link>
+                                                              <RemoveButton id={ fighter.id } click={ this.props.deleteFighter.bind(this, fighter.id) } />
+                                                            </div>
                                                           </td>
                                                         </tr>);
 
