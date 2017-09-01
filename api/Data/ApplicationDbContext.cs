@@ -66,7 +66,7 @@ namespace MuaythaiSportManagementSystemApi.Data
                 .HasOne(h => h.Referee)
                 .WithMany(h => h.AsRefereeFights)
                 .HasForeignKey(p => p.RefereeId);
-            
+
             builder.Entity<Fight>()
                 .HasOne(h => h.TimeKeeper)
                 .WithMany(h => h.AsTimeKeeperFights)
