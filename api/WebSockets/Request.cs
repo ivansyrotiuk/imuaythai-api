@@ -8,15 +8,14 @@
         SendPoints,
         StartRound,
         EndRound,
-        SelectedFight,
         AcceptPoints,
         PrematureEnd,
-        FightPaused,
         ShowPrematureEndPanel,
         StartFight,
         EndFight,
-        Fights,
-        SendTime
+        SendTime,
+        PauseRound,
+        ResumeRound
     }
 
     public class Request

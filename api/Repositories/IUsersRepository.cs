@@ -44,6 +44,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
         public Task<List<ApplicationUser>> GetInstitutionMembers(int institutionId)
         {
+            //TODO: there is no Roles in application user anymore. Get Roles from _context.UserRoles
             return _context.Users.Include(u => u.Roles).Where(u => u.InstitutionId == institutionId).ToListAsync();
         }
 
@@ -58,7 +59,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
                 return _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             {
                 return _context.SaveChangesAsync();
             }

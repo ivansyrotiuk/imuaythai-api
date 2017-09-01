@@ -55,6 +55,7 @@ namespace MuaythaiSportManagementSystemApi.Users
             CountryId = user.CountryId;
             CountryName = user.Country?.Name;
             Email = user.Email;
+            //TODO: Add roles from userRoles
             Roles = user.Roles?.Select(r => r.RoleId).ToList();
             Photo = user.Photo;
         }

@@ -9,9 +9,10 @@ using MuaythaiSportManagementSystemApi.Contests;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using MuaythaiSportManagementSystemApi.Users;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
-{
+{ 
     [Authorize]
     [Route("api/[controller]")]
     public class ContestsController : Controller
