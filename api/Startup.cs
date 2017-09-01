@@ -78,7 +78,9 @@ namespace MuaythaiSportManagementSystemApi
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
 
             services.AddWebSocketManager();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -89,6 +91,7 @@ namespace MuaythaiSportManagementSystemApi
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
+                options.RequireHttpsMetadata = false;
             });
 
             // Add application services.
