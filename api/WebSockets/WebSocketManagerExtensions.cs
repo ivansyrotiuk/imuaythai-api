@@ -9,7 +9,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
     {
         public static IServiceCollection AddWebSocketManager(this IServiceCollection services)
         {
-            services.AddTransient<WebSocketConnectionManager>();
+            services.AddScoped<WebSocketConnectionManager>();
 
             foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
             {

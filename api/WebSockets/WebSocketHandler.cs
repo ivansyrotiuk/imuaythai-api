@@ -50,14 +50,22 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         {
             if (socket.State != WebSocketState.Open)
                 return;
-
-            var serializedMessage = JsonConvert.SerializeObject(message, _jsonSerializerSettings);
-            await socket.SendAsync(buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(serializedMessage),
-                                                                  offset: 0,
-                                                                  count: serializedMessage.Length),
-                                   messageType: WebSocketMessageType.Text,
-                                   endOfMessage: true,
-                                   cancellationToken: CancellationToken.None).ConfigureAwait(false);
+            try
+            {
+                var serializedMessage = JsonConvert.SerializeObject(message, _jsonSerializerSettings);
+                await socket.SendAsync(buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(serializedMessage),
+                                                        offset: 0,
+                                                        count: serializedMessage.Length),
+                                                        messageType: WebSocketMessageType.Text,
+                                                        endOfMessage: true,
+                                                        cancellationToken: CancellationToken.None).ConfigureAwait(false);
+            }
+            catch 
+            {
+                var s = WebSocketConnectionManager.GetId(socket);
+                await WebSocketConnectionManager.RemoveSocket(s);
+            }
+           
         }
 
         public virtual async Task SendMessageAsync(string socketId, Request message)
@@ -67,12 +75,23 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
 
         public virtual async Task SendMessageToAllAsync(Request message, List<string> excluededSockets)
         {
-            var sockets = WebSocketConnectionManager.GetAll();
-            foreach (var pair in sockets)
-            {
-                if (pair.Value.State == WebSocketState.Open && !excluededSockets.Contains(pair.Key))
-                    await SendMessageAsync(pair.Value, message).ConfigureAwait(false);
-            }
+
+                var sockets = WebSocketConnectionManager.GetAll();
+                foreach (var pair in sockets)
+                {
+                    try
+                    {
+                        if (pair.Value.State == WebSocketState.Open && !excluededSockets.Contains(pair.Key))
+                        await SendMessageAsync(pair.Value, message).ConfigureAwait(false);
+
+                    }
+                    catch
+                    {
+                        var s = WebSocketConnectionManager.GetId(pair.Value);
+                        await WebSocketConnectionManager.RemoveSocket(s);
+                    }
+                    
+                }
         }
 
 
