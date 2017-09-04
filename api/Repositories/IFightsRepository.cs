@@ -29,7 +29,10 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.Fights
                 .Where(f => f.ContestId == contestId && f.ContestCategoryId == contestCategoryId)
                 .Include(f => f.BlueAthlete).ThenInclude(f => f.Country)
+                .Include(f => f.BlueAthlete).ThenInclude(f => f.Institution)
                 .Include(f => f.RedAthlete).ThenInclude(f => f.Country)
+                .Include(f => f.RedAthlete).ThenInclude(f => f.Institution)
+
                 .ToListAsync();
         }
 
