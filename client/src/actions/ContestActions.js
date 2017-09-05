@@ -128,6 +128,33 @@ export const fetchContestRequests = (contestId) => {
     }
 }
 
+export const fetchContestJudges = (contestId) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.FETCH_CONTEST_JUDGES
+        })
+
+        return axios.get("api/contests/requests/judges?contestId=" + contestId)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_JUDGES_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_JUDGES_REJECTED
+                })
+                dispatch({
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.data
+                })
+            })
+    }
+}
+
+
+
 export const fetchInstitutionContestRequests = (contestId) => {
     return (dispatch) => {
         dispatch({

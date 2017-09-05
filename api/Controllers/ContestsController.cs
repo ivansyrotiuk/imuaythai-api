@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 { 
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class ContestsController : Controller
     {
@@ -185,6 +185,24 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("requests/judges")]
+        public async Task<IActionResult> GetContestJudgesRequests([FromQuery] int contestId)
+        {
+            try
+            {
+                var requestEntities = await _contestRequestsRepository.GetByContest(contestId, ContestRoleType.Judge);
+
+                var requests = requestEntities.Select(r => (ContestRequestDto)r).ToList();
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         [HttpGet]
         [Route("requests/institution")]

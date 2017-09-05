@@ -8,6 +8,7 @@ const reducerInitialState = {
     singleContest: null,
     candidates: [],
     requests: [],
+    judges: [],
     categories: [],
     institutionRequests: [],
     singleRequest: null,
@@ -150,8 +151,25 @@ const reducer = (state = reducerInitialState, action) => {
         case actionTypes.FETCH_CONTEST_REQUESTS_REJECTED:
             return {
                 ...state,
-                fetching: true,
+                fetching: false,
                 error: action.payload
+            }
+
+        case actionTypes.FETCH_CONTEST_JUDGES:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_CONTEST_JUDGES_FULFILLED:
+            return {
+                ...state,
+                fetching: false,
+                judges: action.payload
+            }
+        case actionTypes.FETCH_CONTEST_JUDGES_REJECTED:
+            return {
+                ...state,
+                fetching: false
             }
         case actionTypes.ACCEPT_CONTEST_REQUEST:
             let requests = [...state.requests];
