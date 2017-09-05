@@ -1,13 +1,32 @@
 import { findDOMNode } from 'react-dom';
-
-
+import { moveFighter } from '../../actions/FightActions'
+import store from '../../store'
 //const {isOver, canDrop, connectDropTarget} = this.props;
+
+const canDropFighter = (source, target) => {
+    if (source.fight.redAthleteId == null && source.fight.blueAthleteId == null) {
+        return false
+    }
+
+    if (target.fight.redAthleteId == null && target.fight.blueAthleteId == null) {
+        return false
+    }
+
+    if (source.fight.id == target.fight.id && source.fighter.id == target.fighter.id) {
+        return false
+    }
+
+    return true;
+}
 
 export const fighterTarget = {
     canDrop(props, monitor) {
         // You can disallow drop based on props or item
         const item = monitor.getItem();
-        return true; //canMakeChessMove(item.fromPosition, props.position);
+        console.log(props);
+        console.log(item);
+
+        return canDropFighter(item, props);
     },
 
     hover(props, monitor, component) {
@@ -19,7 +38,7 @@ export const fighterTarget = {
         // You can access the coordinates if you need them
         const clientOffset = monitor.getClientOffset();
         //const componentRect = findDOMNode(component).getBoundingClientRect();
-
+        //console.log(componentRect);
         // You can check whether we're over a nested drop target
         const isJustOverThisOne = monitor.isOver({
             shallow: true
@@ -39,6 +58,14 @@ export const fighterTarget = {
         // Obtain the dragged item
         const item = monitor.getItem();
 
+        const movingParams = {
+            sourceFightId: item.fight.id,
+            sourceFighterId: item.fighter.id,
+            targetFightId: props.fight.id,
+            targetFighterId: props.fighter.id
+        }
+
+        store.dispatch(moveFighter(movingParams));
         // You can do something with it
         //ChessActions.movePiece(item.fromPosition, props.position);
 
