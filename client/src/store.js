@@ -16,8 +16,10 @@ let middleware = [promise(), thunk];
 if (process.env.NODE_ENV !== "production") {
   middleware = [...middleware, logger];
 }
-export default createStore(
+
+const store = createStore(
   reducer,
   persistedState,
   composeEnhancers(applyMiddleware(...middleware))
 );
+export default store;

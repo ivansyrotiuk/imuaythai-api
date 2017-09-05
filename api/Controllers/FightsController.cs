@@ -20,16 +20,16 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         private readonly IContestRequestRepository _contestRequestRepository;
         private readonly IFightersTossupper _fightersTossupper;
         private readonly IContestCategoriesRepository _contestCategoriesRepository;
+        private readonly IFighterMovingService _fighterMovingService;
 
-        private readonly ApplicationDbContext _context;
-        public FightsController(IFightsRepository fightsRepository, IFightsDiagramBuilder fightsDiagramBuilder, IContestRequestRepository contestRequestRepository, IFightersTossupper fightersTossupper, IContestCategoriesRepository contestCategoriesRepository, ApplicationDbContext context)
+        public FightsController(IFightsRepository fightsRepository, IFightsDiagramBuilder fightsDiagramBuilder, IContestRequestRepository contestRequestRepository, IFightersTossupper fightersTossupper, IContestCategoriesRepository contestCategoriesRepository, IFighterMovingService fighterMovingService)
         {
             _fightsRepository = fightsRepository;
             _contestRequestRepository = contestRequestRepository;
             _contestCategoriesRepository = contestCategoriesRepository;
             _fightsDiagramBuilder = fightsDiagramBuilder;
             _fightersTossupper = fightersTossupper;
-            _context = context;
+            _fighterMovingService = fighterMovingService;
         }
 
         [HttpGet]
@@ -179,6 +179,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 string fightsDrawsJson = _fightsDiagramBuilder.ToJson();
 
                 return Ok(fightsDrawsJson);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("movefighter")]
+        public async Task<IActionResult> MoveFighter([FromBody] FighterMoving fighterMoving)
+        {
+            try
+            {
+                var changedFights = await _fighterMovingService.MoveFighterToFight(fighterMoving);
+                var fights = changedFights.Select(f => (FightDto)f).ToList();
+                return Ok(fights);
             }
             catch (Exception ex)
             {
