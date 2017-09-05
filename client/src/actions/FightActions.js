@@ -28,6 +28,26 @@ export const fetchContestDraws = (contestId, categoryId) => {
     }
 }
 
+export const fetchContestFights = (contestId, categoryId) => {
+    return (dispatch) => {
+        dispatch(createAction(actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS));
+
+        return axios.get(host + 'api/fights/get?contestId=' + contestId + '&categoryId=' + categoryId, {
+            contestId: contestId,
+            categoryId: categoryId
+        })
+            .then((response) => {
+                dispatch(createAction(actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS_SUCCESS, response.data))
+            })
+            .catch((err) => {
+                dispatch(createAction(actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS_REJECTED, err.response))
+                dispatch(createAction(actionTypes.SHOW_ERROR, err.response != null
+                    ? err.response.data
+                    : "Cannot connect to server"))
+            })
+    }
+}
+
 export const generateContestDraws = (contestId, categoryId) => {
     return (dispatch) => {
         dispatch(createAction(actionTypes.GENERATE_FIGHTS));
