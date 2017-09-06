@@ -356,6 +356,32 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("requests/allocatejudge")]
+        public async Task<IActionResult> AllocateJudgeRequest([FromBody] ContestJudgeAllocation judgeAllocation)
+        {
+            try
+            {
+                ContestRequest requestEntity = await _contestRequestsRepository.Get(judgeAllocation.RequestId);
+                if (requestEntity == null)
+                {
+                    return BadRequest("Request not found");
+                }
+
+                requestEntity.JudgeType = judgeAllocation.JudgeType;
+                await _contestRequestsRepository.Save(requestEntity);
+
+                var request = (ContestRequestDto)requestEntity;
+                return Ok(request);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        
         [HttpGet]
         [Route("categories")]
         public async Task<IActionResult> GetContestCategoriesWithFighters([FromQuery] int contestId)

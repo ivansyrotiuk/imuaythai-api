@@ -8,7 +8,8 @@ const reducerInitialState = {
     singleContest: null,
     candidates: [],
     requests: [],
-    judges: [],
+    allocating: false,
+    judgeRequests: [],
     categories: [],
     institutionRequests: [],
     singleRequest: null,
@@ -164,16 +165,39 @@ const reducer = (state = reducerInitialState, action) => {
             return {
                 ...state,
                 fetching: false,
-                judges: action.payload
+                judgeRequests: action.payload
             }
         case actionTypes.FETCH_CONTEST_JUDGES_REJECTED:
             return {
                 ...state,
                 fetching: false
             }
+        case actionTypes.CONTEST_ALLOCATE_JUGDE:
+            return {
+                ...state,
+                allocating: true
+            }
+        case actionTypes.CONTEST_ALLOCATE_JUGDE_SUCCESS:
+            const judges = [...state.judgeRequests];
+            let index = judges.findIndex(j => j.id == action.payload.id);
+            if (index > -1) {
+                judges[index] = action.payload;
+            }
+            return {
+                ...state,
+                allocating: false,
+                judgeRequests: judges
+            }
+        case actionTypes.CONTEST_ALLOCATE_JUGDE_REJECTED:
+            return {
+                ...state,
+                allocating: false
+            }
+
+
         case actionTypes.ACCEPT_CONTEST_REQUEST:
             let requests = [...state.requests];
-            let index = requests.findIndex(r => r.id === action.payload.id);
+            index = requests.findIndex(r => r.id === action.payload.id);
             requests[index].accepting = true;
             return {
                 ...state,

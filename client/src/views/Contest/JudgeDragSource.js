@@ -1,12 +1,13 @@
 import dragTypes from '../../common/dragTypes'
 
-export const fighterSource = {
+export const judgeDragSource = {
     beginDrag(props) {
         // Return the data describing the dragged item
         const item = {
-            fight: props.fight,
-            fighter: props.fighter,
+            requestId: props.judgeRequest.id
         }
+
+        console.log(props);
         return item;
     },
 
@@ -32,4 +33,3 @@ export function collect(connect, monitor) {
         isDragging: monitor.isDragging(),
     };
 }
-

@@ -1,62 +1,44 @@
 import React from 'react'
-
+import { MainJudgeTargetDecorator, RegularJudgeTargetDecorator, RefereeTargetDecorator, TimeKeepperTargetDecorator, AcceptedJudgeTargetDecorator } from './JudgeDropTargetDecorator'
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+import * as judgeTypes from '../../common/contestJudgeTypes'
+import Page from '../Components/Page'
 export const ContestJudgeManageView = (props) => {
-    const mappedJudge = props.judges.map((judge, index) => <div>
-                                                             { index }
-                                                           </div>)
-    return (
-        <div>
-          <div className="row">
-            <div className="col-md-3">
-              <div className="card card-inverse card-primary">
-                <div className="card-header">Main judges</div>
-                <div className="card-block">
-                  <h4 className="card-title">Primary card title</h4>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card bg-light mb-3">
-                <div className="card-header">Reqular</div>
-                <div className="card-block">
-                  <h4 className="card-title">Primary card title</h4>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card bg-light mb-3">
-                <div className="card-header">Referees</div>
-                <div className="card-block">
-                  <h4 className="card-title">Primary card title</h4>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card bg-light  mb-3">
-                <div className="card-header">Time keeppers</div>
-                <div className="card-block">
-                  <h4 className="card-title">Primary card title</h4>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="card bg-light  mb-3">
-                <div className="card-header">Accepted judges</div>
-                <div className="card-block">
-                  <h4 className="card-title">Primary card title</h4>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    )
+
+  const acceptedJudges = props.judgeRequests.filter(r => r.judgeType == null);
+  const mainJudges = props.judgeRequests.filter(r => r.judgeType == judgeTypes.CONTEST_MAIN_JUDGE);
+  const reqularJudges = props.judgeRequests.filter(r => r.judgeType == judgeTypes.CONTEST_REGULAR_JUDGE);
+  const referies = props.judgeRequests.filter(r => r.judgeType == judgeTypes.CONTEST_REFEREE);
+  const timeKeeppers = props.judgeRequests.filter(r => r.judgeType == judgeTypes.CONTEST_TIME_KEEPPER);
+
+  const content = <div>
+                    <div className="row">
+                      <div className="col">
+                        <AcceptedJudgeTargetDecorator header="Accepted judges" judgeRequests={ acceptedJudges } />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col">
+                        <MainJudgeTargetDecorator header="Main judges" judgeRequests={ mainJudges } />
+                      </div>
+                      <div className="col">
+                        <RegularJudgeTargetDecorator header="Reqular judges" judgeRequests={ reqularJudges } />
+                      </div>
+                      <div className="col">
+                        <RefereeTargetDecorator header="Referees" judgeRequests={ referies } />
+                      </div>
+                      <div className="col">
+                        <TimeKeepperTargetDecorator header="Time keeppers" judgeRequests={ timeKeeppers } />
+                      </div>
+                    </div>
+                  </div>
+
+  const header = <strong>Judge management</strong>
+  return (
+    <Page header={ header } content={ content } />
+
+  )
 }
 
-export default ContestJudgeManageView
+export default DragDropContext(HTML5Backend)(ContestJudgeManageView);

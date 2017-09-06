@@ -153,8 +153,6 @@ export const fetchContestJudges = (contestId) => {
     }
 }
 
-
-
 export const fetchInstitutionContestRequests = (contestId) => {
     return (dispatch) => {
         dispatch({
@@ -315,4 +313,29 @@ export const fetchCategoriesWithFighters = (contestId) => {
     }
 }
 
+
+export const allocateJudgeRequest = (judgeRequest) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.CONTEST_ALLOCATE_JUGDE
+        });
+
+        return axios.post(host + "api/contests/requests/allocatejudge", judgeRequest)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.CONTEST_ALLOCATE_JUGDE_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.CONTEST_ALLOCATE_JUGDE_REJECTED
+                })
+                dispatch({
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.data
+                })
+            })
+    }
+}
 

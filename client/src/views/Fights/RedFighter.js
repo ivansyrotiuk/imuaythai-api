@@ -2,7 +2,7 @@ import React from 'react'
 import UserAvatar from 'react-user-avatar'
 import { DragSource } from 'react-dnd';
 import { collect, fighterSource } from './FighterDragSource'
-import dragTypes from './dragTypes'
+import dragTypes from '../../common/dragTypes'
 
 let RedFighter = (props) => {
   const {fighter, number} = props;

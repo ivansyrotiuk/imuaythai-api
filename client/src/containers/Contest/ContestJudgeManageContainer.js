@@ -3,6 +3,17 @@ import { connect } from 'react-redux'
 import ContestJudgeManageView from '../../views/Contest/ContestJudgeManageView'
 import Spinner from '../../views/Components/Spinners/Spinner'
 import { fetchContestJudges } from '../../actions/ContestActions'
+import Loader from 'react-loader-advanced';
+
+const messageStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '55%',
+    transform: 'translate(-50%, -50%)',
+    transform: '-webkit-translate(-50%, -50%)',
+    transform: '-moz-translate(-50%, -50%)',
+    transform: '-ms-translate(-50%, -50%)',
+}
 
 export class ContestJudgeManageContainer extends Component {
 
@@ -12,18 +23,22 @@ export class ContestJudgeManageContainer extends Component {
     }
 
     render() {
-        const {judges, fetching} = this.props;
+        const {judgeRequests, fetching, allocating} = this.props;
         if (fetching) {
             return <Spinner />
         }
 
-        return <ContestJudgeManageView judges={ judges } />
+        return <Loader show={ allocating } message={ <Spinner /> } messageStyle={ messageStyle }>
+                 <ContestJudgeManageView judgeRequests={ judgeRequests } />
+               </Loader>
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        judges: state.Contest.judges
+        judgeRequests: state.Contest.judgeRequests,
+        allocating: state.Contest.allocating,
+        fetching: state.Contest.fetching,
     }
 }
 
