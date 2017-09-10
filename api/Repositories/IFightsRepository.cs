@@ -15,6 +15,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<List<Fight>> GetFights(int contestId, int contestCategoryId);
         Task SaveFights(List<Fight> fights);
         Task RemoveByContestCategory(int contestId, int categoryId);
+        Task ClearJudgeMappings(List<Fight> fights);
     }
 
     public class FightsRepository : IFightsRepository
@@ -76,6 +77,13 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context.AttachRange(existedFights);
 
             return _context.SaveChangesAsync();
+        }
+
+        public async Task ClearJudgeMappings(List<Fight> fights)
+        {
+            var fightIds = fights.Select(fight => fight.Id).ToList();
+            _context.FightJudgesMappings.RemoveRange(_context.FightJudgesMappings.Where(mapping => fightIds.Contains(mapping.FightId)));
+            await _context.SaveChangesAsync();
         }
     }
 }

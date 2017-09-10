@@ -321,30 +321,24 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             var fightersIndentities = new Dictionary<string, string>
             { 
-                { Guid.NewGuid().ToString() + "@fighter.com", "Khaosai Galaxy" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "George Dixon" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Bob Fitzsimmons" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Tony Zale" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Ricardo Lopez" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Carlos Ortiz" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Manuel Ortiz" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Sonny Liston" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Wilfred Benitez" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Wilfredo Gomez" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Barbados Walcott" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Bob Foster" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Fighting Harada" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Pancho Villa" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Lennox Lewis" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Abe Attell" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Johnny Dundee" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Mike Tyson" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Beau Jack" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Aaron Pryor" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Tiger Flowers" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Tommy Loughran" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Charley Burley" },
-                { Guid.NewGuid().ToString() + "@fighter.com", "Carmen Basilio" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Khaosai Galaxy" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge George Dixon" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Bob Fitzsimmons" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Tony Zale" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Ricardo Lopez" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Carlos Ortiz" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Manuel Ortiz" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Sonny Liston" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Wilfred Benitez" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Wilfredo Gomez" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Barbados Walcott" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Bob Foster" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Fighting Harada" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Pancho Villa" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Lennox Lewis" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Abe Attell" },
+                { Guid.NewGuid().ToString() + "@judge.com", "Judge Johnny Dundee" },
+          
             };
 
             foreach(var f in fightersIndentities)
@@ -360,7 +354,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 };
 
                 await _userManager.CreateAsync(user);
-                await _userManager.AddToRoleAsync(user, "Fighter");
+                await _userManager.AddToRoleAsync(user, "Judge");
             }
 
             return Ok(fightersIndentities);

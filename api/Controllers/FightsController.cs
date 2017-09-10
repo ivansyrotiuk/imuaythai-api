@@ -44,6 +44,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                 var fightsEnities = await _fightsService.BuildFights(contestId, categoryId);
+                await _fightsService.Save(fightsEnities);
                 var fights = fightsEnities.Select(fight => (FightDto)fight).ToList();
 
                 return Ok(fights);
@@ -138,6 +139,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             try
             {
                 var fightsEntities = await _fightsService.ScheduleFights(contestId);
+                await _fightsService.Save(fightsEntities);
+
                 var fights = fightsEntities.Select(fight => (FightDto)fight).ToList();
                 return Ok(fights);
             }
@@ -146,5 +149,25 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("Judges/Tossup")]
+        public async Task<IActionResult> TossupJudges([FromQuery] int contestId)
+        {
+            try
+            {
+                await _fightsService.ClearContestJudgeMappings(contestId);
+                var fightsEntities = await _fightsService.TossupJudges(contestId);
+                await _fightsService.Save(fightsEntities);
+
+                var fights = fightsEntities.Select(fight => (FightDto)fight).ToList();
+                return Ok(fights);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

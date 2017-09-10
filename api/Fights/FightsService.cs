@@ -11,6 +11,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
     public class FightsService : IFightsService
     {
         private readonly IFightsIndexer _fightsIndexer;
+        private readonly IJudgesTossuper _judgesTossuper;
         private readonly IFightsRepository _fightsRepository;
         private readonly IContestRepository _contestRepository;
         private readonly IFightersTossupper _fightersTossupper;
@@ -20,17 +21,20 @@ namespace MuaythaiSportManagementSystemApi.Fights
         private readonly IContestCategoriesRepository _contestCategoriesRepository;
         private readonly IContestCategoryMappingsRepository _contestCategoryMappingsRepository;
 
-        public FightsService(IFightsRepository fightsRepository,
-            IContestRequestRepository contestRequestRepository,
-            IContestCategoriesRepository contestCategoriesRepository,
-            IFighterMovingService fighterMovingService,
+        public FightsService(
+            IFightsIndexer fightsIndexer,
+            IJudgesTossuper judgesTossuper,
+            IFightsRepository fightsRepository,
             IFightersTossupper fightersTossupper,
             IContestRepository contestRepository,
-            IFightsIndexer fightsIndexer,
-            IContestCategoryMappingsRepository contestCategoryMappingsRepository,
-            IContestRingsRepository contestRingsRepository)
+            IFighterMovingService fighterMovingService,
+            IContestRingsRepository contestRingsRepository,
+            IContestRequestRepository contestRequestRepository,
+            IContestCategoriesRepository contestCategoriesRepository,
+            IContestCategoryMappingsRepository contestCategoryMappingsRepository)
         {
             _fightsIndexer = fightsIndexer;
+            _judgesTossuper = judgesTossuper;
             _fightsRepository = fightsRepository;
             _contestRepository = contestRepository;
             _fightersTossupper = fightersTossupper;
@@ -76,7 +80,6 @@ namespace MuaythaiSportManagementSystemApi.Fights
                 fights.AddRange(categoryFights);
             }
 
-            await _fightsRepository.SaveFights(fights);
             return fights;
         }
 
@@ -93,7 +96,6 @@ namespace MuaythaiSportManagementSystemApi.Fights
 
             var fights = fightsTree.ToList();
 
-            await _fightsRepository.SaveFights(fights);
             return fights;
         }
 
@@ -174,8 +176,27 @@ namespace MuaythaiSportManagementSystemApi.Fights
             }
 
             var scheduledFights = indexedContestFights.SelectMany(index => index.Value.SelectMany(fights => fights.Select(f => f.Fight))).ToList();
-            await _fightsRepository.SaveFights(scheduledFights);
             return scheduledFights;
+        }
+
+        public async Task<List<Fight>> Save(List<Fight> fights)
+        {
+            await _fightsRepository.SaveFights(fights);
+            return fights;
+        }
+
+        public async Task<List<Fight>> TossupJudges(int contestId)
+        {
+            var judgesRequests = await _contestRequestRepository.GetByContest(contestId, ContestRoleType.Judge);
+            var fights = await _fightsRepository.GetFights(contestId);
+            await _judgesTossuper.Tossup(judgesRequests, fights);
+            return fights;
+        }
+
+        public async Task ClearContestJudgeMappings(int contestId)
+        {
+            var fights = await _fightsRepository.GetFights(contestId);
+            await _fightsRepository.ClearJudgeMappings(fights);
         }
     }
 }
