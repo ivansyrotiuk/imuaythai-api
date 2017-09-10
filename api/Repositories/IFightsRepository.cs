@@ -11,6 +11,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
     public interface IFightsRepository
     {
         Task<Fight> Get(int id);
+        Task<List<Fight>> GetFights(int contestId);
         Task<List<Fight>> GetFights(int contestId, int contestCategoryId);
         Task SaveFights(List<Fight> fights);
         Task RemoveByContestCategory(int contestId, int categoryId);
@@ -34,6 +35,18 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 .Include(f => f.RedAthlete).ThenInclude(f => f.Country)
                 .Include(f => f.RedAthlete).ThenInclude(f => f.Institution)
                 .FirstOrDefaultAsync();
+        }
+
+        public Task<List<Fight>> GetFights(int contestId)
+        {
+            return _context.Fights
+                .Where(f => f.ContestId == contestId)
+                .Include(f => f.BlueAthlete).ThenInclude(f => f.Country)
+                .Include(f => f.BlueAthlete).ThenInclude(f => f.Institution)
+                .Include(f => f.RedAthlete).ThenInclude(f => f.Country)
+                .Include(f => f.RedAthlete).ThenInclude(f => f.Institution)
+
+                .ToListAsync();
         }
 
         public Task<List<Fight>> GetFights(int contestId, int contestCategoryId)
