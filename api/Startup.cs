@@ -121,6 +121,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IFightersTossupper, FightersTossupper>();
             services.AddScoped<IFightsRepository, FightsRepository>();
             services.AddScoped<IFightsDiagramBuilder, FightsDiagramBuilder>();
+            services.AddScoped<IFighterMovingService, FighterMovingService>();
 
             services.Configure<EmailConfiguration>(Configuration);
         }

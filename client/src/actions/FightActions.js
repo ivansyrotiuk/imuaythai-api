@@ -108,3 +108,20 @@ export const tossupContestDraws = (contestId, categoryId) => {
     }
 }
 
+export const moveFighter = (movingParams) => {
+    return (dispatch) => {
+        dispatch(createAction(actionTypes.MOVE_FIGHTER));
+
+        return axios.post(host + 'api/fights/movefighter', movingParams)
+            .then((response) => {
+                dispatch(createAction(actionTypes.MOVE_FIGHTER_SUCCESS, response.data))
+            })
+            .catch((err) => {
+                dispatch(createAction(actionTypes.MOVE_FIGHTER_REJECTED))
+                dispatch(createAction(actionTypes.SHOW_ERROR, err.response != null
+                    ? err.response.data
+                    : "Cannot connect to server"))
+            })
+    }
+}
+

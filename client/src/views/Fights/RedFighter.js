@@ -4,7 +4,6 @@ import { DragSource } from 'react-dnd';
 import { collect, fighterSource } from './FighterDragSource'
 import dragTypes from './dragTypes'
 
-
 let RedFighter = (props) => {
   const {fighter, number} = props;
 

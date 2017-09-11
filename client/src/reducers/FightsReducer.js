@@ -7,7 +7,8 @@ const fightReducerInitialState = {
     draws: [],
     contestCategoryFights: [],
     generating: false,
-    tossingup: false
+    tossingup: false,
+    moving: false
 }
 const fightReducer = (state = fightReducerInitialState, action) => {
     switch (action.type) {
@@ -92,6 +93,30 @@ const fightReducer = (state = fightReducerInitialState, action) => {
             return {
                 ...state,
                 fetching: false
+            }
+        case actionTypes.MOVE_FIGHTER:
+            return {
+                ...state,
+                moving: true
+            }
+        case actionTypes.MOVE_FIGHTER_SUCCESS:
+            const fights = [...state.contestCategoryFights];
+
+            for (let i in action.payload) {
+                let fight = action.payload[i];
+                let index = fights.findIndex(f => f.id == fight.id);
+                fights[index] = fight;
+            }
+
+            return {
+                ...state,
+                contestCategoryFights: fights,
+                moving: false
+            }
+        case actionTypes.MOVE_FIGHTER_REJECTED:
+            return {
+                ...state,
+                moving: false
             }
         default:
             return state;
