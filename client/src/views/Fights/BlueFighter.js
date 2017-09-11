@@ -18,16 +18,14 @@ export const BlueFighter = (props) => {
           <UserAvatar size="50" name={ fighter.firstname + ' ' + fighter.surname } />
         </div>
       </div>
-      <div className="col-md-8">
-        <div>
-          { fighter.id == undefined && <h4 className="card-title">The winner of previous fight</h4> }
-          { fighter.id && <h4 className="card-title">{ fighter.firstname + ' ' + fighter.surname }</h4> }
-          { fighter.id && <h6 className="card-subtitle mb-2 text-muted">{ fighter.gymName || 'No gym' }, { fighter.countryName }</h6> }
-          <p className="card-text">
-            <i className="fa fa-envelope" aria-hidden="true"></i>
-            { ' ' + fighter.email }
-          </p>
-        </div>
+      <div className="col-md-8 align-self-center">
+        { fighter.id == undefined && <h4 className="card-title">The winner of previous fight</h4> }
+        { fighter.id && <h4 className="card-title">{ fighter.firstname + ' ' + fighter.surname }</h4> }
+        { fighter.id && <h6 className="card-subtitle mb-2 text-muted">{ fighter.gymName || 'No gym' }, { fighter.countryName }</h6> }
+        { fighter.id && <p className="card-text">
+                          <i className="fa fa-envelope" aria-hidden="true"></i>
+                          { ' ' + fighter.email }
+                        </p> }
       </div>
       <div className="col-md-2">
         <div className="bg-primary" style={ { color: 'white', width: '100%', height: '100%' } }>

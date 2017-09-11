@@ -5,6 +5,7 @@ using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Repositories;
 using MoreLinq;
 using System;
+using MuaythaiSportManagementSystemApi.Contests;
 
 namespace MuaythaiSportManagementSystemApi.Fights
 {
@@ -139,8 +140,8 @@ namespace MuaythaiSportManagementSystemApi.Fights
             }
 
             var contest = await _contestRepository.Get(contestId);
-            var rings = await _contestRingsRepository.GetByContest(contestId);
-
+            var ringsEnties = await _contestRingsRepository.GetByContest(contestId);
+            var rings = ringsEnties.Select(ring => (RingAvailabilityItem)ring).ToList();
             var indexedFights = indexedContestFights.SelectMany(index => index.Value.SelectMany(f => f).ToList()).OrderBy(f => f.Index).ToList();
             foreach (var fight in indexedFights)
             {
