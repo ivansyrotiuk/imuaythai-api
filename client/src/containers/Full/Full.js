@@ -71,6 +71,8 @@ import ContestCategoriesViewContainer from '../Contest/ContestCategoriesViewCont
 import RequestsManagerContainer from '../Contest/RequestsManagerContainer'
 import RequestAddingContainer from '../Contest/RequestAddingContainer'
 import FightsDrawsContainer from '../Fight/FightsDrawsContainer'
+import FightsListContainer from '../Fight/FightsListContainer'
+
 import Errors from '../Errors/Errors'
 class Full extends Component {
   render() {
@@ -148,6 +150,7 @@ class Full extends Component {
                 <Route path="/contests/:id/(requests)" name="Contest pending requests" component={ RequestsManagerContainer } />
                 <Route path="/contests/:id/(categories)" name="Contest categries" component={ ContestCategoriesViewContainer } />
                 <Route path="/contests/:contestId/category/:categoryId/draws" name="Fights draws" component={ FightsDrawsContainer } />
+                <Route path="/contests/:contestId/category/:categoryId/fights" name="Fights list" component={ FightsListContainer } />
                 <Route path="/contests/add" name="Create contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />

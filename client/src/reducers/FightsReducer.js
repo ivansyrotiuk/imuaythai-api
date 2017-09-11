@@ -5,6 +5,7 @@ const fightReducerInitialState = {
     fetched: false,
     error: null,
     draws: [],
+    contestCategoryFights: [],
     generating: false,
     tossingup: false
 }
@@ -75,6 +76,22 @@ const fightReducer = (state = fightReducerInitialState, action) => {
             return {
                 ...state,
                 tossingup: false
+            }
+        case actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS_SUCCESS:
+            return {
+                ...state,
+                fetching: false,
+                contestCategoryFights: action.payload
+            }
+        case actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS_REJECTED:
+            return {
+                ...state,
+                fetching: false
             }
         default:
             return state;

@@ -1,0 +1,15 @@
+import React from 'react'
+import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
+import Page from '../Components/Page'
+import FightListItem from './FightListItem'
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
+export const FightsListView = (props) => {
+    const header = <strong>Fights list</strong>
+    const mappedFights = props.fights.map((fight, index) => <FightListItem key={ index } number={ index + 1 } fight={ fight } />);
+
+    return <Page header={ header } content={ mappedFights } />
+
+}
+export default DragDropContext(HTML5Backend)(FightsListView);

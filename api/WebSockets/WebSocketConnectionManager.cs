@@ -34,10 +34,17 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         {
             WebSocket socket;
             _sockets.TryRemove(id, out socket);
-
-            await socket.CloseAsync(closeStatus: WebSocketCloseStatus.NormalClosure,
+            try
+            {
+                    await socket.CloseAsync(closeStatus: WebSocketCloseStatus.NormalClosure,
                                     statusDescription: "Closed by the WebSocketManager",
                                     cancellationToken: CancellationToken.None).ConfigureAwait(false);
+            }
+            catch
+            {
+                //ignore or log smth if we ever had logger
+            }
+           
         }
 
         private string CreateConnectionId()

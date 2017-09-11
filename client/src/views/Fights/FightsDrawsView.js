@@ -47,7 +47,7 @@ class FightsDrawsView extends Component {
                           { fightsNotGenerated && <SpinnerButton className="btn btn-success" loading={ this.props.generating } click={ this.props.generateContestDrawsClick } text="Generate fights" /> }
                           <iframe id="ifmcontentstoprint" style={ style } scrolling="no"></iframe>
                           <div id="divcontents">
-                            <BracketGenerator GameComponent={ GameComponent } games={ this.props.draws } homeOnTop={ true } />
+                            <BracketGenerator GameComponent={ GameComponent } games={ this.props.draws } homeOnTop={ false } />
                           </div>
                           { !fightsNotGenerated &&
                             <div className="row justify-content-between">

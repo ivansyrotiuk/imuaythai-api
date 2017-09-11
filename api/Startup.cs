@@ -22,6 +22,7 @@ using MuaythaiSportManagementSystemApi.Users;
 using MuaythaiSportManagementSystemApi.Fights;
 using MuaythaiSportManagementSystemApi.WebSockets;
 using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -33,10 +34,10 @@ namespace MuaythaiSportManagementSystemApi
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-                
-                
-                
-                
+
+
+
+
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
@@ -61,7 +62,8 @@ namespace MuaythaiSportManagementSystemApi
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(config => {
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
                 config.SignIn.RequireConfirmedEmail = true;
                 config.User.RequireUniqueEmail = true;
             }).AddEntityFrameworkStores<ApplicationDbContext>()
@@ -73,8 +75,24 @@ namespace MuaythaiSportManagementSystemApi
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
 
             services.AddWebSocketManager();
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = key,
+                    ValidateLifetime = false,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+                options.RequireHttpsMetadata = false;
+            });
 
             // Add application services.
             services.AddScoped<IEmailSender, AuthMessageSender>();
@@ -112,32 +130,23 @@ namespace MuaythaiSportManagementSystemApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseWebSockets();
-            app.UseCors("MyPolicy");            
+            app.UseWebSockets(new WebSocketOptions
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(25),
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
-            app.UseJwtBearerAuthentication(new JwtBearerOptions(){
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                TokenValidationParameters = new TokenValidationParameters(){
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ValidateLifetime = false,
-                    ValidateIssuer = false,
-                    ValidateAudience = false 
-                }
             });
+            app.UseCors("MyPolicy");
 
             app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
 
-            app.UseIdentity();
+            app.UseAuthentication();
             app.UseMvc();
-  
+
         }
     }
 }

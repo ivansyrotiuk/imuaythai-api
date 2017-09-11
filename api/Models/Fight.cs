@@ -17,6 +17,8 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string RedAthleteId { get; set; }
   
         public string BlueAthleteId { get; set; }
+
+        public string WinnerId {get; set;}
    
         public DateTime? StartDate { get; set; }
 

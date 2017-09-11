@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace MuaythaiSportManagementSystemApi.Data
 {
@@ -15,6 +19,13 @@ namespace MuaythaiSportManagementSystemApi.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+            .HasMany(e => e.Roles)
+            .WithOne()
+            .HasForeignKey(e => e.UserId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<UserDocumentsMapping>()
                 .HasOne(h => h.User)
@@ -55,7 +66,7 @@ namespace MuaythaiSportManagementSystemApi.Data
                 .HasOne(h => h.Referee)
                 .WithMany(h => h.AsRefereeFights)
                 .HasForeignKey(p => p.RefereeId);
-            
+
             builder.Entity<Fight>()
                 .HasOne(h => h.TimeKeeper)
                 .WithMany(h => h.AsTimeKeeperFights)
@@ -74,27 +85,27 @@ namespace MuaythaiSportManagementSystemApi.Data
             builder.Entity<Contest>()
                .HasOne(c => c.Institution)
                .WithMany(i => i.Contests)
-               .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ApplicationUser>()
            .HasOne(c => c.Institution)
            .WithMany(i => i.Users)
-           .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+           .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<FightPoint>()
               .HasOne(h => h.Fighter)
               .WithMany(u => u.FightPoints)
-              .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+              .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<FightPoint>()
              .HasOne(h => h.Judge)
              .WithMany(u => u.JudgeFightPoints)
-             .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict);
+             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Fight>()
            .HasOne(h => h.ContestCategory)
            .WithMany()
-           .OnDelete(Microsoft.EntityFrameworkCore.Metadata.DeleteBehavior.Restrict).IsRequired(false);
+           .OnDelete(DeleteBehavior.Restrict).IsRequired(false);
 
 
         }
@@ -132,5 +143,20 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<ContestRing> ContestRings { get; set; }
 
 
+    }
+
+    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    {
+        public ApplicationDbContext CreateDbContext(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json")
+           .Build();
+            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            builder.UseSqlServer(connectionString);
+            return new ApplicationDbContext(builder.Options);
+        }
     }
 }

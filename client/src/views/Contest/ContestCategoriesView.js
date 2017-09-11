@@ -52,7 +52,10 @@ const renderContestCategory = (category, contestId) => {
                  { renderedFighters }
                  <div>
                    <Link className="btn btn-secondary pull-right" to={ '/contests/' + contestId + '/category/' + category.id + '/draws' }>
-                   <i className="fa fa-bar-chart" aria-hidden="true"></i> Draws
+                   <i className="fa fa-sitemap" aria-hidden="true"></i> Draws
+                   </Link>
+                   <Link className="btn btn-secondary pull-right" to={ '/contests/' + contestId + '/category/' + category.id + '/fights' }>
+                   <i className="fa fa-hand-rock-o" aria-hidden="true"></i> Fights
                    </Link>
                  </div>
                </div>

@@ -11,7 +11,7 @@ using System.IO;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Produces("application/json")]
     [Route("api/users")]
     public class UsersController : Controller

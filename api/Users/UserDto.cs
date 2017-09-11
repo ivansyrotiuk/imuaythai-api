@@ -40,6 +40,10 @@ namespace MuaythaiSportManagementSystemApi.Users
 
         public UserDto(ApplicationUser user)
         {
+            if (user == null)
+            {
+                return;
+            }
             Id = user.Id;
             Firstname = user.FirstName;
             Surname = user.Surname;
@@ -55,6 +59,7 @@ namespace MuaythaiSportManagementSystemApi.Users
             CountryId = user.CountryId;
             CountryName = user.Country?.Name;
             Email = user.Email;
+            //TODO: Add roles from userRoles
             Roles = user.Roles?.Select(r => r.RoleId).ToList();
             Photo = user.Photo;
         }
@@ -83,7 +88,7 @@ namespace MuaythaiSportManagementSystemApi.Users
 
         public FighterDto(ApplicationUser user):base(user)
         {
-            GymName = user.Institution?.Name;
+            GymName = user?.Institution?.Name;
         }
 
         public static explicit operator FighterDto(ApplicationUser user)
@@ -92,5 +97,24 @@ namespace MuaythaiSportManagementSystemApi.Users
         }
     }
 
-   
+    public class JudgeDto : FighterDto
+    {
+        public JudgeDto()
+        {
+
+        }
+
+        public JudgeDto(ApplicationUser user) : base(user)
+        {
+           
+        }
+
+
+        public static explicit operator JudgeDto(ApplicationUser user)
+        {
+            return new JudgeDto(user);
+        }
+    }
+
+
 }
