@@ -5,7 +5,7 @@ import { userCanAcceptContestRequest, userCanAddContestRequest } from '../../aut
 
 export default class ContestInfoCard extends Component {
   render() {
-    const {contest, editContest, pendingRequestsClick, addRequestsClick, contestCategoriesClick, fightersCount, judgesCount, doctorsCount, pendingCount} = this.props;
+    const {contest, editContest, pendingRequestsClick, addRequestsClick, contestCategoriesClick, manageJudgesClick, fightersCount, judgesCount, doctorsCount, pendingCount} = this.props;
 
     const PendingRequestsButton = userCanAcceptContestRequest(() => <div className="col-sm-2">
                                                                       <div className="btn btn-warning btn-block" onClick={ pendingRequestsClick }>
@@ -18,6 +18,12 @@ export default class ContestInfoCard extends Component {
                                                                           <div>Categories</div>
                                                                         </div>
                                                                       </div>)
+
+    const JudgesManageButton = userCanAcceptContestRequest(() => <div className="col-sm-2">
+                                                                   <div className="btn btn-success btn-block" onClick={ manageJudgesClick }>
+                                                                     <div>Manage judges</div>
+                                                                   </div>
+                                                                 </div>)
 
     const AddRequestsButton = userCanAddContestRequest(() => <div className="col-sm-2">
                                                                <div className="btn btn-primary btn-block" onClick={ addRequestsClick }>
@@ -109,6 +115,7 @@ export default class ContestInfoCard extends Component {
               </div>
               <div className="row">
                 <ContestCategoriesButton/>
+                <JudgesManageButton/>
                 <PendingRequestsButton/>
                 <AddRequestsButton />
               </div>

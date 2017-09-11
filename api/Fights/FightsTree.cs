@@ -13,6 +13,8 @@ namespace MuaythaiSportManagementSystemApi.Fights
         private readonly int _fightStructureId;
         private readonly int _contestCategoryId;
 
+        
+
         private FightNode _root;
         public FightNode Root => _root;
 
@@ -44,6 +46,15 @@ namespace MuaythaiSportManagementSystemApi.Fights
             NodeToList(_root, fightsList);
 
             return fightsList;
+        }
+
+        internal List<IndexedFight> CreateTreeIndex()
+        {
+            List<IndexedFight> index = new List<IndexedFight>();
+            int deep = 1;
+            NodeToIndex(_root, index, deep);
+
+            return index;
         }
 
         private void BuildTree(FightNode root, int fightersCount)
@@ -121,6 +132,23 @@ namespace MuaythaiSportManagementSystemApi.Fights
             }
         }
 
+        private void NodeToIndex(FightNode node, List<IndexedFight> index, int deepLevel)
+        {
+            var fight = node.Fight;
+            fight.NextFight = node.Parent?.Fight;
+            var indexedFight = new IndexedFight(fight)
+            {
+                DrawDeepLevel = deepLevel
+            };
+
+            index.Add(indexedFight);
+
+            deepLevel++;
+            foreach (var child in node.Children)
+            {
+                NodeToIndex(child, index, deepLevel);
+            }
+        }
 
         public void Print()
         {

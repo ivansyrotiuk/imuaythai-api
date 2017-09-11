@@ -18,6 +18,19 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             _context = context;
         }
 
+        public Task<List<ContestCategoriesMapping>> GetByContest(int contestId)
+        {
+            return _context.ContestCategoriesMappings
+                .Where(mapping => mapping.ContestId == contestId)
+                .Include(mapping => mapping.ContestCategory)
+                .ThenInclude(category => category.FightStructure)
+                .ThenInclude(structure => structure.WeightAgeCategory)
+                .Include(mapping => mapping.ContestCategory)
+                .ThenInclude(category => category.FightStructure)
+                .ThenInclude(structure => structure.Round)
+                .ToListAsync();
+        }
+
         public Task SaveCategoryMappings(int contestId, List<ContestCategoryDto> mappings)
         {
             _context.ContestCategoriesMappings.RemoveRange(_context.ContestCategoriesMappings.Where(m => m.ContestId == contestId));

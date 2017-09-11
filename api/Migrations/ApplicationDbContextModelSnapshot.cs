@@ -388,6 +388,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<DateTime>("IssueDate");
 
+                    b.Property<int?>("JudgeType");
+
                     b.Property<int>("Status");
 
                     b.Property<int>("Type");

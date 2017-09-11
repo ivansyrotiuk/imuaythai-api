@@ -28,6 +28,26 @@ export const fetchContestDraws = (contestId, categoryId) => {
     }
 }
 
+export const fetchContestFights = (contestId, categoryId) => {
+    return (dispatch) => {
+        dispatch(createAction(actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS));
+
+        return axios.get(host + 'api/fights/get?contestId=' + contestId + '&categoryId=' + categoryId, {
+            contestId: contestId,
+            categoryId: categoryId
+        })
+            .then((response) => {
+                dispatch(createAction(actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS_SUCCESS, response.data))
+            })
+            .catch((err) => {
+                dispatch(createAction(actionTypes.FETCH_CONTEST_CATEGORY_FIGHTS_REJECTED, err.response))
+                dispatch(createAction(actionTypes.SHOW_ERROR, err.response != null
+                    ? err.response.data
+                    : "Cannot connect to server"))
+            })
+    }
+}
+
 export const generateContestDraws = (contestId, categoryId) => {
     return (dispatch) => {
         dispatch(createAction(actionTypes.GENERATE_FIGHTS));
@@ -81,6 +101,23 @@ export const tossupContestDraws = (contestId, categoryId) => {
             })
             .catch((err) => {
                 dispatch(createAction(actionTypes.TOSSUP_CONTEST_FIGHTS_REJECTED))
+                dispatch(createAction(actionTypes.SHOW_ERROR, err.response != null
+                    ? err.response.data
+                    : "Cannot connect to server"))
+            })
+    }
+}
+
+export const moveFighter = (movingParams) => {
+    return (dispatch) => {
+        dispatch(createAction(actionTypes.MOVE_FIGHTER));
+
+        return axios.post(host + 'api/fights/movefighter', movingParams)
+            .then((response) => {
+                dispatch(createAction(actionTypes.MOVE_FIGHTER_SUCCESS, response.data))
+            })
+            .catch((err) => {
+                dispatch(createAction(actionTypes.MOVE_FIGHTER_REJECTED))
                 dispatch(createAction(actionTypes.SHOW_ERROR, err.response != null
                     ? err.response.data
                     : "Cannot connect to server"))

@@ -1,35 +1,23 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Serialization;
-using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Fights;
-using MuaythaiSportManagementSystemApi.Data;
-using Microsoft.EntityFrameworkCore;
-using MuaythaiSportManagementSystemApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
+   // [Authorize]
     [Route("api/[controller]")]
     public class FightsController : Controller
     {
-        private readonly IFightsRepository _fightsRepository;
-        private readonly IFightsDiagramBuilder _fightsDiagramBuilder;
-        private readonly IContestRequestRepository _contestRequestRepository;
-        private readonly IFightersTossupper _fightersTossupper;
-        private readonly IContestCategoriesRepository _contestCategoriesRepository;
+        private readonly IFightsService _fightsService;
+        private readonly IFightDrawsService _drawsService;
 
-        private readonly ApplicationDbContext _context;
-        public FightsController(IFightsRepository fightsRepository, IFightsDiagramBuilder fightsDiagramBuilder, IContestRequestRepository contestRequestRepository, IFightersTossupper fightersTossupper, IContestCategoriesRepository contestCategoriesRepository, ApplicationDbContext context)
+        public FightsController(IFightsService fightsService, IFightDrawsService drawsService)
         {
-            _fightsRepository = fightsRepository;
-            _contestRequestRepository = contestRequestRepository;
-            _contestCategoriesRepository = contestCategoriesRepository;
-            _fightsDiagramBuilder = fightsDiagramBuilder;
-            _fightersTossupper = fightersTossupper;
-            _context = context;
+            _fightsService = fightsService;
+            _drawsService = drawsService;
         }
 
         [HttpGet]
@@ -38,7 +26,43 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var fights = await _fightsRepository.GetFights(contestId, categoryId);
+                var fightsEnities = await _fightsService.GetFights(contestId, categoryId);
+                var fights = fightsEnities.OrderByDescending(f => f.Id).Select(fight => (FightDto)fight).ToList();
+
+                return Ok(fights);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Build")]
+        public async Task<IActionResult> BuildFights([FromQuery] int contestId, [FromQuery] int categoryId)
+        {
+            try
+            {
+                var fightsEnities = await _fightsService.BuildFights(contestId, categoryId);
+                await _fightsService.Save(fightsEnities);
+                var fights = fightsEnities.Select(fight => (FightDto)fight).ToList();
+
+                return Ok(fights);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("movefighter")]
+        public async Task<IActionResult> MoveFighter([FromBody] FighterMoving fighterMoving)
+        {
+            try
+            {
+                var changedFights = await _fightsService.MoveFighter(fighterMoving);
+                var fights = changedFights.Select(f => (FightDto)f).ToList();
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -53,38 +77,8 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var fights = await _fightsRepository.GetFights(contestId, categoryId);
-                _fightsDiagramBuilder.GenerateFightDiagram(fights);
-                string fightsDrawsJson = _fightsDiagramBuilder.ToJson();
-
+                string fightsDrawsJson = await _drawsService.GetDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [Route("Build")]
-        public async Task<IActionResult> BuildFights([FromQuery] int contestId, [FromQuery] int categoryId)
-        {
-            try
-            {
-                var acceptedFighterRequests = await _contestRequestRepository.GetContestAcceptedFighterRequests(contestId, categoryId);
-                var fighters = acceptedFighterRequests.Select(r => r.User).ToList();
-                var category = await _contestCategoriesRepository.Get(categoryId);
-
-                FightsTree fightsTree = new FightsTree(contestId: contestId, contestCategoryId: categoryId, 
-                    fightStructureId: category.FightStructureId, fighterCount: fighters.Count);
-
-                _fightersTossupper.Tossup(fighters, fightsTree);
-
-                var fights = fightsTree.ToList();
-
-                await _fightsRepository.SaveFights(fights);
-
-                return Ok(fights);
             }
             catch (Exception ex)
             {
@@ -98,22 +92,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var acceptedFighterRequests = await _contestRequestRepository.GetContestAcceptedFighterRequests(contestId, categoryId);
-                var fighters = acceptedFighterRequests.Select(r => r.User).ToList();
-                var category = await _contestCategoriesRepository.Get(categoryId);
-
-                FightsTree fightsTree = new FightsTree(contestId: contestId, contestCategoryId: categoryId,
-                    fightStructureId: category.FightStructureId, fighterCount: fighters.Count);
-
-                _fightersTossupper.Tossup(fighters, fightsTree);
-
-                var fights = fightsTree.ToList();
-
-                await _fightsRepository.SaveFights(fights);
-
-                _fightsDiagramBuilder.GenerateFightDiagram(fights);
-                string fightsDrawsJson = _fightsDiagramBuilder.ToJson();
-
+                string fightsDrawsJson = await _drawsService.GenerateFightsDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -128,25 +107,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                await _fightsRepository.RemoveByContestCategory(contestId, categoryId);
-                var acceptedFighterRequests = await _contestRequestRepository.GetContestAcceptedFighterRequests(contestId, categoryId);
-                var fighters = acceptedFighterRequests.Select(r => r.User).ToList();
-                var category = await _contestCategoriesRepository.Get(categoryId);
-
-                FightsTree fightsTree = new FightsTree(contestId: contestId, contestCategoryId: categoryId,
-                    fightStructureId: category.FightStructureId, fighterCount: fighters.Count);
-
-                _fightersTossupper.Tossup(fighters, fightsTree);
-
-                fightsTree.Print();
-
-                var fights = fightsTree.ToList();
-
-                await _fightsRepository.SaveFights(fights);
-
-                _fightsDiagramBuilder.GenerateFightDiagram(fights);
-                string fightsDrawsJson = _fightsDiagramBuilder.ToJson();
-
+                string fightsDrawsJson = await _drawsService.RegenerateDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -161,21 +122,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var acceptedFighterRequests = await _contestRequestRepository.GetContestAcceptedFighterRequests(contestId, categoryId);
-                var fighters = acceptedFighterRequests.Select(r => r.User).ToList();
-                var fights = await _fightsRepository.GetFights(contestId, categoryId);
-
-                fights.ForEach(f => f.RedAthleteId = f.BlueAthleteId = null );
-
-                FightsTree fightsTree = new FightsTree(fights);
-                _fightersTossupper.Tossup(fighters, fightsTree);
-
-                fights = fightsTree.ToList();
-
-                await _fightsRepository.SaveFights(fights);
-
-                _fightsDiagramBuilder.GenerateFightDiagram(fights);
-                string fightsDrawsJson = _fightsDiagramBuilder.ToJson();
+                string fightsDrawsJson = await _drawsService.TossupFightsDraws(contestId, categoryId);
 
                 return Ok(fightsDrawsJson);
             }
@@ -184,5 +131,43 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("Schedule")]
+        public async Task<IActionResult> ScheduleFights([FromQuery] int contestId)
+        {
+            try
+            {
+                var fightsEntities = await _fightsService.ScheduleFights(contestId);
+                await _fightsService.Save(fightsEntities);
+
+                var fights = fightsEntities.Select(fight => (FightDto)fight).ToList();
+                return Ok(fights);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Judges/Tossup")]
+        public async Task<IActionResult> TossupJudges([FromQuery] int contestId)
+        {
+            try
+            {
+                await _fightsService.ClearContestJudgeMappings(contestId);
+                var fightsEntities = await _fightsService.TossupJudges(contestId);
+                await _fightsService.Save(fightsEntities);
+
+                var fights = fightsEntities.Select(fight => (FightDto)fight).ToList();
+                return Ok(fights);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

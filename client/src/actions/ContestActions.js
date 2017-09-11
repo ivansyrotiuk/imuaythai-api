@@ -128,6 +128,31 @@ export const fetchContestRequests = (contestId) => {
     }
 }
 
+export const fetchContestJudges = (contestId) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.FETCH_CONTEST_JUDGES
+        })
+
+        return axios.get("api/contests/requests/judges?contestId=" + contestId)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_JUDGES_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.FETCH_CONTEST_JUDGES_REJECTED
+                })
+                dispatch({
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.data
+                })
+            })
+    }
+}
+
 export const fetchInstitutionContestRequests = (contestId) => {
     return (dispatch) => {
         dispatch({
@@ -288,4 +313,29 @@ export const fetchCategoriesWithFighters = (contestId) => {
     }
 }
 
+
+export const allocateJudgeRequest = (judgeRequest) => {
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.CONTEST_ALLOCATE_JUGDE
+        });
+
+        return axios.post(host + "api/contests/requests/allocatejudge", judgeRequest)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.CONTEST_ALLOCATE_JUGDE_SUCCESS,
+                    payload: response.data
+                })
+            })
+            .catch((err) => {
+                dispatch({
+                    type: actionTypes.CONTEST_ALLOCATE_JUGDE_REJECTED
+                })
+                dispatch({
+                    type: actionTypes.SHOW_ERROR,
+                    payload: err.data
+                })
+            })
+    }
+}
 
