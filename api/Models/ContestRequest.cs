@@ -9,6 +9,7 @@ namespace MuaythaiSportManagementSystemApi.Models
     {
         public int Id { get; set; }
         public ContestRoleType Type { get; set; }
+        public ContestJudgeType? JudgeType { get; set; }
         public DateTime IssueDate { get; set; }
         public ContestRoleRequestStatus Status { get; set; }
         public string UserId { get; set; }
@@ -17,7 +18,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int? ContestCategoryId { get; set; }
         public string AcceptedByUserId { get; set; }
         public DateTime AcceptanceDate { get; set; }
-        public virtual ApplicationUser User { get; set; }     
+        public virtual ApplicationUser User { get; set; }
         public virtual Institution Institution { get; set; }
         public virtual Contest Contest { get; set; }
         public virtual ApplicationUser AcceptedByUser { get; set; }
@@ -32,5 +33,10 @@ namespace MuaythaiSportManagementSystemApi.Models
     public enum ContestRoleType
     {
         Fighter, Judge, Doctor, Coach
+    }
+
+    public enum ContestJudgeType
+    {
+        Regular, MainJudge, Referee, TimeKeepper
     }
 }

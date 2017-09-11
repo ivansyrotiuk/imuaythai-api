@@ -2,7 +2,7 @@ import React from 'react'
 import UserAvatar from 'react-user-avatar'
 import { DragSource } from 'react-dnd';
 import { collect, fighterSource } from './FighterDragSource'
-import dragTypes from './dragTypes'
+import dragTypes from '../../common/dragTypes'
 
 let RedFighter = (props) => {
   const {fighter, number} = props;
@@ -18,16 +18,14 @@ let RedFighter = (props) => {
           <p className="text-center">Red corner</p>
         </div>
       </div>
-      <div className="col-md-8 text-right">
-        <div>
-          { fighter.id == undefined && <h4 className="card-title">The winner of previous fight</h4> }
-          { fighter.id && <h4 className="card-title">{ fighter.firstname + ' ' + fighter.surname }</h4> }
-          { fighter.id && <h6 className="card-subtitle mb-2 text-muted">{ fighter.gymName || 'No gym' }, { fighter.countryName }</h6> }
-          <p className="card-text">
-            <i className="fa fa-envelope" aria-hidden="true"></i>
-            { ' ' + fighter.email }
-          </p>
-        </div>
+      <div className="col-md-8 text-right align-self-center">
+        { fighter.id == undefined && <h4 className="card-title">The winner of previous fight</h4> }
+        { fighter.id && <h4 className="card-title">{ fighter.firstname + ' ' + fighter.surname }</h4> }
+        { fighter.id && <h6 className="card-subtitle mb-2 text-muted">{ fighter.gymName || 'No gym' }, { fighter.countryName }</h6> }
+        { fighter.id && <p className="card-text">
+                          <i className="fa fa-envelope" aria-hidden="true"></i>
+                          { ' ' + fighter.email }
+                        </p> }
       </div>
       <div className="col-md-2 align-self-center">
         <div className="row justify-content-start">

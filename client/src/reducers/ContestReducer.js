@@ -8,6 +8,8 @@ const reducerInitialState = {
     singleContest: null,
     candidates: [],
     requests: [],
+    allocating: false,
+    judgeRequests: [],
     categories: [],
     institutionRequests: [],
     singleRequest: null,
@@ -150,12 +152,52 @@ const reducer = (state = reducerInitialState, action) => {
         case actionTypes.FETCH_CONTEST_REQUESTS_REJECTED:
             return {
                 ...state,
-                fetching: true,
+                fetching: false,
                 error: action.payload
             }
+
+        case actionTypes.FETCH_CONTEST_JUDGES:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_CONTEST_JUDGES_FULFILLED:
+            return {
+                ...state,
+                fetching: false,
+                judgeRequests: action.payload
+            }
+        case actionTypes.FETCH_CONTEST_JUDGES_REJECTED:
+            return {
+                ...state,
+                fetching: false
+            }
+        case actionTypes.CONTEST_ALLOCATE_JUGDE:
+            return {
+                ...state,
+                allocating: true
+            }
+        case actionTypes.CONTEST_ALLOCATE_JUGDE_SUCCESS:
+            const judges = [...state.judgeRequests];
+            let index = judges.findIndex(j => j.id == action.payload.id);
+            if (index > -1) {
+                judges[index] = action.payload;
+            }
+            return {
+                ...state,
+                allocating: false,
+                judgeRequests: judges
+            }
+        case actionTypes.CONTEST_ALLOCATE_JUGDE_REJECTED:
+            return {
+                ...state,
+                allocating: false
+            }
+
+
         case actionTypes.ACCEPT_CONTEST_REQUEST:
             let requests = [...state.requests];
-            let index = requests.findIndex(r => r.id === action.payload.id);
+            index = requests.findIndex(r => r.id === action.payload.id);
             requests[index].accepting = true;
             return {
                 ...state,

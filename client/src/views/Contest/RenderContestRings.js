@@ -10,7 +10,7 @@ const ringsCountChange = (fields, e) => {
 
   for (let i = 0; i < ringsCount - fields.length; i++) {
     const contestDay = fields.get(0).from;
-    const ringName = ringsArray[fields.length];
+    const ringName = ringsArray[fields.length + i];
     const ringAvailability = createRingAvailability(contestDay, ringName);
     fields.push(ringAvailability);
   }
