@@ -16,16 +16,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
     {
 
         private readonly IFightRepository _repository;
-        public FightController(IFightRepository repository){
+        public FightController(IFightRepository repository)
+        {
             _repository = repository;
         }
 
         [HttpGet]
-        [Route("get/{ring}")]
-        public async Task<IActionResult> GetFightsToRing([FromRoute] string ring){
-            var fights = await _repository.Find(f => f.Ring == ring);
+        [Route("get/{contestId}/{ringId}")]
+        public async Task<IActionResult> GetFightsToRing([FromRoute] int contestId, string ringId)
+        {
+            var fights = await _repository.Find(f => f.Ring == ringId
+            && f.ContestId == contestId
+            && !string.IsNullOrEmpty(f.BlueAthleteId)
+            && !string.IsNullOrEmpty(f.RedAthleteId)
+            && string.IsNullOrEmpty(f.WinnerId));
 
-            if(fights == null || fights.Count == 0)
+            if (fights == null || fights.Count == 0)
                 return BadRequest("No fights found");
 
             return Ok(fights);
@@ -33,15 +39,28 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        public async Task<IActionResult> GetFight([FromRoute] int id){
+        public async Task<IActionResult> GetFight([FromRoute] int id)
+        {
             var fight = await _repository.Get(id);
 
-            if(fight == null)
+            if (fight == null)
                 return BadRequest("No fight found");
 
             return Ok(fight);
 
         }
-        
+
+        [HttpGet]
+        [Route("contest")]
+        public async Task<IActionResult> GetContests()
+        {
+            var contests = await _repository.GetContests();
+
+            if (contests == null)
+                return BadRequest("No contests found");
+
+            return Ok(contests.ToArray());
+        }
+
     }
 }

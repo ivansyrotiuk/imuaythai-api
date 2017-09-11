@@ -12,5 +12,6 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task<Fight> Get(int id);
         Task Save(Fight fight);
         Task<List<Fight>> Find(Expression<Func<Fight, bool>> predicate);
+        Task<List<Contest>> GetContests();
     }
 }
