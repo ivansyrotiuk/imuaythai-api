@@ -73,7 +73,7 @@ import RequestAddingContainer from '../Contest/RequestAddingContainer'
 import ContestJudgeManageContainer from '../Contest/ContestJudgeManageContainer'
 import FightsDrawsContainer from '../Fight/FightsDrawsContainer'
 import FightsListContainer from '../Fight/FightsListContainer'
-
+import FightOverviewContainer from '../Fight/FightOverviewContainer'
 import Errors from '../Errors/Errors'
 class Full extends Component {
   render() {
@@ -157,6 +157,7 @@ class Full extends Component {
                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ ContestEditContainer } />
                 <Route path="/contests/:id" name="Contest view" component={ ContestViewContainer } />
                 <Route path="/contests/" name="Contests" component={ ContestsContainer } />
+                <Route path="/fights/:id" name="Fights overview" component={ FightOverviewContainer } />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </div>
