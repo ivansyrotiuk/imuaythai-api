@@ -22,7 +22,7 @@ namespace MuaythaiSportManagementSystemApi.Fights.Overview.DTO
             Contest = (ContestDto)fight.Contest;
             RedFighter = (FighterDto)fight.RedAthlete;
             BlueFighter = (FighterDto)fight.BlueAthlete;
-            Winner = (FighterDto)fight.RedAthlete;
+            Winner = (FighterDto)fight.Winner;
             FightStructure = (FightStructureDto)fight.Structure;
         }
 
