@@ -19,14 +19,16 @@ export const RenderDatePicker = props => {
 
 export const RenderTimePicker = props => {
   if (!props.input.value._isAMomentObject) {
-    props.input.value = moment.utc(props.input.value)
+    const momentDate = moment(props.input.value);
+    const offset = momentDate.utcOffset();
+    props.input.value = momentDate.add('minutes', offset);
   }
   return <div>
            <label>
              { props.label }
            </label>
            <div className="form-group">
-             <Datetime {...props.input} dateFormat="" timeFormat="HH:mm" />
+             <Datetime utc={ true } {...props.input} dateFormat="" timeFormat="HH:mm" />
            </div>
          </div>
 }

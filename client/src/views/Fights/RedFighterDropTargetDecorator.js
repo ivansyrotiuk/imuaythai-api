@@ -4,7 +4,7 @@ import BlueFighter from './BlueFighter'
 import Versus from './Versus'
 import { DropTarget } from 'react-dnd';
 import { collect, fighterTarget } from './FighterDragTarget'
-import dragTypes from './dragTypes'
+import dragTypes from '../../common/dragTypes'
 
 export const RedFighterDropTargetDecorator = (props) => {
     const {isOver, canDrop, connectDropTarget} = props;

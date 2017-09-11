@@ -81,7 +81,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
             TimeKeeper = (FighterDto)fight.TimeKeeper;
             Referee = (FighterDto)fight.Referee;
             FightPoints = fight.FightPoints?.Select(p => (FightPointDto)p).ToList();
-            Judges = fight.FightJudgesMappings?.Select(p => (JudgeDto)p.Judge).ToList();
+            Judges = fight.FightJudgesMappings?.Where(j => j.Main == 0).Select(p => (JudgeDto)p.Judge).ToList();
             MainJudge = fight.FightJudgesMappings?.Where(j => j.Main > 0).Select(p => (JudgeDto)p.Judge).FirstOrDefault();
             ContestCategory = (ContestCategoryDto)fight?.ContestCategory;
         }

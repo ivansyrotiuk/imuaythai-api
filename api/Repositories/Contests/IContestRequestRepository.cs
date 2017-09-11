@@ -13,6 +13,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
     {
         Task<ContestRequest> Get(int id);
         Task<List<ContestRequest>> GetByContest(int contestId);
+        Task<List<ContestRequest>> GetByContest(int contestId, ContestRoleType type);
         Task<List<ContestRequest>> GetByInstitution(int contestId, int institutionId);
         Task<List<ContestRequest>> GetByUnassociatedUser(int contestId, string userId);
         Task<List<ContestRequest>> GetContestAcceptedFighterRequests(int contestId);
@@ -53,6 +54,13 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         public Task<List<ContestRequest>> GetByContest(int contestId)
         {
             return _context.ContestRequests.Where(r => r.ContestId == contestId).Include(c => c.User).ThenInclude(u => u.Country)
+                .Include(c => c.ContestCategory)
+                .Include(c => c.AcceptedByUser).Include(c => c.Institution).ToListAsync();
+        }
+
+        public Task<List<ContestRequest>> GetByContest(int contestId, ContestRoleType type)
+        {
+            return _context.ContestRequests.Where(r => r.ContestId == contestId && r.Type == type).Include(c => c.User).ThenInclude(u => u.Country)
                 .Include(c => c.ContestCategory)
                 .Include(c => c.AcceptedByUser).Include(c => c.Institution).ToListAsync();
         }

@@ -7,6 +7,7 @@ namespace MuaythaiSportManagementSystemApi.Models
     {
         public int Id { get; set; }
         public ContestRoleType Type { get; set; }
+        public ContestJudgeType? JudgeType { get; set; }
         public DateTime IssueDate { get; set; }
         public ContestRoleRequestStatus Status { get; set; }
         public string UserId { get; set; }
@@ -31,6 +32,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         {
             Id = request.Id;
             Type = request.Type;
+            JudgeType = request.JudgeType;
             IssueDate = request.IssueDate;
             Status = request.Status;
             UserId = request.UserId;

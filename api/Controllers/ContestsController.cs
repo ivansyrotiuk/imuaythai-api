@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 { 
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class ContestsController : Controller
     {
@@ -187,6 +187,24 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
         [HttpGet]
+        [Route("requests/judges")]
+        public async Task<IActionResult> GetContestJudgesRequests([FromQuery] int contestId)
+        {
+            try
+            {
+                var requestEntities = await _contestRequestsRepository.GetByContest(contestId, ContestRoleType.Judge);
+
+                var requests = requestEntities.Select(r => (ContestRequestDto)r).ToList();
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet]
         [Route("requests/institution")]
         public async Task<IActionResult> GetContestInstitutionRequests([FromQuery] int contestId)
         {
@@ -338,6 +356,32 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("requests/allocatejudge")]
+        public async Task<IActionResult> AllocateJudgeRequest([FromBody] ContestJudgeAllocation judgeAllocation)
+        {
+            try
+            {
+                ContestRequest requestEntity = await _contestRequestsRepository.Get(judgeAllocation.RequestId);
+                if (requestEntity == null)
+                {
+                    return BadRequest("Request not found");
+                }
+
+                requestEntity.JudgeType = judgeAllocation.JudgeType;
+                await _contestRequestsRepository.Save(requestEntity);
+
+                var request = (ContestRequestDto)requestEntity;
+                return Ok(request);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        
         [HttpGet]
         [Route("categories")]
         public async Task<IActionResult> GetContestCategoriesWithFighters([FromQuery] int contestId)

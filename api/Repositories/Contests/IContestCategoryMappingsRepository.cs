@@ -7,7 +7,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 {
     public interface IContestCategoryMappingsRepository
     {
-
+        Task<List<ContestCategoriesMapping>> GetByContest(int contestId);
         Task SaveCategoryMappings(int contestId, List<ContestCategoryDto> contestCategoriesMappings);
     }
 }

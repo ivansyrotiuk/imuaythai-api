@@ -1,4 +1,5 @@
-﻿using MuaythaiSportManagementSystemApi.Contests;
+﻿using Microsoft.EntityFrameworkCore;
+using MuaythaiSportManagementSystemApi.Contests;
 using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         {
             _context = context;
         }
+
+        public Task<List<ContestRing>> GetByContest(int contestId)
+        {
+            return _context.ContestRings.Where(ring => ring.ContestId == contestId).ToListAsync();
+        }
+
         public Task SaveCategoryRings(int contestId, List<ContestRingDto> rings)
         {
             rings.ForEach(ring =>

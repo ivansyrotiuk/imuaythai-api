@@ -6,11 +6,6 @@ import { fetchContestFights } from '../../actions/FightActions'
 import Loader from 'react-loader-advanced';
 
 const messageStyle = {
-    margin: 'auto',
-    width: '50%'
-}
-
-const messageStyle2 = {
     position: 'fixed',
     top: '50%',
     left: '55%',
@@ -32,7 +27,7 @@ class FightsListContainer extends Component {
             return <Spinner />
         }
 
-        return <Loader show={ moving } message={ <Spinner /> } messageStyle={ messageStyle2 }>
+        return <Loader show={ moving } message={ <Spinner /> } messageStyle={ messageStyle }>
                  <FightsListView fights={ fights } />
                </Loader>
     }

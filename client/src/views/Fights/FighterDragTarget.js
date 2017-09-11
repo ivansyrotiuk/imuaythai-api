@@ -23,9 +23,6 @@ export const fighterTarget = {
     canDrop(props, monitor) {
         // You can disallow drop based on props or item
         const item = monitor.getItem();
-        console.log(props);
-        console.log(item);
-
         return canDropFighter(item, props);
     },
 
