@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace MuaythaiSportManagementSystemApi
 {
-  public class Program
+    public class Program
     {
         public static void Main(string[] args)
         {
@@ -15,6 +15,7 @@ namespace MuaythaiSportManagementSystemApi
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://0.0.0.0:5000")
                 .UseStartup<Startup>()
                 .Build();
     }

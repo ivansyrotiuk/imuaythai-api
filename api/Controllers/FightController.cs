@@ -49,18 +49,5 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             return Ok(fight);
 
         }
-
-        [HttpGet]
-        [Route("contest")]
-        public async Task<IActionResult> GetContests()
-        {
-            var contests = await _repository.GetContests();
-
-            if (contests == null)
-                return BadRequest("No contests found");
-
-            return Ok(contests.ToArray());
-        }
-
     }
 }
