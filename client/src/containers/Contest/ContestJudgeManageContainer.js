@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ContestJudgeManageView from "../../views/Contest/ContestJudgeManageView";
 import Spinner from "../../views/Components/Spinners/Spinner";
-import { fetchContestJudges, tossupJudges } from "../../actions/ContestActions";
+import { fetchContestJudges } from "../../actions/ContestActions";
 import Loader from "react-loader-advanced";
 
 const messageStyle = {
@@ -22,14 +22,14 @@ export class ContestJudgeManageContainer extends Component {
     }
 
     render() {
-        const { judgeRequests, fetching, allocating, tossingup, tossupJudges } = this.props;
+        const { judgeRequests, fetching, allocating, tossingup } = this.props;
         if (fetching) {
             return <Spinner />;
         }
 
         return (
             <Loader show={allocating} message={<Spinner />} messageStyle={messageStyle}>
-                <ContestJudgeManageView judgeRequests={judgeRequests} tossingup={tossingup} tossupJudgesClick={tossupJudges} />
+                <ContestJudgeManageView judgeRequests={judgeRequests} tossingup={tossingup} />
             </Loader>
         );
     }
@@ -39,7 +39,6 @@ const mapStateToProps = (state, ownProps) => {
     return {
         judgeRequests: state.Contest.judgeRequests,
         allocating: state.Contest.allocating,
-        tossingup: state.Contest.tossingup,
         fetching: state.Contest.fetching
     };
 };
@@ -48,9 +47,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         fetchContestJudges: contestId => {
             dispatch(fetchContestJudges(contestId));
-        },
-        tossupJudges: contestId => {
-            dispatch(tossupJudges(contestId));
         }
     };
 };

@@ -11,7 +11,7 @@ import { DragDropContext } from "react-dnd";
 import * as judgeTypes from "../../common/contestJudgeTypes";
 import Page from "../Components/Page";
 export const ContestJudgeManageView = props => {
-    const { judgeRequests, tossingup, tossupJudgesClick } = props;
+    const { judgeRequests, tossingup } = props;
 
     const acceptedJudges = judgeRequests.filter(r => r.judgeType == null);
     const mainJudges = judgeRequests.filter(r => r.judgeType == judgeTypes.CONTEST_MAIN_JUDGE);
@@ -22,10 +22,6 @@ export const ContestJudgeManageView = props => {
     const content = (
         <div>
             <div className="row">
-                <div className="btn btn-primary pull-right" onClick={tossupJudgesClick}>
-                    {tossingup && <i className="fa fa-cog fa-spin fa-1x fa-fw" />}
-                    Tossup judges
-                </div>
                 <div className="col">
                     <AcceptedJudgeTargetDecorator header="Accepted judges" judgeRequests={acceptedJudges} />
                 </div>

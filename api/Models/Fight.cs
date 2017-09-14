@@ -21,6 +21,8 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string WinnerId {get; set;}
    
         public DateTime? StartDate { get; set; }
+        public int? StartNumber { get; set; }
+
 
         public string TimeKeeperId { get; set; }
 
@@ -33,6 +35,7 @@ namespace MuaythaiSportManagementSystemApi.Models
         public int? KOTime { get; set; }
 
         public int? NextFightId { get; set; }
+
 
         public virtual ICollection<FightPoint> FightPoints { get; set; }
         public virtual ICollection<FightJudgesMapping> FightJudgesMappings { get; set; }

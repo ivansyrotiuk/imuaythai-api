@@ -177,6 +177,12 @@ namespace MuaythaiSportManagementSystemApi.Fights
             }
 
             var scheduledFights = indexedContestFights.SelectMany(index => index.Value.SelectMany(fights => fights.Select(f => f.Fight))).ToList();
+            int fightStartNumber = 1;
+            scheduledFights.ForEach(fight =>
+            {
+                fight.StartNumber = fightStartNumber++;
+            });
+
             return scheduledFights;
         }
 

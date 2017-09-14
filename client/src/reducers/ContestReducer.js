@@ -16,7 +16,8 @@ const reducerInitialState = {
     fetched: false,
     fetching: false,
     allocating: false,
-    tossingup: false
+    tossingup: false,
+    scheduling: false
 };
 const reducer = (state = reducerInitialState, action) => {
     switch (action.type) {
@@ -300,12 +301,29 @@ const reducer = (state = reducerInitialState, action) => {
         case actionTypes.TOSSUP_JUDGES_SUCCESS:
             return {
                 ...state,
-                tossingup: false
+                tossingup: false,
+                fights: action.payload
             };
         case actionTypes.TOSSUP_JUDGES_REJECTED:
             return {
                 ...state,
                 tossingup: false
+            };
+        case actionTypes.SCHEDULE_FIGHTS:
+            return {
+                ...state,
+                scheduling: true
+            };
+        case actionTypes.SCHEDULE_FIGHTS_SUCCESS:
+            return {
+                ...state,
+                scheduling: false,
+                fights: action.payload
+            };
+        case actionTypes.SCHEDULE_FIGHTS_REJECTED:
+            return {
+                ...state,
+                scheduling: false
             };
         case action.CONTEST_CANCEL_FETCHING:
             return {
