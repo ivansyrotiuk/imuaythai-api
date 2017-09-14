@@ -26,8 +26,10 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             try
             {
-                var fightsEnities = await _fightsService.GetFights(contestId, categoryId);
-                var fights = fightsEnities.OrderByDescending(f => f.Id).Select(fight => (FightDto)fight).ToList();
+                var fightsEnities = categoryId == 0 ? await _fightsService.GetFights(contestId)
+                    : await _fightsService.GetFights(contestId, categoryId);
+
+                var fights = fightsEnities.OrderBy(f => f.StartDate).Select(fight => (FightDto)fight).ToList();
 
                 return Ok(fights);
             }

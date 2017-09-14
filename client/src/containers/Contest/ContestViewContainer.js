@@ -17,7 +17,7 @@ class ContestViewPageContainer extends Component {
         this.addRequestsClick = this.addRequestsClick.bind(this);
         this.contestCategoriesClick = this.contestCategoriesClick.bind(this);
         this.manageJudgesClick = this.manageJudgesClick.bind(this);
-
+        this.contestFightsClick = this.contestFightsClick.bind(this);
     }
 
     componentWillMount() {
@@ -47,6 +47,10 @@ class ContestViewPageContainer extends Component {
         this.props.history.push(this.props.match.url + '/judges');
     }
 
+    contestFightsClick() {
+        this.props.history.push(this.props.match.url + '/fights');
+    }
+
     render() {
         const {contest, fetching, roles, candidates, requests, singleRequest, showRequestForm, acceptContestRequest, rejectContestRequest, removeContestRequest} = this.props;
         if (fetching) {
@@ -60,7 +64,7 @@ class ContestViewPageContainer extends Component {
 
         return <ContestViewPage contest={ contest } pendingRequests={ pendingRequests } doctorsRequests={ doctorsRequests } judgesRequests={ judgesRequests } fightersRequests={ fightersRequests }
                  editContest={ this.editContest } addRequestsClick={ this.addRequestsClick } pendingRequestsClick={ this.pendingRequestsClick } contestCategoriesClick={ this.contestCategoriesClick } manageJudgesClick={ this.manageJudgesClick }
-               />
+                 contestFightsClick={ this.contestFightsClick } />
 
     }
 }

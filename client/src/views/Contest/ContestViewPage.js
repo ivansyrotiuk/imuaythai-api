@@ -10,7 +10,7 @@ import { Route, Link, NavLink } from 'react-router-dom';
 
 class ContestViewPage extends Component {
   render() {
-    const {contest, pendingRequests, doctorsRequests, judgesRequests, fightersRequests, addRequestsClick, editContest, pendingRequestsClick, contestCategoriesClick, manageJudgesClick} = this.props;
+    const {contest, pendingRequests, doctorsRequests, judgesRequests, fightersRequests, addRequestsClick, editContest, pendingRequestsClick, contestCategoriesClick, manageJudgesClick, contestFightsClick} = this.props;
     if (!contest) {
       return <div></div>
     }
@@ -20,8 +20,8 @@ class ContestViewPage extends Component {
              <div className="row">
                <div className="col-12">
                  <ContestInfoCard contest={ contest } editContest={ editContest } addRequestsClick={ addRequestsClick } pendingRequestsClick={ pendingRequestsClick } contestCategoriesClick={ contestCategoriesClick }
-                   manageJudgesClick={ manageJudgesClick } fightersCount={ fightersRequests.length } judgesCount={ judgesRequests.length } doctorsCount={ doctorsRequests.length } pendingCount={ pendingRequests.length }
-                 />
+                   manageJudgesClick={ manageJudgesClick } contestFightsClick={ contestFightsClick } fightersCount={ fightersRequests.length } judgesCount={ judgesRequests.length } doctorsCount={ doctorsRequests.length }
+                   pendingCount={ pendingRequests.length } />
                </div>
              </div>
              <div className="row">
