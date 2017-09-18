@@ -59,8 +59,10 @@ namespace MuaythaiSportManagementSystemApi
             options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         );
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationMainDbContext>(options =>
+                            options.UseSqlServer(Configuration.GetConnectionString("MainDbConnection")));
+                    services.AddDbContext<ApplicationDbContext>(options =>
+                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
@@ -95,6 +97,7 @@ namespace MuaythaiSportManagementSystemApi
             });
 
             // Add application services.
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IEmailSender, AuthMessageSender>();
             services.AddScoped<ISmsSender, AuthMessageSender>();
             services.AddScoped<IInstitutionsRepository, InstitutionsRepository>();
@@ -131,7 +134,7 @@ namespace MuaythaiSportManagementSystemApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDbInitializer dbInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -143,6 +146,8 @@ namespace MuaythaiSportManagementSystemApi
 
             });
             app.UseCors("MyPolicy");
+
+            dbInitializer.Initialize();
 
             app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
