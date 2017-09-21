@@ -23,6 +23,7 @@ using MuaythaiSportManagementSystemApi.Fights;
 using MuaythaiSportManagementSystemApi.WebSockets;
 using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MuaythaiSportManagementSystemApi.Models.Comparers;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -60,9 +61,9 @@ namespace MuaythaiSportManagementSystemApi
         );
 
             services.AddDbContext<ApplicationMainDbContext>(options =>
-                            options.UseSqlServer(Configuration.GetConnectionString("MainDbConnection")));
+                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionDev")));
                     services.AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionLocal")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
@@ -97,7 +98,6 @@ namespace MuaythaiSportManagementSystemApi
             });
 
             // Add application services.
-            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IEmailSender, AuthMessageSender>();
             services.AddScoped<ISmsSender, AuthMessageSender>();
             services.AddScoped<IInstitutionsRepository, InstitutionsRepository>();
@@ -130,11 +130,28 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IFightDrawsService, FightDrawsService>();
             services.AddScoped<IFightsService, FightsService>();
 
+            //add comparers
+            services.AddScoped<IEqualityComparer<ContestCategoriesMapping>, ContestCategoriesMappingEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestCategory>, ContestCategoryEqualityComparer>();
+            services.AddScoped<IEqualityComparer<Contest>, ContestEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestRange>, ContestRangeEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestRequest>, ContestRequestEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestType>, ContestTypeEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestTypePoints>, ContestTypePointsEqualityComparer>();
+            services.AddScoped<IEqualityComparer<Fight>, FightEqualityComparer>();
+            services.AddScoped<IEqualityComparer<FightJudgesMapping>, FightJudgesMappingEqualityComparer>();
+            services.AddScoped<IEqualityComparer<FightStructure>, FightStructureEqualityComparer>();
+            services.AddScoped<IEqualityComparer<Round>, RoundEqualityComparer>();
+            services.AddScoped<IEqualityComparer<WeightAgeCategory>, WeightAgeCategoryEqualityComparer>();
+            services.AddScoped<IDataTransferService, DataTransferService>();
+
+
+
             services.Configure<EmailConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDbInitializer dbInitializer)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDataTransferService dataTransferService)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -147,12 +164,11 @@ namespace MuaythaiSportManagementSystemApi
             });
             app.UseCors("MyPolicy");
 
-            dbInitializer.Initialize();
-
             app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
+            dataTransferService.UploadDataToMainDatabase().Wait();
 
             app.UseAuthentication();
             app.UseMvc();

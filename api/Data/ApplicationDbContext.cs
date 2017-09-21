@@ -153,7 +153,7 @@ namespace MuaythaiSportManagementSystemApi.Data
            .AddJsonFile("appsettings.json")
            .Build();
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("MainDbConnection");
             builder.UseSqlServer(connectionString);
             return new ApplicationDbContext(builder.Options);
         }
