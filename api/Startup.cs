@@ -36,9 +36,6 @@ namespace MuaythaiSportManagementSystemApi
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-
-
-
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
@@ -57,45 +54,47 @@ namespace MuaythaiSportManagementSystemApi
             // Add framework services.
             //services.AddOptions();
             services.AddMvc().AddJsonOptions(
-            options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        );
+                options => options.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
-            services.AddDbContext<ApplicationMainDbContext>(options =>
-                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionDev")));
-                    services.AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionLocal")));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionLocal"))
+                    .EnableSensitiveDataLogging());
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-            {
-                config.SignIn.RequireConfirmedEmail = true;
-                config.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                    config.User.RequireUniqueEmail = true;
+                }).AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             }));
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
 
             services.AddWebSocketManager();
-            services.AddAuthentication(options => {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(options =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ValidateLifetime = false,
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-                options.RequireHttpsMetadata = false;
-            });
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateLifetime = false,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                    options.RequireHttpsMetadata = false;
+                });
 
             // Add application services.
             services.AddScoped<IEmailSender, AuthMessageSender>();
@@ -143,8 +142,9 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IEqualityComparer<FightStructure>, FightStructureEqualityComparer>();
             services.AddScoped<IEqualityComparer<Round>, RoundEqualityComparer>();
             services.AddScoped<IEqualityComparer<WeightAgeCategory>, WeightAgeCategoryEqualityComparer>();
-            services.AddScoped<IDataTransferService, DataTransferService>();
+            services.AddScoped<IEqualityComparer<ContestRing>, ContestRingEqualityComparer>();
 
+            services.AddScoped<IDataTransferService, DataTransferService>();
 
 
             services.Configure<EmailConfiguration>(Configuration);
@@ -168,7 +168,8 @@ namespace MuaythaiSportManagementSystemApi
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
-            dataTransferService.UploadDataToMainDatabase().Wait();
+           //dataTransferService.UploadDataToMainDatabase(6).Wait();
+           dataTransferService.DownloadDataFromMainDatabase();
 
             app.UseAuthentication();
             app.UseMvc();

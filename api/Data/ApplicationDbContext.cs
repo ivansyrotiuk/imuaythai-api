@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace MuaythaiSportManagementSystemApi.Data
 {
@@ -142,20 +139,5 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<ContestRing> ContestRings { get; set; }
 
 
-    }
-
-    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
-    {
-        public ApplicationDbContext CreateDbContext(string[] args)
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-           .SetBasePath(Directory.GetCurrentDirectory())
-           .AddJsonFile("appsettings.json")
-           .Build();
-            var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connectionString = configuration.GetConnectionString("MainDbConnection");
-            builder.UseSqlServer(connectionString);
-            return new ApplicationDbContext(builder.Options);
-        }
     }
 }

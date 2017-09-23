@@ -19,6 +19,10 @@ const ringsCountChange = (fields, e) => {
     fields.pop();
   }
 
+  for(let i = 0; i < fields.length; i++){
+    fields.get(i).name = ringsArray[i];
+  }
+
 }
 
 const renderRingAvailability = ({fields}) => {
