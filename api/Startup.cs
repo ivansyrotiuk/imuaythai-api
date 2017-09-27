@@ -169,7 +169,7 @@ namespace MuaythaiSportManagementSystemApi
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
            //dataTransferService.UploadDataToMainDatabase(6).Wait();
-           dataTransferService.DownloadDataFromMainDatabase();
+            dataTransferService.DownloadDataFromMainDatabase();
 
             app.UseAuthentication();
             app.UseMvc();

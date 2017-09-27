@@ -66,6 +66,11 @@ namespace MuaythaiSportManagementSystemApi.Data
         
         public void DownloadDataFromMainDatabase()
         {
+            if (_context.Contests.Any())
+            {
+                return;
+            }
+
             using (var mainContext = new ApplicationDbContextFactory().CreateMainDbContext())
             {
                 var countries = mainContext.Countries.ToList();
