@@ -1,6 +1,7 @@
 const dragTypes = {
     FIGHTER: 'fighter',
-    JUDGE: 'judge'
+    JUDGE: 'judge',
+    FIGHT: 'fight'
 };
 
 export default dragTypes;

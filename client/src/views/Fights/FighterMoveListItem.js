@@ -4,7 +4,7 @@ import Versus from './Versus'
 import RedFighterDropTargetDecorator from './RedFighterDropTargetDecorator'
 import BlueFighterDropTargetDecorator from './BlueFighterDropTargetDecorator'
 
-const FightListItem = (props) => {
+const FighterMoveListItem = (props) => {
 
   return <div className="card">
            <div className="card-body">
@@ -24,4 +24,4 @@ const FightListItem = (props) => {
          </div>
 }
 
-export default FightListItem
+export default FighterMoveListItem

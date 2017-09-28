@@ -325,6 +325,32 @@ const reducer = (state = reducerInitialState, action) => {
                 ...state,
                 scheduling: false
             };
+        case actionTypes.DRAG_FIGHT:
+            let fights = [...state.fights];
+            const sourceIndex = fights.findIndex(fight => fight.id == action.payload.sourceFightId);
+            const targetIndex = fights.findIndex(fight => fight.id == action.payload.targetFightId);
+            const fight = fights[sourceIndex];
+
+            /* fights.splice(sourceIndex, 1);
+            fights.splice(targetIndex, 0, fight);*/
+            fights[sourceIndex] = fights[targetIndex];
+            fights[targetIndex] = fight;
+            return {
+                ...state,
+                fights: fights
+            };
+        case actionTypes.MOVE_FIGHT_SUCCESS:
+            /*fights = [...state.fights];
+            for (let i in action.payload) {
+                const fight = action.payload[i];
+                const index = fights.findIndex(f => f.id == fight.id);
+                fights[index] = fight;
+            }*/
+
+            return {
+                ...state,
+                fights: action.payload
+            };
         case action.CONTEST_CANCEL_FETCHING:
             return {
                 ...state,

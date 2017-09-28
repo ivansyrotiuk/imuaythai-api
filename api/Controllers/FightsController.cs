@@ -73,6 +73,22 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("movefight")]
+        public async Task<IActionResult> MoveFighter([FromBody] FightMoving fightMoving)
+        {
+            try
+            {
+                var changedFights = await _fightsService.MoveFight(fightMoving);
+                var fights = changedFights.Select(f => (FightDto)f).ToList();
+                return Ok(fights);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("Draws")]
         public async Task<IActionResult> GetFightsDraws([FromQuery] int contestId, [FromQuery] int categoryId)

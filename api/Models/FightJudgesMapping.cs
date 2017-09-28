@@ -16,7 +16,5 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string JudgeId { get; set; }
         public virtual Fight Fight { get; set; }
         public virtual ApplicationUser Judge { get; set; }
-
-     
     }
 }

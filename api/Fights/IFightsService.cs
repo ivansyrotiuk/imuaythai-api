@@ -13,6 +13,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
         Task<List<Fight>> BuildFights(int contestId, int categoryId);
         Task<List<Fight>> ScheduleFights(int contestId);
         Task<List<Fight>> MoveFighter(FighterMoving fighterMoving);
+        Task<List<Fight>> MoveFight(FightMoving fighterMoving);
         Task<List<Fight>> TossupJudges(int contestId);
         Task<List<Fight>> Save(List<Fight> fights);
         Task ClearContestJudgeMappings(int contestId);

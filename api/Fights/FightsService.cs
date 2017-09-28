@@ -6,6 +6,7 @@ using MuaythaiSportManagementSystemApi.Repositories;
 using MoreLinq;
 using System;
 using MuaythaiSportManagementSystemApi.Contests;
+using SQLitePCL;
 
 namespace MuaythaiSportManagementSystemApi.Fights
 {
@@ -104,6 +105,28 @@ namespace MuaythaiSportManagementSystemApi.Fights
         {
             var changedFights = await _fighterMovingService.MoveFighterToFight(fighterMoving);
             return changedFights;
+        }
+
+        public async Task<List<Fight>> MoveFight(FightMoving fightMoving)
+        {
+            var fight = await _fightsRepository.Get(fightMoving.SourceFightId);
+            var fights = await _fightsRepository.GetFights(fight.ContestId);
+
+            var sourceFight = fights.First(f => f.Id == fightMoving.SourceFightId);
+            var targetFight = fights.First(f => f.Id == fightMoving.TargetFightId);
+
+            DateTime? startTime = sourceFight.StartDate;
+            sourceFight.StartDate = targetFight.StartDate;
+            targetFight.StartDate = startTime;
+
+            fights = fights.Where(f => f.Ring == fight.Ring).OrderBy(f => f.StartDate).ToList();
+            for (int i = 0; i < fights.Count; i++)
+            {
+                fights[i].StartNumber = i + 1;
+            }
+
+            await _fightsRepository.SaveFights(fights);
+            return fights;
         }
 
         public async Task<List<Fight>> ScheduleFights(int contestId)

@@ -1,19 +1,38 @@
-import React from 'react'
-import RedFighter from './RedFighter'
-import BlueFighter from './BlueFighter'
-import Versus from './Versus'
-import { DropTarget } from 'react-dnd';
-import { collect, fighterTarget } from './FighterDragTarget'
-import dragTypes from '../../common/dragTypes'
+import React from "react";
+import RedFighter from "./RedFighter";
+import BlueFighter from "./BlueFighter";
+import { DropTarget } from "react-dnd";
+import { dropTargetCollect, fighterTarget } from "./FighterDragTarget";
+import { collectDragSource, fighterSource } from "./FighterDragSource";
+import dragTypes from "../../common/dragTypes";
+import { DragSource } from "react-dnd";
 
-export const RedFighterDropTargetDecorator = (props) => {
-    const {isOver, canDrop, connectDropTarget} = props;
+let RedFighterDropTargetDecorator = props => {
+  const { isOver, canDrop, connectDropTarget, connectDragSource } = props;
 
-    return connectDropTarget(
-        <div>
-          <RedFighter fight={ props.fight } fighter={ props.fight.redAthlete } number={ props.number } />
-        </div>
+  return connectDropTarget(
+    connectDragSource(
+      <div>
+        <RedFighter
+          fight={props.fight}
+          fighter={props.fight.redAthlete}
+          number={props.number}
+        />
+      </div>
     )
-}
+  );
+};
 
-export default DropTarget(dragTypes.FIGHTER, fighterTarget, collect)(RedFighterDropTargetDecorator);
+RedFighterDropTargetDecorator = DragSource(
+  dragTypes.FIGHTER,
+  fighterSource,
+  collectDragSource
+)(RedFighterDropTargetDecorator);
+
+RedFighterDropTargetDecorator = DropTarget(
+  dragTypes.FIGHTER,
+  fighterTarget,
+  dropTargetCollect
+)(RedFighterDropTargetDecorator);
+
+export default RedFighterDropTargetDecorator;

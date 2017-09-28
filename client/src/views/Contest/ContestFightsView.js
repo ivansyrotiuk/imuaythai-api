@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Page from "../Components/Page";
-import FightListItem from "../Fights/FightListItem";
+import FightMoveListItem from "../Fights/FightMoveListItem";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
@@ -24,12 +24,18 @@ export class ContestFightsView extends Component {
     }
 
     render() {
-        const { fights, tossupJudgesClick, scheduleFightsClick, tossingup, scheduling } = this.props;
+        const { fights, tossupJudgesClick, scheduleFightsClick, tossingup, dragFight, moveFight, scheduling } = this.props;
         const header = <strong>Fights list</strong>;
-        const mappedFights = fights.map((fight, index) => <FightListItem key={index} number={index + 1} fight={fight} />);
-        const fightsRingA = fights.filter(fight => fight.ring === "A").map((fight, index) => <FightListItem key={index} number={index + 1} fight={fight} />);
-        const fightsRingB = fights.filter(fight => fight.ring === "B").map((fight, index) => <FightListItem key={index} number={index + 1} fight={fight} />);
-        const fightsRingC = fights.filter(fight => fight.ring === "C").map((fight, index) => <FightListItem key={index} number={index + 1} fight={fight} />);
+        const mappedFights = fights.map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
+        const fightsRingA = fights
+            .filter(fight => fight.ring === "A")
+            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
+        const fightsRingB = fights
+            .filter(fight => fight.ring === "B")
+            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
+        const fightsRingC = fights
+            .filter(fight => fight.ring === "C")
+            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
 
         const content = (
             <div>
