@@ -20,7 +20,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         protected string Ring { get; set; }
         public FightHandler(ApplicationDbContext context, WebSocketConnectionManager connectionManager) : base(connectionManager)
         {
-            _context = new ApplicationDbContextFactory().CreateDbContext(null);
+            _context = new ApplicationDbContextFactory().CreateDbContext(new string[]{});
             _mutex = new SemaphoreSlim(1);
         }
 

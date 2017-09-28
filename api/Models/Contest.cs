@@ -49,5 +49,6 @@ namespace MuaythaiSportManagementSystemApi.Models
         public virtual Country Country { get; set; }
         public virtual ContestRange ContestRange { get; set; }
         public virtual ContestType ContestType { get; set; }
+
     }
 }

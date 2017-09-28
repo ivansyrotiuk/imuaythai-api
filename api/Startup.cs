@@ -23,6 +23,7 @@ using MuaythaiSportManagementSystemApi.Fights;
 using MuaythaiSportManagementSystemApi.WebSockets;
 using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MuaythaiSportManagementSystemApi.Models.Comparers;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -34,9 +35,6 @@ namespace MuaythaiSportManagementSystemApi
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-
-
 
             if (env.IsDevelopment())
             {
@@ -56,43 +54,47 @@ namespace MuaythaiSportManagementSystemApi
             // Add framework services.
             //services.AddOptions();
             services.AddMvc().AddJsonOptions(
-            options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        );
+                options => options.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionLocal"))
+                    .EnableSensitiveDataLogging());
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-            {
-                config.SignIn.RequireConfirmedEmail = true;
-                config.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+                {
+                    config.SignIn.RequireConfirmedEmail = true;
+                    config.User.RequireUniqueEmail = true;
+                }).AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             }));
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
 
             services.AddWebSocketManager();
-            services.AddAuthentication(options => {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(options =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key,
-                    ValidateLifetime = false,
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-                options.RequireHttpsMetadata = false;
-            });
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateLifetime = false,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                    options.RequireHttpsMetadata = false;
+                });
 
             // Add application services.
             services.AddScoped<IEmailSender, AuthMessageSender>();
@@ -127,11 +129,29 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IFightDrawsService, FightDrawsService>();
             services.AddScoped<IFightsService, FightsService>();
 
+            //add comparers
+            services.AddScoped<IEqualityComparer<ContestCategoriesMapping>, ContestCategoriesMappingEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestCategory>, ContestCategoryEqualityComparer>();
+            services.AddScoped<IEqualityComparer<Contest>, ContestEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestRange>, ContestRangeEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestRequest>, ContestRequestEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestType>, ContestTypeEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestTypePoints>, ContestTypePointsEqualityComparer>();
+            services.AddScoped<IEqualityComparer<Fight>, FightEqualityComparer>();
+            services.AddScoped<IEqualityComparer<FightJudgesMapping>, FightJudgesMappingEqualityComparer>();
+            services.AddScoped<IEqualityComparer<FightStructure>, FightStructureEqualityComparer>();
+            services.AddScoped<IEqualityComparer<Round>, RoundEqualityComparer>();
+            services.AddScoped<IEqualityComparer<WeightAgeCategory>, WeightAgeCategoryEqualityComparer>();
+            services.AddScoped<IEqualityComparer<ContestRing>, ContestRingEqualityComparer>();
+
+            services.AddScoped<IDataTransferService, DataTransferService>();
+
+
             services.Configure<EmailConfiguration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDataTransferService dataTransferService)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -148,6 +168,8 @@ namespace MuaythaiSportManagementSystemApi
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
+           //dataTransferService.UploadDataToMainDatabase(6).Wait();
+            dataTransferService.DownloadDataFromMainDatabase();
 
             app.UseAuthentication();
             app.UseMvc();

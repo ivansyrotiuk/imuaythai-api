@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Models;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace MuaythaiSportManagementSystemApi.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationMainDbContext :  IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationMainDbContext(DbContextOptions<ApplicationMainDbContext> options)
             : base(options)
         {
+       
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -79,7 +81,6 @@ namespace MuaythaiSportManagementSystemApi.Data
                .WithMany()
                .HasForeignKey(k => k.CountryId);
 
-
             builder.Entity<Contest>()
                .HasOne(c => c.Institution)
                .WithMany(i => i.Contests)
@@ -104,6 +105,7 @@ namespace MuaythaiSportManagementSystemApi.Data
            .HasOne(h => h.ContestCategory)
            .WithMany()
            .OnDelete(DeleteBehavior.Restrict).IsRequired(false);
+
         }
 
         public virtual DbSet<Document> Documents { get; set; }
@@ -137,7 +139,6 @@ namespace MuaythaiSportManagementSystemApi.Data
         public virtual DbSet<WeightAgeCategory> WeightAgeCategories { get; set; }
         public virtual DbSet<ContestCategoriesMapping> ContestCategoriesMappings { get; set; }
         public virtual DbSet<ContestRing> ContestRings { get; set; }
-
 
     }
 }

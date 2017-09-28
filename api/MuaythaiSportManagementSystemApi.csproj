@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Controllers\ManageController.cs" />
+    <Compile Remove="Data\ApplicationMainDbContext.cs" />
     <Compile Remove="Fights\FightsTreePersister.cs" />
     <Compile Remove="Fights\IFightsTreePersister.cs" />
     <Compile Remove="Repositories\FightersRepository.cs" />
@@ -43,5 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="appsettings.json" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Launchers\Start.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
