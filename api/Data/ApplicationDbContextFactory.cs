@@ -14,7 +14,7 @@ namespace MuaythaiSportManagementSystemApi.Data
                 .AddJsonFile("appsettings.json")
                 .Build();
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnectionLocal");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
             builder.UseSqlServer(connectionString);
             return new ApplicationDbContext(builder.Options);
         }
@@ -26,7 +26,7 @@ namespace MuaythaiSportManagementSystemApi.Data
                 .AddJsonFile("appsettings.json")
                 .Build();
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnectionDev");
+            var connectionString = configuration.GetConnectionString("MainDatabaseConnection");
             builder.UseSqlServer(connectionString);
             return new ApplicationDbContext(builder.Options);
         }

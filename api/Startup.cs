@@ -58,9 +58,8 @@ namespace MuaythaiSportManagementSystemApi
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
-
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionLocal"))
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                     .EnableSensitiveDataLogging());
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
