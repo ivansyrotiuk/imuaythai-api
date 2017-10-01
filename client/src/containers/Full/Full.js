@@ -81,6 +81,7 @@ import FightsDrawsContainer from "../Fight/FightsDrawsContainer";
 import FightsListContainer from "../Fight/FightsListContainer";
 import ContestFightsContainer from "../Contest/ContestFightsContainer";
 import NotificationsBox from "../Notifications/NotificationsBox";
+import FightOverviewContainer from '../Fight/FightOverviewContainer'
 class Full extends Component {
     render() {
         return (
@@ -170,6 +171,7 @@ class Full extends Component {
                     </main>
                 </div>
                 <Footer />
+                <Route path="/fights/:id" name="Fights overview" component={ FightOverviewContainer } />
             </div>
         );
     }

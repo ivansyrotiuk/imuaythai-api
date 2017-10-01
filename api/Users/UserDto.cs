@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
+using MuaythaiSportManagementSystemApi.Dictionaries;
 
 namespace MuaythaiSportManagementSystemApi.Users
 {
@@ -77,6 +78,10 @@ namespace MuaythaiSportManagementSystemApi.Users
     public class FighterDto : UserDto
     {
         public string GymName { get; set; }
+        public int FightsCount { get; set; }
+        public int Won { get; set; }
+        public int Lost { get; set; }
+        public KhanLevelDto KhanLevel { get; set; }
 
         public FighterDto()
         {
@@ -86,6 +91,7 @@ namespace MuaythaiSportManagementSystemApi.Users
         public FighterDto(ApplicationUser user):base(user)
         {
             GymName = user?.Institution?.Name;
+            KhanLevel = (KhanLevelDto)user?.KhanLevel;
         }
 
         public static explicit operator FighterDto(ApplicationUser user)

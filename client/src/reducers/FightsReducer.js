@@ -9,10 +9,30 @@ const fightReducerInitialState = {
     generating: false,
     tossingup: false,
     moving: false,
+    fight: null
     fightMoving: false
 };
 const fightReducer = (state = fightReducerInitialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_FIGHT:
+            return {
+                ...state,
+                fetching: true
+            }
+        case actionTypes.FETCH_FIGHT_SUCCESS:
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                fight: action.payload
+            }
+        case actionTypes.FETCH_FIGHT_REJECTED:
+            return {
+                ...state,
+                fetching: false,
+                fight: null,
+                error: action.payload
+            }
         case actionTypes.FETCH_FIGHTS_DRAWS:
             return {
                 ...state,

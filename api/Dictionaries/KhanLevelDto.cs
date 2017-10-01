@@ -12,9 +12,9 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
         {
             return new KhanLevelDto
             {
-                Id = khan.Id,
-                Name = khan.Name,
-                Level = khan.Level
+                Id = khan?.Id ?? 0,
+                Name = string.IsNullOrEmpty(khan?.Name)? "_": khan?.Name,
+                Level = khan?.Level??0
             };
         }
     }
