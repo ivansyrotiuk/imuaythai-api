@@ -6,14 +6,7 @@ import Breadcrumb from "../../components/Breadcrumb/";
 //import Aside from '../../components/Aside/';
 //import {requireAuthentication} from '../../utils/requireAuthentication'
 
-import {
-    userIsAuthenticatedRedir,
-    userIsNotAuthenticatedRedir,
-    userIsAdminRedir,
-    userIsAuthenticated,
-    userIsNotAuthenticated,
-    userIsAdmin
-} from "../../auth/auth";
+import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir, userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from "../../auth/auth";
 
 import Footer from "../../components/Footer/";
 import Dashboard from "../../views/Dashboard/";
@@ -81,7 +74,7 @@ import FightsDrawsContainer from "../Fight/FightsDrawsContainer";
 import FightsListContainer from "../Fight/FightsListContainer";
 import ContestFightsContainer from "../Contest/ContestFightsContainer";
 import NotificationsBox from "../Notifications/NotificationsBox";
-import FightOverviewContainer from '../Fight/FightOverviewContainer'
+import FightOverviewContainer from "../Fight/FightOverviewContainer";
 class Full extends Component {
     render() {
         return (
@@ -165,13 +158,13 @@ class Full extends Component {
                                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ContestEditContainer} />
                                 <Route path="/contests/:id" name="Contest view" component={ContestViewContainer} />
                                 <Route path="/contests/" name="Contests" component={ContestsContainer} />
+                                <Route path="/fights/:id" name="Fights overview" component={FightOverviewContainer} />
                                 <Redirect from="/" to="/dashboard" />
                             </Switch>
                         </div>
                     </main>
                 </div>
                 <Footer />
-                <Route path="/fights/:id" name="Fights overview" component={ FightOverviewContainer } />
             </div>
         );
     }
