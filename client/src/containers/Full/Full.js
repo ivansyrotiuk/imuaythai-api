@@ -74,7 +74,7 @@ import FightsDrawsContainer from "../Fight/FightsDrawsContainer";
 import FightsListContainer from "../Fight/FightsListContainer";
 import ContestFightsContainer from "../Contest/ContestFightsContainer";
 import NotificationsBox from "../Notifications/NotificationsBox";
-import FightOverviewContainer from "../Fight/FightOverviewContainer";
+import FightContainer from "../Fight/FightContainer";
 class Full extends Component {
     render() {
         return (
@@ -158,7 +158,7 @@ class Full extends Component {
                                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ContestEditContainer} />
                                 <Route path="/contests/:id" name="Contest view" component={ContestViewContainer} />
                                 <Route path="/contests/" name="Contests" component={ContestsContainer} />
-                                <Route path="/fights/:id" name="Fights overview" component={FightOverviewContainer} />
+                                <Route path="/fights/:id" name="Fights overview" component={FightContainer} />
                                 <Redirect from="/" to="/dashboard" />
                             </Switch>
                         </div>
