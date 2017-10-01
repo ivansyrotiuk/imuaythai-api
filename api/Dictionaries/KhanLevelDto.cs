@@ -10,11 +10,16 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
 
         public static explicit operator KhanLevelDto(KhanLevel khan)
         {
+            if (khan == null)
+            {
+                return null;
+            }
+
             return new KhanLevelDto
             {
-                Id = khan?.Id ?? 0,
-                Name = string.IsNullOrEmpty(khan?.Name)? "_": khan?.Name,
-                Level = khan?.Level??0
+                Id = khan.Id,
+                Name = khan.Name,
+                Level = khan.Level
             };
         }
     }

@@ -7,6 +7,7 @@ export const FighterBox = props => {
     const { fighter, corner } = props;
     const row = corner === "blue" ? "row flex-row-reverse" : "row";
     const fighterColumn = corner === "blue" ? "col-md-9 text-left align-self-center" : "col-md-9 text-right align-self-center";
+    const khan = fighter.khanLevel !== null ? <h6 className="card-title">{fighter.khanLevel.name}</h6> : <h6 className="card-title">-</h6>;
     return (
         <div className={row}>
             <div className="col-md-3">
@@ -28,11 +29,10 @@ export const FighterBox = props => {
                     </h6>
                 )}
 
-                {fighter.id && <h5 className="card-title">{moment(fighter.birthdate).format("YYYY-MM-DD")}</h5>}
-                {fighter.id && <h5 className="card-title">{fighter.won}</h5>}
-                {fighter.id && <h5 className="card-title">{fighter.lost}</h5>}
-                {fighter.khanLevel.name == null && <h5 className="card-title"> '' </h5>}
-                {fighter.khanLevel !== null && <h5 className="card-title">{fighter.khanLevel.name}</h5>}
+                {fighter.id && <h6 className="card-title">{fighter.age}</h6>}
+                {fighter.id && <h6 className="card-title">{fighter.won}</h6>}
+                {fighter.id && <h6 className="card-title">{fighter.lost}</h6>}
+                {khan}
             </div>
         </div>
     );

@@ -47,6 +47,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
         public FighterDto Referee { get; set; }
         public FighterDto Winner { get; set; }
         public JudgeDto MainJudge { get; set; }
+       
 
         public FightDto()
         {

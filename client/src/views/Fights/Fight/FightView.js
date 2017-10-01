@@ -3,9 +3,11 @@ import React from "react";
 import DetailedVersus from "./DetailedVersus";
 import FighterBox from "./FighterBox";
 import CornerBox from "./CornerBox";
-
+import Page from "../../Components/Page";
 const FightView = props => {
-    return (
+    const header = <strong>Fight</strong>;
+
+    const content = (
         <div className="card">
             <div className="card-body">
                 <div className="row">
@@ -18,6 +20,8 @@ const FightView = props => {
             </div>
         </div>
     );
+
+    return <Page content={content} header={header} />;
 };
 
 export default FightView;

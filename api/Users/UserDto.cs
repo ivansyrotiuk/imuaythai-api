@@ -82,6 +82,7 @@ namespace MuaythaiSportManagementSystemApi.Users
         public int Won { get; set; }
         public int Lost { get; set; }
         public KhanLevelDto KhanLevel { get; set; }
+        public int Age => Math.Abs(DateTime.Today.Year - Birthdate.Year);
 
         public FighterDto()
         {

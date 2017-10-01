@@ -9,10 +9,10 @@ export const DetailedVersus = props => {
                 </h3>
             }
             {<h6 className="card-subtitle mb-2 text-muted"> Country</h6>}
-            {<h5 className="card-title">Age </h5>}
-            {<h5 className="card-title"> Won </h5>}
-            {<h5 className="card-title"> Lost </h5>}
-            {<h5 className="card-title">Khan</h5>}
+            {<h6 className="card-title">Age </h6>}
+            {<h6 className="card-title"> Won </h6>}
+            {<h6 className="card-title"> Lost </h6>}
+            {<h6 className="card-title">Khan</h6>}
         </div>
     );
 };
