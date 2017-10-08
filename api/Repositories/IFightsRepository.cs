@@ -41,6 +41,8 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 .Include(f => f.Structure).ThenInclude(s => s.Round)
                 .Include(f => f.TimeKeeper)
                 .Include(f => f.FightJudgesMappings).ThenInclude(j => j.Judge)
+                .Include(f => f.FightPoints).ThenInclude(p => p.Judge)
+                .Include(f => f.Contest)
                 .FirstOrDefaultAsync(f => f.Id == id);
         }
 

@@ -1,20 +1,21 @@
 import React from "react";
-import UserAvatar from "react-user-avatar";
 import moment from "moment";
 import CornerBox from "./CornerBox";
+import Avatar from "react-avatar";
 
-export const FighterBox = props => {
+export const FighterVersusBox = props => {
     const { fighter, corner } = props;
     const row = corner === "blue" ? "row flex-row-reverse" : "row";
-    const fighterColumn = corner === "blue" ? "col-md-9 text-left align-self-center" : "col-md-9 text-right align-self-center";
-    const khan = fighter.khanLevel !== null ? <h6 className="card-title">{fighter.khanLevel.name}</h6> : <h6 className="card-title">-</h6>;
+    const fighterColumn = corner === "blue" ? "col  col-sm-8  col-md-9 col-lg-9 col-xl-9 text-left align-self-center" : "col col-sm-8 col-md-9 col-lg-9 col-xl-9 text-right align-self-center";
+    const khan = (fighter && fighter.khanLevel) !== null ? <h6 className="card-title">{fighter.khanLevel.name}</h6> : <h6 className="card-title">-</h6>;
+    const fighterName = fighter && fighter.firstname + " " + fighter.surname;
     return (
         <div className={row}>
-            <div className="col-md-3">
+            <div className="col-auto">
                 <CornerBox color={corner}>
-                    <div className="row justify-content-center" style={{ height: "100%" }}>
-                        <div className="col-md-10 align-self-center">
-                            <UserAvatar size="75" name={fighter.firstname + " " + fighter.surname} color="#FFF" />
+                    <div className="row h-100">
+                        <div className="col-12 align-self-center p-5">
+                            <Avatar name={fighterName} color="#FFF" fgColor="#000" round={true} />
                         </div>
                     </div>
                 </CornerBox>
@@ -22,7 +23,7 @@ export const FighterBox = props => {
 
             <div className={fighterColumn}>
                 {fighter.id == undefined && <h3 className="card-title">The winner of previous fight</h3>}
-                {fighter.id && <h3 className="card-title">{fighter.firstname + " " + fighter.surname}</h3>}
+                {fighter.id && <h3 className="card-title">{fighterName}</h3>}
                 {fighter.id && (
                     <h6 className="card-subtitle mb-2 text-muted">
                         {fighter.gymName || "No gym"}, {fighter.countryName}
@@ -38,4 +39,4 @@ export const FighterBox = props => {
     );
 };
 
-export default FighterBox;
+export default FighterVersusBox;
