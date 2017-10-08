@@ -13,6 +13,11 @@ namespace MuaythaiSportManagementSystemApi.Dictionaries
 
         public static explicit operator FightStructureDto(FightStructure structure)
         {
+            if (structure == null)
+            {
+                return null;
+            }
+
             return new FightStructureDto
             {
                 Id = structure.Id,

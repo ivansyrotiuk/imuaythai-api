@@ -241,7 +241,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     return BadRequest("Cannot create request. User not found");
                 }
 
-                var existedRequests = await _contestRequestsRepository.Find(r => r.UserId == request.UserId && r.Type == request.Type && r.ContestId == request.ContestId);
+                var existedRequests = await _contestRequestsRepository.Find(r => r.Type != ContestRoleType.Judge && r.UserId == request.UserId && r.Type == request.Type && r.ContestId == request.ContestId);
                 if (existedRequests.Count > 0)
                 {
                     return BadRequest("The same request is already added");

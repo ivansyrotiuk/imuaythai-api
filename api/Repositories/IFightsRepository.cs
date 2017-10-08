@@ -30,12 +30,20 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         public Task<Fight> Get(int id)
         {
             return _context.Fights
-                .Where(f => f.Id == id)
                 .Include(f => f.BlueAthlete).ThenInclude(f => f.Country)
                 .Include(f => f.BlueAthlete).ThenInclude(f => f.Institution)
+                .Include(f => f.BlueAthlete).ThenInclude(f => f.KhanLevel)
                 .Include(f => f.RedAthlete).ThenInclude(f => f.Country)
                 .Include(f => f.RedAthlete).ThenInclude(f => f.Institution)
-                .FirstOrDefaultAsync();
+                .Include(f => f.RedAthlete).ThenInclude(f => f.KhanLevel)
+                .Include(f => f.Referee)
+                .Include(f => f.Structure).ThenInclude(s => s.WeightAgeCategory)
+                .Include(f => f.Structure).ThenInclude(s => s.Round)
+                .Include(f => f.TimeKeeper)
+                .Include(f => f.FightJudgesMappings).ThenInclude(j => j.Judge)
+                .Include(f => f.FightPoints).ThenInclude(p => p.Judge)
+                .Include(f => f.Contest)
+                .FirstOrDefaultAsync(f => f.Id == id);
         }
 
         public Task<List<Fight>> GetFights(int contestId)

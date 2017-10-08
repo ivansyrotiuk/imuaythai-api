@@ -6,14 +6,7 @@ import Breadcrumb from "../../components/Breadcrumb/";
 //import Aside from '../../components/Aside/';
 //import {requireAuthentication} from '../../utils/requireAuthentication'
 
-import {
-    userIsAuthenticatedRedir,
-    userIsNotAuthenticatedRedir,
-    userIsAdminRedir,
-    userIsAuthenticated,
-    userIsNotAuthenticated,
-    userIsAdmin
-} from "../../auth/auth";
+import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir, userIsAuthenticated, userIsNotAuthenticated, userIsAdmin } from "../../auth/auth";
 
 import Footer from "../../components/Footer/";
 import Dashboard from "../../views/Dashboard/";
@@ -78,9 +71,10 @@ import RequestsManagerContainer from "../Contest/RequestsManagerContainer";
 import RequestAddingContainer from "../Contest/RequestAddingContainer";
 import ContestJudgeManageContainer from "../Contest/ContestJudgeManageContainer";
 import FightsDrawsContainer from "../Fight/FightsDrawsContainer";
-import FightsListContainer from "../Fight/FightsListContainer";
-import ContestFightsContainer from "../Contest/ContestFightsContainer";
+import MovableFighterFightsContainer from "../Fight/MovableFighterFightsContainer";
+import MovableFightsContainer from "../Fight/MovableFightsContainer";
 import NotificationsBox from "../Notifications/NotificationsBox";
+import FightContainer from "../Fight/FightContainer";
 class Full extends Component {
     render() {
         return (
@@ -155,15 +149,16 @@ class Full extends Component {
                                 <Route path="/dictionaries/categories" name="ContestCategories" component={ContestCategoriesPage} />
                                 <Route path="/contests/:id/(institution_requests)" name="Add contest requests" component={RequestAddingContainer} />
                                 <Route path="/contests/:id/(requests)" name="Contest pending requests" component={RequestsManagerContainer} />
-                                <Route path="/contests/:id/(fights)" name="Contest fights" component={ContestFightsContainer} />
+                                <Route path="/contests/:id/(fights)" name="Contest fights" component={MovableFightsContainer} />
                                 <Route path="/contests/:id/(categories)" name="Contest categries" component={ContestCategoriesViewContainer} />
                                 <Route path="/contests/:id/(judges)" name="Contest judge management" component={ContestJudgeManageContainer} />
                                 <Route path="/contests/:contestId/category/:categoryId/draws" name="Fights draws" component={FightsDrawsContainer} />
-                                <Route path="/contests/:contestId/category/:categoryId/fights" name="Fights list" component={FightsListContainer} />
+                                <Route path="/contests/:contestId/category/:categoryId/fights" name="Fights list" component={MovableFighterFightsContainer} />
                                 <Route path="/contests/add" name="Create contest" component={ContestEditContainer} />
                                 <Route path="/contests/:id/(edit)" name="Edit contest" component={ContestEditContainer} />
                                 <Route path="/contests/:id" name="Contest view" component={ContestViewContainer} />
                                 <Route path="/contests/" name="Contests" component={ContestsContainer} />
+                                <Route path="/fights/:id" name="Fights overview" component={FightContainer} />
                                 <Redirect from="/" to="/dashboard" />
                             </Switch>
                         </div>

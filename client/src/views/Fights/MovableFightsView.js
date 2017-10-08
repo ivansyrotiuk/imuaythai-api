@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Page from "../Components/Page";
-import FightMoveListItem from "../Fights/FightMoveListItem";
+import FightMoveListItem from "../Fights/List/FightMoveListItem";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
@@ -24,18 +24,20 @@ export class ContestFightsView extends Component {
     }
 
     render() {
-        const { fights, tossupJudgesClick, scheduleFightsClick, tossingup, dragFight, moveFight, scheduling } = this.props;
+        const { fights, tossupJudgesClick, scheduleFightsClick, tossingup, dragFight, moveFight, openFight, scheduling } = this.props;
         const header = <strong>Fights list</strong>;
-        const mappedFights = fights.map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
+        const mappedFights = fights.map((fight, index) => (
+            <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} openFight={openFight.bind(this, fight.id)} />
+        ));
         const fightsRingA = fights
             .filter(fight => fight.ring === "A")
-            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
+            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} openFight={openFight.bind(this, fight.id)} />);
         const fightsRingB = fights
             .filter(fight => fight.ring === "B")
-            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
+            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} openFight={openFight.bind(this, fight.id)} />);
         const fightsRingC = fights
             .filter(fight => fight.ring === "C")
-            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} />);
+            .map((fight, index) => <FightMoveListItem key={index} number={index + 1} fight={fight} moveFight={moveFight} dragFight={dragFight} openFight={openFight.bind(this, fight.id)} />);
 
         const content = (
             <div>

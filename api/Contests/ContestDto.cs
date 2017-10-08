@@ -75,6 +75,10 @@ namespace MuaythaiSportManagementSystemApi.Contests
 
         public static explicit operator ContestDto(Contest contest)
         {
+            if (contest == null)
+            {
+                return null;
+            }
             return new ContestDto(contest);
         }
     }

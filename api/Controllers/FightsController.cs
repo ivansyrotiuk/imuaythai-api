@@ -187,5 +187,21 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetFight([FromRoute] int id)
+        {
+            try
+            {
+                var fightEnity = await _fightsService.GetFight(id);
+
+                return Ok((FightDto)fightEnity);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

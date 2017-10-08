@@ -22,7 +22,7 @@ class ContestPointsPage extends Component {
         Id: id
       })
       .then(function(response) {
-        self.deletePoint(response.data)
+        self.props.deletePoint(response.data)
       })
       .catch(function(error) {
         console.log(error);
