@@ -31,18 +31,18 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             {
                 RequestType = RequestType.Connect,
                 Data = $"{WebSocketConnectionManager.GetId(socket)} is now connected"
-            }, new List<string>()).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
         public virtual async Task OnDisconnected(WebSocket socket)
         {
             var id = WebSocketConnectionManager.GetId(socket);
-             var message = new Request()
+            var message = new Request()
             {
                 RequestType = RequestType.Disconnect,
                 Data = $"{id} disconnected"
             };
-            await SendMessageToAllAsync(message, new List<string>());
+            await SendMessageToAllAsync(message);
             await WebSocketConnectionManager.RemoveSocket(id).ConfigureAwait(false);
         }
 
@@ -60,12 +60,12 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                                                         endOfMessage: true,
                                                         cancellationToken: CancellationToken.None).ConfigureAwait(false);
             }
-            catch 
+            catch
             {
                 var s = WebSocketConnectionManager.GetId(socket);
                 await WebSocketConnectionManager.RemoveSocket(s);
             }
-           
+
         }
 
         public virtual async Task SendMessageAsync(string socketId, Request message)
@@ -73,25 +73,25 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
             await SendMessageAsync(WebSocketConnectionManager.GetSocketById(socketId), message).ConfigureAwait(false);
         }
 
-        public virtual async Task SendMessageToAllAsync(Request message, List<string> excluededSockets)
+        public virtual async Task SendMessageToAllAsync(Request message)
         {
 
-                var sockets = WebSocketConnectionManager.GetAll();
-                foreach (var pair in sockets)
+            var sockets = WebSocketConnectionManager.GetAll();
+            foreach (var pair in sockets)
+            {
+                try
                 {
-                    try
-                    {
-                        if (pair.Value.State == WebSocketState.Open && !excluededSockets.Contains(pair.Key))
+                    if (pair.Value.State == WebSocketState.Open)
                         await SendMessageAsync(pair.Value, message).ConfigureAwait(false);
 
-                    }
-                    catch
-                    {
-                        var s = WebSocketConnectionManager.GetId(pair.Value);
-                        await WebSocketConnectionManager.RemoveSocket(s);
-                    }
-                    
                 }
+                catch
+                {
+                    var socketToRemove = WebSocketConnectionManager.GetId(pair.Value);
+                    await WebSocketConnectionManager.RemoveSocket(socketToRemove);
+                }
+
+            }
         }
 
 
@@ -99,10 +99,10 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         public virtual async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
         {
             await SendMessageAsync(socket, new Request()
-                {
-                    RequestType = RequestType.Connect,
-                    Data = serializedInvocationDescriptor
-                }).ConfigureAwait(false);
+            {
+                RequestType = RequestType.Connect,
+                Data = serializedInvocationDescriptor
+            }).ConfigureAwait(false);
         }
     }
 }
