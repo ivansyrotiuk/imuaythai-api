@@ -60,6 +60,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 ContestCategory categoriesEntity = categories.Id == 0 ? new ContestCategory() : await _repository.Get(categories.Id);
                 categoriesEntity.Id = categories.Id;
                 categoriesEntity.Name = categories.Name;
+                categoriesEntity.ServiceBreakDuration = categories.ServiceBreakDuration;
                 categoriesEntity.ContestTypePointsId = categories.ContestTypePointsId;
                 categoriesEntity.FightStructureId = categories.FightStructureId;
                 await _repository.Save(categoriesEntity);

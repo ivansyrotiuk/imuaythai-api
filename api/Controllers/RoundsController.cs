@@ -59,6 +59,7 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                 roundEntity.Id = round.Id;
                 roundEntity.Name = round.Name;
                 roundEntity.Duration = round.Duration;
+                roundEntity.BreakDuration = round.BreakDuration;
                 roundEntity.RoundsCount = round.RoundsCount;
                 await _repository.Save(roundEntity);
 

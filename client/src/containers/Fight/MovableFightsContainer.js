@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ContestFightsView from "../../views/Contest/ContestFightsView";
+import MovableFightsView from "../../views/Fights/MovableFightsView";
 import Spinner from "../../views/Components/Spinners/Spinner";
 import { fetchContestFights, tossupJudges, scheduleFights } from "../../actions/ContestActions";
 import { dismissNotifications } from "../../actions/NotificationActions";
@@ -17,10 +17,14 @@ const messageStyle = {
     transform: "-ms-translate(-50%, -50%)"
 };
 
-export class ContestFightsContainer extends Component {
+export class MovableFightsContainer extends Component {
     componentWillMount() {
         var id = this.props.match.params.id;
         this.props.fetchFights(id);
+    }
+
+    openFight(fightId) {
+        this.props.history.push("/fights/" + fightId);
     }
 
     render() {
@@ -32,7 +36,7 @@ export class ContestFightsContainer extends Component {
 
         return (
             <Loader show={moving} message={<Spinner />} messageStyle={messageStyle}>
-                <ContestFightsView
+                <MovableFightsView
                     fights={fights}
                     tossupJudgesClick={tossupJudges.bind(this, contestId)}
                     scheduleFightsClick={scheduleFights.bind(this, contestId)}
@@ -40,6 +44,8 @@ export class ContestFightsContainer extends Component {
                     dragFight={dragFight}
                     tossingup={tossingup}
                     scheduling={scheduling}
+                    openFight={this.openFight}
+                    {...this.props}
                 />
             </Loader>
         );
@@ -83,4 +89,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContestFightsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MovableFightsContainer);

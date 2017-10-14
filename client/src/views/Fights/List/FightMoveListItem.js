@@ -4,13 +4,12 @@ import Versus from "./Versus";
 import RedFighter from "./RedFighter";
 import BlueFighter from "./BlueFighter";
 import { DropTarget, DragSource } from "react-dnd";
-import { collect, fighterTarget } from "./FighterDragTarget";
-import dragTypes from "../../common/dragTypes";
+import { collect, fighterTarget } from "../dnd/FighterDragTarget";
+import dragTypes from "../../../common/dragTypes";
 import { findDOMNode } from "react-dom";
 
 const listItemSource = {
     beginDrag(props) {
-        console.log(props);
         return {
             ...props,
             index: props.number - 1
@@ -112,7 +111,7 @@ const listItemTarget = {
 };
 
 const FightMoveListItem = props => {
-    const { connectDragSource, connectDropTarget, isOver, canDrop } = props;
+    const { connectDragSource, connectDropTarget, isOver, canDrop, openFight } = props;
     const style = { opacity: isOver && canDrop ? 0 : 1 };
 
     return connectDragSource(
@@ -126,6 +125,7 @@ const FightMoveListItem = props => {
                         <div className="col-md-2 align-self-center text-center">
                             <Versus /> Apr. start time:
                             {" " + moment(props.fight.startDate).format("YYYY-MM-DD HH:mm")} Ring: <strong>{" " + props.fight.ring}</strong>
+                            <i className="fa fa-external-link btn btn-link" aria-hidden="true" onClick={openFight} />
                         </div>
                         <div className="col-md-5">
                             <BlueFighter fight={props.fight} fighter={props.fight.blueAthlete} number={props.number} />

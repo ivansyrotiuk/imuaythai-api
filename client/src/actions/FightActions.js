@@ -46,6 +46,23 @@ export const fetchContestFights = (contestId, categoryId) => {
     };
 };
 
+export const fetchFight = (fightId) => {
+    return (dispatch) => {
+        dispatch(createAction(actionTypes.FETCH_FIGHT));
+
+        return axios.get(host + 'api/fights/' + fightId)
+            .then((response) => {
+                dispatch(createAction(actionTypes.FETCH_FIGHT_SUCCESS, response.data))
+            })
+            .catch((err) => {
+                dispatch(createAction(actionTypes.FETCH_FIGHT_REJECTED, err.response))
+                dispatch(createAction(actionTypes.SHOW_ERROR, err.response != null
+                    ? err.response.data
+                    : "Cannot connect to server"))
+            })
+    }
+}
+
 export const generateContestDraws = (contestId, categoryId) => {
     return dispatch => {
         dispatch(createAction(actionTypes.GENERATE_FIGHTS));

@@ -22,7 +22,7 @@ class WeightAgeCategoriesPage extends Component {
         Id: id
       })
       .then(function(response) {
-        self.deleteWeightCategory(response.data)
+        self.props.deleteWeightCategory(response.data)
       })
       .catch(function(error) {
         console.log(error);
