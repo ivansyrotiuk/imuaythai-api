@@ -1,4 +1,3 @@
-using System;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using MuaythaiSportManagementSystemApi.Data;
@@ -15,10 +14,10 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
     public class FightHandler : WebSocketHandler
     {
         private readonly ApplicationDbContext _context;
-        private SemaphoreSlim _mutex;
+        private readonly SemaphoreSlim _mutex;
         private string _jurySocketId;
         protected string Ring { get; set; }
-        public FightHandler(ApplicationDbContext context, WebSocketConnectionManager connectionManager) : base(connectionManager)
+        public FightHandler(WebSocketConnectionManager connectionManager) : base(connectionManager)
         {
             _context = new ApplicationDbContextFactory().CreateDbContext(new string[]{});
             _mutex = new SemaphoreSlim(1);
