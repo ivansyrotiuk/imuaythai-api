@@ -34,7 +34,25 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             if (fights == null || fights.Count == 0)
                 return BadRequest("No fights found");
 
-            return Ok(fights);
+            var fightsDto = fights.Select(f => new
+            {
+                f.Id,
+                f.StartNumber,
+                BlueAthlete = new
+                {
+                    f.BlueAthlete.Id,
+                    f.BlueAthlete.FirstName,
+                    f.BlueAthlete.Surname
+                },
+                RedAthlete = new
+                {
+                    f.RedAthlete.Id,
+                    f.RedAthlete.FirstName,
+                    f.RedAthlete.Surname
+                },
+            }).ToList();
+
+            return Ok(fightsDto);
         }
 
         [HttpGet]
@@ -46,7 +64,52 @@ namespace MuaythaiSportManagementSystemApi.Controllers
             if (fight == null)
                 return BadRequest("No fight found");
 
-            return Ok(fight);
+            var fightDto = new
+            {
+                fight.Id,
+                BlueAthlete = new
+                {
+                    fight.BlueAthlete.Id,
+                    fight.BlueAthlete.FirstName,
+                    fight.BlueAthlete.Surname
+                },
+                RedAthlete = new
+                {
+                    fight.RedAthlete.Id,
+                    fight.RedAthlete.FirstName,
+                    fight.RedAthlete.Surname
+                },
+                FightJudgesMappings = fight.FightJudgesMappings.Select(f => new
+                {
+                    f.Id,
+                    f.Main,
+                    Judge = new
+                    {
+                        f.Judge.Id,
+                        f.Judge.FirstName,
+                        f.Judge.Surname
+                    }
+                }).ToList(),
+                Structure = new
+                {
+                    fight.Structure.Round,
+                    fight.Structure.WeightAgeCategory
+                },
+                Referee = new
+                {
+                    fight.Referee.Id,
+                    fight.RedAthlete.FirstName,
+                    fight.Referee.Surname
+                },
+                Timekeeper = new
+                {
+                    fight.TimeKeeper.Id,
+                    fight.TimeKeeper.FirstName,
+                    fight.TimeKeeper.Surname
+                }
+            };
+            
+            return Ok(fightDto);
 
         }
     }
