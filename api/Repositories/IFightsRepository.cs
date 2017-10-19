@@ -20,7 +20,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
 
     public class FightsRepository : IFightsRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public FightsRepository(ApplicationDbContext context)
         {
@@ -54,7 +54,7 @@ namespace MuaythaiSportManagementSystemApi.Repositories
                 .Include(f => f.BlueAthlete).ThenInclude(f => f.Institution)
                 .Include(f => f.RedAthlete).ThenInclude(f => f.Country)
                 .Include(f => f.RedAthlete).ThenInclude(f => f.Institution)
-
+                .Include(f => f.Structure).ThenInclude(s => s.Round)
                 .ToListAsync();
         }
 

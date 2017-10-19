@@ -127,6 +127,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IContestRingsRepository, ContestRingsRepository>();
 
             services.AddScoped<IFightersTossupper, FightersTossupper>();
+            services.AddScoped<IFightDurationCalculator, FightDurationCalculator>();
             services.AddScoped<IJudgesTossuper, JudgesTossuper>();
             services.AddScoped<IFightsRepository, FightsRepository>();
             services.AddScoped<IFightsDiagramBuilder, FightsDiagramBuilder>();
