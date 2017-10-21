@@ -13,5 +13,8 @@ namespace MuaythaiSportManagementSystemApi.Repositories
         Task Save(Document document);
         Task<List<Document>> Find(Func<Document, bool> predicate);
         Task Delete(int id);
+        Task<List<Document>> GetAllForUser(string id);
+        Task<List<Document>> GetAllForInstitution(int id);
+        Task<List<Document>> GetAllForContest(int id);
     }
 }

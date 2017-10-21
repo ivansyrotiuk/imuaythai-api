@@ -22,6 +22,30 @@ namespace MuaythaiSportManagementSystemApi.Repositories
             return _context.Documents.ToListAsync();
         }
 
+        public Task<List<Document>> GetAllForUser(string id)
+        {
+            return _context.Documents
+                .Include(d => d.UserDocumentsMappings)
+                .Where(s => s.UserDocumentsMappings.FirstOrDefault().UserId == id)
+                .ToListAsync();
+        }
+        
+        public Task<List<Document>> GetAllForInstitution(int id)
+        {
+            return _context.Documents
+                .Include(d => d.UserDocumentsMappings)
+                .Where(s => s.InstitutionDocumentsMappings.FirstOrDefault().Institution.Id == id)
+                .ToListAsync();
+        }
+        
+        public Task<List<Document>> GetAllForContest(int id)
+        {
+            return _context.Documents
+                .Include(d => d.UserDocumentsMappings)
+                .Where(s => s.ContestDocumentsMappings.FirstOrDefault().InstitutionId == id)
+                .ToListAsync();
+        }
+
         public Task<Document> Get(int id)
         {
             return _context.Documents.FirstOrDefaultAsync(d => d.Id == id);
