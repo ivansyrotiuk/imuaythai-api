@@ -1,10 +1,11 @@
-import React from 'react';
-import FileBrowser from 'react-keyed-file-browser';
+import React from "react";
+import FileBrowser from "react-keyed-file-browser";
+import AddUserDocuments from "./AddUserDocuments";
 
 const UserDocuments = props => {
   return (
     <div>
-      <FileBrowser files={props.documents} />
+      <AddUserDocuments sendDocuments={props.sendUserDocuments} />
     </div>
   );
 };
