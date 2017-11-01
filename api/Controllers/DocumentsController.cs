@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MuaythaiSportManagementSystemApi.Repositories;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Microsoft.Data.OData.Atom;
+using MuaythaiSportManagementSystemApi.Data;
+using MuaythaiSportManagementSystemApi.Extensions;
+using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -22,17 +21,40 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             _documentsRepository = documentsRepository;
         }
-
+        
         public async Task<IActionResult> Index()
         {
            
             var documents = await _documentsRepository.GetAll();
             return Ok(documents);
         }
+        
+        [Route("user/{id}")]
+        public async Task<IActionResult> GetUserDocuments(string id)
+        {
+            var documents =  await _documentsRepository.GetAllForUser(id);
+            return Ok(documents);
+        }
+        
+        [Route("contest/{id}")]
+        public async Task<IActionResult> GetContestDocuments(int id)
+        {
+            var documents =  await _documentsRepository.GetAllForContest(id);
+            return Ok(documents);
+        }
+        
+        [Route("institution/{id}")]
+        public async Task<IActionResult> GetInstitutionDocuments(int id)
+        {
+            var documents =  await _documentsRepository.GetAllForInstitution(id);
+            return Ok(documents);
+        }
+        
         [Route("save")]
         public async Task<IActionResult> Save([FromBody] List<DocumentDto> documents)
         {
             var cloudinary = GetDefaultCloudinaryObject();
+            var documentEntities = new List<Document>();
            
 
             foreach (var document in documents)
@@ -45,12 +67,36 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     File = new FileDescription(document.Name, stream)
                 };
                 var uploadResult = await cloudinary.UploadAsync(upload);
+                
+                Document documentEntity = new Document
+                {
+                    Name = document.Name,
+                    Url = uploadResult.Uri.AbsoluteUri,
+                };
+
+                if (document.InstitutionId != null && document.InstitutionId > 0)
+                    documentEntity.InstitutionDocumentsMappings = new[] {new InstitutionDocumentsMapping
+                    {
+                        InstitutionId = document.InstitutionId.ToInt()
+                    }};
+                else if(document.ContestId != null && document.ContestId > 0)
+                    documentEntity.ContestDocumentsMappings = new[]{new ContestDocumentsMapping
+                    {
+                        InstitutionId = document.ContestId.ToInt()
+                    }};
+                else if(!string.IsNullOrEmpty(document.UserId))
+                    documentEntity.UserDocumentsMappings = new[]{new UserDocumentsMapping
+                    {
+                        UserId = document.UserId
+                    }};
+                
+                documentEntities.Add(documentEntity);
+
+                await _documentsRepository.Save(documentEntity);
             }
 
 
-
-
-            return Ok();
+            return Created("/documents/save", documentEntities);
         }
 
 
@@ -58,18 +104,12 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         {
             Account account = new Account
             {
-                ApiKey = "",
-                ApiSecret = "",
-                Cloud = ""
+                ApiKey = "846494132354633",
+                ApiSecret = "8NcTfg3hTDOq7fCHIqxyJMnq1dM",
+                Cloud = "dfxixiniz"
             };
 
-            return new Cloudinary();
+            return new Cloudinary(account);
         }
-    }
-
-    public class DocumentDto
-    {
-        public string Name { get; set; }
-        public string ByteArray { get; set; }
     }
 }

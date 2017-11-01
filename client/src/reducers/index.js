@@ -20,29 +20,31 @@ import Notifications from "./NotificationsReducer";
 import WeightCategories from "./WeightCategoriesReducer";
 import Rounds from "./RoundsReducer";
 import Structures from "./StructuresReducer";
+import Documents from "./DocumentsReducer";
 import { reducer as reduxFormReducer } from "redux-form";
 
 export default combineReducers({
-    Account,
-    Institutions,
-    ContestTypes,
-    Users,
-    Countries,
-    ContestRanges,
-    KhanLevels,
-    SingleUser,
-    SingleInstitution,
-    Roles,
-    UserRoles,
-    RoleRequests,
-    SuspensionTypes,
-    ContestPoints,
-    Contest,
-    ContestCategories,
-    Fights,
-    Notifications,
-    WeightCategories,
-    Rounds,
-    Structures,
-    form: reduxFormReducer
+  Account,
+  Institutions,
+  ContestTypes,
+  Users,
+  Countries,
+  ContestRanges,
+  KhanLevels,
+  SingleUser,
+  SingleInstitution,
+  Roles,
+  UserRoles,
+  RoleRequests,
+  SuspensionTypes,
+  ContestPoints,
+  Contest,
+  ContestCategories,
+  Fights,
+  Notifications,
+  WeightCategories,
+  Rounds,
+  Structures,
+  Documents,
+  form: reduxFormReducer
 });

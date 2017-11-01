@@ -180,3 +180,31 @@ export const sendUserDocuments = documents => {
       });
   };
 };
+
+export const getUserDocuments = (type, id) => {
+  let endpoint = "api/documents/";
+
+  if (type === "user") endpoint = endpoint + "user/" + id;
+  else if (type === "contest") endpoint = endpoint + "contest/" + id;
+  else if (type === "institution") endpoint = endpoint + "institution/" + id;
+  return dispatch => {
+    dispatch({
+      type: actionTypes.GET_DOCUMENTS
+    });
+
+    axios
+      .get(host + endpoint)
+      .then(response => {
+        dispatch({
+          type: actionTypes.GET_DOCUMENTS_SUCCESS,
+          payload: response.data
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: actionTypes.GET_DOCUMENTS_REJECTED,
+          payload: err
+        });
+      });
+  };
+};

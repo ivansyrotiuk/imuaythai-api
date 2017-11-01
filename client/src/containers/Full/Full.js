@@ -436,7 +436,7 @@ class Full extends Component {
                   component={FightContainer}
                 />
                 <Route
-                  path="/documents/"
+                  path="/documents/:type/:id"
                   name="Documents"
                   component={UserDocuments}
                 />
