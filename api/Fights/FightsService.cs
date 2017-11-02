@@ -219,7 +219,7 @@ namespace MuaythaiSportManagementSystemApi.Fights
         {
             var judgesRequests = await _contestRequestRepository.GetByContest(contestId, ContestRoleType.Judge);
             var fights = await _fightsRepository.GetFights(contestId);
-            await _judgesTossuper.Tossup(judgesRequests, fights);
+            _judgesTossuper.Tossup(judgesRequests, fights);
             return fights;
         }
 
