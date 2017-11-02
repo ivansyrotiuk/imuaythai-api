@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MoreLinq;
-using MuaythaiSportManagementSystemApi.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using MoreLinq;
+using MuaythaiSportManagementSystemApi.Models;
 
 namespace MuaythaiSportManagementSystemApi.Data
 {

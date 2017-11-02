@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MuaythaiSportManagementSystemApi.Models.Comparers
 {
-    class ContestCategoriesMappingEqualityComparer: IEqualityComparer<ContestCategoriesMapping>
+    public class ContestCategoriesMappingEqualityComparer: IEqualityComparer<ContestCategoriesMapping>
     {
         public bool Equals(ContestCategoriesMapping x, ContestCategoriesMapping y)
         {

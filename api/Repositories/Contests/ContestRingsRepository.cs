@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Contests;
-using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MuaythaiSportManagementSystemApi.Data;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {
