@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MuaythaiSportManagementSystemApi.Models
 {
@@ -14,8 +12,8 @@ namespace MuaythaiSportManagementSystemApi.Models
         public string Number { get; set; }
         public int Type { get; set; }
 
-        public UserDocumentsMapping[] UserDocumentsMappings { get; set; }
-        public InstitutionDocumentsMapping[] InstitutionDocumentsMappings { get; set; }
-        public ContestDocumentsMapping[] ContestDocumentsMappings { get; set; }
+        public ICollection<UserDocumentsMapping> UserDocumentsMappings { get; set; }
+        public ICollection<InstitutionDocumentsMapping> InstitutionDocumentsMappings { get; set; }
+        public ICollection<ContestDocumentsMapping> ContestDocumentsMappings { get; set; }
     }
 }

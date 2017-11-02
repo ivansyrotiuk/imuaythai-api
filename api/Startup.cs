@@ -135,6 +135,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IFightsIndexer, FightsIndexer>();
             services.AddScoped<IFightDrawsService, FightDrawsService>();
             services.AddScoped<IFightsService, FightsService>();
+            services.AddScoped<IDocumentsRepository, DocumentsRepository>();
 
             //add comparers
             services.AddScoped<IEqualityComparer<ContestCategoriesMapping>, ContestCategoriesMappingEqualityComparer>();
