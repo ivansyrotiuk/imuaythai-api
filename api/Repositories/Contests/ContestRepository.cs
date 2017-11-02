@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MuaythaiSportManagementSystemApi.Models;
-using MuaythaiSportManagementSystemApi.Data;
 using Microsoft.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Dictionaries;
 using MuaythaiSportManagementSystemApi.Contests;
+using MuaythaiSportManagementSystemApi.Data;
 
 namespace MuaythaiSportManagementSystemApi.Repositories
 {

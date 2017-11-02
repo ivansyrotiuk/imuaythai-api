@@ -1,16 +1,15 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MuaythaiSportManagementSystemApi.Repositories;
+using MuaythaiSportManagementSystemApi.Institutions;
 using MuaythaiSportManagementSystemApi.Institutions.Gyms;
 using MuaythaiSportManagementSystemApi.Models;
-using Microsoft.AspNetCore.Identity;
-using MuaythaiSportManagementSystemApi.Institutions;
+using MuaythaiSportManagementSystemApi.Repositories;
 
-namespace MuaythaiSportManagementSystemApi.Controllers
+namespace MuaythaiSportManagementSystemApi.Controllers.Institutions
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     public class InstitutionsController : Controller
     {

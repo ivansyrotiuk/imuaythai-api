@@ -5,17 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models;
 using System;
+using MuaythaiSportManagementSystemApi.Data;
 
 namespace MuaythaiSportManagementSystemApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170901083122_NETCORE20")]
-    partial class NETCORE20
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,11 +107,7 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<string>("RoleId");
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -393,6 +388,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
                     b.Property<DateTime>("IssueDate");
 
+                    b.Property<int?>("JudgeType");
+
                     b.Property<int>("Status");
 
                     b.Property<int>("Type");
@@ -551,6 +548,8 @@ namespace MuaythaiSportManagementSystemApi.Migrations
                     b.Property<string>("Ring");
 
                     b.Property<DateTime?>("StartDate");
+
+                    b.Property<int?>("StartNumber");
 
                     b.Property<int>("StructureId");
 
@@ -952,17 +951,13 @@ namespace MuaythaiSportManagementSystemApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser")
-                        .WithMany("Roles")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MuaythaiSportManagementSystemApi.Models.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

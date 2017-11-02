@@ -13,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Newtonsoft.Json.Serialization;
-using MuaythaiSportManagementSystemApi.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using MuaythaiSportManagementSystemApi.Models;
 using MuaythaiSportManagementSystemApi.Services;
@@ -23,6 +22,7 @@ using MuaythaiSportManagementSystemApi.Fights;
 using MuaythaiSportManagementSystemApi.WebSockets;
 using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Models.Comparers;
 using Swashbuckle.AspNetCore.Swagger;
 
