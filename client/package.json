@@ -32,6 +32,7 @@
     "react-bootstrap-date-picker": "^5.0.1",
     "react-bootstrap-date-time-picker": "0.0.3",
     "react-chartjs-2": "2.1.0",
+    "react-collapsible": "^2.0.3",
     "react-crop": "^4.0.2",
     "react-datepicker": "^0.49.0",
     "react-datetime": "^2.10.3",
@@ -43,7 +44,8 @@
     "react-loader-advanced": "^1.7.1",
     "react-loading-spinner": "^1.0.12",
     "react-print": "^1.3.1",
-    "react-redux": "^5.0.6",
+    "react-redux": "^5.0.5",
+    "react-responsive-accordion": "^1.0.0",
     "react-router-dom": "4.1.1",
     "react-s-alert": "^1.3.1",
     "react-scripts": "1.0.13",
@@ -60,8 +62,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build":
-      "react-scripts build && rm -r ../api/wwwroot/* && mv build/* ../api/wwwroot",
+    "build": "react-scripts build && rm -r ../api/wwwroot/* && mv build/* ../api/wwwroot",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "flow": "flow"
