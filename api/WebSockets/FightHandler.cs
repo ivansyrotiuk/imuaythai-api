@@ -19,7 +19,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         protected string Ring { get; set; }
         public FightHandler(WebSocketConnectionManager connectionManager) : base(connectionManager)
         {
-            _context = new ApplicationDbContextFactory().CreateDbContext(new string[]{});
+            _context = new ApplicationDbContextFactory().CreateDbContext(new string[] { });
             _mutex = new SemaphoreSlim(1);
         }
 
@@ -41,7 +41,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     {
                         RequestType = request.RequestType,
                         Data = "Points has been accepted"
-                    }, new List<string>());
+                    });
                     break;
 
                 case RequestType.JuryConnected:
@@ -50,7 +50,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     {
                         RequestType = request.RequestType,
                         Data = "Jury connected"
-                    }, new List<string>());
+                    });
                     break;
 
                 case RequestType.SendTime:
@@ -58,7 +58,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                 case RequestType.ResumeRound:
                 case RequestType.EndRound:
                 case RequestType.ShowPrematureEndPanel:
-                    await SendMessageToAllAsync(request, new List<string>());
+                    await SendMessageToAllAsync(request);
                     break;
 
                 case RequestType.SendPoints:
@@ -77,7 +77,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     {
                         RequestType = request.RequestType,
                         Data = roundId
-                    }, new List<string>());
+                    });
                     break;
 
                 case RequestType.EndFight:
@@ -87,7 +87,7 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
                     {
                         RequestType = request.RequestType,
                         Data = null
-                    }, new List<string>() { _jurySocketId });
+                    });
                     break;
 
             }
@@ -98,17 +98,44 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         private async Task SaveWinner(string data)
         {
             var fight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == data.ToInt());
+            var nextFight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == fight.NextFightId);
             if (!string.IsNullOrEmpty(fight.WinnerId)) return;
 
             var totalBluePoints = CalculateTotalPoints(fight.BlueAthleteId, fight.Id);
             var totalRedPoints = CalculateTotalPoints(fight.RedAthleteId, fight.Id);
 
             if (totalBluePoints.Result > totalRedPoints.Result)
+            {
                 fight.WinnerId = fight.BlueAthleteId;
+                nextFight = SetWinnerToNextFight(nextFight, fight.BlueAthleteId);
+            }
+
             else
+            {
                 fight.WinnerId = fight.RedAthleteId;
+                nextFight = SetWinnerToNextFight(nextFight, fight.RedAthleteId);
+            }
+
 
             await _context.SaveChangesAsync();
+
+        }
+
+        private Fight SetWinnerToNextFight(Fight nextFight, string athleteId)
+        {
+            if (nextFight == null)
+                return nextFight;
+
+            if (string.IsNullOrEmpty(nextFight.RedAthleteId))
+            {
+                nextFight.RedAthleteId = athleteId;
+            }
+            else
+            {
+                nextFight.BlueAthleteId = athleteId;
+            }
+
+            return nextFight;
 
         }
 
@@ -136,7 +163,9 @@ namespace MuaythaiSportManagementSystemApi.WebSockets
         {
             var points = JsonConvert.DeserializeObject<FightPoint>(data);
             var fight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == points.FightId);
+            var nextFight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == fight.NextFightId);
             fight.WinnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
+            nextFight = SetWinnerToNextFight(nextFight, points.FighterId);
             _context.FightPoints.Add(points);
             await _mutex.WaitAsync();
             try

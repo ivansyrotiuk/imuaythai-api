@@ -24,6 +24,7 @@ using MuaythaiSportManagementSystemApi.WebSockets;
 using MuaythaiSportManagementSystemApi.WebSockets.RingMapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MuaythaiSportManagementSystemApi.Models.Comparers;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MuaythaiSportManagementSystemApi
 {
@@ -75,6 +76,12 @@ namespace MuaythaiSportManagementSystemApi
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "IMuaythai API", Version = "v1" });
+            });
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
 
             services.AddWebSocketManager();
@@ -120,6 +127,7 @@ namespace MuaythaiSportManagementSystemApi
             services.AddScoped<IContestRingsRepository, ContestRingsRepository>();
 
             services.AddScoped<IFightersTossupper, FightersTossupper>();
+            services.AddScoped<IFightDurationCalculator, FightDurationCalculator>();
             services.AddScoped<IJudgesTossuper, JudgesTossuper>();
             services.AddScoped<IFightsRepository, FightsRepository>();
             services.AddScoped<IFightsDiagramBuilder, FightsDiagramBuilder>();
@@ -172,6 +180,16 @@ namespace MuaythaiSportManagementSystemApi
             dataTransferService.DownloadDataFromMainDatabase();
 
             app.UseAuthentication();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "IMuathai API V1");
+            });
+
             app.UseMvc();
 
         }

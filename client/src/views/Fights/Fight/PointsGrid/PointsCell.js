@@ -6,9 +6,19 @@ export const PointCell = props => {
     const redPoints = red !== null ? red.fighterPoints : "-";
     const bluePoints = blue !== null ? blue.fighterPoints : "-";
 
+    const redAccepted = props.points.redFighterPoints.accepted ? 'text-primary' : 'text-muted';
+    const blueAccepted = props.points.blueFighterPoints.accepted ? 'text-primary' : 'text-muted';
     return (
         <td>
-            {redPoints}/{bluePoints}
+            <div className="row">
+                <div className={redAccepted}>
+                    {redPoints}
+                </div>
+                /
+                <div className={blueAccepted}>
+                    {bluePoints}
+                </div>
+            </div>
         </td>
     );
 };

@@ -439,5 +439,31 @@ namespace MuaythaiSportManagementSystemApi.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("newadmin")]
+        public async Task<IActionResult> CreateAdmin([FromQuery] string email, [FromQuery] string pass)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                InstitutionId = 12,
+                Email = email,
+                FirstName = "User",
+                Surname = "IMuayThai",
+                UserName = email,
+                CountryId = 177
+            };
+            
+            await _userManager.CreateAsync(user);
+            //await _userManager.AddToRoleAsync(user, "Admin");
+            //await _userManager.AddToRoleAsync(user, "GymAdmin");
+            await _userManager.AddToRoleAsync(user, "Fighter");
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, "Imuaythai24@");
+
+            return Ok(result);
+
+        }
     }
 }
