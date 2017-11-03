@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var rounds = await _repository.GetAll();
-                return Ok(rounds.Select(r=>(RoundDto)r).ToList());
+                return Ok(rounds.Select(r=>(RoundModel)r).ToList());
             }
             catch (Exception ex)
             {
@@ -38,7 +39,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var result = await _repository.Get(id) ?? new Round();
-                return Ok((RoundDto)result);
+                return Ok((RoundModel)result);
             }
             catch (Exception ex)
             {
@@ -48,7 +49,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("rounds/save")]
-        public async Task<IActionResult> Save([FromBody]RoundDto round)
+        public async Task<IActionResult> Save([FromBody]RoundModel round)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("rounds/remove")]
-        public async Task<IActionResult> Remove([FromBody]RoundDto round)
+        public async Task<IActionResult> Remove([FromBody]RoundModel round)
         {
             try
             {

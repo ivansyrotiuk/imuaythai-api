@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var levelsEntities = await _repository.GetAll();
-                var levels = levelsEntities.Select(i => (KhanLevelDto)i).ToList();
+                var levels = levelsEntities.Select(i => (KhanLevelModel)i).ToList();
                 return Ok(levels);
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var levels = await _repository.Get(id) ?? new KhanLevel();
-                return Ok((KhanLevelDto)levels);
+                return Ok((KhanLevelModel)levels);
             }
             catch (Exception ex)
             {
@@ -51,7 +52,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("levels/save")]
-        public async Task<IActionResult> Save([FromBody]KhanLevelDto level)
+        public async Task<IActionResult> Save([FromBody]KhanLevelModel level)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("levels/remove")]
-        public async Task<IActionResult> Remove([FromBody]KhanLevelDto level)
+        public async Task<IActionResult> Remove([FromBody]KhanLevelModel level)
         {
             try
             {

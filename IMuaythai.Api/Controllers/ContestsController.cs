@@ -1,11 +1,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.Api.Users;
+using IMuaythai.Auth;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Contests;
+using IMuaythai.Models.Users;
 using IMuaythai.Repositories;
 using IMuaythai.Repositories.Contests;
-using IMuaythai.Repositories.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,7 +44,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var contestsEntities = await _repository.GetAll();
-                var contests = contestsEntities.Select(c => (ContestDto)c).ToList();
+                var contests = contestsEntities.Select(c => (ContestModel)c).ToList();
                 return Ok(contests);
             }
             catch (Exception ex)
@@ -59,7 +60,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var contestEntity = await _repository.Get(id);
-                var contest = (ContestDto)contestEntity;
+                var contest = (ContestModel)contestEntity;
                 return Ok(contest);
             }
             catch (Exception ex)
@@ -70,7 +71,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> SaveContest([FromBody]ContestDto contest)
+        public async Task<IActionResult> SaveContest([FromBody]ContestModel contest)
         {
             try
             {
@@ -115,7 +116,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("Remove")]
-        public async Task<IActionResult> RemoveContest([FromBody]ContestDto contest)
+        public async Task<IActionResult> RemoveContest([FromBody]ContestModel contest)
         {
             try
             {
@@ -155,9 +156,9 @@ namespace IMuaythai.Api.Controllers
                     return BadRequest("No permissions. You are not assigned to any institution.");
                 }
 
-                ContestCandidatesDto candidates = new ContestCandidatesDto();
+                ContestCandidatesModel candidates = new ContestCandidatesModel();
                 var institutionMembers = await _userRepository.GetInstitutionMembers(user.InstitutionId.Value);
-                candidates.DirectCandidates = institutionMembers.Select(u => (UserDto)u).ToList();
+                candidates.DirectCandidates = institutionMembers.Select(u => (UserModel)u).ToList();
 
                 return Ok(candidates);
             }
@@ -175,7 +176,7 @@ namespace IMuaythai.Api.Controllers
             {
                 var requestEntities = await _contestRequestsRepository.GetByContest(contestId);
 
-                var requests = requestEntities.Select(r => (ContestRequestDto)r).ToList();
+                var requests = requestEntities.Select(r => (ContestRequestModel)r).ToList();
                 return Ok(requests);
             }
             catch (Exception ex)
@@ -192,7 +193,7 @@ namespace IMuaythai.Api.Controllers
             {
                 var requestEntities = await _contestRequestsRepository.GetByContest(contestId, ContestRoleType.Judge);
 
-                var requests = requestEntities.Select(r => (ContestRequestDto)r).ToList();
+                var requests = requestEntities.Select(r => (ContestRequestModel)r).ToList();
                 return Ok(requests);
             }
             catch (Exception ex)
@@ -218,7 +219,7 @@ namespace IMuaythai.Api.Controllers
                     await _contestRequestsRepository.GetByInstitution(contestId, user.InstitutionId.Value) :
                     await _contestRequestsRepository.GetByUnassociatedUser(contestId, user.Id);
 
-                var requests = requestEntities.Select(r => (ContestRequestDto)r).ToList();
+                var requests = requestEntities.Select(r => (ContestRequestModel)r).ToList();
                 return Ok(requests);
             }
             catch (Exception ex)
@@ -229,7 +230,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("requests/save")]
-        public async Task<IActionResult> SaveContestRequest([FromBody] ContestRequestDto request)
+        public async Task<IActionResult> SaveContestRequest([FromBody] ContestRequestModel request)
         {
             try
             {
@@ -258,7 +259,7 @@ namespace IMuaythai.Api.Controllers
 
                 await _contestRequestsRepository.Save(requestEntity);
 
-                return Ok((ContestRequestDto)requestEntity);
+                return Ok((ContestRequestModel)requestEntity);
             }
             catch (Exception ex)
             {
@@ -268,7 +269,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("requests/accept")]
-        public async Task<IActionResult> AcceptContestRequest([FromBody] ContestRequestDto request)
+        public async Task<IActionResult> AcceptContestRequest([FromBody] ContestRequestModel request)
         {
             try
             {
@@ -291,7 +292,7 @@ namespace IMuaythai.Api.Controllers
 
                 await _contestRequestsRepository.Save(requestEntity);
 
-                return Ok((ContestRequestDto)requestEntity);
+                return Ok((ContestRequestModel)requestEntity);
             }
             catch (Exception ex)
             {
@@ -301,7 +302,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("requests/reject")]
-        public async Task<IActionResult> RejectContestRequest([FromBody] ContestRequestDto request)
+        public async Task<IActionResult> RejectContestRequest([FromBody] ContestRequestModel request)
         {
             try
             {
@@ -324,7 +325,7 @@ namespace IMuaythai.Api.Controllers
 
                 await _contestRequestsRepository.Save(requestEntity);
 
-                return Ok((ContestRequestDto)requestEntity);
+                return Ok((ContestRequestModel)requestEntity);
             }
             catch (Exception ex)
             {
@@ -334,7 +335,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("requests/remove")]
-        public async Task<IActionResult> RemoveContestRequest([FromBody] ContestRequestDto request)
+        public async Task<IActionResult> RemoveContestRequest([FromBody] ContestRequestModel request)
         {
             try
             {
@@ -356,20 +357,20 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("requests/allocatejudge")]
-        public async Task<IActionResult> AllocateJudgeRequest([FromBody] ContestJudgeAllocation judgeAllocation)
+        public async Task<IActionResult> AllocateJudgeRequest([FromBody] ContestJudgeAllocationModel judgeAllocationModel)
         {
             try
             {
-                ContestRequest requestEntity = await _contestRequestsRepository.Get(judgeAllocation.RequestId);
+                ContestRequest requestEntity = await _contestRequestsRepository.Get(judgeAllocationModel.RequestId);
                 if (requestEntity == null)
                 {
                     return BadRequest("Request not found");
                 }
 
-                requestEntity.JudgeType = judgeAllocation.JudgeType;
+                requestEntity.JudgeType = judgeAllocationModel.JudgeType;
                 await _contestRequestsRepository.Save(requestEntity);
 
-                var request = (ContestRequestDto)requestEntity;
+                var request = (ContestRequestModel)requestEntity;
                 return Ok(request);
             }
             catch (Exception ex)
@@ -388,9 +389,9 @@ namespace IMuaythai.Api.Controllers
             {
                 var requests = await _contestRequestsRepository.GetContestAcceptedFighterRequests(contestId);
                 var fightersInCategories = requests.GroupBy(r => r.ContestCategory)
-                    .Select(g => new ContestCategoryWithFightersDto(g.Key)
+                    .Select(g => new ContestCategoryWithFightersModel(g.Key)
                     {
-                        Fighters = g.Select(f => new FighterDto(f.User)).ToList()
+                        Fighters = g.Select(f => new FighterModel(f.User)).ToList()
                     }).ToList();
 
                 return Ok(fightersInCategories);

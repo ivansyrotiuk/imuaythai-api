@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.Api.Users;
+using IMuaythai.Auth;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Users;
 using IMuaythai.Repositories;
-using IMuaythai.Repositories.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +38,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var figtherEntities = await _userManager.GetUsersInRoleAsync("Fighter");
-                var users = figtherEntities.Select(u => (UserDto)u).ToList();
+                var users = figtherEntities.Select(u => (UserModel)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var judgeEntities = await _userManager.GetUsersInRoleAsync("Judge");
-                var users = judgeEntities.Select(u => (UserDto)u).ToList();
+                var users = judgeEntities.Select(u => (UserModel)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var coachEntities = await _userManager.GetUsersInRoleAsync("Coach");
-                var users = coachEntities.Select(u => (UserDto)u).ToList();
+                var users = coachEntities.Select(u => (UserModel)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var doctorEntities = await _userManager.GetUsersInRoleAsync("Doctor");
-                var users = doctorEntities.Select(u => (UserDto)u).ToList();
+                var users = doctorEntities.Select(u => (UserModel)u).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace IMuaythai.Api.Controllers
             {
                 var figther = await _repository.Get(id);
                 var figtherRoles = await _userManager.GetRolesAsync(figther);
-                var user = (FighterDto)figther;
+                var user = (FighterModel)figther;
                 user.Roles = figtherRoles.ToList();
 
                 return Ok(user);
@@ -116,7 +116,7 @@ namespace IMuaythai.Api.Controllers
        
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> SaveUser([FromBody]UserDto user)
+        public async Task<IActionResult> SaveUser([FromBody]UserModel user)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("Remove")]
-        public IActionResult RemoveUser([FromBody]UserDto user)
+        public IActionResult RemoveUser([FromBody]UserModel user)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var userRoleAcceptationEntities = await _userRoleRequestsRepository.GetUserRequests(userId);
-                var userRoleAcceptations = userRoleAcceptationEntities.Select(a => (UserRoleRequestDto)a).ToList();
+                var userRoleAcceptations = userRoleAcceptationEntities.Select(a => (UserRoleRequestModel)a).ToList();
                 return Ok(userRoleAcceptations);
             }
             catch (Exception ex)
@@ -204,7 +204,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("roles/addrequest")]
-        public async Task<IActionResult> AddUserRoleRequest([FromBody] UserRoleRequestDto roleRequest)
+        public async Task<IActionResult> AddUserRoleRequest([FromBody] UserRoleRequestModel roleRequest)
         {
             try
             {
@@ -217,7 +217,7 @@ namespace IMuaythai.Api.Controllers
 
                 entity = await _userRoleRequestsRepository.Get(entity.Id);
 
-                return Ok((UserRoleRequestDto)entity);
+                return Ok((UserRoleRequestModel)entity);
             }
             catch (Exception ex)
             {
@@ -232,7 +232,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var pendingRequestEntities = await _userRoleRequestsRepository.GetPendingRequests();
-                var pendingRequest = pendingRequestEntities.Select(a => (UserRoleRequestDto)a).ToList();
+                var pendingRequest = pendingRequestEntities.Select(a => (UserRoleRequestModel)a).ToList();
                 return Ok(pendingRequest);
             }
             catch (Exception ex)
@@ -243,7 +243,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("roles/acceptrequest")]
-        public async Task<IActionResult> AcceptRoleRequest([FromBody] UserRoleRequestDto roleRequest)
+        public async Task<IActionResult> AcceptRoleRequest([FromBody] UserRoleRequestModel roleRequest)
         {
             try
             {
@@ -270,7 +270,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("roles/rejectrequest")]
-        public async Task<IActionResult> RejectRoleRequest([FromBody] UserRoleRequestDto roleRequest)
+        public async Task<IActionResult> RejectRoleRequest([FromBody] UserRoleRequestModel roleRequest)
         {
             try
             {

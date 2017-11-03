@@ -14,4 +14,4 @@ RUN dotnet publish -c Release -o out
 FROM microsoft/aspnetcore:2.0
 WORKDIR /app
 COPY --from=build-env /app/out .
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet MuaythaiSportManagementSystemApi.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet IMuaythai.Api.dll

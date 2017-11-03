@@ -4,9 +4,8 @@ using System.IO;
 using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using IMuaythai.Api.Data;
-using IMuaythai.Api.Extensions;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Docs;
 using IMuaythai.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,7 +50,7 @@ namespace IMuaythai.Api.Controllers
         }
         
         [Route("save")]
-        public async Task<IActionResult> Save([FromBody] List<DocumentDto> documents)
+        public async Task<IActionResult> Save([FromBody] List<DocumentModel> documents)
         {
             var cloudinary = GetDefaultCloudinaryObject();
             var documentEntities = new List<Document>();
@@ -77,12 +76,12 @@ namespace IMuaythai.Api.Controllers
                 if (document.InstitutionId != null && document.InstitutionId > 0)
                     documentEntity.InstitutionDocumentsMappings = new[] {new InstitutionDocumentsMapping
                     {
-                        InstitutionId = document.InstitutionId.ToInt()
+                        InstitutionId = document.InstitutionId ?? 0
                     }};
                 else if(document.ContestId != null && document.ContestId > 0)
                     documentEntity.ContestDocumentsMappings = new[]{new ContestDocumentsMapping
                     {
-                        InstitutionId = document.ContestId.ToInt()
+                        InstitutionId = document.ContestId ?? 0
                     }};
                 else if(!string.IsNullOrEmpty(document.UserId))
                     documentEntity.UserDocumentsMappings = new[]{new UserDocumentsMapping

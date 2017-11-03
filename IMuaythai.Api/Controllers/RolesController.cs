@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using IMuaythai.Models.Roles;
 using IMuaythai.Repositories;
-using IMuaythai.Repositories.Roles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
@@ -24,7 +24,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var rolesEntities = await _rolesRepository.GetAll();
-                var roles = rolesEntities.Select(r => (RoleDto)r).ToList();
+                var roles = rolesEntities.Select(r => (RoleModel)r).ToList();
                 return Ok(roles);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var rolesEntities = await _rolesRepository.GetPublicRoles();
-                var roles = rolesEntities.Select(r => (RoleDto)r).ToList();
+                var roles = rolesEntities.Select(r => (RoleModel)r).ToList();
                 return Ok(roles);
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var rolesEntities = await _rolesRepository.GetContestRoles();
-                var roles = rolesEntities.Select(r => (RoleDto)r).ToList();
+                var roles = rolesEntities.Select(r => (RoleModel)r).ToList();
                 return Ok(roles);
             }
             catch (Exception ex)

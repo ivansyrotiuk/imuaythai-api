@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var typesEntities = await _repository.GetAll();
-                var types = typesEntities.Select(i => (SuspensionTypeDto)i).ToList();
+                var types = typesEntities.Select(i => (SuspensionTypeModel)i).ToList();
                 return Ok(types);
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var type = await _repository.Get(id) ?? new SuspensionType();
-                return Ok((SuspensionTypeDto)type);
+                return Ok((SuspensionTypeModel)type);
             }
             catch (Exception ex)
             {
@@ -51,7 +52,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("suspensions/save")]
-        public async Task<IActionResult> Save([FromBody]SuspensionTypeDto type)
+        public async Task<IActionResult> Save([FromBody]SuspensionTypeModel type)
         {
             try
             {
@@ -72,7 +73,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("suspensions/remove")]
-        public async Task<ActionResult> Remove([FromBody]KhanLevelDto type)
+        public async Task<ActionResult> Remove([FromBody]KhanLevelModel type)
         {
             try
             {

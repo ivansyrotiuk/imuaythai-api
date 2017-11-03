@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
+    <ProjectReference Include="..\IMuaythai.Models\IMuaythai.Models.csproj" />
     <ProjectReference Include="..\IMuaythai.Repositories\IMuaythai.Repositories.csproj" />
   </ItemGroup>
 

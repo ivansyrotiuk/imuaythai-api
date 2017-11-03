@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.Api.Fights;
+using IMuaythai.Fights;
+using IMuaythai.Models.Fights;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
@@ -28,7 +29,7 @@ namespace IMuaythai.Api.Controllers
                 var fightsEnities = categoryId == 0 ? await _fightsService.GetFights(contestId)
                     : await _fightsService.GetFights(contestId, categoryId);
 
-                var fights = fightsEnities.OrderBy(f => f.StartDate).Select(fight => (FightDto)fight).ToList();
+                var fights = fightsEnities.OrderBy(f => f.StartDate).Select(fight => (FightModel)fight).ToList();
 
                 return Ok(fights);
             }
@@ -46,7 +47,7 @@ namespace IMuaythai.Api.Controllers
             {
                 var fightsEnities = await _fightsService.BuildFights(contestId, categoryId);
                 await _fightsService.Save(fightsEnities);
-                var fights = fightsEnities.Select(fight => (FightDto)fight).ToList();
+                var fights = fightsEnities.Select(fight => (FightModel)fight).ToList();
 
                 return Ok(fights);
             }
@@ -63,7 +64,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var changedFights = await _fightsService.MoveFighter(fighterMoving);
-                var fights = changedFights.Select(f => (FightDto)f).ToList();
+                var fights = changedFights.Select(f => (FightModel)f).ToList();
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -79,7 +80,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var changedFights = await _fightsService.MoveFight(fightMoving);
-                var fights = changedFights.Select(f => (FightDto)f).ToList();
+                var fights = changedFights.Select(f => (FightModel)f).ToList();
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -158,7 +159,7 @@ namespace IMuaythai.Api.Controllers
                 var fightsEntities = await _fightsService.ScheduleFights(contestId);
                 await _fightsService.Save(fightsEntities);
 
-                var fights = fightsEntities.Select(fight => (FightDto)fight).ToList();
+                var fights = fightsEntities.Select(fight => (FightModel)fight).ToList();
                 return Ok(fights);
             }
             catch(Exception ex)
@@ -177,7 +178,7 @@ namespace IMuaythai.Api.Controllers
                 var fightsEntities = await _fightsService.TossupJudges(contestId);
                 await _fightsService.Save(fightsEntities);
 
-                var fights = fightsEntities.Select(fight => (FightDto)fight).ToList();
+                var fights = fightsEntities.Select(fight => (FightModel)fight).ToList();
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -194,7 +195,7 @@ namespace IMuaythai.Api.Controllers
             {
                 var fightEnity = await _fightsService.GetFight(id);
 
-                return Ok((FightDto)fightEnity);
+                return Ok((FightModel)fightEnity);
             }
             catch (Exception ex)
             {

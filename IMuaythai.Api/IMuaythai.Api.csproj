@@ -11,8 +11,6 @@
   <ItemGroup>
     <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Controllers\ManageController.cs" />
-    <Compile Remove="Fights\FightsTreePersister.cs" />
-    <Compile Remove="Fights\IFightsTreePersister.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="automapper" Version="6.1.1" />
@@ -49,8 +47,14 @@
     <None Include="appsettings.json" CopyToPublishDirectory="Always" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
+    <ProjectReference Include="..\IMuaythai.Fights\IMuaythai.Fights.csproj" />
+    <ProjectReference Include="..\IMuaythai.JudgingServer\IMuaythai.JudgingServer.csproj" />
+    <ProjectReference Include="..\IMuaythai.Models\IMuaythai.Models.csproj" />
     <ProjectReference Include="..\IMuaythai.Repositories\IMuaythai.Repositories.csproj" />
+    <ProjectReference Include="..\IMuaythai.Services\IMuaythai.Services.csproj" />
+    <ProjectReference Include="..\IMuaythai.Shared\IMuaythai.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Launchers\Start.bat">

@@ -7,9 +7,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMuaythai.Api", "IMuaythai.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMuaythai.DataAccess", "IMuaythai.DataAcces\IMuaythai.DataAccess.csproj", "{5840DDF7-6956-4203-945B-557E1DFBCBFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Contests", "IMuaythai.Contests\IMuaythai.Contests.csproj", "{D6359FBC-3372-4715-8186-4CD3C770089B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMuaythai.Contests", "IMuaythai.Contests\IMuaythai.Contests.csproj", "{D6359FBC-3372-4715-8186-4CD3C770089B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Repositories", "IMuaythai.Repositories\IMuaythai.Repositories.csproj", "{CA3548D1-7DE5-45AE-8DF0-ED707B77807B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMuaythai.Repositories", "IMuaythai.Repositories\IMuaythai.Repositories.csproj", "{CA3548D1-7DE5-45AE-8DF0-ED707B77807B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Models", "IMuaythai.Models\IMuaythai.Models.csproj", "{6A31EDF2-6C4F-4445-A155-C9E32AA8E777}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.JudgingServer", "IMuaythai.JudgingServer\IMuaythai.JudgingServer.csproj", "{650D9020-DC1F-4A11-B51C-2408531E47CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Shared", "IMuaythai.Shared\IMuaythai.Shared.csproj", "{6C25D689-6C9B-43CC-8D84-0A28C6C22747}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Fights", "IMuaythai.Fights\IMuaythai.Fights.csproj", "{4FADDA63-E46F-4E39-92A8-8CCC0E2D31A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Services", "IMuaythai.Services\IMuaythai.Services.csproj", "{2A506EA1-D194-41F2-899F-772357453114}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Auth", "IMuaythai.Auth\IMuaythai.Auth.csproj", "{DE29F314-8DEB-428A-9059-FAEC44FFF6D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +47,39 @@ Global
 		{CA3548D1-7DE5-45AE-8DF0-ED707B77807B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA3548D1-7DE5-45AE-8DF0-ED707B77807B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA3548D1-7DE5-45AE-8DF0-ED707B77807B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A31EDF2-6C4F-4445-A155-C9E32AA8E777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A31EDF2-6C4F-4445-A155-C9E32AA8E777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A31EDF2-6C4F-4445-A155-C9E32AA8E777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A31EDF2-6C4F-4445-A155-C9E32AA8E777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{650D9020-DC1F-4A11-B51C-2408531E47CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{650D9020-DC1F-4A11-B51C-2408531E47CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{650D9020-DC1F-4A11-B51C-2408531E47CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{650D9020-DC1F-4A11-B51C-2408531E47CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C25D689-6C9B-43CC-8D84-0A28C6C22747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C25D689-6C9B-43CC-8D84-0A28C6C22747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C25D689-6C9B-43CC-8D84-0A28C6C22747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C25D689-6C9B-43CC-8D84-0A28C6C22747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FADDA63-E46F-4E39-92A8-8CCC0E2D31A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FADDA63-E46F-4E39-92A8-8CCC0E2D31A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FADDA63-E46F-4E39-92A8-8CCC0E2D31A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FADDA63-E46F-4E39-92A8-8CCC0E2D31A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A506EA1-D194-41F2-899F-772357453114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A506EA1-D194-41F2-899F-772357453114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A506EA1-D194-41F2-899F-772357453114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A506EA1-D194-41F2-899F-772357453114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE29F314-8DEB-428A-9059-FAEC44FFF6D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE29F314-8DEB-428A-9059-FAEC44FFF6D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE29F314-8DEB-428A-9059-FAEC44FFF6D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE29F314-8DEB-428A-9059-FAEC44FFF6D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5840DDF7-6956-4203-945B-557E1DFBCBFF} = {CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}
+		{CA3548D1-7DE5-45AE-8DF0-ED707B77807B} = {CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}
+		{6A31EDF2-6C4F-4445-A155-C9E32AA8E777} = {CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}
+		{6C25D689-6C9B-43CC-8D84-0A28C6C22747} = {CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {662B3F27-14A1-479E-B201-898BF5691883}

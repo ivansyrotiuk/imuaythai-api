@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +31,7 @@ namespace IMuaythai.Repositories.Contests
                 .ToListAsync();
         }
 
-        public Task SaveCategoryMappings(int contestId, List<ContestCategoryDto> mappings)
+        public Task SaveCategoryMappings(int contestId, List<ContestCategoryModel> mappings)
         {
             _context.ContestCategoriesMappings.RemoveRange(_context.ContestCategoriesMappings.Where(m => m.ContestId == contestId));
 

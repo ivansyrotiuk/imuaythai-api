@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var structuresEntities = await _repository.GetAll();
-                var structures = structuresEntities.Select(i => (FightStructureDto)i).ToList();
+                var structures = structuresEntities.Select(i => (FightStructureModel)i).ToList();
                 return Ok(structures);
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var structure = await _repository.Get(id) ?? new FightStructure();
-                var result = (FightStructureDto)structure;
+                var result = (FightStructureModel)structure;
                 return Ok(result);
             }
             catch (Exception ex)
@@ -52,7 +53,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("structures/save")]
-        public async Task<IActionResult> Save([FromBody]FightStructureDto structure)
+        public async Task<IActionResult> Save([FromBody]FightStructureModel structure)
         {
             try
             {
@@ -74,7 +75,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("structures/remove")]
-        public async Task<IActionResult> Remove([FromBody]FightStructureDto structure)
+        public async Task<IActionResult> Remove([FromBody]FightStructureModel structure)
         {
             try
             {

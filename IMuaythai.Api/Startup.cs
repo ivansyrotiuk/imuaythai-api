@@ -1,18 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
-using IMuaythai.Api.Fights;
-using IMuaythai.Api.Fights.Diagrams;
-using IMuaythai.Api.Services;
-using IMuaythai.Api.Users;
-using IMuaythai.Api.WebSockets;
-using IMuaythai.Api.WebSockets.RingMapping;
+using IMuaythai.Api.DepedencyInjection;
 using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
-using IMuaythai.DataAccess.Models.Comparers;
-using IMuaythai.Repositories;
-using IMuaythai.Repositories.Contests;
-using IMuaythai.Repositories.Dictionaries;
+using IMuaythai.JudgingServer;
+using IMuaythai.JudgingServer.RingMapping;
+using IMuaythai.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -100,58 +93,12 @@ namespace IMuaythai.Api
                     options.RequireHttpsMetadata = false;
                 });
 
-            // Add application services.
-            services.AddScoped<IEmailSender, AuthMessageSender>();
-            services.AddScoped<ISmsSender, AuthMessageSender>();
-            services.AddScoped<IInstitutionsRepository, InstitutionsRepository>();
-            services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddScoped<IContestTypesRepository, ContestTypesRepository>();
-            services.AddScoped<IContestRangesRepository, ContestRangesRepository>();
-            services.AddScoped<IKhanLevelsRepository, KhanLevelRepository>();
-            services.AddScoped<ISuspensionTypesRepository, SuspensionTypesRepository>();
-            services.AddScoped<IFightRepository, FightRepository>();
-            services.AddScoped<IContestTypePointsRepository, ContestTypePointsRepository>();
-            services.AddScoped<ICountriesRepository, CountriesRepository>();
-            services.AddScoped<IRolesRepository, RolesRepository>();
-            services.AddScoped<IUserRoleRequestsRepository, UserRoleRequestsRepository>();
-            services.AddScoped<IContestRepository, ContestRepository>();
-            services.AddScoped<IContestCategoriesRepository, ContestCategoriesRepository>();
-            services.AddScoped<IContestRequestRepository, ContestRequestRepository>();
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-            services.AddScoped<IRoundsRepository, RoundsRepository>();
-            services.AddScoped<IWeightAgeCategoriesRepository, WeightAgeCategoriesRepository>();
-            services.AddScoped<IFightStructuresRepository, FightStructuresRepository>();
-            services.AddScoped<IContestCategoryMappingsRepository, ContestCategoryMappingsRepository>();
-            services.AddScoped<IContestRingsRepository, ContestRingsRepository>();
 
-            services.AddScoped<IFightersTossupper, FightersTossupper>();
-            services.AddScoped<IFightDurationCalculator, FightDurationCalculator>();
-            services.AddScoped<IJudgesTossuper, JudgesTossuper>();
-            services.AddScoped<IFightsRepository, FightsRepository>();
-            services.AddScoped<IFightsDiagramBuilder, FightsDiagramBuilder>();
-            services.AddScoped<IFighterMovingService, FighterMovingService>();
-            services.AddScoped<IFightsIndexer, FightsIndexer>();
-            services.AddScoped<IFightDrawsService, FightDrawsService>();
-            services.AddScoped<IFightsService, FightsService>();
-            services.AddScoped<IDocumentsRepository, DocumentsRepository>();
-
-            //add comparers
-            services.AddScoped<IEqualityComparer<ContestCategoriesMapping>, ContestCategoriesMappingEqualityComparer>();
-            services.AddScoped<IEqualityComparer<ContestCategory>, ContestCategoryEqualityComparer>();
-            services.AddScoped<IEqualityComparer<Contest>, ContestEqualityComparer>();
-            services.AddScoped<IEqualityComparer<ContestRange>, ContestRangeEqualityComparer>();
-            services.AddScoped<IEqualityComparer<ContestRequest>, ContestRequestEqualityComparer>();
-            services.AddScoped<IEqualityComparer<ContestType>, ContestTypeEqualityComparer>();
-            services.AddScoped<IEqualityComparer<ContestTypePoints>, ContestTypePointsEqualityComparer>();
-            services.AddScoped<IEqualityComparer<Fight>, FightEqualityComparer>();
-            services.AddScoped<IEqualityComparer<FightJudgesMapping>, FightJudgesMappingEqualityComparer>();
-            services.AddScoped<IEqualityComparer<FightStructure>, FightStructureEqualityComparer>();
-            services.AddScoped<IEqualityComparer<Round>, RoundEqualityComparer>();
-            services.AddScoped<IEqualityComparer<WeightAgeCategory>, WeightAgeCategoryEqualityComparer>();
-            services.AddScoped<IEqualityComparer<ContestRing>, ContestRingEqualityComparer>();
-
-            services.AddScoped<IDataTransferService, DataTransferService>();
-
+            services.AddAuthServices();
+            services.AddCommonServices();
+            services.AddRepositories();
+            services.AddDataServices();
+            services.AddFightsServices();
 
             services.Configure<EmailConfiguration>(Configuration);
         }

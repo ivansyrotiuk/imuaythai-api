@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Contests;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMuaythai.Repositories.Contests
@@ -21,7 +22,7 @@ namespace IMuaythai.Repositories.Contests
             return _context.ContestRings.Where(ring => ring.ContestId == contestId).ToListAsync();
         }
 
-        public Task SaveCategoryRings(int contestId, List<ContestRingDto> rings)
+        public Task SaveCategoryRings(int contestId, List<ContestRingModel> rings)
         {
             rings.ForEach(ring =>
             {

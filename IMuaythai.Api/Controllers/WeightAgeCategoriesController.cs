@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var categories = await _repository.GetAll();
-                return Ok(categories.Select(c=>(WeightAgeCategoryDto)c).ToList());
+                return Ok(categories.Select(c=>(WeightAgeCategoryModel)c).ToList());
             }
             catch (Exception ex)
             {
@@ -38,7 +39,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var result = await _repository.Get(id) ?? new WeightAgeCategory();
-                return Ok((WeightAgeCategoryDto)result);
+                return Ok((WeightAgeCategoryModel)result);
             }
             catch (Exception ex)
             {
@@ -48,7 +49,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("weightcategories/save")]
-        public async Task<IActionResult> Save([FromBody]WeightAgeCategoryDto category)
+        public async Task<IActionResult> Save([FromBody]WeightAgeCategoryModel category)
         {
             try
             {
@@ -75,7 +76,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("weightcategories/remove")]
-        public async Task<IActionResult> Remove([FromBody]WeightAgeCategoryDto category)
+        public async Task<IActionResult> Remove([FromBody]WeightAgeCategoryModel category)
         {
             try
             {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var categoriesEntities = await _repository.GetAll();
-                var categories = categoriesEntities.Select(i => (ContestCategoryDto)i).ToList();
+                var categories = categoriesEntities.Select(i => (ContestCategoryModel)i).ToList();
                 return Ok(categories);
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var category = await _repository.Get(id) ?? new ContestCategory();
-                var result = (ContestCategoryDto)category;
+                var result = (ContestCategoryModel)category;
                 return Ok(result);
             }
             catch (Exception ex)
@@ -52,7 +53,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("categories/save")]
-        public async Task<IActionResult> Save([FromBody]ContestCategoryDto categories)
+        public async Task<IActionResult> Save([FromBody]ContestCategoryModel categories)
         {
             try
             {
@@ -76,7 +77,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("categories/remove")]
-        public async Task<IActionResult> Remove([FromBody]ContestCategoryDto categories)
+        public async Task<IActionResult> Remove([FromBody]ContestCategoryModel categories)
         {
             try
             {

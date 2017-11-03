@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var typesEntities = await _repository.GetAll();
-                var types = typesEntities.Select(i => (ContestTypeDto)i).ToList();
+                var types = typesEntities.Select(i => (ContestTypeModel)i).ToList();
                 return Ok(types);
             }
             catch (Exception ex)
@@ -42,7 +43,7 @@ namespace IMuaythai.Api.Controllers
             {
                 var type = await _repository.Get(id) ?? new ContestType();
     
-                return Ok((ContestTypeDto)type);
+                return Ok((ContestTypeModel)type);
             }
             catch (Exception ex)
             {
@@ -53,7 +54,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("types/save")]
-        public async Task<IActionResult> Save([FromBody]ContestTypeDto type)
+        public async Task<IActionResult> Save([FromBody]ContestTypeModel type)
         {
             try
             {
@@ -75,7 +76,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("types/remove")]
-        public async Task<IActionResult> Remove([FromBody]ContestTypeDto type)
+        public async Task<IActionResult> Remove([FromBody]ContestTypeModel type)
         {
             try
             {

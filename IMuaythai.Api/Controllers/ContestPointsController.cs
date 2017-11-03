@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var pointsEntities = await _repository.GetAll();
-                var points = pointsEntities.Select(i => (ContestPointsDto)i).ToList();
+                var points = pointsEntities.Select(i => (ContestPointsModel)i).ToList();
                 return Ok(points);
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var points = await _repository.Get(id) ?? new ContestTypePoints();
-                var result = (ContestPointsDto)points;
+                var result = (ContestPointsModel)points;
                 return Ok(result);
             }
             catch (Exception ex)
@@ -52,7 +53,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("points/save")]
-        public async  Task<IActionResult> Save([FromBody]ContestPointsDto points)
+        public async  Task<IActionResult> Save([FromBody]ContestPointsModel points)
         {
             try
             {
@@ -75,7 +76,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("points/remove")]
-        public async Task<IActionResult> Remove([FromBody]ContestPointsDto points)
+        public async Task<IActionResult> Remove([FromBody]ContestPointsModel points)
         {
             try
             {

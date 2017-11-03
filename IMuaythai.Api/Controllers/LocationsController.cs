@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using IMuaythai.Models.Locations;
 using IMuaythai.Repositories.Dictionaries;
-using IMuaythai.Repositories.Locations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
@@ -24,7 +24,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var countryEntities = await _countryRepository.GetAll();
-                var countries = countryEntities.Select(c => (CountryDto)c).ToList();
+                var countries = countryEntities.Select(c => (CountryModel)c).ToList();
                 return Ok(countries);
             }
             catch (Exception ex)

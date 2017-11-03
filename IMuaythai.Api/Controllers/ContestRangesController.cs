@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Dictionaries;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var rangesEntities = await _repository.GetAll();
-                var ranges = rangesEntities.Select(i => (ContestRangeDto)i).ToList();
+                var ranges = rangesEntities.Select(i => (ContestRangeModel)i).ToList();
                 return Ok(ranges);
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var range = await _repository.Get(id) ?? new ContestRange();
-                return Ok((ContestRangeDto)range);
+                return Ok((ContestRangeModel)range);
             }
             catch (Exception ex)
             {
@@ -51,7 +52,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("ranges/save")]
-        public async Task<IActionResult> Save([FromBody]ContestRangeDto range)
+        public async Task<IActionResult> Save([FromBody]ContestRangeModel range)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("ranges/remove")]
-        public async Task<IActionResult> Remove([FromBody]ContestRangeDto range)
+        public async Task<IActionResult> Remove([FromBody]ContestRangeModel range)
         {
             try
             {

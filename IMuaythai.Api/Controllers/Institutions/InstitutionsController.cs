@@ -2,10 +2,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Institutions;
 using IMuaythai.Repositories;
 using IMuaythai.Repositories.Dictionaries;
-using IMuaythai.Repositories.Institutions;
-using IMuaythai.Repositories.Institutions.Gyms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +31,7 @@ namespace IMuaythai.Api.Controllers.Institutions
             try
             {
                 var gymsEntities = await _repository.GetGyms();
-                var gyms = gymsEntities.Select(i=>(GymDto)i).ToList();
+                var gyms = gymsEntities.Select(i=>(GymModel)i).ToList();
                 return Ok(gyms);
             }
             catch (Exception ex)
@@ -54,7 +53,7 @@ namespace IMuaythai.Api.Controllers.Institutions
                 }
 
                 var entities = await _repository.Find(i => i.CountryId == id);
-                var institutions = entities.Select(i => (InstitutionDto)i).ToList();
+                var institutions = entities.Select(i => (InstitutionModel)i).ToList();
                 return Ok(institutions);
             }
             catch (Exception ex)
@@ -70,7 +69,7 @@ namespace IMuaythai.Api.Controllers.Institutions
             try
             {
                 var entities = await _repository.GetNationalFederations();
-                var federations = entities.Select(i => (InstitutionDto)i).ToList();
+                var federations = entities.Select(i => (InstitutionModel)i).ToList();
                 return Ok(federations);
             }
             catch (Exception ex)
@@ -86,7 +85,7 @@ namespace IMuaythai.Api.Controllers.Institutions
             try
             {
                 var entities = await _repository.GetContinentalFederations();
-                var federations = entities.Select(i => (InstitutionDto)i).ToList();
+                var federations = entities.Select(i => (InstitutionModel)i).ToList();
                 return Ok(federations);
             }
             catch (Exception ex)
@@ -102,7 +101,7 @@ namespace IMuaythai.Api.Controllers.Institutions
             try
             {
                 var entities = await _repository.GetWorldFederations();
-                var federations = entities.Select(i => (InstitutionDto)i).ToList();
+                var federations = entities.Select(i => (InstitutionModel)i).ToList();
                 return Ok(federations);
             }
             catch (Exception ex)
@@ -132,7 +131,7 @@ namespace IMuaythai.Api.Controllers.Institutions
                 var country = await _countryRepository.Get(user.CountryId.Value);
 
                 var entities = await _repository.GetByCountry(country);
-                var federations = entities.Select(i => (InstitutionDto)i).ToList();
+                var federations = entities.Select(i => (InstitutionModel)i).ToList();
                 return Ok(federations);
             }
             catch (Exception ex)
@@ -149,7 +148,7 @@ namespace IMuaythai.Api.Controllers.Institutions
             try
             {
                 var institution = await _repository.Get(id);
-                return Ok((InstitutionDto)institution);
+                return Ok((InstitutionModel)institution);
             }
             catch (Exception ex)
             {
@@ -160,7 +159,7 @@ namespace IMuaythai.Api.Controllers.Institutions
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> Save([FromBody]InstitutionDto institution)
+        public async Task<IActionResult> Save([FromBody]InstitutionModel institution)
         {
             try
             {
@@ -223,7 +222,7 @@ namespace IMuaythai.Api.Controllers.Institutions
 
         [HttpPost]
         [Route("Remove")]
-        public async Task<IActionResult> Remove([FromBody]GymDto institution)
+        public async Task<IActionResult> Remove([FromBody]GymModel institution)
         {
             try
             {
