@@ -15,6 +15,7 @@ import { fetchCountries } from "../../actions/CountriesActions";
 import { fetchUser } from "../../actions/UsersActions";
 import moment from "moment";
 import Page from "../../views/Components/Page";
+import UserDetailsPage from "../../views/Users/UserDetailsPage";
 
 class UserViewPageContainer extends Component {
   constructor(props) {
@@ -89,7 +90,6 @@ class UserViewPageContainer extends Component {
 
     const header = (
       <div>
-        <strong>Fighter</strong>
         <div className="pull-right">
           <div className="input-group-btn">
             <ButtonDropdown
@@ -215,7 +215,13 @@ class UserViewPageContainer extends Component {
       </div>
     );
 
-    return <Page header={header} content={content} />;
+    return (
+      <UserDetailsPage
+        content={content}
+        header={header}
+        user={this.props.user}
+      />
+    );
   }
 }
 
