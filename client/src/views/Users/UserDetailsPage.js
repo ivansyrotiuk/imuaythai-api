@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Accordion from "../Widgets/Accordion";
+import Collapsible from "react-collapsible";
 import DocumentContainer from "../../containers/Users/UserDocumentContainer";
 import UserDetails from "./UserDetails";
 import "../Styles/accord.css";
@@ -9,28 +9,36 @@ class UserDetailsPage extends Component {
       <div className="animated fadeIn">
         <div className="row">
           <div className="col-12">
-            <Accordion
-              classParentString="card-override"
-              triggerClassName="card-header"
-              triggerOpenedClassName="card-header"
-              contentInnerClassName="card-content">
-              <div data-trigger="User details">
+
+
+              <Collapsible trigger="User details"
+                           triggerClassName="card-header"
+                           triggerOpenedClassName="card-header"
+                           contentInnerClassName="card-content"
+                           classParentString="card-override"
+              open={true}>
                 <div className="card-body">
                   <UserDetails user={this.props.user} />
                 </div>
-              </div>
+              </Collapsible>
 
-              <div data-trigger="Fights">
+              <Collapsible trigger="Fights" triggerClassName="card-header"
+                           triggerOpenedClassName="card-header"
+                           contentInnerClassName="card-content"
+                           classParentString="card-override">
                 <p>
                   An Accordion is different to a Collapsible in the sense that
                   only one "tray" will be open at any one time.
                 </p>
-              </div>
+              </Collapsible>
 
-              <div data-trigger="Documents">
+              <Collapsible trigger="Documents" triggerClassName="card-header"
+                           triggerOpenedClassName="card-header"
+                           contentInnerClassName="card-content"
+                           classParentString="card-override">
                 <DocumentContainer type="user" id={this.props.user.id} />
-              </div>
-            </Accordion>
+              </Collapsible>
+
           </div>
         </div>
       </div>

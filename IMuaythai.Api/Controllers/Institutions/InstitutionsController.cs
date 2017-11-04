@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using IMuaythai.Institutions;
 using IMuaythai.Models.Institutions;
+using IMuaythai.Models.Users;
 using IMuaythai.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,14 +35,38 @@ namespace IMuaythai.Api.Controllers.Institutions
             }
         }
 
+        [HttpGet]
+        [Route("Members")]
+        public async Task<IActionResult> GetMembers([FromQuery] int institutionId)
+        {
+            try
+            {
+                //var members = new InstitutionMembersModel
+                //{
+                //    Fighters = await _institutionsService.GetFighters(institutionId),
+                //    Judges = await _institutionsService.GetJudges(institutionId),
+                //    Doctors = await _institutionsService.GetDoctors(institutionId),
+                //    Coaches = await _institutionsService.GetCoaches(institutionId),
+                //};
+
+                var members = await _institutionsService.GetMembers(institutionId);
+
+                return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("Save")]
         public async Task<IActionResult> Save([FromBody]InstitutionModel institution)
         {
             try
             {
-                var imageBase64 = institution.Logo.Split(',');
-                if (imageBase64.Length > 1)
+                var imageBase64 = institution.Logo?.Split(',');
+                if (imageBase64?.Length > 1)
                 {
                     string hostUrl = $"{Request.Scheme}://{Request.Host}";
                     institution.Logo = await _fileSaver.Save(hostUrl, imageBase64[1]);

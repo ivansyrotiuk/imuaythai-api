@@ -12,8 +12,8 @@ namespace IMuaythai.Models.Fights
         public class RoundPointsModel
         {
             public int RoundId { get; set; }
-            public PointsModel RedFighterPointsModel { get; set; }
-            public PointsModel BlueFighterPointsModel { get; set; }
+            public PointsModel RedFighterPoints { get; set; }
+            public PointsModel BlueFighterPoints { get; set; }
         }
 
         public class PointsModel
