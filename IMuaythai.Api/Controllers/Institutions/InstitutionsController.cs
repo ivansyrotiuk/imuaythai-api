@@ -39,8 +39,8 @@ namespace IMuaythai.Api.Controllers.Institutions
         {
             try
             {
-                var imageBase64 = institution.Logo.Split(',');
-                if (imageBase64.Length > 1)
+                var imageBase64 = institution.Logo?.Split(',');
+                if (imageBase64?.Length > 1)
                 {
                     string hostUrl = $"{Request.Scheme}://{Request.Host}";
                     institution.Logo = _fileSaver.Save(hostUrl, imageBase64[1]);
