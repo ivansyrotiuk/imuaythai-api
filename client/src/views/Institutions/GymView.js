@@ -1,5 +1,6 @@
 import React from 'react';
 import Avatar from "react-avatar";
+import Accordion from 'react-responsive-accordion';
 import Page from "../../components/Page/Page";
 import PageHeader from "../../components/Page/PageHeader";
 import PageContent from "../../components/Page/PageContent";
@@ -13,19 +14,17 @@ const GymView = (props) => {
         <Page>
             <PageHeader>
                 <strong>{ gym.name }</strong>
-            </PageHeader>>
+            </PageHeader>
             <PageContent>
-                <div onClick={ actions.goToEditPage }>
-                    <i className="fa fa-pencil" aria-hidden="true"></i>  Edit
-                </div>
-                <div className="col-md-12">
+                <Accordion closeable="true">
+                <div className="col-md-12" data-trigger="A nifty React accordion component">
                     <div className="row">
                         <div className="col-md-6">
                             <div className="row">
                                 <div className="col-auto">
                                     <Avatar size="150" name={ gym.name } src={ gym.logo } />
                                 </div>
-                                <div className="col-md-6">
+                                <div className="col">
                                     <InstitutionInfoBox institution={ gym } />
                                 </div>
                             </div>
@@ -35,6 +34,11 @@ const GymView = (props) => {
                         </div>
                     </div>
                 </div>
+                <div onClick={ actions.goToEditPage } data-trigger="A nifty React accordion component2">
+                    <i className="fa fa-pencil" aria-hidden="true"></i>  Edit
+                </div>
+                </Accordion>
+
             </PageContent>
         </Page>
     );
