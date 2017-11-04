@@ -88,7 +88,7 @@ namespace IMuaythai.Models.Fights
                     Rounds = p.OrderBy(r => r.RoundId).GroupBy(r => r.RoundId).Select(r => new FightPointModel.RoundPointsModel
                     {
                         RoundId = r.Key,
-                        RedFighterPointsModel = r.Where(f => f.FighterId == fight.RedAthleteId).Select(fp => new FightPointModel.PointsModel
+                        RedFighterPoints = r.Where(f => f.FighterId == fight.RedAthleteId).Select(fp => new FightPointModel.PointsModel
                         {
                             Accepted = fp.Accepted,
                             Cautions = fp.Cautions,
@@ -100,7 +100,7 @@ namespace IMuaythai.Models.Fights
                             Warnings = fp.Warnings,
                             X = fp.X
                         }).FirstOrDefault(),
-                        BlueFighterPointsModel = r.Where(f => f.FighterId == fight.BlueAthleteId).Select(fp => new FightPointModel.PointsModel
+                        BlueFighterPoints = r.Where(f => f.FighterId == fight.BlueAthleteId).Select(fp => new FightPointModel.PointsModel
                         {
                             Accepted = fp.Accepted,
                             Cautions = fp.Cautions,

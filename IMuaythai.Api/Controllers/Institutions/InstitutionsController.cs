@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using IMuaythai.Institutions;
 using IMuaythai.Models.Institutions;
+using IMuaythai.Models.Users;
 using IMuaythai.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +28,30 @@ namespace IMuaythai.Api.Controllers.Institutions
             {
                 var institution = await _institutionsService.Get(id);
                 return Ok(institution);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Members")]
+        public async Task<IActionResult> GetMembers([FromQuery] int institutionId)
+        {
+            try
+            {
+                //var members = new InstitutionMembersModel
+                //{
+                //    Fighters = await _institutionsService.GetFighters(institutionId),
+                //    Judges = await _institutionsService.GetJudges(institutionId),
+                //    Doctors = await _institutionsService.GetDoctors(institutionId),
+                //    Coaches = await _institutionsService.GetCoaches(institutionId),
+                //};
+
+                var members = await _institutionsService.GetMembers(institutionId);
+
+                return Ok(members);
             }
             catch (Exception ex)
             {
