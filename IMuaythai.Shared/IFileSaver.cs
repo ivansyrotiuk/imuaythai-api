@@ -1,7 +1,9 @@
-﻿namespace IMuaythai.Shared
+﻿using System.Threading.Tasks;
+
+namespace IMuaythai.Shared
 {
     public interface IFileSaver
     {
-        string Save(string hostUrl, string base64String);
+        Task<string> Save(string fileName, string base64String);
     }
 }
