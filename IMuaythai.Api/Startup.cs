@@ -4,6 +4,7 @@ using IMuaythai.Api.DepedencyInjection;
 using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.JudgingServer;
+using IMuaythai.JudgingServer.DepedencyInjection;
 using IMuaythai.JudgingServer.RingMapping;
 using IMuaythai.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -99,6 +100,7 @@ namespace IMuaythai.Api
             services.AddRepositories();
             services.AddDataServices();
             services.AddFightsServices();
+            services.AddWebSocketManager();
 
             services.Configure<EmailConfiguration>(Configuration);
         }

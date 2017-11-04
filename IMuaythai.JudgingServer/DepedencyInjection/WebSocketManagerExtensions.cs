@@ -1,23 +1,19 @@
 ﻿using System.Reflection;
+using IMuaythai.JudgingServer.RingMapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IMuaythai.JudgingServer
+namespace IMuaythai.JudgingServer.DepedencyInjection
 {
     public static class WebSocketManagerExtensions
     {
         public static IServiceCollection AddWebSocketManager(this IServiceCollection services)
         {
             services.AddScoped<WebSocketConnectionManager>();
-
-            foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
-            {
-                if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler) || type.GetTypeInfo().BaseType == typeof(FightHandler))
-                {
-                    services.AddScoped(type);
-                }
-            }
+            services.AddScoped(typeof(RingA));
+            services.AddScoped(typeof(RingB));
+            services.AddScoped(typeof(RingC));
 
             return services;
         }
