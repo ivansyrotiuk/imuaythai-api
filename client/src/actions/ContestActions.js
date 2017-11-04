@@ -369,7 +369,7 @@ export const tossupJudges = contestId => {
                 });
                 dispatch({
                     type: actionTypes.SHOW_ERROR,
-                    payload: err.data
+                    payload: err.response.data
                 });
             });
     };
