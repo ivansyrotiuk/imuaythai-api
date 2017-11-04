@@ -11,18 +11,9 @@ const mapStateToProps = (state, ownProps) => {
     documents: state.Documents.documents,
     fetching: state.Documents.fetching,
     fetched: state.Documents.fetched,
-    userId:
-      ownProps.match.params.type === "user"
-        ? ownProps.match.params.id
-        : undefined,
-    contestId:
-      ownProps.match.params.type === "contest"
-        ? ownProps.match.params.id
-        : undefined,
-    institutionId:
-      ownProps.match.params.type === "institution"
-        ? ownProps.match.params.id
-        : undefined
+    userId: ownProps.type === "user" ? ownProps.id : undefined,
+    contestId: ownProps.type === "contest" ? ownProps.id : undefined,
+    institutionId: ownProps.type === "institution" ? ownProps.id : undefined
   };
 };
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -31,9 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(sendUserDocuments(documents));
     },
     getUserDocuments() {
-      dispatch(
-        getUserDocuments(ownProps.match.params.type, ownProps.match.params.id)
-      );
+      dispatch(getUserDocuments(ownProps.type, ownProps.id));
     }
   };
 };

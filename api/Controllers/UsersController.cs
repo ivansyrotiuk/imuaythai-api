@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
+using CloudinaryDotNet.Actions;
+using MuaythaiSportManagementSystemApi.Services;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -119,6 +121,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         [Route("Save")]
         public async Task<IActionResult> SaveUser([FromBody]UserDto user)
         {
+            CloudinaryFactory cloudinaryFactory = new CloudinaryFactory();
+
+            var cloudinary = cloudinaryFactory.GetDefaultCloudinaryObject();
             try
             {
                 ApplicationUser userEntity = string.IsNullOrEmpty(user.Id) ? new ApplicationUser() : await _repository.Get(user.Id);
@@ -142,17 +147,15 @@ namespace MuaythaiSportManagementSystemApi.Controllers
                     var bytes = Convert.FromBase64String(imageBase64[1]);
                     if (bytes.Length > 0)
                     {
-                        if (!string.IsNullOrEmpty(userEntity.Photo))
+                        var stream = new MemoryStream(bytes);
+                        var upload = new RawUploadParams
                         {
-                            var pathToImage = "./wwwroot" + userEntity.Photo.Replace($"{Request.Scheme}://{Request.Host}", "");
-                            System.IO.File.Delete(pathToImage);
-                        }
-                        var imageName = $"images/{Guid.NewGuid().ToString().Substring(0, 10)}.png";
-                        System.IO.File.WriteAllBytes($"./wwwroot/{imageName}", bytes);
-                        var location = new Uri($"{Request.Scheme}://{Request.Host}");
+                            File = new FileDescription(Guid.NewGuid().ToString().Substring(0,10), stream)
+                        };
+                        var uploadResult = await cloudinary.UploadAsync(upload);
 
-                        userEntity.Photo = location.AbsoluteUri + imageName;
-                        user.Photo = userEntity.Photo;
+                        userEntity.Photo = uploadResult.Uri.AbsoluteUri;
+                        user.Photo = uploadResult.Uri.AbsoluteUri;
                     }
                 }
 

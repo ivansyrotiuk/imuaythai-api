@@ -9,6 +9,7 @@ using CloudinaryDotNet.Actions;
 using MuaythaiSportManagementSystemApi.Data;
 using MuaythaiSportManagementSystemApi.Extensions;
 using MuaythaiSportManagementSystemApi.Models;
+using MuaythaiSportManagementSystemApi.Services;
 
 namespace MuaythaiSportManagementSystemApi.Controllers
 {
@@ -53,7 +54,9 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         [Route("save")]
         public async Task<IActionResult> Save([FromBody] List<DocumentDto> documents)
         {
-            var cloudinary = GetDefaultCloudinaryObject();
+            CloudinaryFactory cloudinaryFactory = new CloudinaryFactory();
+
+            var cloudinary = cloudinaryFactory.GetDefaultCloudinaryObject();
             var documentEntities = new List<Document>();
            
 
@@ -100,16 +103,6 @@ namespace MuaythaiSportManagementSystemApi.Controllers
         }
 
 
-        private Cloudinary GetDefaultCloudinaryObject()
-        {
-            Account account = new Account
-            {
-                ApiKey = "846494132354633",
-                ApiSecret = "8NcTfg3hTDOq7fCHIqxyJMnq1dM",
-                Cloud = "dfxixiniz"
-            };
-
-            return new Cloudinary(account);
-        }
+        
     }
 }

@@ -90,7 +90,6 @@ class UserViewPageContainer extends Component {
 
     const header = (
       <div>
-        <strong>Fighter</strong>
         <div className="pull-right">
           <div className="input-group-btn">
             <ButtonDropdown
@@ -216,7 +215,13 @@ class UserViewPageContainer extends Component {
       </div>
     );
 
-    return <UserDetailsPage content={content} />;
+    return (
+      <UserDetailsPage
+        content={content}
+        header={header}
+        user={this.props.user}
+      />
+    );
   }
 }
 

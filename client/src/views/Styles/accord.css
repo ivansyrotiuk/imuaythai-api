@@ -4,3 +4,7 @@
   flex-direction: column;
   background-color: #fff;
 }
+
+.card-content {
+  padding: 10px;
+}

@@ -72,7 +72,10 @@ var Accordion = React.createClass({
           classParentString={this.props.classParentString}
           triggerClassName={this.props.triggerClassName}
           triggerOpenedClassName={this.props.triggerOpenedClassName}
-          accordionPosition={index}>
+          contentOuterClassName={this.props.contentOuterClassName}
+          contentInnerClassName={this.props.contentInnerClassName}
+          accordionPosition={index}
+        >
           {node}
         </Collapsible>
       );
