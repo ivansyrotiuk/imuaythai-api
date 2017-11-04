@@ -8,7 +8,7 @@ export function fetchGyms() {
             type: actionTypes.FETCH_GYMS
         });
         axios
-            .get(host + "api/institutions/gyms")
+            .get(host + "api/gyms")
             .then((response) => {
                 dispatch({
                     type: actionTypes.FETCH_GYMS_FULFILLED,
@@ -30,7 +30,7 @@ export function fetchCountryGyms(countryId) {
             type: actionTypes.FETCH_COUNTRY_GYMS
         });
         axios
-            .get(host + "api/institutions/gyms/country?id=" + countryId)
+            .get(host + "api/gyms/country?id=" + countryId)
             .then((response) => {
                 dispatch({
                     type: actionTypes.FETCH_COUNTRY_GYMS_FULFILLED,
@@ -52,7 +52,7 @@ export function fetchNationalFederations() {
             type: actionTypes.FETCH_NATIONAL_FEDERATIONS
         });
         axios
-            .get(host + "api/institutions/federations/national")
+            .get(host + "api/federations/national")
             .then((response) => {
                 dispatch({
                     type: actionTypes.FETCH_NATIONAL_FEDERATIONS_FULFILLED,
@@ -74,7 +74,7 @@ export function fetchContinentalFederations() {
             type: actionTypes.FETCH_CONTINENTAL_FEDERATIONS
         });
         axios
-            .get(host + "api/institutions/federations/continental")
+            .get(host + "api/federations/continental")
             .then((response) => {
                 dispatch({
                     type: actionTypes.FETCH_CONTINENTAL_FEDERATIONS_FULFILLED,
@@ -96,7 +96,7 @@ export function fetchWorldFederations() {
             type: actionTypes.FETCH_WORLD_FEDERATIONS
         });
         axios
-            .get(host + "api/institutions/federations/world")
+            .get(host + "api/federations/world")
             .then((response) => {
                 dispatch({
                     type: actionTypes.FETCH_WORLD_FEDERATIONS_FULFILLED,

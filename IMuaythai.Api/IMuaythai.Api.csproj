@@ -50,6 +50,7 @@
     <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
     <ProjectReference Include="..\IMuaythai.Fights\IMuaythai.Fights.csproj" />
+    <ProjectReference Include="..\IMuaythai.Institutions\IMuaythai.Institutions.csproj" />
     <ProjectReference Include="..\IMuaythai.JudgingServer\IMuaythai.JudgingServer.csproj" />
     <ProjectReference Include="..\IMuaythai.Models\IMuaythai.Models.csproj" />
     <ProjectReference Include="..\IMuaythai.Repositories\IMuaythai.Repositories.csproj" />

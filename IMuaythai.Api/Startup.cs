@@ -1,10 +1,8 @@
 using System;
 using System.Text;
-using IMuaythai.Api.DepedencyInjection;
 using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.JudgingServer;
-using IMuaythai.JudgingServer.DepedencyInjection;
 using IMuaythai.JudgingServer.RingMapping;
 using IMuaythai.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using IMuaythai.Api.DepedencyInjection;
 
 namespace IMuaythai.Api
 {
@@ -94,12 +93,13 @@ namespace IMuaythai.Api
                     options.RequireHttpsMetadata = false;
                 });
 
-
+            services.AddSharedServices();
             services.AddAuthServices();
             services.AddCommonServices();
             services.AddRepositories();
             services.AddDataServices();
             services.AddFightsServices();
+            services.AddInstitutionsServices();
             services.AddWebSocketManager();
 
             services.Configure<EmailConfiguration>(Configuration);

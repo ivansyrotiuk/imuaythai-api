@@ -1,10 +1,10 @@
-﻿using System.Reflection;
+﻿using IMuaythai.JudgingServer;
 using IMuaythai.JudgingServer.RingMapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IMuaythai.JudgingServer.DepedencyInjection
+namespace IMuaythai.Api.DepedencyInjection
 {
     public static class WebSocketManagerExtensions
     {

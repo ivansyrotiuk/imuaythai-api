@@ -9,7 +9,7 @@ import { fetchCountries } from "../../../actions/CountriesActions";
 import { fetchInstitution } from "../../../actions/InstitutionsActions";
 import moment from 'moment';
 import Page from "../../../views/Components/Page"
-import InstitutionGeneralInformaitonBlock from "../../../views/Components/InstitutionGeneralInformaitonBlock"
+import InstitutionGeneralInformaitonBlock from "../../../components/Institutions/InstitutionInfoBox"
 
 class ContinentalFederationViewPageContainer extends Component {
   constructor(props) {
