@@ -41,14 +41,6 @@ namespace IMuaythai.Api.Controllers.Institutions
         {
             try
             {
-                //var members = new InstitutionMembersModel
-                //{
-                //    Fighters = await _institutionsService.GetFighters(institutionId),
-                //    Judges = await _institutionsService.GetJudges(institutionId),
-                //    Doctors = await _institutionsService.GetDoctors(institutionId),
-                //    Coaches = await _institutionsService.GetCoaches(institutionId),
-                //};
-
                 var members = await _institutionsService.GetMembers(institutionId);
 
                 return Ok(members);

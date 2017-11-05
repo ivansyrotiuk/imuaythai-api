@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { connect } from "react-redux"
-import UserAvatar from 'react-user-avatar'
-import RemoveButton from "../../../views/Components/Buttons/RemoveButton"
-import EditButton from "../../../views/Components/Buttons/EditButton"
-import PreviewButton from "../../../views/Components/Buttons/PreviewButton"
 import Spinner from "../../../views/Components/Spinners/Spinner"
+import Page from "../../../components/Page/Page";
+import PageContent from "../../../components/Page/PageContent";
+import PageHeader from "../../../components/Page/PageHeader";
+import UserTable from "../../../components/Users/UserTable";
 import { fetchJudges, deleteUser } from "../../../actions/UsersActions"
 
 class JudgesPageContainer extends Component {
@@ -20,54 +19,13 @@ class JudgesPageContainer extends Component {
       return <Spinner />
     }
 
-    const mappedJudges = judges.map((judge, i) => <tr key={ i }>
-                                                    <td className="col-md-1">
-                                                      <UserAvatar size="40" name={ judge.firstname + ' ' + judge.surname } />
-                                                    </td>
-                                                    <td className="col-md-7">
-                                                      { judge.firstname + ' ' + judge.surname }
-                                                    </td>
-                                                    <td className="col-md-2">
-                                                      { judge.countryName }
-                                                    </td>
-                                                    <td className="col-md-2">
-                                                      <Link to={ "/users/" + judge.id }>
-                                                      <PreviewButton id={ judge.id } />
-                                                      </Link>
-                                                      <Link to={ "/users/" + judge.id + "/edit" }>
-                                                      <EditButton id={ judge.id } />
-                                                      </Link>
-                                                      <RemoveButton id={ judge.id } click={ this.props.deleteUser.bind(this, judge.id) } />
-                                                    </td>
-                                                  </tr>);
-
     return (
-      <div className="animated fadeIn">
-        <div className="row">
-          <div className="col-12">
-            <div className="card">
-              <div className="card-header">
-                <strong>Judges</strong>
-              </div>
-              <div className="card-block">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    { mappedJudges }
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <Page>
+          <PageHeader>Judges</PageHeader>
+          <PageContent>
+            <UserTable users={judges} deleteUser={this.props.deleteUser.bind(this)}/>
+          </PageContent>
+        </Page>
       );
   }
 }

@@ -1,5 +1,5 @@
-﻿dotnet MuaythaiSportManagementSystemApi.dll local
+﻿dotnet IMuaythai.Api.dll local
 dotnet ef database drop -f --no-build  
 dotnet ef database update --no-build  
-dotnet MuaythaiSportManagementSystemApi.dll
+dotnet IMuaythai.Api.dll
 start http://localhost:3000

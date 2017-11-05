@@ -15,12 +15,15 @@ namespace IMuaythai.Institutions
     {
         private readonly IInstitutionsRepository _repository;
         private readonly IUsersRepository _usersRepository;
+        private readonly IRolesRepository _rolesRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        public InstitutionsService(IInstitutionsRepository repository, IUsersRepository usersRepository, UserManager<ApplicationUser> userManager)
+
+        public InstitutionsService(IInstitutionsRepository repository, IUsersRepository usersRepository, IRolesRepository rolesRepository, UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _usersRepository = usersRepository;
             _userManager = userManager;
+            _rolesRepository = rolesRepository;
         }
 
         public async Task<InstitutionModel> Get(int id)
@@ -92,7 +95,7 @@ namespace IMuaythai.Institutions
             return GetInstitutionMembers(institutionId, users);
         }
 
-        private static List<UserModel> GetInstitutionMembers(int institutionId, IList<ApplicationUser> fighters)
+        private List<UserModel> GetInstitutionMembers(int institutionId, IList<ApplicationUser> fighters)
         {
             return fighters
                 .Where(fighter => fighter.InstitutionId == institutionId)

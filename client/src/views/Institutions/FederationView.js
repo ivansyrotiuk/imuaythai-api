@@ -7,17 +7,17 @@ import InstitutionViewBox from "../../components/Institutions/InstitutionViewBox
 import CollapsiblePanel from "../../components/Common/CollapsiblePanel";
 import InstitutionMembersList from "../../components/Institutions/InstitutionMembersList";
 
-const GymView = (props) => {
-    const {gym, actions, members} = props;
+const FederationView = (props) => {
+    const {federation, actions, members} = props;
 
     return (
         <Page>
             <PageHeader>
-                <strong>{gym.name}</strong>
+                <strong>{federation.name}</strong>
             </PageHeader>
             <PageContent>
-                <CollapsiblePanel  trigger="Gym details" open={true}>
-                    <InstitutionViewBox institution={gym} actions={actions}/>
+                <CollapsiblePanel  trigger="Federation details" open={true}>
+                    <InstitutionViewBox institution={federation} actions={actions}/>
                 </CollapsiblePanel>
                 <CollapsiblePanel  trigger="Members" open={false}>
                     <InstitutionMembersList members={members}/>
@@ -27,4 +27,4 @@ const GymView = (props) => {
     );
 };
 
-export default GymView;
+export default FederationView;
