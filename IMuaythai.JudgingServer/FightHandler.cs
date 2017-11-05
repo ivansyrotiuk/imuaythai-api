@@ -123,7 +123,7 @@ namespace IMuaythai.JudgingServer
         private Fight SetWinnerToNextFight(Fight nextFight, string athleteId)
         {
             if (nextFight == null)
-                return nextFight;
+                return null;
 
             if (string.IsNullOrEmpty(nextFight.RedAthleteId))
             {
@@ -163,8 +163,12 @@ namespace IMuaythai.JudgingServer
             var points = JsonConvert.DeserializeObject<FightPoint>(data);
             var fight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == points.FightId);
             var nextFight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == fight.NextFightId);
-            fight.WinnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
-            nextFight = SetWinnerToNextFight(nextFight, points.FighterId);
+            if (string.IsNullOrEmpty(fight.WinnerId) && points.Accepted)
+            {
+                fight.WinnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
+                nextFight = SetWinnerToNextFight(nextFight, points.FighterId);
+            }
+           
             _context.FightPoints.Add(points);
             await _mutex.WaitAsync();
             try
