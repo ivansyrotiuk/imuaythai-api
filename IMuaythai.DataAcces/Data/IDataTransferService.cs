@@ -285,6 +285,7 @@ namespace IMuaythai.DataAccess.Data
                         Dictionary<int, int> ringsIdsDictionary = await UploadRings(mainContext, contestIdsDictionary);
                         Dictionary<int, int> contestCategoryMappingsIdsDictionary = await UploadContestCategoryMappings(mainContext, contestIdsDictionary, contestCategoriesIdsDictionary);
                         usersIdsDictionary = await UploadUsers(mainContext);
+
                         fightsIdsDictionary = await UploadFights(mainContext, contestId, usersIdsDictionary);
                         Dictionary<int, int> judgeMappingsDictionary = await UploadJudgeMappings(mainContext, contestId, fightsIdsDictionary, usersIdsDictionary);
                         //Dictionary<int, int> requestsIdsDictionary = await UploadContestRequests(contestId,
@@ -294,7 +295,7 @@ namespace IMuaythai.DataAccess.Data
 
                         dbContextTransaction.Commit();
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         dbContextTransaction.Rollback();
                     }
@@ -313,7 +314,7 @@ namespace IMuaythai.DataAccess.Data
                         await UploadFightPoints(mainContext, fightsIdsDictionary, usersIdsDictionary);
                         dbContextTransaction.Commit();
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         dbContextTransaction.Rollback();
                     }
@@ -331,6 +332,7 @@ namespace IMuaythai.DataAccess.Data
             localPoints.ForEach(NullReferencedPropeties);
             localPoints.ForEach(point =>
             {
+                point.Id = 0;
                 point.FightId = fightsIdsDictionary[point.FightId];
                 point.FighterId = usersIdsDictionary[point.FighterId];
                 point.JudgeId = usersIdsDictionary[point.JudgeId];
@@ -347,7 +349,7 @@ namespace IMuaythai.DataAccess.Data
             Dictionary<int, int> requestsIdsDictionary = localRequests.ToDictionary(c => c.Id, c => c.Id);
             localRequests.ForEach(NullReferencedPropeties);
             remoteRequests.ForEach(NullReferencedPropeties);
-
+            bool needToSave = false;
             foreach (var request in localRequests)
             {
                 request.UserId = usersIdsDictionary[request.UserId];
@@ -369,11 +371,14 @@ namespace IMuaythai.DataAccess.Data
                 {
                     continue;
                 }
-
+                needToSave = true;
                 request.DeepCopyTo(removeRequest);
             }
 
-            await mainContext.SaveChangesAsync();
+            if (needToSave)
+            {
+                await mainContext.SaveChangesAsync();
+            }
 
             return requestsIdsDictionary;
         }
@@ -383,8 +388,8 @@ namespace IMuaythai.DataAccess.Data
             mainContext.SaveChanges();
             mainContext.FightJudgesMappings.RemoveRange(mainContext.FightJudgesMappings.Where(mapping => mapping.Fight.ContestId == contestId));
             mainContext.SaveChanges();
-            var localMappings = await _context.FightJudgesMappings.ToListAsync();
-
+            var localMappings = await _context.FightJudgesMappings.Where(m => m.Fight.ContestId == contestId).ToListAsync();
+            var ids = localMappings.Select(m => m.FightId).Distinct();
             foreach (var mapping in localMappings)
             {
 
@@ -397,7 +402,7 @@ namespace IMuaythai.DataAccess.Data
 
               
 
-
+                //TODO there is some bug
                 mainContext.Database.ExecuteSqlCommand(
                     $"INSERT INTO FightJudgesMappings(FightId, JudgeId, Main) Values(@FightId, @JudgeId, @Main)",
                     new SqlParameter("@FightId", fightsIdsDictionary[mapping.FightId]),

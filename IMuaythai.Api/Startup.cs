@@ -108,6 +108,7 @@ namespace IMuaythai.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDataTransferService dataTransferService)
         {
+           // dataTransferService.UploadDataToMainDatabase(16);
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseDefaultFiles();
@@ -123,8 +124,8 @@ namespace IMuaythai.Api
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
 
-           //dataTransferService.UploadDataToMainDatabase(6).Wait();
-            dataTransferService.DownloadDataFromMainDatabase();
+           //dataTransferService.UploadDataToMainDatabase(16).Wait();
+           // dataTransferService.DownloadDataFromMainDatabase();
 
             app.UseAuthentication();
 
