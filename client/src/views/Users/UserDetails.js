@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import UserAvatar from "react-user-avatar";
 import moment from "moment";
+import SocialNetworksBox from "../../components/Social/SocialNetworksBox";
 
 const UserDetails = props => {
   const { user } = props;
@@ -23,28 +24,74 @@ const UserDetails = props => {
 
   return (
     <div className="row">
-      <div className="col-md-2">
+      <div className="col-auto">
         <UserAvatar
           size="150"
           name={user.firstname + " " + user.surname || user.email}
           src={user.photo}
           style={{ display: "block", margin: "auto" }}
         />
+        <div className="mt-1">
+          <SocialNetworksBox
+            facebook={user.facebook}
+            twitter={user.twitter}
+            instagram={user.instagram}
+            vk={user.vk}
+          />
+        </div>
       </div>
-      <div className="col-md-3 col-sm-12">
-        <h4>Name: {userName}</h4>
-        <h4>
-          Email: <a href={"mailto:" + user.email}>{user.email}</a>
-        </h4>
-        <h4>Birthday: {moment(user.birthdate).format("YYYY-MM-DD")}</h4>
-        <h4>Age: {user.age}</h4>
+      <div className="col">
+        <div>
+          <h2> {userName} </h2>
+          {user.birthdate && (
+            <div className="row">
+              <div className="col-auto">
+                <i className="fa fa-birthday-cake" aria-hidden="true" />
+              </div>
+              <div className="col">
+                {moment(user.birthdate).format("YYYY-MM-DD")}
+              </div>
+            </div>
+          )}
+          {user.gender && (
+            <div className="row">
+              <div className="col-auto">
+                <i
+                  className={
+                    user.gender === "male" ? "fa fa-mars" : "fa fa-venus"
+                  }
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="col">{user.gender}</div>
+            </div>
+          )}
+          {user.phone && (
+            <div className="row">
+              <div className="col-auto">
+                <i className="fa fa-phone" aria-hidden="true" />
+              </div>
+              <div className="col">{user.phone}</div>
+            </div>
+          )}
+          {user.email && (
+            <div className="row">
+              <div className="col-auto">
+                <i className="fa fa-envelope" aria-hidden="true" />
+              </div>
+              <div className="col">{user.email}</div>
+            </div>
+          )}
+          {user.countryName && (
+            <div className="row">
+              <div className="col-auto">
+                <i className="fa fa-globe" aria-hidden="true" />
+              </div>
+              <div className="col">{user.countryName}</div>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="col-md-3 col-sm-12">
-        <h4>Gender: {user.gender}</h4>
-        <h4>Country: {user.countryName}</h4>
-        <h4>Gym: Best fighters ever</h4>
-      </div>
-      <div className="col-md-4" />
     </div>
   );
 };
