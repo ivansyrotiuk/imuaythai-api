@@ -199,3 +199,24 @@ export function deleteInstitution(id) {
             });
     }
 }
+
+export function fetchInstitutionMembers(institutionId) {
+    return function (dispatch) {
+        dispatch({
+            type: actionTypes.FETCH_INSTITUTION_MEMBERS
+        });
+        return axios.get('/api/institutions/members?institutionId=' + institutionId)
+            .then((response)=>{
+                dispatch({
+                    type: actionTypes.FETCH_INSTITUTION_MEMBERS_FULFILLED,
+                    payload: response.data
+                })
+            })
+            .catch((error)=>{
+                dispatch({
+                    type: actionTypes.FETCH_INSTITUTION_MEMBERS_REJECTED,
+                    payload: error
+                })
+            });
+    }
+}

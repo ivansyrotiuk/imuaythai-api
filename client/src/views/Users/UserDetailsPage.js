@@ -9,8 +9,6 @@ class UserDetailsPage extends Component {
       <div className="animated fadeIn">
         <div className="row">
           <div className="col-12">
-
-
               <Collapsible trigger="User details"
                            triggerClassName="card-header"
                            triggerOpenedClassName="card-header"

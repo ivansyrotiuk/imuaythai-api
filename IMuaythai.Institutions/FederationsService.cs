@@ -12,7 +12,7 @@ namespace IMuaythai.Institutions
     {
         private readonly IInstitutionsRepository _repository;
 
-        public FederationsService(IInstitutionsRepository repository, IUsersRepository usersRepository, UserManager<ApplicationUser> userManager) : base(repository, usersRepository, userManager)
+        public FederationsService(IInstitutionsRepository repository, IUsersRepository usersRepository, IRolesRepository rolesRepository, UserManager<ApplicationUser> userManager) : base(repository, usersRepository, rolesRepository, userManager)
         {
             _repository = repository;
         }
