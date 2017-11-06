@@ -5,16 +5,16 @@ import PageHeader from "../../components/Page/PageHeader";
 import PageContent from "../../components/Page/PageContent";
 import AddButton from "../Components/Buttons/AddButton";
 import InstitutionsTable from "../../components/Institutions/Tables/InstitutionsTable";
+import Right from "../../components/Common/Right";
 
 const FederationsListView = (props) => {
     return(
         <Page>
             <PageHeader>
-                <div><strong>{props.title}</strong>
-                    <div className="pull-right">
-                        <AddButton click={props.actions.addClick} tip={"Add Federation"}/>
-                    </div>
-                </div>
+                <strong>{props.title}</strong>
+                <Right>
+                    <AddButton click={props.actions.addClick} tip={"Add Federation"}/>
+                </Right>
             </PageHeader>
             <PageContent>
                 <InstitutionsTable institutions={props.federations} actions={props.actions}/>

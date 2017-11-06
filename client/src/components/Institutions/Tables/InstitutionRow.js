@@ -13,7 +13,7 @@ const InstitutionRow = (props) => {
             <td>
                 {props.name}
             </td>
-            <td>{props.Country}</td>
+            <td>{props.country && props.country.name}</td>
             <td>
                 <ActionButtonGroup
                     previewClick={() => previewClick(props.id)}
@@ -27,13 +27,13 @@ const InstitutionRow = (props) => {
 InstitutionRow.defaultProps = {
     id: 0,
     name: 'no name',
-    country: 'no country'
+    country: {}
 };
 
 InstitutionRow.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
-    country: PropTypes.string,
+    country: PropTypes.object,
     previewClick: PropTypes.func,
     editClick: PropTypes.func,
     deleteClick: PropTypes.func

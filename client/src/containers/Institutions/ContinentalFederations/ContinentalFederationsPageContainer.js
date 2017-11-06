@@ -30,7 +30,7 @@ class ContinentalFederationsPageContainer extends Component {
     }
 
     handleDeleteFederationClick(id) {
-        this.props.deleteFederation.bind(this, id);
+        this.props.deleteFederation(id);
     }
 
     get viewTitle(){
