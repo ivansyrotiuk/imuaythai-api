@@ -1,83 +1,80 @@
-import React, { Component } from 'react';
-import AddButton from "../../../views/Components/Buttons/AddButton"
-import Spinner from "../../../views/Components/Spinners/Spinner"
-import ActionButtonGroup from "../../../views/Components/Buttons/ActionButtonGroup"
-import TablePage from "../../../views/Components/TablePage"
-import { Link } from 'react-router-dom'
-import { connect } from "react-redux"
-import { fetchContinentalFederations, deleteInstitution } from "../../../actions/InstitutionsActions"
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {fetchContinentalFederations, deleteInstitution} from '../../../actions/InstitutionsActions'
+import Spinner from '../../../views/Components/Spinners/Spinner'
+import FederationsListView from '../../../views/Institutions/FederationsListView';
 
 class ContinentalFederationsPageContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.addFederation = this.addFederation.bind(this);
-  }
-
-  componentWillMount() {
-    this.props.fetchFederations();
-  }
-
-  addFederation() {
-    this.props.history.push('/institutions/continental/add');
-  }
-
-  render() {
-    const {federations, fetching} = this.props;
-
-    if (fetching) {
-      return <Spinner />
+    constructor(props) {
+        super(props);
+        this.handleAddFederationClick = this.handleAddFederationClick.bind(this);
+        this.handlePreviewFederationClick = this.handlePreviewFederationClick.bind(this);
+        this.handleEditFederationClick = this.handleEditFederationClick.bind(this);
+        this.handleDeleteFederationClick = this.handleDeleteFederationClick.bind(this);
     }
 
-    const pageHeader = <div><strong>Continental federations</strong>
-                         <div className="pull-right">
-                           <AddButton click={ this.addFederation } tip={ "Add Federation" } />
-                         </div>
-                       </div>;
+    componentWillMount() {
+        this.props.fetchFederations();
+    }
 
-    const mappedFederations = federations.map((federation, i) => <tr key={ i }>
-                                                                   <td>
-                                                                     <Link to={ "/institutions/continental/" + federation.id }>
-                                                                     { federation.id }
-                                                                     </Link>
-                                                                   </td>
-                                                                   <td>
-                                                                     { federation.name }
-                                                                   </td>
-                                                                   <td>Europe</td>
-                                                                   <td>
-                                                                     <ActionButtonGroup previewClick={ () => this.props.history.push("/institutions/continental/" + federation.id) } editClick={ () => this.props.history.push("/institutions/continental/edit/" + federation.id) } deleteClick={ this.props.deleteFederation.bind(this, federation.id) } />
-                                                                   </td>
-                                                                 </tr>);
+    handleAddFederationClick() {
+        this.props.history.push('/institutions/continental/add');
+    }
 
-    const headers = <tr>
-                      <th className="col-1">Id</th>
-                      <th className="col-5">Name</th>
-                      <th className="col-3">Continent</th>
-                      <th className="col-2 text-center">Actions</th>
-                    </tr>
+    handlePreviewFederationClick(id) {
+        this.props.history.push("/institutions/continental/" + id);
+    }
 
-    return <TablePage pageHeader={ pageHeader } headers={ headers } content={ mappedFederations } />;
-  }
+    handleEditFederationClick(id) {
+        this.props.history.push("/institutions/continental/edit/" + id);
+    }
+
+    handleDeleteFederationClick(id) {
+        this.props.deleteFederation.bind(this, id);
+    }
+
+    get viewTitle(){
+        return "Continental federations";
+    }
+
+    get viewActions(){
+        return {
+            addClick: this.handleAddFederationClick,
+            previewClick: this.handlePreviewFederationClick,
+            editClick: this.handleEditFederationClick,
+            deleteClick: this.handleDeleteFederationClick
+        };
+    }
+
+    render() {
+        const {federations, fetching} = this.props;
+
+        if (fetching) {
+            return <Spinner/>
+        }
+
+        return <FederationsListView title={this.viewTitle} federations={federations} actions={this.viewActions}/>
+    }
 }
 
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    federations: state.Institutions.continentalFederations,
-    fetching: state.Institutions.fetching,
-    fetched: state.Institutions.fetched
-  }
+    return {
+        federations: state.Institutions.continentalFederations,
+        fetching: state.Institutions.fetching,
+        fetched: state.Institutions.fetched
+    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    fetchFederations: () => {
-      dispatch(fetchContinentalFederations())
-    },
-    deleteFederation: (id) => {
-      return dispatch(deleteInstitution(id));
+    return {
+        fetchFederations: () => {
+            dispatch(fetchContinentalFederations())
+        },
+        deleteFederation: (id) => {
+            return dispatch(deleteInstitution(id));
+        }
     }
-  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContinentalFederationsPageContainer)
