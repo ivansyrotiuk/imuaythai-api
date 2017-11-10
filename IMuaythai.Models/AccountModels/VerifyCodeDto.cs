@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IMuaythai.DataAccess.Models.AccountModels
+namespace IMuaythai.DataAccess.AccountModels
 {
     public class VerifyCodeDto
     {

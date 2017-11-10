@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IMuaythai.DataAccess.Models.AccountModels
+namespace IMuaythai.DataAccess.AccountModels
 {
-    public class ExternalLoginConfirmationDto
+    public class ForgotPasswordDto
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        public string CallbackUrl { get; set; }
     }
 }

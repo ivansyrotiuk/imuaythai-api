@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using AutoMapper;
 using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.JudgingServer;
@@ -101,6 +102,8 @@ namespace IMuaythai.Api
             services.AddFightsServices();
             services.AddInstitutionsServices();
             services.AddWebSocketManager();
+            services.AddUsersServices();
+            services.AddAutoMapper();
 
             services.Configure<EmailConfiguration>(Configuration);
         }

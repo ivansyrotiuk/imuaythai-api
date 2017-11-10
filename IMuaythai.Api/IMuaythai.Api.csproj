@@ -16,7 +16,8 @@
     <Compile Remove="Controllers\ManageController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="automapper" Version="6.1.1" />
+    <PackageReference Include="automapper" Version="6.2.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.1.0" />
     <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00187" />
     <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00182" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
@@ -58,6 +59,7 @@
     <ProjectReference Include="..\IMuaythai.Repositories\IMuaythai.Repositories.csproj" />
     <ProjectReference Include="..\IMuaythai.Services\IMuaythai.Services.csproj" />
     <ProjectReference Include="..\IMuaythai.Shared\IMuaythai.Shared.csproj" />
+    <ProjectReference Include="..\IMuaythai.Users\IMuaythai.Users.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Launchers\Start.bat">
