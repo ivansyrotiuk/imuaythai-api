@@ -92,7 +92,7 @@ export const fetchContestCandidates = () => {
         });
 
         return axios
-            .get(host + "api/contests/candidates")
+            .get(host + "api/contestrequests/candidates")
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_CANDIDATES_FULFILLED,
@@ -115,7 +115,7 @@ export const fetchContestRequests = contestId => {
         });
 
         return axios
-            .get("api/contests/requests?contestId=" + contestId)
+            .get("api/contestrequests?contestId=" + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_REQUESTS_FULFILLED,
@@ -138,7 +138,7 @@ export const fetchContestJudges = contestId => {
         });
 
         return axios
-            .get("api/contests/requests/judges?contestId=" + contestId)
+            .get("api/contestrequests/judges?contestId=" + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_JUDGES_FULFILLED,
@@ -164,7 +164,7 @@ export const fetchInstitutionContestRequests = contestId => {
         });
 
         return axios
-            .get("api/contests/requests/institution?contestId=" + contestId)
+            .get("api/contestrequests/myrequests?contestId=" + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS_FULFILLED,
@@ -200,7 +200,7 @@ export const saveContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contests/requests/save", request)
+            .post(host + "api/contestrequests/save", request)
             .then(response => {
                 dispatch({
                     type: actionTypes.SAVE_CONTEST_REQUEST_SUCCESS,
@@ -229,7 +229,7 @@ export const acceptContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contests/requests/accept", request)
+            .post(host + "api/contestrequests/accept", request)
             .then(response => {
                 dispatch({
                     type: actionTypes.ACCEPT_CONTEST_REQUEST_SUCCESS,
@@ -253,7 +253,7 @@ export const rejectContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contests/requests/reject", request)
+            .post(host + "api/contestrequests/reject", request)
             .then(response => {
                 dispatch({
                     type: actionTypes.REJECT_CONTEST_REQUEST_SUCCESS,
@@ -277,7 +277,7 @@ export const removeContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contests/requests/remove", request)
+            .post(host + "api/contestrequests/remove", request)
             .then(response => {
                 dispatch({
                     type: actionTypes.REMOVE_CONTEST_REQUEST_SUCCESS,
@@ -412,7 +412,7 @@ export const allocateJudgeRequest = judgeRequest => {
         });
 
         return axios
-            .post(host + "api/contests/requests/allocatejudge", judgeRequest)
+            .post(host + "api/contestrequests/allocatejudge", judgeRequest)
             .then(response => {
                 dispatch({
                     type: actionTypes.CONTEST_ALLOCATE_JUGDE_SUCCESS,

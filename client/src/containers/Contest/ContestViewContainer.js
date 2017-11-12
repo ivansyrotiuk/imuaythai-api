@@ -36,7 +36,7 @@ class ContestViewPageContainer extends Component {
     }
 
     addRequestsClick() {
-        this.props.history.push(this.props.match.url + '/institution_requests');
+        this.props.history.push(this.props.match.url + '/myrequests');
     }
 
     contestCategoriesClick() {

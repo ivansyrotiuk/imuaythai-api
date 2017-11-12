@@ -382,7 +382,7 @@ class Full extends Component {
                                     component={ContestCategoriesPage}
                                 />
                                 <Route
-                                    path="/contests/:id/(institution_requests)"
+                                    path="/contests/:id/(myrequests)"
                                     name="Add contest requests"
                                     component={RequestAddingContainer}
                                 />

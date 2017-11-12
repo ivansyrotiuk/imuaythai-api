@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="automapper" Version="6.2.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.1.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.2.1" />
     <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00187" />
     <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00182" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
@@ -51,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
+    <ProjectReference Include="..\IMuaythai.Contests\IMuaythai.Contests.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
     <ProjectReference Include="..\IMuaythai.Fights\IMuaythai.Fights.csproj" />
     <ProjectReference Include="..\IMuaythai.Institutions\IMuaythai.Institutions.csproj" />
@@ -65,5 +67,8 @@
     <None Update="Launchers\Start.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Validators\" />
   </ItemGroup>
 </Project>

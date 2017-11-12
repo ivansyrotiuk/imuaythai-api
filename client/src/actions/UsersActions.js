@@ -1,7 +1,7 @@
 import {host} from "../global";
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
-import {addNotification as notify} from 'reapop';
+
 
 export function fetchFighters() {
     return function (dispatch) {

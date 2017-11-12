@@ -1,9 +1,9 @@
 using System;
 using System.Text;
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
-using IMuaythai.JudgingServer;
 using IMuaythai.JudgingServer.RingMapping;
 using IMuaythai.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,7 +49,7 @@ namespace IMuaythai.Api
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            ).AddFluentValidation();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
@@ -94,6 +94,9 @@ namespace IMuaythai.Api
                     options.RequireHttpsMetadata = false;
                 });
 
+            services.AddAutoMapper();
+            services.AddFluentValidators();
+
             services.AddSharedServices();
             services.AddAuthServices();
             services.AddCommonServices();
@@ -103,7 +106,7 @@ namespace IMuaythai.Api
             services.AddInstitutionsServices();
             services.AddWebSocketManager();
             services.AddUsersServices();
-            services.AddAutoMapper();
+            services.AddContestServices();
 
             services.Configure<EmailConfiguration>(Configuration);
         }
