@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace IMuaythai.DataAccess.AccountModels
+namespace IMuaythai.Models.AccountModels
 {
     public class SendCodeDto
     {

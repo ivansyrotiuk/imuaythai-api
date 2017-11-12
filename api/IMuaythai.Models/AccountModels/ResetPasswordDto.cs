@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IMuaythai.DataAccess.AccountModels
+namespace IMuaythai.Models.AccountModels
 {
     public class ResetPasswordDto
     {

@@ -42,10 +42,10 @@ class ContestInstitutionRequests extends Component {
                { request.institutionName }
              </td>
              <td className="col-1">
-               { request.user.city }
+               { request.user && request.user.city }
              </td>
              <td className="col-2">
-               { request.user.countryName }
+               { request.user && request.user.countryName }
              </td>
              { request.contestCategoryId && <td>
                                               { request.contestCategoryName }

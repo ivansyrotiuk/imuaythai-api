@@ -95,33 +95,35 @@ namespace IMuaythai.Contests
             return _mapper.Map<ContestRequest, ContestRequestModel>(requestEntity);
         }
 
-        public async Task<ContestRequestModel> SaveRequest(ContestRequestModel request)
+        public async Task<ContestRequestModel> SaveRequest(ContestRequestModel requestModel)
         {
             var existedRequests = await _contestRequestsRepository.Find(r => 
                 r.Type != ContestRoleType.Judge && 
-                r.UserId == request.UserId && 
-                r.Type == request.Type && 
-                r.ContestId == request.ContestId);
+                r.UserId == requestModel.UserId && 
+                r.Type == requestModel.Type && 
+                r.ContestId == requestModel.ContestId);
 
             if (existedRequests.Any())
             {
                 throw new Exception("The same request is already added");
             }
 
-            ContestRequest requestEntity = await _contestRequestsRepository.Get(request.Id) ?? new ContestRequest
+            ContestRequest requestEntity = await _contestRequestsRepository.Get(requestModel.Id) ?? new ContestRequest
                 {
                     IssueDate = DateTime.UtcNow
                 };
 
-            requestEntity.ContestId = request.ContestId;
-            requestEntity.ContestCategoryId = request.ContestCategoryId;
-            requestEntity.InstitutionId = request.InstitutionId;
-            requestEntity.Status = request.Status;
-            requestEntity.Type = request.Type;
-            requestEntity.UserId = request.UserId;
+            requestEntity.ContestId = requestModel.ContestId;
+            requestEntity.ContestCategoryId = requestModel.ContestCategoryId;
+            requestEntity.InstitutionId = requestModel.InstitutionId;
+            requestEntity.Status = requestModel.Status;
+            requestEntity.Type = requestModel.Type;
+            requestEntity.UserId = requestModel.UserId;
 
             await _contestRequestsRepository.Save(requestEntity);
-            return _mapper.Map<ContestRequest, ContestRequestModel>(requestEntity);
+
+            var request = await  _contestRequestsRepository.Get(requestEntity.Id);
+            return _mapper.Map<ContestRequest, ContestRequestModel>(request);
         }
 
         public async Task RemoveRequest(int requestId)

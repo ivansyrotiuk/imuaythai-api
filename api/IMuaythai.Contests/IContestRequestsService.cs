@@ -13,7 +13,7 @@ namespace IMuaythai.Contests
         Task<ContestCandidatesModel> GetCandidates(int institutionId);
         Task<ContestRequestModel> AcceptRequest(int requestId, string acceptedByUser);
         Task<ContestRequestModel> RejectRequest(int requestId, string acceptedByUser);
-        Task<ContestRequestModel> SaveRequest(ContestRequestModel request);
+        Task<ContestRequestModel> SaveRequest(ContestRequestModel requestModel);
         Task RemoveRequest(int requestId);
     }
 }
