@@ -1,6 +1,7 @@
 import {host} from "../global";
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
+import {addNotification as notify} from 'reapop';
 
 export function fetchFighters() {
     return function (dispatch) {
@@ -146,17 +147,20 @@ export function createUser(user) {
                     type: actionTypes.SAVE_USER_SUCCESS,
                     payload: response.data
                 });
+                dispatch({
+                    type: actionTypes.SHOW_SUCCESS_MESSAGE,
+                    payload: "User has been created."
+                })
             })
             .catch(function (error) {
-                console.log(error);
-
                 dispatch({
                     type: actionTypes.SAVE_USER_REJECTED,
                     payload: error
                 });
+
                 dispatch({
                     type: actionTypes.SHOW_ERROR,
-                    payload: error.message
+                    payload: error.response.data
                 });
             });
     };

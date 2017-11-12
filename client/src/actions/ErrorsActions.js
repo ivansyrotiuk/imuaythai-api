@@ -5,3 +5,9 @@ export function dismissError() {
         type: actionTypes.DISMISS_ERROR
     }
 }
+
+export function dismiss() {
+    return{
+        type: actionTypes.DISMISS_NOTIFICATIONS
+    }
+}

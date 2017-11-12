@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Alert } from "reactstrap";
-import { dismissError } from "../../actions/ErrorsActions";
+import { dismiss } from "../../actions/ErrorsActions";
 
 class NotificationsBox extends Component {
     constructor(props) {
@@ -37,7 +37,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         dismiss: () => {
-            dispatch(dismissError());
+            dispatch(dismiss());
         }
     };
 };
