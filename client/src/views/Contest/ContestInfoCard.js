@@ -5,86 +5,75 @@ import {
   userCanAcceptContestRequest,
   userCanAddContestRequest
 } from "../../auth/auth";
+import Col from "../../components/Layout/Col";
+import Row from "../../components/Layout/Row";
+import SocialNetworksBox from "../../components/Social/SocialNetworksBox";
 
 export default class ContestInfoCard extends Component {
   render() {
     const {
-      contest,
-      editContest,
+      contest, editContestClick,
       pendingRequestsClick,
-      addRequestsClick,
+      addRequestClick,
       contestCategoriesClick,
       contestFightsClick,
       manageJudgesClick,
       fightersCount,
-      judgesCount,
+        judgesCount,
       doctorsCount,
       pendingCount
     } = this.props;
 
     const PendingRequestsButton = userCanAcceptContestRequest(() => (
-      <div className="col-sm-2">
-        <div
-          className="btn btn-warning btn-block"
-          onClick={pendingRequestsClick}
-        >
+      <Col className="col-sm-2">
+        <div className="btn btn-warning btn-block" onClick={pendingRequestsClick} >
           <div>Pending requests</div>
         </div>
-      </div>
+      </Col>
     ));
 
     const ContestCategoriesButton = userCanAcceptContestRequest(() => (
-      <div className="col-sm-2">
-        <div
-          className="btn btn-success btn-block"
-          onClick={contestCategoriesClick}
-        >
+      <Col className="col-sm-2">
+        <div className="btn btn-success btn-block" onClick={contestCategoriesClick} >
           <div>Categories</div>
         </div>
-      </div>
+      </Col>
     ));
 
     const ContestFightsButton = userCanAcceptContestRequest(() => (
-      <div className="col-sm-2">
+      <Col className="col-sm-2">
         <div className="btn btn-success btn-block" onClick={contestFightsClick}>
           <div>Fights</div>
         </div>
-      </div>
+      </Col>
     ));
 
     const JudgesManageButton = userCanAcceptContestRequest(() => (
-      <div className="col-sm-2">
+      <Col className="col-sm-2">
         <div className="btn btn-success btn-block" onClick={manageJudgesClick}>
           <div>Manage judges</div>
         </div>
-      </div>
+      </Col>
     ));
 
     const AddRequestsButton = userCanAddContestRequest(() => (
-      <div className="col-sm-2">
-        <div className="btn btn-primary btn-block" onClick={addRequestsClick}>
+      <Col className="col-sm-2">
+        <div className="btn btn-primary btn-block" onClick={addRequestClick}>
           <div>Add request</div>
         </div>
-      </div>
+      </Col>
     ));
     return (
-      <div className="card">
-        <div className="card-header">
-          <strong>Contest</strong>
-          <div className="pull-right">
-            <EditButton click={editContest} />
-          </div>
-        </div>
-        <div className="card-block">
-          <div className="row">
+
+          <Row>
             <div className="col-md-3">
               <img src="/img/contest_poster.jpg" className="img-thumbnail" />
             </div>
             <div className="col-md-9">
-              <div className="row">
+              <Row>
                 <p className="h1">{contest.name}</p>
-              </div>
-              <div className="row form-group">
+              </Row>
+              <Row>
                 <h3>
                   {contest.country && contest.country.name},{" "}
                   {moment(contest.date).format("YYYY.DD.MM")} -{" "}
@@ -92,103 +81,75 @@ export default class ContestInfoCard extends Component {
                     .add("days", contest.duration)
                     .format("YYYY.DD.MM")}
                 </h3>
-              </div>
-              <div className="row">
+              </Row>
+              <Row>
                 <h6>
                   {contest.city}, {contest.address}
                 </h6>
-              </div>
-              <div className="row">
+              </Row>
+              <Row>
                 <h6>
                   Organizator: {contest.institution && contest.institution.name}
                 </h6>
-              </div>
-              <div className="row form-group">
+              </Row>
+              <Row>
                 <h6>
                   Website:{" "}
                   <a href={contest.website} target="_blank">
                     {contest.website}
                   </a>
                 </h6>
-              </div>
-              <div className="row form-group">
-                {contest.facebook && (
-                  <a href={contest.facebook} target="_blank">
-                    <button type="button" className="btn  btn-facebook">
-                      <span>Facebook</span>
-                    </button>
-                  </a>
-                )}
-                {contest.twitter && (
-                  <a href={contest.twitter} target="_blank">
-                    <button type="button" className="btn  btn-twitter">
-                      <span>Twitter</span>
-                    </button>
-                  </a>
-                )}
-                {contest.instagram && (
-                  <a href={contest.instagram} target="_blank">
-                    <button type="button" className="btn btn-instagram">
-                      <span>Instagram</span>
-                    </button>
-                  </a>
-                )}
-                {contest.vk && (
-                  <a href={contest.vk} target="_blank">
-                    <button type="button" className="btn  btn-vk">
-                      <span>VK</span>
-                    </button>
-                  </a>
-                )}
-              </div>
-              <div className="row">
+              </Row>
+              <Row>
+
+                <SocialNetworksBox {...contest}/>
+              </Row>
+              <Row>
                 <div className="h6">Registration statistic</div>
-              </div>
-              <div className="row">
-                <div className="col-sm-3">
+              </Row>
+              <Row>
+                <Col className="col-sm-3">
                   <div className="callout callout-warning">
                     <small className="text-muted">Pending requests</small>
                     <br />
                     <strong className="h4">{pendingCount}</strong>
                   </div>
-                </div>
-                <div className="col-sm-3">
+                </Col>
+                <Col className="col-sm-3">
                   <div className="callout callout-info">
                     <small className="text-muted">Fighters</small>
                     <br />
                     <strong className="h4">{fightersCount}</strong>
                   </div>
-                </div>
-                <div className="col-sm-3">
+                </Col>
+                <Col className="col-sm-3">
                   <div className="callout callout-success">
                     <small className="text-muted">Judges</small>
                     <br />
                     <strong className="h4">{judgesCount}</strong>
                   </div>
-                </div>
-                <div className="col-sm-3">
+                </Col>
+                <Col className="col-sm-3">
                   <div className="callout callout-danger">
                     <small className="text-muted">Doctors</small>
                     <br />
                     <strong className="h4">{doctorsCount}</strong>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
 
-              <div className="row">
+              <Row>
                 <ContestCategoriesButton />
                 <ContestFightsButton />
                 <JudgesManageButton />
-              </div>
+              </Row>
 
-              <div className="row mt-1">
+              <Row className="mt-1">
                 <PendingRequestsButton />
                 <AddRequestsButton />
-              </div>
+              </Row>
             </div>
-          </div>
-        </div>
-      </div>
+          </Row>
     );
   }
 }
