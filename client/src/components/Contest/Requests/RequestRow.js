@@ -46,7 +46,7 @@ RequestRow.defaultProps = {
 };
 
 RequestRow.propTypes = {
-    request: PropTypes.obj
+    request: PropTypes.object
 };
 
 export default RequestRow;

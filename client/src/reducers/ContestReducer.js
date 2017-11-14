@@ -124,11 +124,20 @@ const reducer = (state = reducerInitialState, action) => {
         case actionTypes.SAVE_CONTEST_REQUEST:
             return state;
         case actionTypes.SAVE_CONTEST_REQUEST_SUCCESS:
+            index = state.institutionRequests.findIndex(request => request.id === action.payload.id);
+            requests = [...state.institutionRequests];
+
+            if (index > -1){
+                requests[index] = action.payload
+            }else{
+                requests = [...state.institutionRequests, action.payload];
+            }
+
             return {
                 ...state,
                 showRequestForm: false,
                 singleRequest: null,
-                institutionRequests: [...state.institutionRequests, action.payload]
+                institutionRequests: requests
             };
         case actionTypes.SAVE_CONTEST_REQUEST_REJECTED:
             return {

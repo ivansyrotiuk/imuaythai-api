@@ -41,7 +41,7 @@ RequestsTable.defaultProps = {
 
 RequestsTable.propTypes = {
     requests: PropTypes.array,
-    actions: PropTypes.obj
+    actions: PropTypes.object
 };
 
 export default RequestsTable;

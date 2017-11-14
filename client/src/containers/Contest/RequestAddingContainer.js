@@ -57,7 +57,8 @@ class RequestAddingContainer extends Component {
         const actions = {
             addRequest: this.handleAddRequestClick,
             saveRequest: this.handleSaveRequestClick,
-            cancelRequest: this.props.cancelContestRequest,
+            editRequest: this.props.editContestRequest,
+            cancelRequest: this.props.cancelContestRequest.bind(this),
             removeRequest: this.props.removeContestRequest
         };
 
@@ -114,6 +115,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         removeContestRequest: (request) => {
             dispatch(contestActions.removeContestRequest(request))
         },
+        editContestRequest: request => {
+            dispatch(contestActions.editContestRequest(request));
+        },
+
         dismissError: () => {
             dispatch(dismissError())
         }

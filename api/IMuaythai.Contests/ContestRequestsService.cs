@@ -100,7 +100,7 @@ namespace IMuaythai.Contests
             var existedRequests = await _contestRequestsRepository.Find(r => 
                 r.Type != ContestRoleType.Judge && 
                 r.UserId == requestModel.UserId && 
-                r.Type == requestModel.Type && 
+                r.Type == requestModel.Type && r.Id != requestModel.Id &&
                 r.ContestId == requestModel.ContestId);
 
             if (existedRequests.Any())

@@ -13,18 +13,17 @@ const ManageContestRequestView = props => {
         <Page>
             <PageHeader>
                 Add request
-                <Right>
-                    <AddButton click={ actions.addRequest } />
-                </Right>
-                <PageContent>
-                    <ContestRequestForm onSubmit={ actions.saveRequest }
-                                        initialValues={ request }
-                                        roles={ roles }
-                                        candidates={ candidates }
-                                        categories={ categories }
-                                        onCancel={ actions.cancelRequest } />
-                </PageContent>
             </PageHeader>
+
+
+            <PageContent>
+                <ContestRequestForm onSubmit={actions.saveRequest}
+                                    initialValues={request}
+                                    roles={roles}
+                                    candidates={candidates}
+                                    categories={categories}
+                                    onCancel={actions.cancelRequest}/>
+            </PageContent>
         </Page>
     );
 };
@@ -38,10 +37,10 @@ ManageContestRequestView.defaultProps = {
 };
 
 ManageContestRequestView.propTypes = {
-    request: PropTypes.obj,
-    actions: PropTypes.obj,
+    request: PropTypes.object,
+    actions: PropTypes.object,
     roles: PropTypes.array,
-    candidates: PropTypes.obj,
+    candidates: PropTypes.object,
     categories: PropTypes.array
 };
 
