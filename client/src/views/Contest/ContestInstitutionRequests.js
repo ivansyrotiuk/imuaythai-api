@@ -22,9 +22,10 @@ class ContestInstitutionRequests extends Component {
     }
 
     render() {
-        const {requests, removeContestRequest} = this.props;
+        const {requests, removeRequest, editRequest} = this.props;
         const actions = {
-            remove: removeContestRequest
+            remove: removeRequest,
+            edit: editRequest
         };
 
         const fightersRequests = requests.filter(r => r.type === CONTEST_FIGHTER);

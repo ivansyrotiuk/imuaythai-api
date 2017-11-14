@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { Alert } from 'reactstrap';
-import { ROLE_TYPE_MAPPINGS, CONTEST_FIGHTER } from '../../common/contestRoleTypes'
+import { ROLE_TYPE_MAPPINGS, CONTEST_FIGHTER } from '../../../common/contestRoleTypes'
 
 
 class ContestRequestForm extends Component {

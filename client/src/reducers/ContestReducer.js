@@ -26,11 +26,6 @@ const reducer = (state = reducerInitialState, action) => {
                 ...state,
                 singleContest: action.payload
             };
-        case actionTypes.FETCH_CONTESTS:
-            return {
-                ...state,
-                fetching: true
-            };
         case actionTypes.FETCH_CONTESTS_FULFILLED:
             return {
                 ...state,
@@ -41,9 +36,8 @@ const reducer = (state = reducerInitialState, action) => {
         case actionTypes.FETCH_CONTESTS:
             return {
                 ...state,
-                fetching: false,
                 fetched: false,
-                error: action.payload
+                fetching: true
             };
         case actionTypes.FETCH_SINGLE_CONTEST:
             return {
@@ -182,7 +176,7 @@ const reducer = (state = reducerInitialState, action) => {
             };
         case actionTypes.CONTEST_ALLOCATE_JUGDE_SUCCESS:
             const judges = [...state.judgeRequests];
-            let index = judges.findIndex(j => j.id == action.payload.id);
+            let index = judges.findIndex(j => j.id === action.payload.id);
             if (index > -1) {
                 judges[index] = action.payload;
             }
@@ -196,7 +190,12 @@ const reducer = (state = reducerInitialState, action) => {
                 ...state,
                 allocating: false
             };
-
+        case actionTypes.EDIT_CONTEST_REQUEST:
+            return {
+                ...state,
+                singleRequest: action.payload,
+                showRequestForm: true
+            };
         case actionTypes.ACCEPT_CONTEST_REQUEST:
             let requests = [...state.requests];
             index = requests.findIndex(r => r.id === action.payload.id);
@@ -327,8 +326,8 @@ const reducer = (state = reducerInitialState, action) => {
             };
         case actionTypes.DRAG_FIGHT:
             let fights = [...state.fights];
-            const sourceIndex = fights.findIndex(fight => fight.id == action.payload.sourceFightId);
-            const targetIndex = fights.findIndex(fight => fight.id == action.payload.targetFightId);
+            const sourceIndex = fights.findIndex(fight => fight.id === action.payload.sourceFightId);
+            const targetIndex = fights.findIndex(fight => fight.id === action.payload.targetFightId);
             const fight = fights[sourceIndex];
 
             /* fights.splice(sourceIndex, 1);

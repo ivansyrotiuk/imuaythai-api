@@ -193,6 +193,13 @@ export function cancelContestRequest() {
     };
 }
 
+export function editContestRequest(request) {
+    return {
+        type: actionTypes.EDIT_CONTEST_REQUEST,
+        payload: request
+    }
+}
+
 export const saveContestRequest = request => {
     return dispatch => {
         dispatch({
