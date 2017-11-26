@@ -1,6 +1,4 @@
-﻿using IMuaythai.DataAccess.Models;
-
-namespace IMuaythai.Models.Dictionaries
+﻿namespace IMuaythai.Models.Dictionaries
 {
     public class WeightAgeCategoryModel
     {
@@ -11,19 +9,5 @@ namespace IMuaythai.Models.Dictionaries
         public decimal MinWeight { get; set; }
         public decimal MaxWeight { get; set; }
         public string Gender { get; set; }
-
-        public static explicit operator WeightAgeCategoryModel(WeightAgeCategory category)
-        {
-            return new WeightAgeCategoryModel
-            {
-                Id = category.Id,
-                Name = category.Name,
-                MinAge = category.MinAge,
-                MaxAge = category.MaxAge,
-                MinWeight = category.MinWeight,
-                MaxWeight = category.MaxWeight,
-                Gender = category.Gender
-            };
-        }
     }
 }

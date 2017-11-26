@@ -107,6 +107,7 @@ namespace IMuaythai.Api
             services.AddWebSocketManager();
             services.AddUsersServices();
             services.AddContestServices();
+            services.AddDictionariesServices();
 
             services.Configure<EmailConfiguration>(Configuration);
         }

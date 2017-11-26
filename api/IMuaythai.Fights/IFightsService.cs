@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Fights;
 
 namespace IMuaythai.Fights
 {
     public interface IFightsService
     {
-        Task<Fight> GetFight(int id);
-        Task<List<Fight>> GetFights(int contestId);
-        Task<List<Fight>> GetFights(int contestId, int categoryId);
-        Task<List<Fight>> BuildFights(int contestId);
-        Task<List<Fight>> BuildFights(int contestId, int categoryId);
-        Task<List<Fight>> ScheduleFights(int contestId);
-        Task<List<Fight>> MoveFighter(FighterMoving fighterMoving);
-        Task<List<Fight>> MoveFight(FightMoving fighterMoving);
-        Task<List<Fight>> TossupJudges(int contestId);
-        Task<List<Fight>> Save(List<Fight> fights);
+        Task<FightModel> GetFight(int id);
+        Task<List<FightModel>> GetFights(int contestId);
+        Task<List<FightModel>> GetFights(int contestId, int categoryId);
+        Task<List<FightModel>> BuildFights(int contestId);
+        Task<List<FightModel>> BuildFights(int contestId, int categoryId);
+        Task<List<FightModel>> ScheduleFights(int contestId);
+        Task<List<FightModel>> MoveFighter(FighterMoving fighterMoving);
+        Task<List<FightModel>> MoveFight(FightMoving fighterMoving);
+        Task<List<FightModel>> TossupJudges(int contestId);
+        Task<List<FightModel>> Save(List<Fight> fights);
         Task ClearContestJudgeMappings(int contestId);
     }
 }

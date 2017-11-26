@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 
@@ -8,7 +7,7 @@ namespace IMuaythai.Shared
 {
     public class FileSave : IFileSaver
     {
-        public async Task<string> Save(string fileName, string base64String)
+        public string Save(string fileName, string base64String)
         {
             var cloudinary = GetCloudinaryUploader();
             var bytes = Convert.FromBase64String(base64String);
@@ -17,8 +16,7 @@ namespace IMuaythai.Shared
             {
                 File = new FileDescription(fileName, stream)
             };
-            var uploadResult = await cloudinary.UploadAsync(upload);
-
+            var uploadResult = cloudinary.Upload(upload);
 
             return uploadResult.Uri.AbsoluteUri;
         }

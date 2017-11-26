@@ -16,17 +16,14 @@ namespace IMuaythai.Api.Controllers
     public class UsersController : Controller
     {
         private IUsersRepository _repository;
-        private readonly IRolesRepository _rolesRepository;
         private readonly IUserRoleRequestsRepository _userRoleRequestsRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public UsersController(IUsersRepository repository, 
-            IRolesRepository rolesRepository,
             IUserRoleRequestsRepository userRoleAcceptationsRepository,
             UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
-            _rolesRepository = rolesRepository;
             _userRoleRequestsRepository = userRoleAcceptationsRepository;
             _userManager = userManager;
         }

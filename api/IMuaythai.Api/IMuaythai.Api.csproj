@@ -16,28 +16,28 @@
     <Compile Remove="Controllers\ManageController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="automapper" Version="6.2.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.1.0" />
+    <PackageReference Include="automapper" Version="6.2.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.2.1" />
     <PackageReference Include="ImageSharp" Version="1.0.0-alpha9-00187" />
     <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha9-00182" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
     <PackageReference Include="morelinq" Version="2.8.0" />
 
     <PackageReference Include="morelinq" Version="2.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
 
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.5" />
     <PackageReference Include="MailKit" Version="1.16.2" />
     <PackageReference Include="ZXing.Net" Version="0.16.2" />
     
-    <PackageReference Include="MailKit" Version="1.20.0" />
+    <PackageReference Include="MailKit" Version="1.22.0" />
     <PackageReference Include="ZXing.Net" Version="0.16.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
@@ -51,6 +51,7 @@
     <None Include="appsettings.json" CopyToPublishDirectory="Always" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IMuaythai.Api.Dictionaries\IMuaythai.Dictionaries.csproj" />
     <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
     <ProjectReference Include="..\IMuaythai.Contests\IMuaythai.Contests.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />

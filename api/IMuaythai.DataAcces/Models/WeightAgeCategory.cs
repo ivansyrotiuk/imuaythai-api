@@ -12,6 +12,5 @@ namespace IMuaythai.DataAccess.Models
         public decimal MinWeight { get; set; }
         public decimal MaxWeight { get; set; }
         public string Gender { get; set; }
-
     }
 }

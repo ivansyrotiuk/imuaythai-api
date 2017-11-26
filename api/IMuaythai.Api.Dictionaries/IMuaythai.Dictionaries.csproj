@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
     <ProjectReference Include="..\IMuaythai.Models\IMuaythai.Models.csproj" />
     <ProjectReference Include="..\IMuaythai.Repositories\IMuaythai.Repositories.csproj" />

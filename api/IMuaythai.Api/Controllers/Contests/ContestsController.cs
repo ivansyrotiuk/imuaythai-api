@@ -1,12 +1,7 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.Auth;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Contests;
 using IMuaythai.Models.Contests;
-using IMuaythai.Models.Users;
-using IMuaythai.Repositories.Contests;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers.Contests
@@ -15,23 +10,11 @@ namespace IMuaythai.Api.Controllers.Contests
     [Route("api/[controller]")]
     public class ContestsController : Controller
     {
-        private readonly IContestRepository _repository;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IContestRequestRepository _contestRequestsRepository;
-        private readonly IContestCategoryMappingsRepository _contestCategoryMappingsRepository;
-        private readonly IContestRingsRepository _contestRingsRepository;
-
-        public ContestsController(IContestRepository repository,
-            IContestRequestRepository contestRequestsRepository,
-            IContestCategoryMappingsRepository contestCategoryMappingsRepository,
-            IContestRingsRepository contestRingsRepository,
-            UserManager<ApplicationUser> userManager)
+        private readonly IContestsService _contestsService;
+     
+        public ContestsController(IContestsService contestsService)
         {
-            _repository = repository;
-            _userManager = userManager;
-            _contestRequestsRepository = contestRequestsRepository;
-            _contestCategoryMappingsRepository = contestCategoryMappingsRepository;
-            _contestRingsRepository = contestRingsRepository;
+            _contestsService = contestsService;
         }
 
         [HttpGet]
@@ -39,8 +22,7 @@ namespace IMuaythai.Api.Controllers.Contests
         {
             try
             {
-                var contestsEntities = await _repository.GetAll();
-                var contests = contestsEntities.Select(c => (ContestModel)c).ToList();
+                var contests = await _contestsService.GetContests();
                 return Ok(contests);
             }
             catch (Exception ex)
@@ -55,8 +37,7 @@ namespace IMuaythai.Api.Controllers.Contests
         {
             try
             {
-                var contestEntity = await _repository.Get(id);
-                var contest = (ContestModel)contestEntity;
+                var contest = await _contestsService.GetContest(id);
                 return Ok(contest);
             }
             catch (Exception ex)
@@ -71,38 +52,8 @@ namespace IMuaythai.Api.Controllers.Contests
         {
             try
             {
-                var userId = User.GetUserId();
-                var user = await _userManager.FindByIdAsync(userId);
-                if (user == null)
-                {
-                    return BadRequest("User not found");
-                }
-
-                int institutionId = contest.InstitutionId == 0 && user.InstitutionId.HasValue ? user.InstitutionId.Value : contest.InstitutionId;
-
-                Contest contestEntity = contest.Id == 0 ? new Contest() : await _repository.Get(contest.Id);
-                contestEntity.Id = contest.Id;
-                contestEntity.Name = contest.Name;
-                contestEntity.Date = contest.Date;
-                contestEntity.Address = contest.Address;
-                contestEntity.Duration = contest.Duration;
-                contestEntity.RingsCount = contest.RingsCount;
-                contestEntity.City = contest.City;
-                contestEntity.CountryId = contest.CountryId;
-                contestEntity.Website = contest.Website;
-                contestEntity.Facebook = contest.Facebook;
-                contestEntity.VK = contest.VK;
-                contestEntity.Twitter = contest.Twitter;
-                contestEntity.Instagram = contest.Instagram;
-                contestEntity.WaiKhruTime = contest.WaiKhruTime;
-                contestEntity.EndRegistrationDate = contest.EndRegistrationDate;
-                contestEntity.ContestRangeId = contest.ContestRangeId;
-                contestEntity.ContestTypeId = contest.ContestTypeId;
-                contestEntity.InstitutionId = institutionId;
-                await _repository.Save(contestEntity);
-                await _contestCategoryMappingsRepository.SaveCategoryMappings(contestEntity.Id, contest.ContestCategories);
-                await _contestRingsRepository.SaveCategoryRings(contestEntity.Id, contest.Rings);
-                return Created("Add", contest);
+                var savedContest = await _contestsService.SaveContest(contest);
+                return Created("Add", savedContest);
             }
             catch (Exception ex)
             {
@@ -116,8 +67,7 @@ namespace IMuaythai.Api.Controllers.Contests
         {
             try
             {
-                await _repository.Remove(contest.Id);
-
+                await _contestsService.RemoveContest(contest.Id);
                 return Ok(contest.Id);
             }
             catch (Exception ex)
@@ -132,14 +82,8 @@ namespace IMuaythai.Api.Controllers.Contests
         {
             try
             {
-                var requests = await _contestRequestsRepository.GetContestAcceptedFighterRequests(contestId);
-                var fightersInCategories = requests.GroupBy(r => r.ContestCategory)
-                    .Select(g => new ContestCategoryWithFightersModel(g.Key)
-                    {
-                        Fighters = g.Select(f => new FighterModel(f.User)).ToList()
-                    }).ToList();
-
-                return Ok(fightersInCategories);
+                var contestCategoriesWithFighters = await _contestsService.GetContestCategories(contestId);
+                return Ok(contestCategoriesWithFighters);
             }
             catch (Exception ex)
             {

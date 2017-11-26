@@ -37,6 +37,10 @@ namespace IMuaythai.Repositories.Dictionaries
             {
                 _context.WeightAgeCategories.Add(category);
             }
+            else
+            {
+                _context.Entry(category).State = EntityState.Modified;
+            }
 
             return _context.SaveChangesAsync();
         }

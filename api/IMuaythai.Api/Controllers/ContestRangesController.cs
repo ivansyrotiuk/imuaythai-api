@@ -1,32 +1,28 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Dictionaries;
 using IMuaythai.Models.Dictionaries;
-using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/dictionaries/")]
+    [Route("api/dictionaries/ranges")]
     public class ContestRangesController : Controller
     {
-        private readonly IContestRangesRepository _repository;
+        private readonly IContestRangesService _contestRangesService;
 
-        public ContestRangesController(IContestRangesRepository repository)
+        public ContestRangesController(IContestRangesService contestRangesService)
         {
-            _repository = repository;
+            _contestRangesService = contestRangesService;
         }
 
         [HttpGet]
-        [Route("ranges")]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var rangesEntities = await _repository.GetAll();
-                var ranges = rangesEntities.Select(i => (ContestRangeModel)i).ToList();
+                var ranges = await _contestRangesService.GetContestRanges();
                 return Ok(ranges);
             }
             catch (Exception ex)
@@ -36,13 +32,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
-        [Route("ranges/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var range = await _repository.Get(id) ?? new ContestRange();
-                return Ok((ContestRangeModel)range);
+                var range = await _contestRangesService.GetContestRange(id);
+                return Ok(range);
             }
             catch (Exception ex)
             {
@@ -51,19 +47,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpPost]
-        [Route("ranges/save")]
+        [Route("save")]
         public async Task<IActionResult> Save([FromBody]ContestRangeModel range)
         {
             try
             {
-                ContestRange rangeEntity = range.Id == 0 ? new ContestRange() : await _repository.Get(range.Id);
-                rangeEntity.Id = range.Id;
-                rangeEntity.Name = range.Name;
-
-                await _repository.Save(rangeEntity);
-
-                range.Id = rangeEntity.Id;
-                return Created("Add", range);
+                var savedContestRange = await _contestRangesService.SaveContestRange(range);
+                return Created("Add", savedContestRange);
             }
             catch (Exception ex)
             {
@@ -73,13 +63,12 @@ namespace IMuaythai.Api.Controllers
 
 
         [HttpPost]
-        [Route("ranges/remove")]
+        [Route("remove")]
         public async Task<IActionResult> Remove([FromBody]ContestRangeModel range)
         {
             try
             {
-                await _repository.Remove(range.Id);
-
+                await _contestRangesService.RemoveContestRange(range.Id);
                 return Ok(range.Id);
             }
             catch (Exception ex)
