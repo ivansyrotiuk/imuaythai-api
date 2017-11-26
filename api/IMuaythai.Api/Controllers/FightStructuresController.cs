@@ -1,32 +1,27 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Dictionaries;
 using IMuaythai.Models.Dictionaries;
-using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/dictionaries/")]
+    [Route("api/dictionaries/structures")]
     public class FightStructuresController : Controller
     {
-        private readonly IFightStructuresRepository _repository;
+        private readonly IFightStructuresService _fightStructuresService;
 
-        public FightStructuresController(IFightStructuresRepository repository)
+        public FightStructuresController(IFightStructuresService fightStructuresService)
         {
-            _repository = repository;
+            _fightStructuresService = fightStructuresService;
         }
 
         [HttpGet]
-        [Route("structures")]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var structuresEntities = await _repository.GetAll();
-                var structures = structuresEntities.Select(i => (FightStructureModel)i).ToList();
+                var structures = await _fightStructuresService.GetFightStructures();
                 return Ok(structures);
             }
             catch (Exception ex)
@@ -36,14 +31,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
-        [Route("structures/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var structure = await _repository.Get(id) ?? new FightStructure();
-                var result = (FightStructureModel)structure;
-                return Ok(result);
+                var structure = await _fightStructuresService.GetFightStructure(id);
+                return Ok(structure);
             }
             catch (Exception ex)
             {
@@ -52,18 +46,12 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpPost]
-        [Route("structures/save")]
-        public async Task<IActionResult> Save([FromBody]FightStructureModel structure)
+        [Route("save")]
+        public async Task<IActionResult> Save([FromBody]FightStructureModel structureModel)
         {
             try
             {
-                FightStructure structureEntity = structure.Id == 0 ? new FightStructure() : await _repository.Get(structure.Id);
-                structureEntity.Id = structure.Id;
-                structureEntity.RoundId = structure.RoundId;
-                structureEntity.WeightAgeCategoryId = structure.WeightAgeCategoryId;
-                await _repository.Save(structureEntity);
-
-                structure.Id = structureEntity.Id;
+                var structure = await _fightStructuresService.SaveFightStructure(structureModel);
                 return Created("Add", structure);
             }
             catch (Exception ex)
@@ -72,15 +60,13 @@ namespace IMuaythai.Api.Controllers
             }
         }
 
-
         [HttpPost]
-        [Route("structures/remove")]
+        [Route("remove")]
         public async Task<IActionResult> Remove([FromBody]FightStructureModel structure)
         {
             try
             {
-                await _repository.Remove(structure.Id);
-
+                await _fightStructuresService.RemoveFightStructure(structure.Id);
                 return Ok(structure.Id);
             }
             catch (Exception ex)

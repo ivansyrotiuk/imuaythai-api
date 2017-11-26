@@ -11,6 +11,10 @@ namespace IMuaythai.Api.DepedencyInjection
             services.AddScoped<IWeightAgeCategoriesService, WeightAgeCategoriesService>();
             services.AddScoped<ICountriesService, CountriesService>();
             services.AddScoped<IContestRangesService, ContestRangesService>();
+            services.AddScoped<IRoundsSevice, RoundsService>();
+            services.AddScoped<IKhanLevelsService, KhanLevelsService>();
+            services.AddScoped<IFightStructuresService, FightStructuresService>();
+            services.AddScoped<IContestTypesService, ContestTypesService>();
 
             return services;
         }

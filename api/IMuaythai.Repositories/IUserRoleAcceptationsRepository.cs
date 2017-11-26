@@ -47,7 +47,7 @@ namespace IMuaythai.Repositories
             }
             else
             {
-                _context.UserRoleRequests.Attach(acceptation);
+                _context.Entry(acceptation).State = EntityState.Modified;
             }
 
             return _context.SaveChangesAsync();

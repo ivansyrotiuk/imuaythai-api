@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Dictionaries;
+using IMuaythai.Models.Locations;
 
-namespace IMuaythai.Api.Mappers
+namespace IMuaythai.Dictionaries
 {
     public class DictionariesProfile:Profile
     {
@@ -10,6 +11,8 @@ namespace IMuaythai.Api.Mappers
         {
             CreateMap<Round, RoundModel>();
             CreateMap<KhanLevel, KhanLevelModel>();
+            CreateMap<KhanLevelModel, KhanLevel>();
+
             CreateMap<ContestRange, ContestRangeModel>();
             CreateMap<ContestType, ContestTypeModel>();
             CreateMap<WeightAgeCategory, WeightAgeCategoryModel>();
@@ -37,6 +40,9 @@ namespace IMuaythai.Api.Mappers
             CreateMap<WeightAgeCategoryModel, WeightAgeCategory>();
             CreateMap<ContestPointsModel, ContestTypePoints>();
             CreateMap<ContestRangeModel, ContestRange>();
+            CreateMap<RoundModel, Round>();
+            CreateMap<Round, RoundModel>();
+            CreateMap<Country, CountryModel>();
 
         }
     }

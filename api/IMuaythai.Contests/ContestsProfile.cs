@@ -4,7 +4,7 @@ using AutoMapper;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Contests;
 
-namespace IMuaythai.Api.Mappers
+namespace IMuaythai.Contests
 {
     public class ContestsProfile:Profile
     {
@@ -18,11 +18,18 @@ namespace IMuaythai.Api.Mappers
             CreateMap<ContestModel, Contest>();
 
             CreateMap<ContestRequest, ContestRequestModel>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User == null ? string.Empty :  src.User.FirstName + ' ' + src.User.Surname))
-                .ForMember(dest => dest.InstitutionName, opt => opt.MapFrom(src => src.Institution == null ? string.Empty : src.Institution.Name))
-                .ForMember(dest => dest.ContestName, opt => opt.MapFrom(src => src.Contest == null ? string.Empty : src.Contest.Name))
-                .ForMember(dest => dest.ContestCategoryName, opt => opt.MapFrom(src => src.ContestCategory == null ? string.Empty : src.ContestCategory.Name))
-                .ForMember(dest => dest.AcceptedByUserName, opt => opt.MapFrom(src => src.AcceptedByUser == null ? string.Empty : src.AcceptedByUser.FirstName + ' ' + src.AcceptedByUser.Surname));
+                .ForMember(dest => dest.UserName,
+                    opt => opt.MapFrom(src => src.User == null ? string.Empty : $"{src.User.FirstName} {src.User.Surname}"))
+                .ForMember(dest => dest.InstitutionName,
+                    opt => opt.MapFrom(src => src.Institution == null ? string.Empty : src.Institution.Name))
+                .ForMember(dest => dest.ContestName,
+                    opt => opt.MapFrom(src => src.Contest == null ? string.Empty : src.Contest.Name))
+                .ForMember(dest => dest.ContestCategoryName,
+                    opt => opt.MapFrom(src => src.ContestCategory == null ? string.Empty : src.ContestCategory.Name))
+                .ForMember(dest => dest.AcceptedByUserName,
+                    opt => opt.MapFrom(src => src.AcceptedByUser == null ? string.Empty : $"{src.AcceptedByUser.FirstName} {src.AcceptedByUser.Surname}"));
+
+            CreateMap<ContestRequestModel, ContestRequest>();
         }
 
         private List<ContestRingModel> ConvertToContestRingModel(Contest contest)

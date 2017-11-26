@@ -4,7 +4,7 @@ using AutoMapper;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Fights;
 
-namespace IMuaythai.Api.Mappers
+namespace IMuaythai.Fights
 {
     public class FightsProfile : Profile
     {

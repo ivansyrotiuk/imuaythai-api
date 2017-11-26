@@ -2,7 +2,7 @@
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Institutions;
 
-namespace IMuaythai.Api.Mappers
+namespace IMuaythai.Institutions
 {
     public class InstitutionsProfile:Profile
     {

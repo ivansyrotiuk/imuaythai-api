@@ -1,30 +1,29 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Dictionaries;
 using IMuaythai.Models.Dictionaries;
-using IMuaythai.Repositories.Dictionaries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/dictionaries/")]
+    [Authorize]
+    [Route("api/dictionaries/rounds")]
     public class RoundsController : Controller
     {
-        private readonly IRoundsRepository _repository;
-        public RoundsController(IRoundsRepository repository)
+        private readonly IRoundsSevice _roundsSevice;
+        public RoundsController(IRoundsSevice roundsSevice)
         {
-            _repository = repository;
+            _roundsSevice = roundsSevice;
         }
+
         [HttpGet]
-        [Route("rounds")]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var rounds = await _repository.GetAll();
-                return Ok(rounds.Select(r=>(RoundModel)r).ToList());
+                var rounds = await _roundsSevice.GetRounds();
+                return Ok(rounds);
             }
             catch (Exception ex)
             {
@@ -33,13 +32,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
-        [Route("rounds/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var result = await _repository.Get(id) ?? new Round();
-                return Ok((RoundModel)result);
+                var round = await _roundsSevice.GetRound(id);
+                return Ok(round);
             }
             catch (Exception ex)
             {
@@ -48,21 +47,12 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpPost]
-        [Route("rounds/save")]
-        public async Task<IActionResult> Save([FromBody]RoundModel round)
+        [Route("save")]
+        public async Task<IActionResult> Save([FromBody]RoundModel roundModel)
         {
             try
             {
-                Round roundEntity = round.Id == 0 ? new Round() : await _repository.Get(round.Id);
-                roundEntity.Id = round.Id;
-                roundEntity.Name = round.Name;
-                roundEntity.Duration = round.Duration;
-                roundEntity.BreakDuration = round.BreakDuration;
-                roundEntity.RoundsCount = round.RoundsCount;
-                await _repository.Save(roundEntity);
-
-                round.Id = roundEntity.Id;
-
+                var round = await _roundsSevice.SaveRound(roundModel);
                 return Created("Add", round);
             }
             catch (Exception ex)
@@ -71,22 +61,19 @@ namespace IMuaythai.Api.Controllers
             }
         }
 
-
         [HttpPost]
-        [Route("rounds/remove")]
+        [Route("remove")]
         public async Task<IActionResult> Remove([FromBody]RoundModel round)
         {
             try
             {
-                await _repository.Remove(round.Id);
-
+                await _roundsSevice.RemoveRound(round.Id);
                 return Ok(round.Id);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
     }
 }

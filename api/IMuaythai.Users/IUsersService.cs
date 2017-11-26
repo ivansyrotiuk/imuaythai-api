@@ -9,20 +9,11 @@ namespace IMuaythai.Users
     {
         Task<ApplicationUser> CreateUser(CreateUserModel createUserModel);
         Task<IEnumerable<FighterModel>> GetFigthers();
-        Task<IEnumerable<FighterModel>> GetJudges();
-        Task<IEnumerable<FighterModel>> GetCoaches();
-        Task<IEnumerable<FighterModel>> GetDoctors();
-        Task<FighterModel> GetUser(string id);
-        Task<FighterModel> SaveUser(UserModel user);
+        Task<IEnumerable<JudgeModel>> GetJudges();
+        Task<IEnumerable<JudgeModel>> GetCoaches();
+        Task<IEnumerable<JudgeModel>> GetDoctors();
+        Task<UserModel> GetUser(string id);
+        Task<UserModel> SaveUser(UserModel user);
         Task RemoveUser(UserModel user);
-    }
-
-    public interface IUserRolesService
-    {
-        Task<IEnumerable<UserRoleRequestModel>> GetUserRoles(string userId);
-        Task<UserRoleRequestModel> AddUserRoleRequest(UserRoleRequestModel roleRequest);
-        Task<IEnumerable<UserRoleRequestModel>> GetRoleRequest();
-        Task<UserRoleRequestModel> AcceptRoleRequest(UserRoleRequestModel roleRequest);
-        Task<UserRoleRequestModel> RejectRoleRequest(UserRoleRequestModel roleRequest);
     }
 }

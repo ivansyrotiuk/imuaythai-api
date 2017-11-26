@@ -4,7 +4,7 @@ using AutoMapper;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Users;
 
-namespace IMuaythai.Api.Mappers
+namespace IMuaythai.Users
 {
     public class UsersProfile: Profile
     {
@@ -23,6 +23,7 @@ namespace IMuaythai.Api.Mappers
 
             CreateMap<ApplicationUser, JudgeModel>();
             CreateMap<CreateUserModel, ApplicationUser>();
+            CreateMap<UserModel, ApplicationUser>();
         }
     }
 }

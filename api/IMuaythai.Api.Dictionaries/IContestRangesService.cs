@@ -50,4 +50,49 @@ namespace IMuaythai.Dictionaries
             await _repository.Remove(id);
         }
     }
+
+    public interface IRoundsSevice
+    {
+        Task<IEnumerable<RoundModel>> GetRounds();
+        Task<RoundModel> GetRound(int id);
+        Task<RoundModel> SaveRound(RoundModel roundModel);
+        Task RemoveRound(int id);
+    }
+
+    public class RoundsService : IRoundsSevice
+    {
+        private readonly IRoundsRepository _repository;
+        private readonly IMapper _mapper;
+
+
+        public RoundsService(IRoundsRepository repository, IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<RoundModel>> GetRounds()
+        {
+            var rounds = await _repository.GetAll();
+            return _mapper.Map<IEnumerable<RoundModel>>(rounds);
+        }
+
+        public async Task<RoundModel> GetRound(int id)
+        {
+            var round = await _repository.Get(id);
+            return _mapper.Map<RoundModel>(round);
+        }
+
+        public async Task<RoundModel> SaveRound(RoundModel roundModel)
+        {
+            var round = _mapper.Map<Round>(roundModel);
+            await _repository.Save(round);
+            return _mapper.Map<RoundModel>(round);
+        }
+
+        public async Task RemoveRound(int id)
+        {
+            await _repository.Remove(id);
+        }
+    }
 }

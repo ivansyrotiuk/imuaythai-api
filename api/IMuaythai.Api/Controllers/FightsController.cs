@@ -2,11 +2,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.Fights;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class FightsController : Controller
     {
@@ -88,7 +89,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.GetDraws(contestId, categoryId);
+                var fightsDrawsJson = await _drawsService.GetDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -103,7 +104,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.GenerateFightsDraws(contestId, categoryId);
+                var fightsDrawsJson = await _drawsService.GenerateFightsDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -118,7 +119,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.RegenerateDraws(contestId, categoryId);
+                var fightsDrawsJson = await _drawsService.RegenerateDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -133,8 +134,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.TossupFightsDraws(contestId, categoryId);
-
+                var fightsDrawsJson = await _drawsService.TossupFightsDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)

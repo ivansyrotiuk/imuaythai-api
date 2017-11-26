@@ -8,6 +8,7 @@ namespace IMuaythai.Api.DepedencyInjection
         public static IServiceCollection AddUsersServices(this IServiceCollection services)
         {
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IUserRolesService, UserRolesService>();
 
             return services;
         }

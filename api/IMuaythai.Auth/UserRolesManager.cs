@@ -4,7 +4,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IMuaythai.Auth
 {
-    public class UserRolesManager
+    public interface IUserRolesManager
+    {
+        Task AddUserToRole(string userId, string roleName);
+        Task RemoveUserFromRole(string userId, string roleName);
+    }
+
+    public class UserRolesManager : IUserRolesManager
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -17,6 +23,12 @@ namespace IMuaythai.Auth
         {
             var user = await _userManager.FindByIdAsync(userId);
             await _userManager.AddToRoleAsync(user, roleName);
+        }
+
+        public async Task RemoveUserFromRole(string userId, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            await _userManager.RemoveFromRoleAsync(user, roleName);
         }
     }
 }
