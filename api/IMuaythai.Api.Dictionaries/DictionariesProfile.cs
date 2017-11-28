@@ -14,7 +14,11 @@ namespace IMuaythai.Dictionaries
             CreateMap<KhanLevelModel, KhanLevel>();
 
             CreateMap<ContestRange, ContestRangeModel>();
+            CreateMap<ContestRangeModel, ContestRange>();
+
             CreateMap<ContestType, ContestTypeModel>();
+            CreateMap<ContestTypeModel, ContestType>();
+
             CreateMap<WeightAgeCategory, WeightAgeCategoryModel>();
 
             CreateMap<ContestTypePoints, ContestPointsModel>()

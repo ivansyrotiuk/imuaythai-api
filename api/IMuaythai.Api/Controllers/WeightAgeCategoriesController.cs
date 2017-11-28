@@ -31,7 +31,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
-        [Route("weightcategories/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
@@ -46,7 +46,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpPost]
-        [Route("weightcategories/save")]
+        [Route("save")]
         public async Task<IActionResult> Save([FromBody]WeightAgeCategoryModel categoryModel)
         {
             try
@@ -61,7 +61,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpPost]
-        [Route("weightcategories/remove")]
+        [Route("remove")]
         public async Task<IActionResult> Remove([FromBody]WeightAgeCategoryModel category)
         {
             try

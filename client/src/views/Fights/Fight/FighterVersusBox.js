@@ -22,9 +22,9 @@ export const FighterVersusBox = props => {
             </div>
 
             <div className={fighterColumn}>
-                {fighter.id == undefined && <h3 className="card-title">The winner of previous fight</h3>}
-                {fighter.id && <h3 className="card-title">{fighterName}</h3>}
-                {fighter.id && (
+                {!fighter && <h3 className="card-title">The winner of previous fight</h3>}
+                {fighter && <h3 className="card-title">{fighterName}</h3>}
+                {fighter && (
                     <h6 className="card-subtitle mb-2 text-muted">
                         {fighter.gymName || "No gym"}, {fighter.countryName}
                     </h6>

@@ -83,7 +83,8 @@ namespace IMuaythai.Contests
                 .Select(g =>
                 {
                     var contestCategory = _mapper.Map<ContestCategoryWithFightersModel>(g.Key);
-                    contestCategory.Fighters = _mapper.Map<List<FighterModel>>(g.ToList());
+                    var fighters = g.Select(request => request.User);
+                    contestCategory.Fighters = _mapper.Map<List<FighterModel>>(fighters);
                     return contestCategory;
                 }
               ).ToList();

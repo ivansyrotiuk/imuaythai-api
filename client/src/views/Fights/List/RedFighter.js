@@ -15,20 +15,20 @@ export const RedFighter = props => {
         </div>
       </div>
       <div className="col-md-8 text-right align-self-center">
-        {fighter.id == undefined && (
+        {!fighter && (
           <h4 className="card-title">The winner of previous fight</h4>
         )}
-        {fighter.id && (
+        {fighter && (
           <h4 className="card-title">
             {fighter.firstname + " " + fighter.surname}
           </h4>
         )}
-        {fighter.id && (
+        {fighter && (
           <h6 className="card-subtitle mb-2 text-muted">
             {fighter.gymName || "No gym"}, {fighter.countryName}
           </h6>
         )}
-        {fighter.id && (
+        {fighter && (
           <p className="card-text">
             <i className="fa fa-envelope" aria-hidden="true" />
             {" " + fighter.email}
@@ -37,10 +37,11 @@ export const RedFighter = props => {
       </div>
       <div className="col-md-2 align-self-center">
         <div className="row justify-content-start">
+            {fighter &&
           <UserAvatar
             size="50"
-            name={fighter.firstname + " " + fighter.surname}
-          />
+            name={ fighter.firstname + " " + fighter.surname}
+          />}
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ namespace IMuaythai.Api.DepedencyInjection
             services.AddScoped<IKhanLevelsService, KhanLevelsService>();
             services.AddScoped<IFightStructuresService, FightStructuresService>();
             services.AddScoped<IContestTypesService, ContestTypesService>();
-
+            services.AddScoped<IContestTypePointsService, ContestTypePointsService>();
             return services;
         }
     }

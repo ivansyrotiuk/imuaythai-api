@@ -12,7 +12,8 @@ namespace IMuaythai.Contests
         {
             CreateMap<ContestRing, RingAvailabilityModel>();
             CreateMap<Contest, ContestModel>()
-                .ForMember(dest => dest.ContestCategories, opt => opt.MapFrom(src => src.ContestCategoriesMappings ?? new List<ContestCategoriesMapping>()))
+                .ForMember(dest => dest.ContestCategories, opt => opt.PreCondition(src => src.ContestCategoriesMappings != null))
+                .ForMember(dest => dest.ContestCategories, opt => opt.MapFrom(src => src.ContestCategoriesMappings.Select(entity => entity.ContestCategory) ?? new List<ContestCategory>()))
                 .ForMember(dest => dest.Rings, opt => opt.MapFrom(src => ConvertToContestRingModel(src)));
 
             CreateMap<ContestModel, Contest>();
@@ -30,6 +31,7 @@ namespace IMuaythai.Contests
                     opt => opt.MapFrom(src => src.AcceptedByUser == null ? string.Empty : $"{src.AcceptedByUser.FirstName} {src.AcceptedByUser.Surname}"));
 
             CreateMap<ContestRequestModel, ContestRequest>();
+            CreateMap<ContestCategory, ContestCategoryWithFightersModel>();
         }
 
         private List<ContestRingModel> ConvertToContestRingModel(Contest contest)
