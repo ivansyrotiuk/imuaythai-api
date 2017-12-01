@@ -46,6 +46,10 @@ namespace IMuaythai.Repositories.Dictionaries
             {
                 _context.FightStructures.Add(structure);
             }
+            else
+            {
+                _context.Entry(structure).State = EntityState.Modified;
+            }
 
             return _context.SaveChangesAsync();
         }

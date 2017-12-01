@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.Models.Locations;
-using IMuaythai.Repositories.Dictionaries;
+using IMuaythai.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
@@ -10,11 +8,11 @@ namespace IMuaythai.Api.Controllers
     [Route("api/[controller]")]
     public class LocationsController : Controller
     {
-        private readonly ICountriesRepository _countryRepository;
+        private readonly ICountriesService _countriesService;
 
-        public LocationsController(ICountriesRepository countryRepository)
+        public LocationsController(ICountriesService countriesService)
         {
-            _countryRepository = countryRepository;
+            _countriesService = countriesService;
         }
 
         [HttpGet]
@@ -23,8 +21,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var countryEntities = await _countryRepository.GetAll();
-                var countries = countryEntities.Select(c => (CountryModel)c).ToList();
+                var countries = await _countriesService.GetCountries();
                 return Ok(countries);
             }
             catch (Exception ex)
@@ -32,6 +29,5 @@ namespace IMuaythai.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

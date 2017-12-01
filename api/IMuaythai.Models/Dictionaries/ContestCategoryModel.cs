@@ -16,29 +16,5 @@ namespace IMuaythai.Models.Dictionaries
 
         public ContestPointsModel ContestPoints { get; set; }
         public FightStructureModel FightStructure { get; set; }
-
-        public ContestCategoryModel()
-        {
-
-        }
-        public ContestCategoryModel(ContestCategory category)
-        {
-            Id = category.Id;
-            Name = category.Name;
-            ServiceBreakDuration = category.ServiceBreakDuration;
-            ContestTypePointsId = category.ContestTypePointsId;
-            FightStructureId = category.FightStructureId;
-            ContestPoints = category.ContestTypePoints != null ? (ContestPointsModel)category.ContestTypePoints : new ContestPointsModel();
-            FightStructure = category.FightStructure != null ? (FightStructureModel)category.FightStructure : new FightStructureModel();
-        }
-
-        public static explicit operator ContestCategoryModel(ContestCategory category)
-        {
-            if (category == null)
-            {
-                return null;
-            }
-            return new ContestCategoryModel(category);
-        }
     }
 }

@@ -10,7 +10,7 @@ namespace IMuaythai.Repositories.Dictionaries
         Task<ContestCategory> Get(int id);
         Task<List<ContestCategory>> GetAll();
         Task<List<ContestCategory>> Find(Func<ContestCategory, bool> predicate);
-        Task Save(ContestCategory contestRange);
+        Task Save(ContestCategory contestCategory);
         Task Remove(int id);
     }
 }

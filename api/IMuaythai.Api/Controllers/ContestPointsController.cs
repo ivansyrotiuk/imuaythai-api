@@ -1,32 +1,28 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Dictionaries;
 using IMuaythai.Models.Dictionaries;
-using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/dictionaries/")]
+    [Route("api/dictionaries/points")]
     public class ContestPointsController : Controller
     {
-        private readonly IContestTypePointsRepository _repository;
+        private readonly IContestTypePointsService _contestTypePointsService;
 
-        public ContestPointsController(IContestTypePointsRepository repository)
+        public ContestPointsController(IContestTypePointsService contestTypePointsService)
         {
-            _repository = repository;
+            _contestTypePointsService = contestTypePointsService;
         }
 
         [HttpGet]
-        [Route("points")]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var pointsEntities = await _repository.GetAll();
-                var points = pointsEntities.Select(i => (ContestPointsModel)i).ToList();
+                var points = await _contestTypePointsService.GetAllContestTypePoints();
                 return Ok(points);
             }
             catch (Exception ex)
@@ -36,14 +32,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
-        [Route("points/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var points = await _repository.Get(id) ?? new ContestTypePoints();
-                var result = (ContestPointsModel)points;
-                return Ok(result);
+                var points = await _contestTypePointsService.GetContestTypePoints(id);
+                return Ok(points);
             }
             catch (Exception ex)
             {
@@ -52,20 +47,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpPost]
-        [Route("points/save")]
+        [Route("save")]
         public async  Task<IActionResult> Save([FromBody]ContestPointsModel points)
         {
             try
             {
-                ContestTypePoints pointsEntity = points.Id == 0 ? new ContestTypePoints() : await _repository.Get(points.Id);
-                pointsEntity.Id = points.Id;
-                pointsEntity.Points = points.Points;
-                pointsEntity.ContestRangeId = points.ContestRangeId;
-                pointsEntity.ContestTypeId = points.ContestTypeId;
-                await _repository.Save(pointsEntity);
-
-                points.Id = pointsEntity.Id;
-                return Created("Add", points);
+                var savedPoints = await _contestTypePointsService.SaveContestTypePoints(points);
+                return Created("Add", savedPoints);
             }
             catch (Exception ex)
             {
@@ -73,15 +61,13 @@ namespace IMuaythai.Api.Controllers
             }
         }
 
-
         [HttpPost]
-        [Route("points/remove")]
+        [Route("remove")]
         public async Task<IActionResult> Remove([FromBody]ContestPointsModel points)
         {
             try
             {
-                await _repository.Remove(points.Id);
-
+                await _contestTypePointsService.RemoveContestTypePoints(points.Id);
                 return Ok(points.Id);
             }
             catch (Exception ex)

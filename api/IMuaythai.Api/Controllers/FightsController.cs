@@ -2,12 +2,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.Fights;
-using IMuaythai.Models.Fights;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class FightsController : Controller
     {
@@ -26,12 +26,11 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var fightsEnities = categoryId == 0 ? await _fightsService.GetFights(contestId)
+                var fights = categoryId == 0 
+                    ? await _fightsService.GetFights(contestId)
                     : await _fightsService.GetFights(contestId, categoryId);
 
-                var fights = fightsEnities.OrderBy(f => f.StartDate).Select(fight => (FightModel)fight).ToList();
-
-                return Ok(fights);
+                return Ok(fights.OrderBy(f => f.StartDate));
             }
             catch (Exception ex)
             {
@@ -45,10 +44,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var fightsEnities = await _fightsService.BuildFights(contestId, categoryId);
-                await _fightsService.Save(fightsEnities);
-                var fights = fightsEnities.Select(fight => (FightModel)fight).ToList();
-
+                var fights = await _fightsService.BuildFights(contestId, categoryId);
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -63,8 +59,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var changedFights = await _fightsService.MoveFighter(fighterMoving);
-                var fights = changedFights.Select(f => (FightModel)f).ToList();
+                var fights = await _fightsService.MoveFighter(fighterMoving);
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -79,8 +74,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var changedFights = await _fightsService.MoveFight(fightMoving);
-                var fights = changedFights.Select(f => (FightModel)f).ToList();
+                var fights = await _fightsService.MoveFight(fightMoving);
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -95,7 +89,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.GetDraws(contestId, categoryId);
+                var fightsDrawsJson = await _drawsService.GetDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -110,7 +104,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.GenerateFightsDraws(contestId, categoryId);
+                var fightsDrawsJson = await _drawsService.GenerateFightsDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -125,7 +119,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.RegenerateDraws(contestId, categoryId);
+                var fightsDrawsJson = await _drawsService.RegenerateDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -140,8 +134,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                string fightsDrawsJson = await _drawsService.TossupFightsDraws(contestId, categoryId);
-
+                var fightsDrawsJson = await _drawsService.TossupFightsDraws(contestId, categoryId);
                 return Ok(fightsDrawsJson);
             }
             catch (Exception ex)
@@ -156,10 +149,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var fightsEntities = await _fightsService.ScheduleFights(contestId);
-                await _fightsService.Save(fightsEntities);
-
-                var fights = fightsEntities.Select(fight => (FightModel)fight).ToList();
+                var fights = await _fightsService.ScheduleFights(contestId);
                 return Ok(fights);
             }
             catch(Exception ex)
@@ -175,10 +165,8 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 await _fightsService.ClearContestJudgeMappings(contestId);
-                var fightsEntities = await _fightsService.TossupJudges(contestId);
-                await _fightsService.Save(fightsEntities);
+                var fights = await _fightsService.TossupJudges(contestId);
 
-                var fights = fightsEntities.Select(fight => (FightModel)fight).ToList();
                 return Ok(fights);
             }
             catch (Exception ex)
@@ -193,9 +181,8 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var fightEnity = await _fightsService.GetFight(id);
-
-                return Ok((FightModel)fightEnity);
+                var fight = await _fightsService.GetFight(id);
+                return Ok(fight);
             }
             catch (Exception ex)
             {

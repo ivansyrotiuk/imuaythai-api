@@ -61,7 +61,7 @@ namespace IMuaythai.Api.Controllers.Institutions
                 if (imageBase64?.Length > 1)
                 {
                     string hostUrl = $"{Request.Scheme}://{Request.Host}";
-                    institution.Logo = await _fileSaver.Save(hostUrl, imageBase64[1]);
+                    institution.Logo = _fileSaver.Save(hostUrl, imageBase64[1]);
                 }
 
                 institution = await _institutionsService.Save(institution);

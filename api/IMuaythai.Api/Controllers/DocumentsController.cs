@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Docs;
 using IMuaythai.Repositories;
@@ -62,7 +58,7 @@ namespace IMuaythai.Api.Controllers
             {
                 var base64 = document.ByteArray.Split(',');
 
-                var documentUrl = await _fileSaver.Save(document.Name, base64[1]);
+                var documentUrl = _fileSaver.Save(document.Name, base64[1]);
 
                 Document documentEntity = new Document
                 {

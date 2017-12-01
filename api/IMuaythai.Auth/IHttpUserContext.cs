@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace IMuaythai.Auth
 {
@@ -7,5 +8,6 @@ namespace IMuaythai.Auth
     {
         Task<ApplicationUser> GetUser();
         string GetUserId();
+        HttpContext GetHttpContext();
     }
 }

@@ -8,14 +8,5 @@ namespace IMuaythai.Models.Contests
     public class ContestCategoryWithFightersModel : ContestCategoryModel
     {
         public List<FighterModel> Fighters { get; set; }
-
-        public ContestCategoryWithFightersModel()
-        {
-
-        }
-
-        public ContestCategoryWithFightersModel(ContestCategory category) : base(category)
-        {
-        }
     }
 }

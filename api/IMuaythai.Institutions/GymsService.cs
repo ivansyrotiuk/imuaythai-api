@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Institutions;
 using IMuaythai.Repositories;
@@ -11,23 +11,24 @@ namespace IMuaythai.Institutions
     public class GymsService : InstitutionsService, IGymsService
     {
         private readonly IInstitutionsRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GymsService(IInstitutionsRepository repository, IUsersRepository usersRepository, IRolesRepository rolesRepository, UserManager<ApplicationUser> userManager) :base(repository, usersRepository, rolesRepository, userManager)
+        public GymsService(IInstitutionsRepository repository, IUsersRepository usersRepository, IMapper mapper, UserManager<ApplicationUser> userManager) :base(repository, usersRepository, userManager, mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<GymModel>> GetGyms()
         {
-            var gymsEntities = await _repository.GetGyms();
-            var gyms = gymsEntities.Select(i => (GymModel)i).ToList();
-            return gyms;
+            var gyms = await _repository.GetGyms();
+            return _mapper.Map<IEnumerable<GymModel>>(gyms);
         }
 
         public async Task<IEnumerable<GymModel>> GetCountryGyms(int countryId)
         {
-            var entities = await _repository.Find(i => i.CountryId == countryId);
-            return entities.Select(i => (GymModel)i).ToList();
+            var gyms = await _repository.Find(i => i.CountryId == countryId);
+            return _mapper.Map<IEnumerable<GymModel>>(gyms);
         }
     }
 }

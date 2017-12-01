@@ -37,6 +37,10 @@ namespace IMuaythai.Repositories.Dictionaries
             {
                 _context.ContestRanges.Add(contestRange);
             }
+            else
+            {
+                _context.Entry(contestRange).State = EntityState.Modified;
+            }
 
             return _context.SaveChangesAsync();
         }

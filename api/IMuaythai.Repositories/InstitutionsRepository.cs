@@ -76,7 +76,10 @@ namespace IMuaythai.Repositories
             {
                 _context.Institutions.Add(institution);
             }
-
+            else
+            {
+                _context.Entry(institution).State = EntityState.Modified;
+            }
             return _context.SaveChangesAsync();
         }
     }

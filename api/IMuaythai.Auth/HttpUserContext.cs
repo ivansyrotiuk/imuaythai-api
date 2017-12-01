@@ -26,5 +26,10 @@ namespace IMuaythai.Auth
             var userId = _context.HttpContext.User.GetUserId();
             return userId;
         }
+
+        public HttpContext GetHttpContext()
+        {
+            return _context.HttpContext;
+        }
     }
 }

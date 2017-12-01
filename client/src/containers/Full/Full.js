@@ -41,7 +41,6 @@ import SuspensionsDetailsPage from "../../views/Dictionaries/SuspensionTypes/Sus
 import ContestPointsPage from "../../views/Dictionaries/ContestPoints/ContestPointsPage";
 import ContestPointsDetailsPage from "../../views/Dictionaries/ContestPoints/ContestPointsDetailsPage";
 import WeightCategoriesPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesPage";
-import WeightCategoriesDetailsPage from "../../views/Dictionaries/WeightAgeCategories/WeightAgeCategoriesDetailsPage";
 import RoundsPage from "../../views/Dictionaries/Rounds/RoundsPage";
 import RoundsDetailsPage from "../../views/Dictionaries/Rounds/RoundsDetailsPage";
 import StructuresPage from "../../views/Dictionaries/FightStructures/StructuresPage";
@@ -84,6 +83,7 @@ import NotificationsBox from "../Notifications/NotificationsBox";
 import FightContainer from "../Fight/FightContainer";
 import UserDocuments from "../Users/UserDocumentContainer";
 import CreateUserContainer from "../Users/CreateUserContainer";
+import WeightAgeCategoryPageContainer from "../Dictionaries/WeightAgeCategoryPageContainer";
 
 class Full extends Component {
     render() {
@@ -309,15 +309,10 @@ class Full extends Component {
                                 <Route
                                     path="/dictionaries/weightcategories/:id"
                                     name="WeightCategory"
-                                    component={WeightCategoriesDetailsPage}
+                                    component={WeightAgeCategoryPageContainer}
                                 />
                                 <Route
                                     path="/dictionaries/weightcategories/"
-                                    name="WeightCategories"
-                                    component={WeightCategoriesPage}
-                                />
-                                <Route
-                                    path="/dictionaries/weightcategories"
                                     name="WeightCategories"
                                     component={WeightCategoriesPage}
                                 />

@@ -46,6 +46,10 @@ namespace IMuaythai.Repositories.Contests
             {
                 _context.Contests.Add(contest);
             }
+            else
+            {
+                _context.Entry(contest).State = EntityState.Modified;
+            }
 
             return _context.SaveChangesAsync();
         }

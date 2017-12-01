@@ -1,30 +1,28 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Dictionaries;
 using IMuaythai.Models.Dictionaries;
-using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/dictionaries/")]
+    [Route("api/dictionaries/weightcategories")]
     public class WeightAgeCategoriesController : Controller
     {
-        private readonly IWeightAgeCategoriesRepository _repository;
-        public WeightAgeCategoriesController(IWeightAgeCategoriesRepository repository)
+        private readonly IWeightAgeCategoriesService _service;
+        public WeightAgeCategoriesController(IWeightAgeCategoriesService service)
         {
-            _repository = repository;
+            _service = service;
         }
+
         [HttpGet]
-        [Route("weightcategories")]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var categories = await _repository.GetAll();
-                return Ok(categories.Select(c=>(WeightAgeCategoryModel)c).ToList());
+                var categories = await _service.GetWeightAgeCategories();
+                return Ok(categories);
             }
             catch (Exception ex)
             {
@@ -33,13 +31,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
-        [Route("weightcategories/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var result = await _repository.Get(id) ?? new WeightAgeCategory();
-                return Ok((WeightAgeCategoryModel)result);
+                var category = await _service.GetWeightAgeCategory(id);
+                return Ok(category);
             }
             catch (Exception ex)
             {
@@ -48,24 +46,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpPost]
-        [Route("weightcategories/save")]
-        public async Task<IActionResult> Save([FromBody]WeightAgeCategoryModel category)
+        [Route("save")]
+        public async Task<IActionResult> Save([FromBody]WeightAgeCategoryModel categoryModel)
         {
             try
             {
-                WeightAgeCategory categoryEntity = category.Id == 0 ? new WeightAgeCategory() : await _repository.Get(category.Id);
-                categoryEntity.Id = category.Id;
-                categoryEntity.Name = category.Name;
-                categoryEntity.MaxAge = category.MaxAge;
-                categoryEntity.MinAge = category.MinAge;
-                categoryEntity.MinWeight = category.MinWeight;
-                categoryEntity.MaxWeight = category.MaxWeight;
-                categoryEntity.Gender = category.Gender;
-
-                await _repository.Save(categoryEntity);
-
-                category.Id = categoryEntity.Id;
-                return Created("Add", category);
+                WeightAgeCategoryModel category = await _service.Save(categoryModel);
+                return Ok(category);
             }
             catch (Exception ex)
             {
@@ -73,22 +60,19 @@ namespace IMuaythai.Api.Controllers
             }
         }
 
-
         [HttpPost]
-        [Route("weightcategories/remove")]
+        [Route("remove")]
         public async Task<IActionResult> Remove([FromBody]WeightAgeCategoryModel category)
         {
             try
             {
-                await _repository.Remove(category.Id);
-
+                await _service.Remove(category.Id);
                 return Ok(category.Id);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
     }
 }

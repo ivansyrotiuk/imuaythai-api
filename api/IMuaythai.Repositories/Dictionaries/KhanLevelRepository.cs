@@ -45,6 +45,10 @@ namespace IMuaythai.Repositories.Dictionaries
             {
                 _context.KhanLevels.Add(level);
             }
+            else
+            {
+                _context.Entry(level).State = EntityState.Modified;
+            }
 
             return _context.SaveChangesAsync();
         }

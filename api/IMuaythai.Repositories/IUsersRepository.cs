@@ -56,6 +56,11 @@ namespace IMuaythai.Repositories
                 {
                     _context.Users.Add(user);
                 }
+                else
+                {
+                    _context.Entry(user).State = EntityState.Modified;
+                }
+
 
                 return _context.SaveChangesAsync();
             }

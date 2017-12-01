@@ -1,32 +1,27 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Dictionaries;
 using IMuaythai.Models.Dictionaries;
-using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/dictionaries/")]
+    [Route("api/dictionaries/types")]
     public class ContestTypesController : Controller
     {
-        private readonly IContestTypesRepository _repository;
+        private readonly IContestTypesService _contestTypesService;
 
-        public ContestTypesController(IContestTypesRepository repository)
+        public ContestTypesController(IContestTypesService contestTypesService)
         {
-            _repository = repository;
+            _contestTypesService = contestTypesService;
         }
 
         [HttpGet]
-        [Route("types")]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var typesEntities = await _repository.GetAll();
-                var types = typesEntities.Select(i => (ContestTypeModel)i).ToList();
+                var types = await _contestTypesService.GetContestTypes();
                 return Ok(types);
             }
             catch (Exception ex)
@@ -36,14 +31,13 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
-        [Route("types/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Index([FromRoute] int id)
         {
             try
             {
-                var type = await _repository.Get(id) ?? new ContestType();
-    
-                return Ok((ContestTypeModel)type);
+                var type = await _contestTypesService.GetContestType(id);
+                return Ok(type);
             }
             catch (Exception ex)
             {
@@ -51,20 +45,13 @@ namespace IMuaythai.Api.Controllers
             }
         }
         
-
         [HttpPost]
-        [Route("types/save")]
-        public async Task<IActionResult> Save([FromBody]ContestTypeModel type)
+        [Route("save")]
+        public async Task<IActionResult> Save([FromBody]ContestTypeModel typeModel)
         {
             try
             {
-                ContestType typeEntity = type.Id == 0 ? new ContestType() : await _repository.Get(type.Id);
-                typeEntity.Id = type.Id;
-                typeEntity.Name = type.Name;
-
-                await _repository.Save(typeEntity);
-
-                type.Id = typeEntity.Id;
+                var type = await _contestTypesService.SaveContestType(typeModel);
                 return Created("Add", type);
             }
             catch (Exception ex)
@@ -75,13 +62,12 @@ namespace IMuaythai.Api.Controllers
 
 
         [HttpPost]
-        [Route("types/remove")]
+        [Route("remove")]
         public async Task<IActionResult> Remove([FromBody]ContestTypeModel type)
         {
             try
             {
-                await _repository.Remove(type.Id);
-
+                await _contestTypesService.RemoveContestType(type.Id);
                 return Ok(type.Id);
             }
             catch (Exception ex)

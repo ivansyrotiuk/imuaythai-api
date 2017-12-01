@@ -37,6 +37,10 @@ namespace IMuaythai.Repositories.Dictionaries
             {
                 _context.Rounds.Add(round);
             }
+            else
+            {
+                _context.Entry(round).State = EntityState.Modified;
+            }
 
             return _context.SaveChangesAsync();
         }

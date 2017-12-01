@@ -295,7 +295,7 @@ namespace IMuaythai.DataAccess.Data
 
                         dbContextTransaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         dbContextTransaction.Rollback();
                     }
@@ -314,7 +314,7 @@ namespace IMuaythai.DataAccess.Data
                         await UploadFightPoints(mainContext, fightsIdsDictionary, usersIdsDictionary);
                         dbContextTransaction.Commit();
                     }
-                    catch(Exception ex)
+                    catch
                     {
                         dbContextTransaction.Rollback();
                     }

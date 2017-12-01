@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using IMuaythai.DataAccess.Models;
+using IMuaythai.Dictionaries;
 using IMuaythai.Models.Dictionaries;
-using IMuaythai.Repositories.Dictionaries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers
@@ -12,11 +10,11 @@ namespace IMuaythai.Api.Controllers
     [Route("api/dictionaries/")]
     public class ContestCategoriesController : Controller
     {
-        private readonly IContestCategoriesRepository _repository;
+        private readonly IContestCategoriesService _categoriesService;
 
-        public ContestCategoriesController(IContestCategoriesRepository repository)
+        public ContestCategoriesController(IContestCategoriesService categoriesService)
         {
-            _repository = repository;
+            _categoriesService = categoriesService;
         }
 
         [HttpGet]
@@ -25,8 +23,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var categoriesEntities = await _repository.GetAll();
-                var categories = categoriesEntities.Select(i => (ContestCategoryModel)i).ToList();
+                var categories = await _categoriesService.GetAllCategories();
                 return Ok(categories);
             }
             catch (Exception ex)
@@ -41,9 +38,8 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                var category = await _repository.Get(id) ?? new ContestCategory();
-                var result = (ContestCategoryModel)category;
-                return Ok(result);
+                var category = await _categoriesService.GetCategory(id);
+                return Ok(category);
             }
             catch (Exception ex)
             {
@@ -53,20 +49,12 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("categories/save")]
-        public async Task<IActionResult> Save([FromBody]ContestCategoryModel categories)
+        public async Task<IActionResult> Save([FromBody]ContestCategoryModel category)
         {
             try
             {
-                ContestCategory categoriesEntity = categories.Id == 0 ? new ContestCategory() : await _repository.Get(categories.Id);
-                categoriesEntity.Id = categories.Id;
-                categoriesEntity.Name = categories.Name;
-                categoriesEntity.ServiceBreakDuration = categories.ServiceBreakDuration;
-                categoriesEntity.ContestTypePointsId = categories.ContestTypePointsId;
-                categoriesEntity.FightStructureId = categories.FightStructureId;
-                await _repository.Save(categoriesEntity);
-
-                categories.Id = categoriesEntity.Id;
-                return Created("Add", categories);
+                var savedCategory = await _categoriesService.SaveCategory(category);
+                return Created("Add", savedCategory);
             }
             catch (Exception ex)
             {
@@ -77,13 +65,12 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("categories/remove")]
-        public async Task<IActionResult> Remove([FromBody]ContestCategoryModel categories)
+        public async Task<IActionResult> Remove([FromBody]ContestCategoryModel category)
         {
             try
             {
-                await _repository.Remove(categories.Id);
-
-                return Ok(categories.Id);
+                await _categoriesService.RemoveCategory(category.Id);
+                return Ok(category.Id);
             }
             catch (Exception ex)
             {

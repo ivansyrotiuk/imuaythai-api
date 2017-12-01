@@ -23,36 +23,5 @@ namespace IMuaythai.Models.Contests
         public string ContestCategoryName { get; set; }
         public string AcceptedByUserName { get; set; }
         public UserModel User { get; set; }
-
-        public ContestRequestModel()
-        {
-
-        }
-
-        public ContestRequestModel(ContestRequest request)
-        {
-            Id = request.Id;
-            Type = request.Type;
-            JudgeType = request.JudgeType;
-            IssueDate = request.IssueDate;
-            Status = request.Status;
-            UserId = request.UserId;
-            InstitutionId = request.InstitutionId;
-            ContestId = request.ContestId;
-            ContestCategoryId = request.ContestCategoryId;
-            AcceptedByUserId = request.AcceptedByUserId;
-            AcceptanceDate = request.AcceptanceDate;
-            UserName = request.User?.FirstName + ' ' + request.User?.Surname;
-            InstitutionName = request.Institution?.Name;
-            ContestName = request.Contest?.Name;
-            ContestCategoryName = request.ContestCategory?.Name;
-            AcceptedByUserName = request.AcceptedByUser?.FirstName + ' ' + request.AcceptedByUser?.Surname;
-            User = (UserModel)request.User;
-        }
-
-        public static explicit operator ContestRequestModel(ContestRequest request)
-        {
-            return new ContestRequestModel(request);
-        }
     }
 }

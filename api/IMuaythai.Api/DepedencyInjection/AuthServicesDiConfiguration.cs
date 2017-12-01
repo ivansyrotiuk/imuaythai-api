@@ -9,6 +9,7 @@ namespace IMuaythai.Api.DepedencyInjection
         {
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<IHttpUserContext, HttpUserContext>();
+            services.AddScoped<IUserRolesManager, UserRolesManager>();
         }
     }
 }
