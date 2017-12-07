@@ -4,11 +4,20 @@ import CornerBox from "./CornerBox";
 import Avatar from "react-avatar";
 
 export const FighterVersusBox = props => {
-    const { fighter, corner } = props;
-    const row = corner === "blue" ? "row flex-row-reverse" : "row";
-    const fighterColumn = corner === "blue" ? "col  col-sm-8  col-md-9 col-lg-9 col-xl-9 text-left align-self-center" : "col col-sm-8 col-md-9 col-lg-9 col-xl-9 text-right align-self-center";
-    const khan = (fighter && fighter.khanLevel) !== null ? <h6 className="card-title">{fighter.khanLevel.name}</h6> : <h6 className="card-title">-</h6>;
+    const { fighter, corner, winner } = props;
+    const row = corner === "blue" ?
+        "row flex-row-reverse" :
+        "row";
+    const fighterColumn = corner === "blue"
+        ? "col  col-sm-8  col-md-9 col-lg-9 col-xl-9 text-left align-self-center" :
+        "col col-sm-8 col-md-9 col-lg-9 col-xl-9 text-right align-self-center";
+
+    const khan = (fighter && fighter.khanLevel) !== null
+        ? <h6 className="card-title">{fighter.khanLevel.name}</h6>
+        : <h6 className="card-title">-</h6>;
+
     const fighterName = fighter && fighter.firstname + " " + fighter.surname;
+
     return (
         <div className={row}>
             <div className="col-auto">
@@ -34,6 +43,7 @@ export const FighterVersusBox = props => {
                 {fighter.id && <h6 className="card-title">{fighter.won}</h6>}
                 {fighter.id && <h6 className="card-title">{fighter.lost}</h6>}
                 {khan}
+                {winner && <h6 className="text-danger">Winner</h6>}
             </div>
         </div>
     );

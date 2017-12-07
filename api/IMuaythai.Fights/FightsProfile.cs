@@ -12,8 +12,8 @@ namespace IMuaythai.Fights
         {
             CreateMap<Fight, FightModel>().
                 ForMember(dest => dest.Points, opt => opt.MapFrom(src => ConvertToFightPointModels(src)))
-                .ForMember(dest => dest.Judges, opt => opt.MapFrom(src => src.FightJudgesMappings.Where(j => j.Main == 0)))
-                .ForMember(dest => dest.MainJudge, opt => opt.MapFrom(src => src.FightJudgesMappings.FirstOrDefault(j => j.Main == 1)));
+                .ForMember(dest => dest.Judges, opt => opt.MapFrom(src => src.FightJudgesMappings.Where(j => j.Main == 0).Select(m => m.Judge)))
+                .ForMember(dest => dest.MainJudge, opt => opt.MapFrom(src => src.FightJudgesMappings.Where(j => j.Main == 1).Select(m => m.Judge).FirstOrDefault()));
         }
 
         private List<FightPointModel> ConvertToFightPointModels(Fight src)

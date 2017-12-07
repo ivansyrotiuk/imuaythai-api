@@ -1,4 +1,5 @@
 import React from "react";
+import Row from "../../../../components/Layout/Row";
 
 export const PointCell = props => {
     const red = props.points.redFighterPoints;
@@ -10,7 +11,7 @@ export const PointCell = props => {
     const blueAccepted = (blue && blue.accepted) ? 'text-primary' : 'text-muted';
     return (
         <td>
-            <div className="row">
+            <Row className="justify-content-center">
                 <div className={redAccepted}>
                     {redPoints}
                 </div>
@@ -18,7 +19,7 @@ export const PointCell = props => {
                 <div className={blueAccepted}>
                     {bluePoints}
                 </div>
-            </div>
+            </Row>
         </td>
     );
 };
