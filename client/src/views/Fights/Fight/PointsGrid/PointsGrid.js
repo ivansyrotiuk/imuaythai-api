@@ -6,7 +6,7 @@ export const PointsGrid = props => {
     const { points, roundsCount } = props;
     const mappedPoints = points.map((judgePoints, key) => <PointsRow key={key} points={judgePoints} />);
     return (
-        <table className="table table-hover mb-0 hidden-sm-down">
+        <table className="table table-hover mb-0 hidden-sm-down table-bordered">
             <thead>
                 <PointsGridHeader rounds={roundsCount} />
             </thead>

@@ -8,6 +8,7 @@ import JudgesBox from "./JudgesBox";
 import FightInfoBox from "./FightInfoBox";
 import FightersBox from "./FightersBox";
 import SectionTitle from "../../../components/Common/SectionTitle";
+import WarningsGrid from "./WarningsGrid/WarningsGrid";
 const FightView = props => {
     const { fight } = props;
     const { roundsCount } = fight.structure.round;
@@ -21,6 +22,8 @@ const FightView = props => {
             <FightersBox fight={fight} />
             <SectionTitle>Points</SectionTitle>
             <PointsGrid points={fight.points} roundsCount={roundsCount} />
+            <SectionTitle>Warnings and injuries</SectionTitle>
+            <WarningsGrid points={fight.points} roundsCount={roundsCount} />
             <SectionTitle>Judges</SectionTitle>
             <JudgesBox judges={judges} mainJudge={mainJudge} referee={referee} timeKeeper={timeKeeper} />
         </div>
