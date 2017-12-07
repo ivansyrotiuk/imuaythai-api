@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
@@ -7,6 +9,7 @@ using IMuaythai.DataAccess.Models;
 using IMuaythai.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+// ReSharper disable PossibleMultipleEnumeration
 
 namespace IMuaythai.JudgingServer
 {
@@ -15,11 +18,13 @@ namespace IMuaythai.JudgingServer
         private readonly ApplicationDbContext _context;
         private readonly SemaphoreSlim _mutex;
         private string _jurySocketId;
+        private readonly Dictionary<string, int> _fightWarnings;
         protected string Ring { get; set; }
         public FightHandler(WebSocketConnectionManager connectionManager) : base(connectionManager)
         {
             _context = new ApplicationDbContextFactory().CreateDbContext(new string[] { });
             _mutex = new SemaphoreSlim(1);
+            _fightWarnings = new Dictionary<string, int>();
         }
 
         public override async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
@@ -27,7 +32,6 @@ namespace IMuaythai.JudgingServer
             var request = JsonConvert.DeserializeObject<Request>(serializedInvocationDescriptor);
 
             await HandleRequest(socket, request);
-
         }
 
         private async Task HandleRequest(WebSocket socket, Request request)
@@ -71,16 +75,23 @@ namespace IMuaythai.JudgingServer
                     break;
 
                 case RequestType.StartRound:
-                    var roundId = GetRoundId();
-                    await SendMessageToAllAsync(new Request
+                    if (CanStartNewRound())
                     {
-                        RequestType = request.RequestType,
-                        Data = roundId
-                    });
+
+
+                        var roundId = GetRoundId();
+                        await SendMessageToAllAsync(new Request
+                        {
+                            RequestType = request.RequestType,
+                            Data = roundId
+                        });
+                    }
                     break;
 
                 case RequestType.EndFight:
-                    roundCount = 0;
+                    _roundCount = 0;
+                    _fightWarnings.Clear();
+                    _jurySocketId = string.Empty;
                     await SaveWinner(request.Data);
                     await SendMessageToAllAsync(new Request
                     {
@@ -94,6 +105,11 @@ namespace IMuaythai.JudgingServer
 
         }
 
+        private bool CanStartNewRound()
+        {
+            return _fightWarnings["Cautions"] <= 3 && _fightWarnings["Warnings"] <= 3 && _fightWarnings["KnockDown"] <= 3;
+        }
+
         private async Task SaveWinner(string data)
         {
             var fight = await _context.Fights.FirstOrDefaultAsync(f => f.Id == data.ToInt());
@@ -103,16 +119,19 @@ namespace IMuaythai.JudgingServer
             var totalBluePoints = CalculateTotalPoints(fight.BlueAthleteId, fight.Id);
             var totalRedPoints = CalculateTotalPoints(fight.RedAthleteId, fight.Id);
 
+            if (Math.Abs(totalBluePoints.Result) < 0 || Math.Abs(totalRedPoints.Result) < 0)
+                return;
+
             if (totalBluePoints.Result > totalRedPoints.Result)
             {
                 fight.WinnerId = fight.BlueAthleteId;
-                nextFight = SetWinnerToNextFight(nextFight, fight.BlueAthleteId);
+                SetWinnerToNextFight(nextFight, fight.BlueAthleteId);
             }
 
             else
             {
                 fight.WinnerId = fight.RedAthleteId;
-                nextFight = SetWinnerToNextFight(nextFight, fight.RedAthleteId);
+                SetWinnerToNextFight(nextFight, fight.RedAthleteId);
             }
 
 
@@ -120,10 +139,10 @@ namespace IMuaythai.JudgingServer
 
         }
 
-        private Fight SetWinnerToNextFight(Fight nextFight, string athleteId)
+        private void SetWinnerToNextFight(Fight nextFight, string athleteId)
         {
             if (nextFight == null)
-                return null;
+                return;
 
             if (string.IsNullOrEmpty(nextFight.RedAthleteId))
             {
@@ -133,14 +152,11 @@ namespace IMuaythai.JudgingServer
             {
                 nextFight.BlueAthleteId = athleteId;
             }
-
-            return nextFight;
-
         }
 
         private async Task<float> CalculateTotalPoints(string blueAthleteId, int id)
         {
-            var points = await _context.FightPoints.Where(f => f.FightId == id && f.FighterId == blueAthleteId).ToListAsync();
+            var points = await _context.FightPoints.Where(f => f.FightId == id && f.FighterId == blueAthleteId && f.Accepted).ToListAsync();
             return points.GroupBy(p => p.RoundId).Select(g => new
             {
                 RoundId = g.Key,
@@ -166,7 +182,7 @@ namespace IMuaythai.JudgingServer
             if (string.IsNullOrEmpty(fight.WinnerId) && points.Accepted)
             {
                 fight.WinnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
-                nextFight = SetWinnerToNextFight(nextFight, points.FighterId);
+                SetWinnerToNextFight(nextFight, points.FighterId);
             }
            
             _context.FightPoints.Add(points);
@@ -182,11 +198,11 @@ namespace IMuaythai.JudgingServer
 
 
         }
-        int roundCount = 0;
+        int _roundCount;
         private string GetRoundId()
         {
-            roundCount++;
-            return roundCount.ToString();
+            _roundCount++;
+            return _roundCount.ToString();
         }
 
         private async Task AcceptPoints(string data)
@@ -213,6 +229,7 @@ namespace IMuaythai.JudgingServer
         private async Task SavePoints(string data)
         {
             var points = JsonConvert.DeserializeObject<FightPoint>(data);
+            AddToFightDictionary(points);
             _context.FightPoints.Add(points);
             await _mutex.WaitAsync();
             try
@@ -226,13 +243,29 @@ namespace IMuaythai.JudgingServer
 
         }
 
-        public override async Task OnDisconnected(WebSocket socket)
+        private void AddToFightDictionary(FightPoint points)
         {
-            var socketId = WebSocketConnectionManager.GetId(socket);
+            CheckIfKeyExist(nameof(points.Cautions));
+            _fightWarnings[nameof(points.Cautions)] += points.Cautions;
 
-            await base.OnDisconnected(socket);
+            CheckIfKeyExist(nameof(points.Warnings));
+            _fightWarnings[nameof(points.Warnings)] += points.Warnings;
 
+            CheckIfKeyExist(nameof(points.KnockDown));
+            _fightWarnings[nameof(points.KnockDown)] += points.KnockDown;
 
+            CheckIfKeyExist(nameof(points.J));
+            _fightWarnings[nameof(points.J)] += points.J;
+
+            CheckIfKeyExist(nameof(points.X));
+            _fightWarnings[nameof(points.X)] += points.X;
+
+        }
+
+        private void CheckIfKeyExist(string pointsName)
+        {
+            if (!_fightWarnings.ContainsKey(pointsName))
+                _fightWarnings.Add(pointsName, 0);
         }
     }
 }
