@@ -1,22 +1,21 @@
 import React from 'react';
-import UserTableRow from "./UserTableRow";
+import UserTableRow from './UserTableRow';
 
-const UserTable = (props) => {
-    const mappedUsers = props.users && props.users.map((user, i) => <UserTableRow key={i} user={user} deleteUser={props.deleteUser}/>);
+const UserTable = props => {
+    const mappedUsers =
+        props.users && props.users.map((user, i) => <UserTableRow key={i} user={user} deleteUser={props.deleteUser} />);
 
     return (
         <table className="table table-hover mb-0 hidden-sm-down">
             <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Country</th>
-                <th className="text-center">Action</th>
-            </tr>
+                <tr>
+                    <th />
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Action</th>
+                </tr>
             </thead>
-            <tbody>
-            {mappedUsers}
-            </tbody>
+            <tbody>{mappedUsers}</tbody>
         </table>
     );
 };

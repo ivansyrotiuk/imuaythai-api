@@ -159,5 +159,20 @@ namespace IMuaythai.Api.Controllers.Contests
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("allocatejudge")]
+        public async Task<IActionResult> AllocateJUdge([FromBody] ContestJudgeAllocationModel allocationModel)
+        {
+            try
+            {
+                var request = await _requestsService.AllocateJudge(allocationModel);
+                return Ok(request);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -11,13 +11,13 @@ const TableUserRow = props => {
 
     return (
         <tr>
-            <td className="col-md-1">
+            <td>
                 <Avatar size={40} name={fullName} src={user.photo} round={true} />
             </td>
-            <td className="col-md-7">{fullName}</td>
-            <td className="col-md-2">{user.countryName}</td>
-            <td className="col-md-2">
-                <div className="row justify-content-between">
+            <td>{fullName}</td>
+            <td>{user.countryName}</td>
+            <td>
+                <div className="row justify-content-around">
                     <Link to={'/users/' + user.id}>
                         <PreviewButton id={user.id} />
                     </Link>

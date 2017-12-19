@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
-import UserAvatar from 'react-user-avatar';
+import Avatar from 'react-avatar';
 import RemoveButton from '../Components/Buttons/RemoveButton';
 import EditButton from '../Components/Buttons/EditButton';
 import AddButton from '../Components/Buttons/AddButton';
@@ -24,20 +24,20 @@ class ContestsPage extends Component {
 
         const headers = (
             <tr>
-                <th className="col-auto">No.</th>
-                <th className="col-5">Contest name</th>
-                <th className="col-4 text-center">Action</th>
+                <th>No.</th>
+                <th>Contest name</th>
+                <th className="text-center">Action</th>
             </tr>
         );
 
         const mappedContests = contests.map((contest, i) => (
             <tr key={i}>
                 <td>
-                    <UserAvatar size={40} name={contest.name} src="http://localhost:3000/img/contest_poster.jpg" />
+                    <Avatar size={40} name={contest.name} src="http://localhost:3000/img/contest_poster.jpg" />
                 </td>
                 <td>{contest.name}</td>
                 <td>
-                    <Row>
+                    <Row className="justify-content-between">
                         <Link to={'/contests/' + contest.id}>
                             <PreviewButton />
                         </Link>

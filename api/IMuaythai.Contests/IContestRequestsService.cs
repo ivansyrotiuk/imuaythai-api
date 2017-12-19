@@ -14,6 +14,7 @@ namespace IMuaythai.Contests
         Task<ContestRequestModel> AcceptRequest(int requestId, string acceptedByUser);
         Task<ContestRequestModel> RejectRequest(int requestId, string acceptedByUser);
         Task<ContestRequestModel> SaveRequest(ContestRequestModel requestModel);
+        Task<ContestRequestModel> AllocateJudge(ContestJudgeAllocationModel allocationModel);
         Task RemoveRequest(int requestId);
     }
 }

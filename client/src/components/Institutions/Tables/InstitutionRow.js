@@ -1,24 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ActionButtonGroup from "../../../views/Components/Buttons/ActionButtonGroup";
+import ActionButtonGroup from '../../../views/Components/Buttons/ActionButtonGroup';
 
-const InstitutionRow = (props) => {
-    const {previewClick, editClick, deleteClick} = props;
+const InstitutionRow = props => {
+    const { previewClick, editClick, deleteClick } = props;
 
     return (
         <tr>
-            <td>
-                {props.id}
-            </td>
-            <td>
-                {props.name}
-            </td>
+            <td>{props.id}</td>
+            <td>{props.name}</td>
             <td>{props.country && props.country.name}</td>
             <td>
                 <ActionButtonGroup
                     previewClick={() => previewClick(props.id)}
                     editClick={() => editClick(props.id)}
-                    deleteClick={() => deleteClick(props.id)}/>
+                    deleteClick={() => deleteClick(props.id)}
+                />
             </td>
         </tr>
     );
@@ -37,6 +34,6 @@ InstitutionRow.propTypes = {
     previewClick: PropTypes.func,
     editClick: PropTypes.func,
     deleteClick: PropTypes.func
-}
+};
 
 export default InstitutionRow;
