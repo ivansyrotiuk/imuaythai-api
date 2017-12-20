@@ -22,7 +22,7 @@ export default class RemoveButton extends Component {
         const { text, removing, click } = this.props;
         return (
             <div>
-                <div id="RemoveButton" className="btn btn-link pull-right" onClick={click}>
+                <button id="RemoveButton" className="btn btn-link pull-right" onClick={click}>
                     {!removing && <i className="fa fa-trash text-danger" />}
                     {removing && (
                         <i
@@ -32,7 +32,7 @@ export default class RemoveButton extends Component {
                             className="fa fa-spinner fa-pulse fa-1x fa-fw "
                         />
                     )}
-                </div>
+                </button>
                 <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="RemoveButton" toggle={this.toggle}>
                     Delete
                 </Tooltip>

@@ -1,23 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import InstitutionRow from './InstitutionRow';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+import ActionButtonGroup from '../../../views/Components/Buttons/ActionButtonGroup';
 
 const InstitutionsTable = props => {
-    const institutionRows = props.institutions.map((institution, i) => (
-        <InstitutionRow key={i} {...institution} {...props.actions} />
-    ));
+    const { previewClick, editClick, deleteClick } = props.actions;
     return (
-        <table className="table table-hover mb-0 hidden-sm-down">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Country</th>
-                    <th className="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>{institutionRows}</tbody>
-        </table>
+        <ReactTable
+            data={props.institutions}
+            columns={[
+                {
+                    Header: 'id',
+                    accessor: 'id'
+                },
+                {
+                    Header: 'Name',
+                    accessor: 'name'
+                },
+                {
+                    Header: 'Country',
+                    accessor: 'countryName'
+                },
+                {
+                    Header: 'Actions',
+                    accessor: 'id',
+                    Cell: row => (
+                        <ActionButtonGroup
+                            previewClick={() => previewClick(row.value)}
+                            editClick={() => editClick(row.value)}
+                            deleteClick={() => deleteClick(row.value)}
+                        />
+                    )
+                }
+            ]}
+            defaultPageSize={10}
+            className="-striped -highlight"
+        />
     );
 };
 
