@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import ActionButtonGroup from '../../../views/Components/Buttons/ActionButtonGroup';
@@ -42,10 +41,6 @@ const InstitutionsTable = props => {
 
 InstitutionsTable.defaultProps = {
     institutions: []
-};
-
-InstitutionsTable.propTypes = {
-    institutions: PropTypes.array
 };
 
 export default InstitutionsTable;

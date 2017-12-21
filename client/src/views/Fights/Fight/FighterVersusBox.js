@@ -6,10 +6,7 @@ import Avatar from 'react-avatar';
 export const FighterVersusBox = props => {
     const { fighter, corner, winner } = props;
     const row = corner === 'blue' ? 'row flex-row-reverse' : 'row';
-    const fighterColumn =
-        corner === 'blue'
-            ? 'col  col-sm-8  col-md-9 col-lg-9 col-xl-9 text-left align-self-center'
-            : 'col col-sm-8 col-md-9 col-lg-9 col-xl-9 text-right align-self-center';
+    const fighterColumn = corner === 'blue' ? 'coltext-left align-self-center' : 'col text-right align-self-center';
 
     const khan =
         (fighter && fighter.khanLevel) !== null ? (
