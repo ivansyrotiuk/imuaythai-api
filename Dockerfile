@@ -21,5 +21,5 @@ COPY . /app
 WORKDIR /app
 RUN ["dotnet", "restore"]
 
-ENTRYPOINT ["dotnet", "IMuaythai.Api.dll"]
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet IMuaythai.Api.dll
+ENTRYPOINT ["dotnet", "/app/IMuaythai.Api/bin/Release/netcoreapp2.0/MuaythaiSportManagementSystemApi.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet "/app/IMuaythai.Api/bin/Release/netcoreapp2.0/MuaythaiSportManagementSystemApi.dll"
