@@ -1,6 +1,6 @@
-import { host } from "../global";
-import axios from "axios";
-import * as actionTypes from "./actionTypes";
+import { host } from '../global';
+import axios from 'axios';
+import * as actionTypes from './actionTypes';
 
 export const fetchConstests = () => {
     return dispatch => {
@@ -9,7 +9,7 @@ export const fetchConstests = () => {
         });
 
         return axios
-            .get(host + "api/contests/")
+            .get(host + 'api/contests/')
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTESTS_FULFILLED,
@@ -32,7 +32,7 @@ export const fetchContest = id => {
         });
 
         return axios
-            .get(host + "api/contests/" + id)
+            .get(host + 'api/contests/' + id)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_SINGLE_CONTEST_FULFILLED,
@@ -69,7 +69,7 @@ export const saveContest = contest => {
         });
 
         return axios
-            .post(host + "api/contests/save", contest)
+            .post(host + 'api/contests/save', contest)
             .then(response => {
                 dispatch({
                     type: actionTypes.SAVE_CONTEST_SUCCESS,
@@ -79,7 +79,7 @@ export const saveContest = contest => {
             .catch(err => {
                 dispatch({
                     type: actionTypes.SAVE_CONTEST_REJECTED,
-                    payload: err.response != null ? err.response.data : "Cannot connect to server"
+                    payload: err.response != null ? err.response.data : 'Cannot connect to server'
                 });
             });
     };
@@ -92,7 +92,7 @@ export const fetchContestCandidates = () => {
         });
 
         return axios
-            .get(host + "api/contestrequests/candidates")
+            .get(host + 'api/contestrequests/candidates')
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_CANDIDATES_FULFILLED,
@@ -115,7 +115,7 @@ export const fetchContestRequests = contestId => {
         });
 
         return axios
-            .get("api/contestrequests?contestId=" + contestId)
+            .get('api/contestrequests?contestId=' + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_REQUESTS_FULFILLED,
@@ -138,7 +138,7 @@ export const fetchContestJudges = contestId => {
         });
 
         return axios
-            .get("api/contestrequests/judges?contestId=" + contestId)
+            .get('api/contestrequests/judges?contestId=' + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_JUDGES_FULFILLED,
@@ -164,7 +164,7 @@ export const fetchInstitutionContestRequests = contestId => {
         });
 
         return axios
-            .get("api/contestrequests/myrequests?contestId=" + contestId)
+            .get('api/contestrequests/myrequests?contestId=' + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_INSTITUTION_CONTEST_REQUESTS_FULFILLED,
@@ -197,7 +197,7 @@ export function editContestRequest(request) {
     return {
         type: actionTypes.EDIT_CONTEST_REQUEST,
         payload: request
-    }
+    };
 }
 
 export const saveContestRequest = request => {
@@ -207,7 +207,7 @@ export const saveContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contestrequests/save", request)
+            .post(host + 'api/contestrequests/save', request)
             .then(response => {
                 dispatch({
                     type: actionTypes.SAVE_CONTEST_REQUEST_SUCCESS,
@@ -217,12 +217,12 @@ export const saveContestRequest = request => {
             .catch(err => {
                 dispatch({
                     type: actionTypes.SAVE_CONTEST_REQUEST_REJECTED,
-                    payload: err.response != null ? err.response.data : "Cannot connect to server"
+                    payload: err.response != null ? err.response.data : 'Cannot connect to server'
                 });
 
                 dispatch({
                     type: actionTypes.SHOW_ERROR,
-                    payload: err.response != null ? err.response.data : "Cannot connect to server"
+                    payload: err.response != null ? err.response.data : 'Cannot connect to server'
                 });
             });
     };
@@ -236,7 +236,7 @@ export const acceptContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contestrequests/accept", request)
+            .post(host + 'api/contestrequests/accept', request)
             .then(response => {
                 dispatch({
                     type: actionTypes.ACCEPT_CONTEST_REQUEST_SUCCESS,
@@ -260,7 +260,7 @@ export const rejectContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contestrequests/reject", request)
+            .post(host + 'api/contestrequests/reject', request)
             .then(response => {
                 dispatch({
                     type: actionTypes.REJECT_CONTEST_REQUEST_SUCCESS,
@@ -284,7 +284,7 @@ export const removeContestRequest = request => {
         });
 
         return axios
-            .post(host + "api/contestrequests/remove", request)
+            .post(host + 'api/contestrequests/remove', request)
             .then(response => {
                 dispatch({
                     type: actionTypes.REMOVE_CONTEST_REQUEST_SUCCESS,
@@ -307,7 +307,7 @@ export const fetchCategoriesWithFighters = contestId => {
         });
 
         return axios
-            .get(host + "api/contests/categories?contestId=" + contestId)
+            .get(host + 'api/contests/categories?contestId=' + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_CATEGORIES_WITH_FIGHTERS_SUCCESS,
@@ -333,7 +333,7 @@ export const fetchContestFights = contestId => {
         });
 
         return axios
-            .get(host + "api/fights/get?contestId=" + contestId)
+            .get(host + 'api/fights/get?contestId=' + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.FETCH_CONTEST_FIGHTS_FULFILLED,
@@ -359,7 +359,7 @@ export const tossupJudges = contestId => {
         });
 
         return axios
-            .get(host + "api/fights/judges/tossup?contestid=" + contestId)
+            .get(host + 'api/fights/judges/tossup?contestid=' + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.TOSSUP_JUDGES_SUCCESS,
@@ -367,7 +367,7 @@ export const tossupJudges = contestId => {
                 });
                 dispatch({
                     type: actionTypes.SHOW_SUCCESS_MESSAGE,
-                    payload: "Judges has beed tossed up."
+                    payload: 'Judges has beed tossed up.'
                 });
             })
             .catch(err => {
@@ -389,7 +389,7 @@ export const scheduleFights = contestId => {
         });
 
         return axios
-            .get(host + "api/fights/schedule?contestid=" + contestId)
+            .get(host + 'api/fights/schedule?contestid=' + contestId)
             .then(response => {
                 dispatch({
                     type: actionTypes.SCHEDULE_FIGHTS_SUCCESS,
@@ -397,7 +397,7 @@ export const scheduleFights = contestId => {
                 });
                 dispatch({
                     type: actionTypes.SHOW_SUCCESS_MESSAGE,
-                    payload: "Fights has beed scheduled."
+                    payload: 'Fights has beed scheduled.'
                 });
             })
             .catch(err => {
@@ -419,7 +419,7 @@ export const allocateJudgeRequest = judgeRequest => {
         });
 
         return axios
-            .post(host + "api/contestrequests/allocatejudge", judgeRequest)
+            .post(host + 'api/contestrequests/allocatejudge', judgeRequest)
             .then(response => {
                 dispatch({
                     type: actionTypes.CONTEST_ALLOCATE_JUGDE_SUCCESS,

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Tooltip} from 'reactstrap';
+import React, { Component } from "react";
+import { Tooltip } from "reactstrap";
 
 export default class AddButton extends Component {
     constructor(props) {
@@ -18,16 +18,16 @@ export default class AddButton extends Component {
     }
 
     render() {
-        const {text, click, tip} = this.props;
+        const { text, click, tip } = this.props;
         return (
             <div>
-                <button id="AddButton" type="button" className="btn btn-link btn-sm" onClick={click}><i
-                    className="fa fa-plus fa-1x" aria-hidden="true"></i></button>
-                <Tooltip placement="down" isOpen={this.state.tooltipOpen} target="AddButton" toggle={this.toggle}>
+                <button id="AddButton" type="button" className="btn btn-link btn-sm" onClick={click}>
+                    <i className="fa fa-plus fa-1x" aria-hidden="true" />
+                </button>
+                <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="AddButton" toggle={this.toggle}>
                     {tip}
                 </Tooltip>
             </div>
-        )
+        );
     }
 }
-

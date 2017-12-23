@@ -1,12 +1,12 @@
-import React from "react";
-import Avatar from "react-avatar";
+import React from 'react';
+import Avatar from 'react-avatar';
 
 export const JudgeCard = props => {
     const { judge, caption, icon } = props;
-    const judgeName = judge && judge.firstname + " " + judge.surname;
+    const judgeName = judge && judge.firstname + ' ' + judge.surname;
     const gym = judge && judge.gymName;
     const country = judge && judge.countryName;
-    const judgeInfo = gym + ", " + country;
+    const judgeInfo = gym + ', ' + country;
     return (
         <div className="col-md-4 col-sm-4 col-lg-2">
             <div className="card">

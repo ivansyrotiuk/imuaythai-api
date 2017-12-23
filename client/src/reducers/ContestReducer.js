@@ -1,4 +1,4 @@
-import * as actionTypes from "../actions/actionTypes";
+import * as actionTypes from '../actions/actionTypes';
 
 const reducerInitialState = {
     contests: [],
@@ -127,9 +127,9 @@ const reducer = (state = reducerInitialState, action) => {
             index = state.institutionRequests.findIndex(request => request.id === action.payload.id);
             requests = [...state.institutionRequests];
 
-            if (index > -1){
-                requests[index] = action.payload
-            }else{
+            if (index > -1) {
+                requests[index] = action.payload;
+            } else {
                 requests = [...state.institutionRequests, action.payload];
             }
 
@@ -340,7 +340,7 @@ const reducer = (state = reducerInitialState, action) => {
             const fight = fights[sourceIndex];
 
             /* fights.splice(sourceIndex, 1);
-            fights.splice(targetIndex, 0, fight);*/
+fights.splice(targetIndex, 0, fight);*/
             fights[sourceIndex] = fights[targetIndex];
             fights[targetIndex] = fight;
             return {
@@ -349,11 +349,11 @@ const reducer = (state = reducerInitialState, action) => {
             };
         case actionTypes.MOVE_FIGHT_SUCCESS:
             /*fights = [...state.fights];
-            for (let i in action.payload) {
-                const fight = action.payload[i];
-                const index = fights.findIndex(f => f.id == fight.id);
-                fights[index] = fight;
-            }*/
+for (let i in action.payload) {
+const fight = action.payload[i];
+const index = fights.findIndex(f => f.id == fight.id);
+fights[index] = fight;
+}*/
 
             return {
                 ...state,

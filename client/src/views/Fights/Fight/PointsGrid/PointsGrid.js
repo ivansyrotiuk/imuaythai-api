@@ -1,18 +1,31 @@
-import React from "react";
-import PointsGridHeader from "./PointsGridHeader";
-import PointsRow from "./PointsRow";
+import React from 'react';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+import PointsCell, { PointCell } from './PointsCell';
 
 export const PointsGrid = props => {
-    const { points, roundsCount } = props;
-    const mappedPoints = points.map((judgePoints, key) => <PointsRow key={key} points={judgePoints} />);
-    return (
-        <table className="table table-hover mb-0 hidden-sm-down table-bordered">
-            <thead>
-                <PointsGridHeader rounds={roundsCount} />
-            </thead>
-            <tbody>{mappedPoints}</tbody>
-        </table>
-    );
+    const { roundsCount } = props;
+
+    const roundsColumns = Array(roundsCount)
+        .fill()
+        .map((e, index) => {
+            return {
+                Header: 'Round ' + index + 1,
+                id: 'round',
+                accessor: d => d.rounds[index],
+                Cell: row => <PointCell points={row.value} />
+            };
+        });
+
+    const columns = [
+        {
+            Header: 'Judge',
+            accessor: 'judgeName'
+        },
+        ...roundsColumns
+    ];
+
+    return <ReactTable data={props.points} columns={columns} defaultPageSize={5} className="-striped -highlight" />;
 };
 
 export default PointsGrid;

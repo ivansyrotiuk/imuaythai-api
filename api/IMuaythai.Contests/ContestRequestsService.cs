@@ -126,6 +126,20 @@ namespace IMuaythai.Contests
             return _mapper.Map<ContestRequest, ContestRequestModel>(request);
         }
 
+        public async Task<ContestRequestModel> AllocateJudge(ContestJudgeAllocationModel allocationModel)
+        {
+            ContestRequest requestEntity = await _contestRequestsRepository.Get(allocationModel.RequestId);
+            if (requestEntity == null)
+            {
+                throw new Exception("Request not found");
+            }
+
+            requestEntity.JudgeType = allocationModel.JudgeType;
+
+            await _contestRequestsRepository.Save(requestEntity);
+            return _mapper.Map<ContestRequestModel>(requestEntity);
+        }
+
         public async Task RemoveRequest(int requestId)
         {
             ContestRequest requestEntity = await _contestRequestsRepository.Get(requestId);
