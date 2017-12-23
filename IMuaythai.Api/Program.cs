@@ -20,9 +20,13 @@ namespace IMuaythai.Api
             BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHost BuildWebHost(string[] args)
+        {
+            var urls = $"http://*:{Environment.GetEnvironmentVariable("PORT") ?? "5000"}/";
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls(urls)
                 .Build();
+        }     
     }
 }
