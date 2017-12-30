@@ -8,13 +8,13 @@ namespace IMuaythai.Institutions
 {
     public interface IInstitutionsService
     {
-        Task<InstitutionModel> Get(int id);
+        Task<InstitutionResponseModel> Get(int id);
         Task<IEnumerable<UserModel>> GetMembers(int institutionId);
         Task<IEnumerable<UserModel>> GetFighters(int institutionId);
         Task<IEnumerable<UserModel>> GetJudges(int institutionId);
         Task<IEnumerable<UserModel>> GetCoaches(int institutionId);
         Task<IEnumerable<UserModel>> GetDoctors(int institutionId);
-        Task<InstitutionModel> Save(InstitutionModel institution);
+        Task<InstitutionResponseModel> Save(InstitutionUpdateModel institutionUpdateModel);
         Task Remove(int institutionId);
     }
 }

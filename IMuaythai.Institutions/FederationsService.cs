@@ -19,22 +19,22 @@ namespace IMuaythai.Institutions
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<InstitutionModel>> GetNationalFederations()
+        public async Task<IEnumerable<InstitutionResponseModel>> GetNationalFederations()
         {
             var federations = await _repository.GetNationalFederations();
-            return _mapper.Map<IEnumerable<InstitutionModel>>(federations);
+            return _mapper.Map<IEnumerable<InstitutionResponseModel>>(federations);
         }
 
-        public async Task<IEnumerable<InstitutionModel>> GetContinentalFederations()
+        public async Task<IEnumerable<InstitutionResponseModel>> GetContinentalFederations()
         {
             var federations = await _repository.GetContinentalFederations();
-            return _mapper.Map<IEnumerable<InstitutionModel>>(federations);
+            return _mapper.Map<IEnumerable<InstitutionResponseModel>>(federations);
         }
 
-        public async Task<IEnumerable<InstitutionModel>> GetWorldFederations()
+        public async Task<IEnumerable<InstitutionResponseModel>> GetWorldFederations()
         {
             var federations = await _repository.GetWorldFederations();
-            return _mapper.Map<IEnumerable<InstitutionModel>>(federations);
+            return _mapper.Map<IEnumerable<InstitutionResponseModel>>(federations);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace IMuaythai.Institutions
 {
     public interface IGymsService : IInstitutionsService
     {
-        Task<IEnumerable<GymModel>> GetGyms();
-        Task<IEnumerable<GymModel>> GetCountryGyms(int countryId);
+        Task<IEnumerable<GymResponseModel>> GetGyms();
+        Task<IEnumerable<GymResponseModel>> GetCountryGyms(int countryId);
     }
 }

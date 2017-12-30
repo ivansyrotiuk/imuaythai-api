@@ -31,6 +31,6 @@ namespace IMuaythai.Models.Contests
         public List<ContestCategoryModel> ContestCategories { get; set; }
         public CountryModel Country { get; set; }
         public List<ContestRingModel> Rings { get; set; } 
-        public InstitutionModel Institution { get; set; }
+        public InstitutionResponseModel InstitutionResponse { get; set; }
     }
 }

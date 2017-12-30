@@ -19,16 +19,16 @@ namespace IMuaythai.Institutions
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GymModel>> GetGyms()
+        public async Task<IEnumerable<GymResponseModel>> GetGyms()
         {
             var gyms = await _repository.GetGyms();
-            return _mapper.Map<IEnumerable<GymModel>>(gyms);
+            return _mapper.Map<IEnumerable<GymResponseModel>>(gyms);
         }
 
-        public async Task<IEnumerable<GymModel>> GetCountryGyms(int countryId)
+        public async Task<IEnumerable<GymResponseModel>> GetCountryGyms(int countryId)
         {
             var gyms = await _repository.Find(i => i.CountryId == countryId);
-            return _mapper.Map<IEnumerable<GymModel>>(gyms);
+            return _mapper.Map<IEnumerable<GymResponseModel>>(gyms);
         }
     }
 }

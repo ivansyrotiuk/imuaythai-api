@@ -53,19 +53,19 @@ namespace IMuaythai.Api.Controllers.Institutions
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> Save([FromBody]InstitutionModel institution)
+        public async Task<IActionResult> Save([FromBody]InstitutionUpdateModel institutionUpdateModel)
         {
             try
             {
-                var imageBase64 = institution.Logo?.Split(',');
+                var imageBase64 = institutionUpdateModel.Logo?.Split(',');
                 if (imageBase64?.Length > 1)
                 {
-                    string hostUrl = $"{Request.Scheme}://{Request.Host}";
-                    institution.Logo = _fileSaver.Save(hostUrl, imageBase64[1]);
+                    var hostUrl = $"{Request.Scheme}://{Request.Host}";
+                    institutionUpdateModel.Logo = _fileSaver.Save(hostUrl, imageBase64[1]);
                 }
 
-                institution = await _institutionsService.Save(institution);
-                return Created("Add", institution);
+                var institutionResponse = await _institutionsService.Save(institutionUpdateModel);
+                return Created("Add", institutionResponse);
             }
             catch(Exception ex)
             {
@@ -75,13 +75,13 @@ namespace IMuaythai.Api.Controllers.Institutions
 
         [HttpPost]
         [Route("Remove")]
-        public async Task<IActionResult> Remove([FromBody]InstitutionModel institution)
+        public async Task<IActionResult> Remove([FromBody]InstitutionResponseModel institutionResponse)
         {
             try
             {
-                await _institutionsService.Remove(institution.Id);
+                await _institutionsService.Remove(institutionResponse.Id);
 
-                return Ok(institution.Id);
+                return Ok(institutionResponse.Id);
             }
             catch (Exception ex)
             {

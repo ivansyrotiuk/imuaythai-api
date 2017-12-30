@@ -26,20 +26,20 @@ namespace IMuaythai.Institutions
             _mapper = mapper;
         }
 
-        public async Task<InstitutionModel> Get(int id)
+        public async Task<InstitutionResponseModel> Get(int id)
         {
             var institution = await _repository.Get(id);
-            return _mapper.Map<InstitutionModel>(institution);
+            return _mapper.Map<InstitutionResponseModel>(institution);
         }
 
-        public async Task<InstitutionModel> Save(InstitutionModel institution)
+        public async Task<InstitutionResponseModel> Save(InstitutionUpdateModel institutionUpdateModel)
         {
-            var entity = _mapper.Map<Institution>(institution);
+            var entity = _mapper.Map<Institution>(institutionUpdateModel);
             await _repository.Save(entity);
 
-            institution.Id = entity.Id;
+            institutionUpdateModel.Id = entity.Id;
             
-            return institution;
+            return _mapper.Map<InstitutionResponseModel>(entity);
         }
 
         public async Task Remove(int institutionId)
