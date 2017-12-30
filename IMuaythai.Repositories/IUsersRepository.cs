@@ -61,11 +61,26 @@ namespace IMuaythai.Repositories
                     _context.Entry(user).State = EntityState.Modified;
                 }
 
-
                 return _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
+                foreach (var entry in ex.Entries)
+                {
+                    if (entry.Entity is ApplicationUser)
+                    {
+                        foreach (var property in entry.Metadata.GetProperties())
+                        {
+                    
+                            entry.Property(property.Name).OriginalValue = entry.Property(property.Name).CurrentValue;
+                        }
+                    }
+                    else
+                    {
+                        throw new NotSupportedException("Don't know how to handle concurrency conflicts for " + entry.Metadata.Name);
+                    }
+                }
+
                 return _context.SaveChangesAsync();
             }
         }

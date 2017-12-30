@@ -96,7 +96,8 @@ namespace IMuaythai.Users
 
         public async Task<UserModel> SaveUser(UserModel userModel)
         {
-            ApplicationUser user = _mapper.Map<ApplicationUser>(userModel);
+            var user = await _usersRepository.Get(userModel.Id);
+             _mapper.Map(userModel, user);
    
             //Refactor this brutal code
             if (userModel.AvatarImage != null)
