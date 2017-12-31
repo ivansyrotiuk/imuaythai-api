@@ -1,5 +1,4 @@
 ﻿using System;
-using IMuaythai.DataAccess.Models;
 
 namespace IMuaythai.Models.Users
 {
@@ -15,28 +14,20 @@ namespace IMuaythai.Models.Users
         public string AcceptedByUserId { get; set; }
         public string AcceptedByUserName { get; set; }
         public string Status { get; set; }
+    }
 
-        public UserRoleRequestModel()
-        {
+    public class CreateUserRoleRequestModel: UserRoleRequestModel
+    {
+       
+    }
 
-        }
+    public class UpdateUserRoleRequestModel : UserRoleRequestModel
+    {
+        
+    }
 
-        public UserRoleRequestModel(UserRoleRequest request)
-        {
-            Id = request.Id;
-            UserId = request.UserId;
-            UserName = request.User?.UserName;
-            RoleId = request.RoleId;
-            RoleName = request.Role?.Name;
-            AcceptationDate = request.AcceptationDate;
-            AcceptedByUserId = request.AcceptedByUserId;
-            AcceptedByUserName = request.AcceptedByUser?.UserName;
-            Status = Enum.GetName(typeof(UserRoleRequestStatus), request.Status);
-        }
+    public class UserRoleRequestResponseModel : UserRoleRequestModel
+    {
 
-        public static explicit operator UserRoleRequestModel(UserRoleRequest entity)
-        {
-            return new UserRoleRequestModel(entity);
-        }
     }
 }

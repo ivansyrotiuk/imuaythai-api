@@ -50,7 +50,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("addrequest")]
-        public async Task<IActionResult> AddUserRoleRequest([FromBody] UserRoleRequestModel roleRequestModel)
+        public async Task<IActionResult> AddUserRoleRequest([FromBody] CreateUserRoleRequestModel roleRequestModel)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("acceptrequest")]
-        public async Task<IActionResult> AcceptRoleRequest([FromBody] UserRoleRequestModel roleRequestModel)
+        public async Task<IActionResult> AcceptRoleRequest([FromBody] UpdateUserRoleRequestModel roleRequestModel)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("rejectrequest")]
-        public async Task<IActionResult> RejectRoleRequest([FromBody] UserRoleRequestModel roleRequestModel)
+        public async Task<IActionResult> RejectRoleRequest([FromBody] UpdateUserRoleRequestModel roleRequestModel)
         {
             try
             {

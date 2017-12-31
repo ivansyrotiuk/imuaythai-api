@@ -25,27 +25,27 @@ namespace IMuaythai.Users
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserRoleRequestModel>> GetUserRoleRequests(string userId)
+        public async Task<IEnumerable<UserRoleRequestResponseModel>> GetUserRoleRequests(string userId)
         {
             var userRoleRequests = await _userRoleRequestsRepository.GetUserRequests(userId);
-            return _mapper.Map<IEnumerable<UserRoleRequestModel>>(userRoleRequests);
+            return _mapper.Map<IEnumerable<UserRoleRequestResponseModel>>(userRoleRequests);
         }
 
-        public async Task<UserRoleRequestModel> AddUserRoleRequest(UserRoleRequestModel roleRequestModel)
+        public async Task<UserRoleRequestResponseModel> AddUserRoleRequest(CreateUserRoleRequestModel roleRequestModel)
         {
             var roleRequest = _mapper.Map<UserRoleRequest>(roleRequestModel);
             roleRequest.Status = UserRoleRequestStatus.Pending;
             await _userRoleRequestsRepository.Save(roleRequest);
-            return _mapper.Map<UserRoleRequestModel>(roleRequest);
+            return _mapper.Map<UserRoleRequestResponseModel>(roleRequest);
         }
 
-        public async Task<IEnumerable<UserRoleRequestModel>> GetPendingRoleRequests()
+        public async Task<IEnumerable<UserRoleRequestResponseModel>> GetPendingRoleRequests()
         {
             var pendingRoleRequests = await _userRoleRequestsRepository.GetPendingRequests();
-            return _mapper.Map<IEnumerable<UserRoleRequestModel>>(pendingRoleRequests);
+            return _mapper.Map<IEnumerable<UserRoleRequestResponseModel>>(pendingRoleRequests);
         }
 
-        public async Task<UserRoleRequestModel> AcceptRoleRequest(UserRoleRequestModel roleRequestModel)
+        public async Task<UserRoleRequestResponseModel> AcceptRoleRequest(UpdateUserRoleRequestModel roleRequestModel)
         {
             var roleRequest = await _userRoleRequestsRepository.Get(roleRequestModel.Id);
             roleRequest.RoleId = roleRequestModel.RoleId;
@@ -57,10 +57,10 @@ namespace IMuaythai.Users
             await _userRoleRequestsRepository.Save(roleRequest);
             await _userRolesManager.AddUserToRole(roleRequestModel.UserId, roleRequestModel.RoleName);
 
-            return _mapper.Map<UserRoleRequestModel>(roleRequest);
+            return _mapper.Map<UserRoleRequestResponseModel>(roleRequest);
         }
 
-        public async Task<UserRoleRequestModel> RejectRoleRequest(UserRoleRequestModel roleRequestModel)
+        public async Task<UserRoleRequestResponseModel> RejectRoleRequest(UpdateUserRoleRequestModel roleRequestModel)
         {
             UserRoleRequest roleRequest = await _userRoleRequestsRepository.Get(roleRequestModel.Id);
             roleRequest.RoleId = roleRequestModel.RoleId;
@@ -72,7 +72,7 @@ namespace IMuaythai.Users
             await _userRoleRequestsRepository.Save(roleRequest);
             await _userRolesManager.RemoveUserFromRole(roleRequestModel.UserId, roleRequestModel.RoleName);
 
-            return _mapper.Map<UserRoleRequestModel>(roleRequest);
+            return _mapper.Map<UserRoleRequestResponseModel>(roleRequest);
         }
     }
 }
