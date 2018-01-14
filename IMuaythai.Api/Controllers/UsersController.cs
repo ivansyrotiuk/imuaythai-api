@@ -24,6 +24,20 @@ namespace IMuaythai.Api.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                var users = await _usersService.GetUsers();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("fighters")]
         public async Task<IActionResult> GetFigthers()
         {

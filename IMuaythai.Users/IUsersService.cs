@@ -15,5 +15,6 @@ namespace IMuaythai.Users
         Task<UserModel> GetUser(string id);
         Task<UserModel> SaveUser(UserModel user);
         Task RemoveUser(UserModel user);
+        Task<IEnumerable<UserModel>> GetUsers();
     }
 }

@@ -130,5 +130,11 @@ namespace IMuaythai.Users
         {
             await _usersRepository.Remove(user.Id);
         }
+
+        public async Task<IEnumerable<UserModel>> GetUsers()
+        {
+            var users = await _usersRepository.GetAll();
+            return _mapper.Map<IEnumerable<UserModel>>(users);
+        }
     }
 }
