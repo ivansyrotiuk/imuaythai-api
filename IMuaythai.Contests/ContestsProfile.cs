@@ -16,7 +16,8 @@ namespace IMuaythai.Contests
                 .ForMember(dest => dest.ContestCategories, opt => opt.MapFrom(src => src.ContestCategoriesMappings.Select(entity => entity.ContestCategory) ?? new List<ContestCategory>()))
                 .ForMember(dest => dest.Rings, opt => opt.MapFrom(src => ConvertToContestRingModel(src)));
 
-            CreateMap<ContestModel, Contest>();
+            CreateMap<ContestModel, Contest>()
+                .ForMember(dest => dest.Rings, opt => opt.Ignore());
 
             CreateMap<ContestRequest, ContestRequestModel>()
                 .ForMember(dest => dest.UserName,
