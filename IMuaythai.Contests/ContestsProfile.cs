@@ -11,13 +11,19 @@ namespace IMuaythai.Contests
         public ContestsProfile()
         {
             CreateMap<ContestRing, RingAvailabilityModel>();
-            CreateMap<Contest, ContestModel>()
+            CreateMap<Contest, ContestResponseModel>()
                 .ForMember(dest => dest.ContestCategories, opt => opt.PreCondition(src => src.ContestCategoriesMappings != null))
                 .ForMember(dest => dest.ContestCategories, opt => opt.MapFrom(src => src.ContestCategoriesMappings.Select(entity => entity.ContestCategory) ?? new List<ContestCategory>()))
                 .ForMember(dest => dest.Rings, opt => opt.MapFrom(src => ConvertToContestRingModel(src)));
 
-            CreateMap<ContestModel, Contest>()
-                .ForMember(dest => dest.Rings, opt => opt.Ignore());
+            CreateMap<ContestUpdateModel, Contest>()
+                .ForMember(dest => dest.Rings, opt => opt.Ignore())
+                .ForMember(dest => dest.Country, opt => opt.Ignore())
+                .ForMember(dest => dest.ContestCategoriesMappings, opt => opt.Ignore())
+                .ForMember(dest => dest.ContestDocumentsMappings, opt => opt.Ignore())
+                .ForMember(dest => dest.Institution, opt => opt.Ignore())
+                .ForMember(dest => dest.ContestRange, opt => opt.Ignore())
+                .ForMember(dest => dest.ContestType, opt => opt.Ignore());
 
             CreateMap<ContestRequest, ContestRequestModel>()
                 .ForMember(dest => dest.UserName,

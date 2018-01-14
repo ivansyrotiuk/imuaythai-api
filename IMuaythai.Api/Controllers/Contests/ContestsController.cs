@@ -48,11 +48,11 @@ namespace IMuaythai.Api.Controllers.Contests
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> SaveContest([FromBody]ContestModel contest)
+        public async Task<IActionResult> SaveContest([FromBody]ContestUpdateModel contestResponse)
         {
             try
             {
-                var savedContest = await _contestsService.SaveContest(contest);
+                var savedContest = await _contestsService.SaveContest(contestResponse);
                 return Created("Add", savedContest);
             }
             catch (Exception ex)
@@ -63,12 +63,12 @@ namespace IMuaythai.Api.Controllers.Contests
 
         [HttpPost]
         [Route("Remove")]
-        public async Task<IActionResult> RemoveContest([FromBody]ContestModel contest)
+        public async Task<IActionResult> RemoveContest([FromBody]ContestResponseModel contestResponse)
         {
             try
             {
-                await _contestsService.RemoveContest(contest.Id);
-                return Ok(contest.Id);
+                await _contestsService.RemoveContest(contestResponse.Id);
+                return Ok(contestResponse.Id);
             }
             catch (Exception ex)
             {

@@ -38,7 +38,7 @@ namespace IMuaythai.Models.Fights
         public List<JudgeModel> Judges { get; set; }
 
         public FightModel NextFight { get; set; }
-        public ContestModel Contest { get; set; }
+        public ContestResponseModel ContestResponse { get; set; }
         public ContestCategoryModel ContestCategory { get; set; }
         public FightStructureModel Structure { get; set; }
         public FighterModel RedAthlete { get; set; }

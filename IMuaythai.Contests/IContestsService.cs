@@ -13,9 +13,9 @@ namespace IMuaythai.Contests
 {
     public interface IContestsService
     {
-        Task<IEnumerable<ContestModel>> GetContests();
-        Task<ContestModel> GetContest(int id);
-        Task<ContestModel> SaveContest(ContestModel contest);
+        Task<IEnumerable<ContestResponseModel>> GetContests();
+        Task<ContestResponseModel> GetContest(int id);
+        Task<ContestResponseModel> SaveContest(ContestUpdateModel contestResponse);
         Task RemoveContest(int id);
         Task<IEnumerable<ContestCategoryWithFightersModel>> GetContestCategories(int contestId);
     }
@@ -43,32 +43,32 @@ namespace IMuaythai.Contests
             _userContext = userContext;
         }
 
-        public async Task<IEnumerable<ContestModel>> GetContests()
+        public async Task<IEnumerable<ContestResponseModel>> GetContests()
         {
             var contests = await _repository.GetAll();
-            return _mapper.Map<IEnumerable<ContestModel>>(contests);
+            return _mapper.Map<IEnumerable<ContestResponseModel>>(contests);
         }
 
-        public async Task<ContestModel> GetContest(int id)
+        public async Task<ContestResponseModel> GetContest(int id)
         {
             var contest = await _repository.Get(id);
-            return _mapper.Map<ContestModel>(contest);
+            return _mapper.Map<ContestResponseModel>(contest);
         }
 
-        public async Task<ContestModel> SaveContest(ContestModel contest)
+        public async Task<ContestResponseModel> SaveContest(ContestUpdateModel contestResponse)
         {
             var user = await _userContext.GetUser() ?? throw new Exception("User not found");
 
-            int institutionId = contest.InstitutionId == 0 && user.InstitutionId.HasValue ? user.InstitutionId.Value : contest.InstitutionId;
+            int institutionId = contestResponse.InstitutionId == 0 && user.InstitutionId.HasValue ? user.InstitutionId.Value : contestResponse.InstitutionId;
 
-            Contest contestEntity = _mapper.Map<Contest>(contest);
+            Contest contestEntity = _mapper.Map<Contest>(contestResponse);
             contestEntity.InstitutionId = institutionId;
 
             await _repository.Save(contestEntity);
-            await _contestCategoryMappingsRepository.SaveCategoryMappings(contestEntity.Id, contest.ContestCategories);
-            await _contestRingsRepository.SaveCategoryRings(contestEntity.Id, contest.Rings);
+            await _contestCategoryMappingsRepository.SaveCategoryMappings(contestEntity.Id, contestResponse.ContestCategories);
+            await _contestRingsRepository.SaveCategoryRings(contestEntity.Id, contestResponse.Rings);
 
-            return _mapper.Map<ContestModel>(contestEntity);
+            return _mapper.Map<ContestResponseModel>(contestEntity);
         }
 
         public async Task RemoveContest(int id)

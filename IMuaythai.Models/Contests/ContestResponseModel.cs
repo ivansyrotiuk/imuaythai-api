@@ -6,10 +6,10 @@ using IMuaythai.Models.Locations;
 
 namespace IMuaythai.Models.Contests
 {
-    public class ContestModel
+    public class ContestResponseModel
     {
-        public int Id { get;  set; }
-        public string  Name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public DateTime Date { get; set; }
         public DateTime EndRegistrationDate { get; set; }
         public string Address { get; set; }
@@ -28,9 +28,10 @@ namespace IMuaythai.Models.Contests
         public int? ContestRangeId { get; set; }
         public int? ContestTypeId { get; set; }
         public int WaiKhruTime { get; set; }
-        public List<ContestCategoryModel> ContestCategories { get; set; }
         public CountryModel Country { get; set; }
         public List<ContestRingModel> Rings { get; set; } 
         public InstitutionResponseModel InstitutionResponse { get; set; }
+        public List<ContestCategoryModel> ContestCategories { get; set; }
+
     }
 }
