@@ -18,13 +18,13 @@ namespace IMuaythai.JudgingServer
         private readonly ApplicationDbContext _context;
         private readonly SemaphoreSlim _mutex;
         private string _jurySocketId;
-        private readonly Dictionary<string, int> _fightWarnings;
+        private Dictionary<string, int> _fightWarnings;
         protected string Ring { get; set; }
         public FightHandler(WebSocketConnectionManager connectionManager) : base(connectionManager)
         {
             _context = new ApplicationDbContextFactory().CreateDbContext(new string[] { });
             _mutex = new SemaphoreSlim(1);
-            _fightWarnings = new Dictionary<string, int>();
+            _fightWarnings = GetFightDictionary();
         }
 
         public override async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
@@ -77,8 +77,6 @@ namespace IMuaythai.JudgingServer
                 case RequestType.StartRound:
                     if (CanStartNewRound())
                     {
-
-
                         var roundId = GetRoundId();
                         await SendMessageToAllAsync(new Request
                         {
@@ -90,7 +88,7 @@ namespace IMuaythai.JudgingServer
 
                 case RequestType.EndFight:
                     _roundCount = 0;
-                    _fightWarnings.Clear();
+                    _fightWarnings = GetFightDictionary();
                     _jurySocketId = string.Empty;
                     await SaveWinner(request.Data);
                     await SendMessageToAllAsync(new Request
@@ -243,29 +241,30 @@ namespace IMuaythai.JudgingServer
 
         }
 
-        private void AddToFightDictionary(FightPoint points)
+        private Dictionary<string, int> GetFightDictionary()
         {
-            CheckIfKeyExist(nameof(points.Cautions));
-            _fightWarnings[nameof(points.Cautions)] += points.Cautions;
-
-            CheckIfKeyExist(nameof(points.Warnings));
-            _fightWarnings[nameof(points.Warnings)] += points.Warnings;
-
-            CheckIfKeyExist(nameof(points.KnockDown));
-            _fightWarnings[nameof(points.KnockDown)] += points.KnockDown;
-
-            CheckIfKeyExist(nameof(points.J));
-            _fightWarnings[nameof(points.J)] += points.J;
-
-            CheckIfKeyExist(nameof(points.X));
-            _fightWarnings[nameof(points.X)] += points.X;
-
+            return new Dictionary<string, int>()
+            {
+                {"Cautions", 0},
+                {"Warnings", 0},
+                {"KnockDown", 0},
+                {"J", 0},
+                {"X", 0}
+            };
         }
 
-        private void CheckIfKeyExist(string pointsName)
+        private void AddToFightDictionary(FightPoint points)
         {
-            if (!_fightWarnings.ContainsKey(pointsName))
-                _fightWarnings.Add(pointsName, 0);
+            _fightWarnings[nameof(points.Cautions)] += points.Cautions;
+
+            _fightWarnings[nameof(points.Warnings)] += points.Warnings;
+
+            _fightWarnings[nameof(points.KnockDown)] += points.KnockDown;
+
+            _fightWarnings[nameof(points.J)] += points.J;
+
+            _fightWarnings[nameof(points.X)] += points.X;
+
         }
     }
 }
