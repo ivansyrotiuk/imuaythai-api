@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Models.Contests;
 using IMuaythai.Models.Fights;
 
 namespace IMuaythai.Fights
@@ -10,10 +11,13 @@ namespace IMuaythai.Fights
     {
         public FightsProfile()
         {
-            CreateMap<Fight, FightModel>().
-                ForMember(dest => dest.Points, opt => opt.MapFrom(src => ConvertToFightPointModels(src)))
-                .ForMember(dest => dest.Judges, opt => opt.MapFrom(src => src.FightJudgesMappings.Where(j => j.Main == 0).Select(m => m.Judge)))
-                .ForMember(dest => dest.MainJudge, opt => opt.MapFrom(src => src.FightJudgesMappings.Where(j => j.Main == 1).Select(m => m.Judge).FirstOrDefault()));
+            CreateMap<Fight, FightModel>().ForMember(dest => dest.Points,
+                    opt => opt.MapFrom(src => ConvertToFightPointModels(src)))
+                .ForMember(dest => dest.Judges,
+                    opt => opt.MapFrom(src => src.FightJudgesMappings.Where(j => j.Main == 0).Select(m => m.Judge)))
+                .ForMember(dest => dest.MainJudge,
+                    opt => opt.MapFrom(src =>
+                        src.FightJudgesMappings.Where(j => j.Main == 1).Select(m => m.Judge).FirstOrDefault()));
         }
 
         private List<FightPointModel> ConvertToFightPointModels(Fight src)
