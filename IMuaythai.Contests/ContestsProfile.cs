@@ -13,7 +13,7 @@ namespace IMuaythai.Contests
             CreateMap<ContestRing, RingAvailabilityModel>();
             CreateMap<Contest, ContestResponseModel>()
                 .ForMember(dest => dest.ContestCategories, opt => opt.PreCondition(src => src.ContestCategoriesMappings != null))
-                .ForMember(dest => dest.ContestCategories, opt => opt.MapFrom(src => src.ContestCategoriesMappings.Select(entity => entity.ContestCategory) ?? new List<ContestCategory>()))
+                .ForMember(dest => dest.ContestCategories, opt => opt.MapFrom(src => src.ContestCategoriesMappings.Select(entity => entity.ContestCategory)))
                 .ForMember(dest => dest.Rings, opt => opt.MapFrom(src => ConvertToContestRingModel(src)));
 
             CreateMap<ContestUpdateModel, Contest>()
@@ -27,15 +27,25 @@ namespace IMuaythai.Contests
 
             CreateMap<ContestRequest, ContestRequestModel>()
                 .ForMember(dest => dest.UserName,
-                    opt => opt.MapFrom(src => src.User == null ? string.Empty : $"{src.User.FirstName} {src.User.Surname}"))
+                    opt => opt.PreCondition(src => src.User != null))
+                .ForMember(dest => dest.UserName,
+                    opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.Surname}"))
                 .ForMember(dest => dest.InstitutionName,
-                    opt => opt.MapFrom(src => src.Institution == null ? string.Empty : src.Institution.Name))
+                    opt => opt.PreCondition(src => src.Institution != null))
+                .ForMember(dest => dest.InstitutionName,
+                    opt => opt.MapFrom(src => src.Institution.Name))
                 .ForMember(dest => dest.ContestName,
-                    opt => opt.MapFrom(src => src.Contest == null ? string.Empty : src.Contest.Name))
+                    opt => opt.PreCondition(src => src.Contest != null))
+                .ForMember(dest => dest.ContestName,
+                    opt => opt.MapFrom(src => src.Contest.Name))
                 .ForMember(dest => dest.ContestCategoryName,
-                    opt => opt.MapFrom(src => src.ContestCategory == null ? string.Empty : src.ContestCategory.Name))
+                    opt => opt.PreCondition(src => src.ContestCategory != null))
+                .ForMember(dest => dest.ContestCategoryName,
+                    opt => opt.MapFrom(src => src.ContestCategory.Name))
                 .ForMember(dest => dest.AcceptedByUserName,
-                    opt => opt.MapFrom(src => src.AcceptedByUser == null ? string.Empty : $"{src.AcceptedByUser.FirstName} {src.AcceptedByUser.Surname}"));
+                    opt => opt.PreCondition(src => src.AcceptedByUser != null))
+                .ForMember(dest => dest.AcceptedByUserName,
+                    opt => opt.MapFrom(src => $"{src.AcceptedByUser.FirstName} {src.AcceptedByUser.Surname}"));
 
             CreateMap<ContestRequestModel, ContestRequest>();
             CreateMap<ContestCategory, ContestCategoryWithFightersModel>();

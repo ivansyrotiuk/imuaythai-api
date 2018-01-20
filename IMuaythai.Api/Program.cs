@@ -1,9 +1,7 @@
-using System;
-using System.IO;
 using IMuaythai.Api.Launchers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace IMuaythai.Api
 {
@@ -11,10 +9,14 @@ namespace IMuaythai.Api
     {
         public static void Main(string[] args)
         {
-            if (args.Length > 0 && args[0].Equals("local"))
+            CommandLineConfiguration.Configuration = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .Build();
+
+            if (CommandLineConfiguration.NeedSetupLocal)
             {
                 LauncherConfigurationManager.CreateLocalInstanseConfiguration();
-                return;    
+                return;
             }
 
             BuildWebHost(args).Run();

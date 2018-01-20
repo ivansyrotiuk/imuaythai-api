@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using AutoMapper;
 using FluentValidation.AspNetCore;
-using IMuaythai.DataAccess.Data;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.JudgingServer.RingMapping;
 using IMuaythai.Services;
@@ -19,6 +18,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
 using FluentValidation;
 using IMuaythai.Api.Validators;
+using IMuaythai.DataAccess.Contexts;
+using IMuaythai.DataAccess.Services;
 using IMuaythai.Models.Dictionaries;
 
 namespace IMuaythai.Api
@@ -123,14 +124,16 @@ namespace IMuaythai.Api
             services.AddUsersServices();
             services.AddContestServices();
             services.AddDictionariesServices();
-
             services.Configure<EmailConfiguration>(Configuration);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDataTransferService dataTransferService)
         {
-           // dataTransferService.UploadDataToMainDatabase(16);
+            if (CommandLineConfiguration.NeedInitLocal)
+            {
+                dataTransferService.DownloadDataFromMainDatabase();
+            }
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             app.UseDefaultFiles();
@@ -138,16 +141,12 @@ namespace IMuaythai.Api
             app.UseWebSockets(new WebSocketOptions
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(25),
-
             });
             app.UseCors("MyPolicy");
 
             app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
             app.MapWebSocketManager("/ringc", serviceProvider.GetService<RingC>());
-
-           //dataTransferService.UploadDataToMainDatabase(16).Wait();
-           // dataTransferService.DownloadDataFromMainDatabase();
 
             app.UseAuthentication();
 

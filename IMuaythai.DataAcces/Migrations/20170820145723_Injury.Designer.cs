@@ -1,5 +1,5 @@
 ﻿using System;
-using IMuaythai.DataAccess.Data;
+using IMuaythai.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;

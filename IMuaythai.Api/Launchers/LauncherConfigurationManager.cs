@@ -16,10 +16,10 @@ namespace IMuaythai.Api.Launchers
                 return;
             }
 
-            string json = File.ReadAllText(settingsFile);
-            JObject configuration = JObject.Parse(json);
+            var json = File.ReadAllText(settingsFile);
+            var configuration = JObject.Parse(json);
             var connectionStrings = configuration["ConnectionStrings"];
-            connectionStrings["DefaultConnection"] = "Server=(localdb)\\MSSQLLocalDB;Database=imuaythai_local_contest;Trusted_Connection=True;";
+            connectionStrings["DefaultConnection"] = $"Server=(localdb)\\MSSQLLocalDB;Database=imuaythai_local_contest_{DateTime.Now.Ticks};Trusted_Connection=True;";
             json = configuration.ToString();
             File.WriteAllText(settingsFile, json);
         }

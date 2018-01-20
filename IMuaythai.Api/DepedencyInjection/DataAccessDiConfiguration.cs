@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IMuaythai.DataAccess.Data;
+using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Models;
-using IMuaythai.DataAccess.Models.Comparers;
+using IMuaythai.DataAccess.Services;
+using IMuaythai.DataAccess.Services.Comparers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IMuaythai.Api.DepedencyInjection
@@ -27,6 +28,7 @@ namespace IMuaythai.Api.DepedencyInjection
             services.AddScoped<IEqualityComparer<ContestRing>, ContestRingEqualityComparer>();
 
             services.AddScoped<IDataTransferService, DataTransferService>();
+            services.AddScoped<IContextFactoryFacade, ContextFactoryFacade>();
         }
     }
 }
