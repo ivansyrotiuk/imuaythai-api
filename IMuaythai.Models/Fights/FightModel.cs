@@ -47,5 +47,6 @@ namespace IMuaythai.Models.Fights
         public FighterModel Referee { get; set; }
         public FighterModel Winner { get; set; }
         public JudgeModel MainJudge { get; set; }
+        public ContestRequestModel Contest { get; set; }
     }
 }
