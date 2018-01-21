@@ -17,6 +17,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
+using FluentValidation;
+using IMuaythai.Api.Validators;
+using IMuaythai.Models.Dictionaries;
 
 namespace IMuaythai.Api
 {
@@ -46,10 +49,22 @@ namespace IMuaythai.Api
         {
             // Add framework services.
             //services.AddOptions();
-            services.AddMvc().AddJsonOptions(
+            services.AddMvc(options =>
+                options.Filters.Add(typeof(ValidatorActionFilter))).AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore
             ).AddFluentValidation();
+
+            //Add validators
+            services.AddTransient<IValidator<WeightAgeCategoryModel>, WeightAgeCategoryValidator>();
+            services.AddTransient<IValidator<SuspensionTypeModel>, SuspensionTypeValidator>();
+            services.AddTransient<IValidator<RoundModel>, RoundValidator>();
+            services.AddTransient<IValidator<KhanLevelModel>, KhanLevelValidator>();
+            services.AddTransient<IValidator<FightStructureModel>, FightStructureValidator>();
+            services.AddTransient<IValidator<ContestTypeModel>, ContestTypeValidator>();
+            services.AddTransient<IValidator<ContestRangeModel>, ContestRangeValidator>();
+            services.AddTransient<IValidator<ContestPointsModel>, ContestPointsValidator>();
+            services.AddTransient<IValidator<ContestCategoryModel>, ContestCategoryValidator>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
