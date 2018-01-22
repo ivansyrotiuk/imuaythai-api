@@ -9,7 +9,7 @@ namespace IMuaythai.Api
         private const string InitLocal = "init";
         public static IConfiguration Configuration { get; set; }
 
-        public static bool NeedSetupLocal => Configuration.AsEnumerable().Any(conf => conf.Value.Equals(SetupLocal));
-        public static bool NeedInitLocal => Configuration.AsEnumerable().Any(conf => conf.Value.Equals(InitLocal));
+        public static bool NeedSetupLocal => Configuration?.AsEnumerable().Any(conf => conf.Value.Equals(SetupLocal)) == true;
+        public static bool NeedInitLocal => Configuration?.AsEnumerable().Any(conf => conf.Value.Equals(InitLocal)) == true;
     }
 }

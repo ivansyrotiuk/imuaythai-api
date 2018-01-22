@@ -1,4 +1,8 @@
-﻿using IMuaythai.DataAccess.Models;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using IMuaythai.DataAccess.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -136,6 +140,31 @@ namespace IMuaythai.DataAccess.Contexts
         public virtual DbSet<ContestCategoriesMapping> ContestCategoriesMappings { get; set; }
         public virtual DbSet<ContestRing> ContestRings { get; set; }
 
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            SetModifiedDate();
 
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        public override int SaveChanges()
+        {
+            SetModifiedDate();
+            return base.SaveChanges();
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            SetModifiedDate();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        private void SetModifiedDate()
+        {
+            var editedEntities = ChangeTracker.Entries().Where(e => e.State == EntityState.Modified && e.Entity is Entity)
+                .ToList();
+
+            editedEntities.ForEach(entity => { entity.Property("Modified").CurrentValue = DateTime.UtcNow; });
+        }
     }
 }
