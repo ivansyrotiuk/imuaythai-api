@@ -46,6 +46,10 @@ namespace IMuaythai.Repositories.Dictionaries
             {
                 _context.SuspensionTypes.Add(type);
             }
+            else
+            {
+                _context.Entry(type).State = EntityState.Modified;
+            }
 
             return _context.SaveChangesAsync();
         }
