@@ -17,8 +17,22 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
 using IMuaythai.Api.Validators;
+using IMuaythai.Api.Validators.Account;
+using IMuaythai.Api.Validators.Contest;
+using IMuaythai.Api.Validators.Fights;
+using IMuaythai.Api.Validators.Institutions;
+using IMuaythai.Api.Validators.Locations;
+using IMuaythai.Api.Validators.Roles;
+using IMuaythai.Api.Validators.Users;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Services;
+using IMuaythai.Fights;
+using IMuaythai.Models.AccountModels;
+using IMuaythai.Models.Contests;
+using IMuaythai.Models.Institutions;
+using IMuaythai.Models.Locations;
+using IMuaythai.Models.Roles;
+using IMuaythai.Models.Users;
 
 namespace IMuaythai.Api
 {
@@ -57,6 +71,23 @@ namespace IMuaythai.Api
             //Add validators
           
             services.AddValidators();
+            services.AddTransient<IValidator<UserModel>, UsersValidator>();
+            services.AddTransient<IValidator<CreateUserModel>, CreateUserValidator>();
+            services.AddTransient<IValidator<UserRoleRequestModel>, UserRoleRequestValidator>();
+            services.AddTransient<IValidator<RoleModel>, RoleValidator>();
+            services.AddTransient<IValidator<CountryModel>, CountryValidator>();
+            services.AddTransient<IValidator<FightMoving>, FightMovingValidator>();
+            services.AddTransient<IValidator<FighterMoving>, FighterMovingValidator>();
+            services.AddTransient<IValidator<ContestRequestModel>, ContestRequestValidator>();
+            services.AddTransient<IValidator<ContestResponseModel>, ContestResponseValidator>();
+            services.AddTransient<IValidator<ContestUpdateModel>, ContestUpdateValidator>();
+            services.AddTransient<IValidator<InstitutionUpdateModel>, InstitutionUpdateValidator>();
+            services.AddTransient<IValidator<FinishRegisterDto>, FinishRegisterDtoValidator>();
+            services.AddTransient<IValidator<ForgotPasswordDto>, ForgotPasswordDtoValidator>();
+            services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
+            services.AddTransient<IValidator<RegisterDto>, RegisterDtoValidator>();
+            services.AddTransient<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
+            services.AddTransient<IValidator<VerifyCodeDto>, VerifyCodeDtoValidator>();
             
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
