@@ -16,11 +16,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
-using FluentValidation;
 using IMuaythai.Api.Validators;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Services;
-using IMuaythai.Models.Dictionaries;
 
 namespace IMuaythai.Api
 {
@@ -57,16 +55,9 @@ namespace IMuaythai.Api
             ).AddFluentValidation();
 
             //Add validators
-            services.AddTransient<IValidator<WeightAgeCategoryModel>, WeightAgeCategoryValidator>();
-            services.AddTransient<IValidator<SuspensionTypeModel>, SuspensionTypeValidator>();
-            services.AddTransient<IValidator<RoundModel>, RoundValidator>();
-            services.AddTransient<IValidator<KhanLevelModel>, KhanLevelValidator>();
-            services.AddTransient<IValidator<FightStructureModel>, FightStructureValidator>();
-            services.AddTransient<IValidator<ContestTypeModel>, ContestTypeValidator>();
-            services.AddTransient<IValidator<ContestRangeModel>, ContestRangeValidator>();
-            services.AddTransient<IValidator<ContestPointsModel>, ContestPointsValidator>();
-            services.AddTransient<IValidator<ContestCategoryModel>, ContestCategoryValidator>();
-
+          
+            services.AddValidators();
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                     .EnableSensitiveDataLogging());
@@ -124,6 +115,7 @@ namespace IMuaythai.Api
             services.AddUsersServices();
             services.AddContestServices();
             services.AddDictionariesServices();
+            services.AddDashboardServices();
             services.Configure<EmailConfiguration>(Configuration);
         }
 

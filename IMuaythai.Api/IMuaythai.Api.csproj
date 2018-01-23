@@ -48,6 +48,7 @@
     <ProjectReference Include="..\IMuaythai.Api.Dictionaries\IMuaythai.Dictionaries.csproj" />
     <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
     <ProjectReference Include="..\IMuaythai.Contests\IMuaythai.Contests.csproj" />
+    <ProjectReference Include="..\IMuaythai.Dashboard\IMuaythai.Dashboard.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
     <ProjectReference Include="..\IMuaythai.Fights\IMuaythai.Fights.csproj" />
     <ProjectReference Include="..\IMuaythai.Institutions\IMuaythai.Institutions.csproj" />

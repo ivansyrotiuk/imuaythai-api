@@ -33,7 +33,8 @@ namespace IMuaythai.Repositories.Contests
 
         public Task<List<Contest>> GetAll()
         {
-            return _context.Contests.Where(contest => !contest.Deleted).ToListAsync();
+            return _context.Contests.Include(c => c.Country).Include(c => c.Institution)
+                .Where(contest => !contest.Deleted).ToListAsync();
         }
 
         public Task Remove(int id)
