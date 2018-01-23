@@ -18,9 +18,11 @@ using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
 using FluentValidation;
 using IMuaythai.Api.Validators;
+using IMuaythai.Api.Validators.Users;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Services;
 using IMuaythai.Models.Dictionaries;
+using IMuaythai.Models.Users;
 
 namespace IMuaythai.Api
 {
@@ -66,6 +68,9 @@ namespace IMuaythai.Api
             services.AddTransient<IValidator<ContestRangeModel>, ContestRangeValidator>();
             services.AddTransient<IValidator<ContestPointsModel>, ContestPointsValidator>();
             services.AddTransient<IValidator<ContestCategoryModel>, ContestCategoryValidator>();
+            services.AddTransient<IValidator<UserModel>, UsersValidator>();
+            services.AddTransient<IValidator<CreateUserModel>, CreateUserValidator>();
+            services.AddTransient<IValidator<UserRoleRequestModel>, UserRoleRequestValidator>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
