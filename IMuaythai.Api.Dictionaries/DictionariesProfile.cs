@@ -20,6 +20,8 @@ namespace IMuaythai.Dictionaries
             CreateMap<ContestTypeModel, ContestType>();
 
             CreateMap<WeightAgeCategory, WeightAgeCategoryModel>();
+            CreateMap<WeightAgeCategoryModel, WeightAgeCategory>();
+
 
             CreateMap<ContestTypePoints, ContestPointsModel>()
                 .ForMember(dest => dest.ContestRange,
@@ -33,6 +35,15 @@ namespace IMuaythai.Dictionaries
                 .ForMember(dest => dest.Round,
                     opt => opt.MapFrom(src => src.Round ?? new Round()));
 
+            CreateMap<FightStructureModel, FightStructure>()
+                .ForMember(dest => dest.ContestCategories, opt => opt.Ignore())
+                .ForMember(dest => dest.Fights, opt => opt.Ignore())
+                .ForMember(dest => dest.Round, opt => opt.Ignore())
+                .ForMember(dest => dest.WeightAgeCategory, opt => opt.Ignore());
+
+
+
+
             CreateMap<ContestCategory, ContestCategoryModel>()
                 .ForMember(dest => dest.ContestPoints,
                     opt => opt.MapFrom(src => src.ContestTypePoints ?? new ContestTypePoints()))
@@ -41,7 +52,6 @@ namespace IMuaythai.Dictionaries
 
 
             CreateMap<ContestCategoryModel, ContestCategory>();
-            CreateMap<WeightAgeCategoryModel, WeightAgeCategory>();
             CreateMap<ContestPointsModel, ContestTypePoints>();
             CreateMap<ContestRangeModel, ContestRange>();
             CreateMap<RoundModel, Round>();
