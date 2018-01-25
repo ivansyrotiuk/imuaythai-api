@@ -38,7 +38,7 @@ namespace IMuaythai.Api.Controllers.Contests
 
         [HttpGet]
         [Route("candidates")]
-        [Authorize(Roles= "NationalFederation, WorldFederation, ContinentalFederation, Gym, Admin, SuperAdmin")]
+        [Authorize(Roles= "NationalFederation, WorldFederation, ContinentalFederation, GymAdmin, Admin, SuperAdmin")]
         public async Task<IActionResult> GetContestCandidates()
         {
             try
@@ -65,7 +65,7 @@ namespace IMuaythai.Api.Controllers.Contests
         {
             try
             {
-                var requests = await _requestsService.GetRequests(contestId);
+                var requests = await _requestsService.GetJudgeRequests(contestId);
                 return Ok(requests);
             }
             catch (Exception ex)
