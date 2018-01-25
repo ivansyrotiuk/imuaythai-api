@@ -27,7 +27,7 @@ namespace IMuaythai.Api
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 //ONLY FOR LOCAL SERVER USE
-                //.UseUrls("http://0.0.0.0:5000/")
+                .UseUrls("http://0.0.0.0:5000/")
                 .Build();
         }     
     }
