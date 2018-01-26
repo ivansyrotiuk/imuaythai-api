@@ -18,11 +18,13 @@ using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
 using FluentValidation;
 using IMuaythai.Api.Validators;
+using IMuaythai.Api.Validators.Locations;
 using IMuaythai.Api.Validators.Roles;
 using IMuaythai.Api.Validators.Users;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Services;
 using IMuaythai.Models.Dictionaries;
+using IMuaythai.Models.Locations;
 using IMuaythai.Models.Roles;
 using IMuaythai.Models.Users;
 
@@ -74,6 +76,7 @@ namespace IMuaythai.Api
             services.AddTransient<IValidator<CreateUserModel>, CreateUserValidator>();
             services.AddTransient<IValidator<UserRoleRequestModel>, UserRoleRequestValidator>();
             services.AddTransient<IValidator<RoleModel>, RoleValidator>();
+            services.AddTransient<IValidator<CountryModel>, CountryValidator>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
