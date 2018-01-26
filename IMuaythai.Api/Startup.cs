@@ -18,6 +18,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
 using FluentValidation;
 using IMuaythai.Api.Validators;
+using IMuaythai.Api.Validators.Account;
 using IMuaythai.Api.Validators.Contest;
 using IMuaythai.Api.Validators.Fights;
 using IMuaythai.Api.Validators.Institutions;
@@ -27,6 +28,7 @@ using IMuaythai.Api.Validators.Users;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Services;
 using IMuaythai.Fights;
+using IMuaythai.Models.AccountModels;
 using IMuaythai.Models.Contests;
 using IMuaythai.Models.Dictionaries;
 using IMuaythai.Models.Institutions;
@@ -90,6 +92,12 @@ namespace IMuaythai.Api
             services.AddTransient<IValidator<ContestUpdateModel>, ContestUpdateValidator>();
             services.AddTransient<IValidator<InstitutionResponseModel>, InstitutionResponseValidator>();
             services.AddTransient<IValidator<InstitutionUpdateModel>, InstitutionUpdateValidator>();
+            services.AddTransient<IValidator<FinishRegisterDto>, FinishRegisterDtoValidator>();
+            services.AddTransient<IValidator<ForgotPasswordDto>, ForgotPasswordDtoValidator>();
+            services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
+            services.AddTransient<IValidator<RegisterDto>, RegisterDtoValidator>();
+            services.AddTransient<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
+            services.AddTransient<IValidator<VerifyCodeDto>, VerifyCodeDtoValidator>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
