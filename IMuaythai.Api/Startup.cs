@@ -20,6 +20,7 @@ using FluentValidation;
 using IMuaythai.Api.Validators;
 using IMuaythai.Api.Validators.Contest;
 using IMuaythai.Api.Validators.Fights;
+using IMuaythai.Api.Validators.Institutions;
 using IMuaythai.Api.Validators.Locations;
 using IMuaythai.Api.Validators.Roles;
 using IMuaythai.Api.Validators.Users;
@@ -28,6 +29,7 @@ using IMuaythai.DataAccess.Services;
 using IMuaythai.Fights;
 using IMuaythai.Models.Contests;
 using IMuaythai.Models.Dictionaries;
+using IMuaythai.Models.Institutions;
 using IMuaythai.Models.Locations;
 using IMuaythai.Models.Roles;
 using IMuaythai.Models.Users;
@@ -84,6 +86,8 @@ namespace IMuaythai.Api
             services.AddTransient<IValidator<FightMoving>, FightMovingValidator>();
             services.AddTransient<IValidator<FighterMoving>, FighterMovingValidator>();
             services.AddTransient<IValidator<ContestRequestModel>, ContestRequestValidator>();
+            services.AddTransient<IValidator<InstitutionResponseModel>, InstitutionResponseValidator>();
+            services.AddTransient<IValidator<InstitutionUpdateModel>, InstitutionUpdateValidator>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
