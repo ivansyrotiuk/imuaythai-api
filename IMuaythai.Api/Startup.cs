@@ -86,6 +86,8 @@ namespace IMuaythai.Api
             services.AddTransient<IValidator<FightMoving>, FightMovingValidator>();
             services.AddTransient<IValidator<FighterMoving>, FighterMovingValidator>();
             services.AddTransient<IValidator<ContestRequestModel>, ContestRequestValidator>();
+            services.AddTransient<IValidator<ContestResponseModel>, ContestResponseValidator>();
+            services.AddTransient<IValidator<ContestUpdateModel>, ContestUpdateValidator>();
             services.AddTransient<IValidator<InstitutionResponseModel>, InstitutionResponseValidator>();
             services.AddTransient<IValidator<InstitutionUpdateModel>, InstitutionUpdateValidator>();
 
