@@ -7,10 +7,8 @@ namespace IMuaythai.Api.Validators.Users
     {
         public UsersValidator()
         {
-            RuleFor(x => x.Id).NotNull().WithMessage("Id can not be null");
             RuleFor(x => x.Accepted).NotNull().WithMessage("Accepted can not be null");
             RuleFor(x => x.Birthdate).NotNull().WithMessage("Birthdate can not be null");
-            RuleFor(x => x.Type).NotNull().WithMessage("Type can not be null");
             RuleFor(x => x.Id).Length(0, 450).WithMessage("Id is too long");
             RuleFor(x => x.CoachLevel).Length(0,100).WithMessage("CoachLevel is too long");
             RuleFor(x => x.Email).Length(0, 256).WithMessage("Email is too long");

@@ -8,11 +8,7 @@ namespace IMuaythai.Api.Validators.Users
     {
         public CreateUserValidator()
         {
-            //I don't know which fields here should be checked for null, need more info
-            //RuleFor(x => x.Id).NotNull().WithMessage("Id can not be null");
-            //RuleFor(x => x.Accepted).NotNull().WithMessage("Accepted can not be null");
-            //RuleFor(x => x.Birthdate).NotNull().WithMessage("Birthdate can not be null");
-            //RuleFor(x => x.Type).NotNull().WithMessage("Type can not be null");
+            RuleFor(x => x.Birthdate).NotNull().WithMessage("Birthdate can not be null");
             RuleFor(x => x.Password).NotNull().WithMessage("Password can not be null");
             RuleFor(x => x.Password).Must(BeAValidPassword).WithMessage(@"Password must contain at least one uppercase, one lowercase character, 
                                                                           one number, one non-alphanumeric and be at least 6 characters long");
