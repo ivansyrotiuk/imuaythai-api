@@ -11,13 +11,17 @@ namespace IMuaythai.Fights
     {
         public FightsProfile()
         {
-            CreateMap<Fight, FightModel>().ForMember(dest => dest.Points,
+            CreateMap<Fight, FightModel>();
+
+            CreateMap<Fight, FightResponseModel>().ForMember(dest => dest.Points,
                     opt => opt.MapFrom(src => ConvertToFightPointModels(src)))
                 .ForMember(dest => dest.Judges,
                     opt => opt.MapFrom(src => src.FightJudgesMappings.Where(j => j.Main == 0).Select(m => m.Judge)))
                 .ForMember(dest => dest.MainJudge,
                     opt => opt.MapFrom(src =>
-                        src.FightJudgesMappings.Where(j => j.Main == 1).Select(m => m.Judge).FirstOrDefault()));
+                        src.FightJudgesMappings.Where(j => j.Main == 1).Select(m => m.Judge).FirstOrDefault()))
+                .ForMember(dest => dest.RedAthleteWon, opt => opt.MapFrom(src => src.BlueAthlete != null && src.RedAthlete.Id == src.WinnerId))
+                .ForMember(dest => dest.BlueAthleteWon, opt => opt.MapFrom(src => src.BlueAthlete != null && src.BlueAthlete.Id == src.WinnerId));
         }
 
         private List<FightPointModel> ConvertToFightPointModels(Fight src)

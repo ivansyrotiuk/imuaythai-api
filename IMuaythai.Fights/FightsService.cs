@@ -53,25 +53,25 @@ namespace IMuaythai.Fights
             _contestCategoryMappingsRepository = contestCategoryMappingsRepository;
         }
 
-        public async Task<FightModel> GetFight(int id)
+        public async Task<FightResponseModel> GetFight(int id)
         {
             var fight = await _fightsRepository.Get(id);
-            return _mapper.Map<FightModel>(fight);
+            return _mapper.Map<FightResponseModel>(fight);
         }
 
-        public async Task<List<FightModel>> GetFights(int contestId)
+        public async Task<List<FightResponseModel>> GetFights(int contestId)
         {
             var fights = await _fightsRepository.GetFights(contestId);
-            return _mapper.Map<List<FightModel>>(fights);
+            return _mapper.Map<List<FightResponseModel>>(fights);
         }
 
-        public async Task<List<FightModel>> GetFights(int contestId, int categoryId)
+        public async Task<List<FightResponseModel>> GetFights(int contestId, int categoryId)
         {
             var fights = await _fightsRepository.GetFights(contestId, categoryId);
-            return _mapper.Map<List<FightModel>>(fights);
+            return _mapper.Map<List<FightResponseModel>>(fights);
         }
 
-        public async Task<List<FightModel>> BuildFights(int contestId)
+        public async Task<List<FightResponseModel>> BuildFights(int contestId)
         {
             var acceptedFighterRequests = await _contestRequestRepository.GetContestAcceptedFighterRequests(contestId);
             var fighters = acceptedFighterRequests.Select(r => r.User).ToList();
@@ -91,10 +91,10 @@ namespace IMuaythai.Fights
                 fights.AddRange(categoryFights);
             }
 
-            return _mapper.Map<List<FightModel>>(fights);
+            return _mapper.Map<List<FightResponseModel>>(fights);
         }
 
-        public async Task<List<FightModel>> BuildFights(int contestId, int categoryId)
+        public async Task<List<FightResponseModel>> BuildFights(int contestId, int categoryId)
         {
             var acceptedFighterRequests = await _contestRequestRepository.GetContestAcceptedFighterRequests(contestId, categoryId);
             var fighters = acceptedFighterRequests.Select(r => r.User).ToList();
@@ -111,13 +111,13 @@ namespace IMuaythai.Fights
             return savedFights;
         }
 
-        public async Task<List<FightModel>> MoveFighter(FighterMoving fighterMoving)
+        public async Task<List<FightResponseModel>> MoveFighter(FighterMoving fighterMoving)
         {
             var changedFights = await _fighterMovingService.MoveFighterToFight(fighterMoving);
-            return _mapper.Map<List<FightModel>>(changedFights);
+            return _mapper.Map<List<FightResponseModel>>(changedFights);
         }
 
-        public async Task<List<FightModel>> MoveFight(FightMoving fightMoving)
+        public async Task<List<FightResponseModel>> MoveFight(FightMoving fightMoving)
         {
             var fight = await _fightsRepository.Get(fightMoving.SourceFightId);
             var fights = await _fightsRepository.GetFights(fight.ContestId);
@@ -136,10 +136,10 @@ namespace IMuaythai.Fights
             }
 
             await _fightsRepository.SaveFights(fights);
-            return _mapper.Map<List<FightModel>>(fights);
+            return _mapper.Map<List<FightResponseModel>>(fights);
         }
 
-        public async Task<List<FightModel>> ScheduleFights(int contestId)
+        public async Task<List<FightResponseModel>> ScheduleFights(int contestId)
         {
             var contestFights = await _fightsRepository.GetFights(contestId);
             var contestCategories = await _contestCategoryMappingsRepository.GetByContest(contestId);
@@ -220,19 +220,19 @@ namespace IMuaythai.Fights
             return savedFights;
         }
 
-        public async Task<List<FightModel>> Save(List<Fight> fights)
+        public async Task<List<FightResponseModel>> Save(List<Fight> fights)
         {
             await _fightsRepository.SaveFights(fights);
-            return _mapper.Map<List<FightModel>>(fights);
+            return _mapper.Map<List<FightResponseModel>>(fights);
         }
 
-        public async Task<List<FightModel>> TossupJudges(int contestId)
+        public async Task<List<FightResponseModel>> TossupJudges(int contestId)
         {
             var judgesRequests = await _contestRequestRepository.GetByContest(contestId, ContestRoleType.Judge);
             var fights = await _fightsRepository.GetFights(contestId);
             _judgesTossuper.Tossup(judgesRequests, fights);
             var savedFights = await Save(fights);
-            return _mapper.Map<List<FightModel>>(savedFights);
+            return _mapper.Map<List<FightResponseModel>>(savedFights);
         }
 
         public async Task ClearContestJudgeMappings(int contestId)

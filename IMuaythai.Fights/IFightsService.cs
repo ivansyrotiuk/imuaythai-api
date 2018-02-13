@@ -7,16 +7,16 @@ namespace IMuaythai.Fights
 {
     public interface IFightsService
     {
-        Task<FightModel> GetFight(int id);
-        Task<List<FightModel>> GetFights(int contestId);
-        Task<List<FightModel>> GetFights(int contestId, int categoryId);
-        Task<List<FightModel>> BuildFights(int contestId);
-        Task<List<FightModel>> BuildFights(int contestId, int categoryId);
-        Task<List<FightModel>> ScheduleFights(int contestId);
-        Task<List<FightModel>> MoveFighter(FighterMoving fighterMoving);
-        Task<List<FightModel>> MoveFight(FightMoving fighterMoving);
-        Task<List<FightModel>> TossupJudges(int contestId);
-        Task<List<FightModel>> Save(List<Fight> fights);
+        Task<FightResponseModel> GetFight(int id);
+        Task<List<FightResponseModel>> GetFights(int contestId);
+        Task<List<FightResponseModel>> GetFights(int contestId, int categoryId);
+        Task<List<FightResponseModel>> BuildFights(int contestId);
+        Task<List<FightResponseModel>> BuildFights(int contestId, int categoryId);
+        Task<List<FightResponseModel>> ScheduleFights(int contestId);
+        Task<List<FightResponseModel>> MoveFighter(FighterMoving fighterMoving);
+        Task<List<FightResponseModel>> MoveFight(FightMoving fighterMoving);
+        Task<List<FightResponseModel>> TossupJudges(int contestId);
+        Task<List<FightResponseModel>> Save(List<Fight> fights);
         Task ClearContestJudgeMappings(int contestId);
     }
 }
