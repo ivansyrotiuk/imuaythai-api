@@ -29,7 +29,10 @@ namespace IMuaythai.Repositories
 
         public Task<ApplicationUser> Get(string id)
         {
-            return _context.Users.Include(u => u.Country).FirstOrDefaultAsync(u => u.Id == id);
+            return _context.Users
+                .Include(u => u.Institution)
+                .Include(u => u.Country)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public Task<List<ApplicationUser>> GetAll()

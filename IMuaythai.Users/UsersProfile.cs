@@ -12,9 +12,13 @@ namespace IMuaythai.Users
         {
             CreateMap<ApplicationUser, UserModel>()
                 .ForMember(dest => dest.CountryName,
-                    options => options.MapFrom(src => src.Country == null ? string.Empty : src.Country.Name))
+                    options => options.PreCondition(src => src.Country != null))
+                .ForMember(dest => dest.CountryName,
+                    options => options.MapFrom(src => src.Country.Name))
                 .ForMember(dest => dest.GymName,
-                    options => options.MapFrom(src => src.Institution == null ? string.Empty : src.Institution.Name))
+                    options => options.PreCondition(src => src.Institution != null))
+                .ForMember(dest => dest.GymName,
+                    options => options.MapFrom(src => src.Institution.Name))
                 .ForMember(dest => dest.Roles,
                     options => options.MapFrom(src => src.Roles.Select(role => role.RoleId)));
            
