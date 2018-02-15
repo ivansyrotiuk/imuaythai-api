@@ -2,10 +2,11 @@
 using System.IO;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using IMuaythai.Shared;
 
-namespace IMuaythai.Shared
+namespace IMuaythai.CloudinaryFiles
 {
-    public class FileSave : IFileSaver
+    public class CloudinaryFileSaver : IFileSaver
     {
         public string Save(string fileName, string base64String)
         {
@@ -23,7 +24,7 @@ namespace IMuaythai.Shared
 
         private Cloudinary GetCloudinaryUploader()
         {
-            Account account = new Account
+            var account = new Account
             {
                 ApiKey = "846494132354633",
                 ApiSecret = "8NcTfg3hTDOq7fCHIqxyJMnq1dM",
@@ -31,7 +32,6 @@ namespace IMuaythai.Shared
             };
 
             return new Cloudinary(account);
-
         }
     }
 }

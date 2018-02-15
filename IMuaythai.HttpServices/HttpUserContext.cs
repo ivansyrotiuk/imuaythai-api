@@ -3,7 +3,7 @@ using IMuaythai.DataAccess.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace IMuaythai.Auth
+namespace IMuaythai.HttpServices
 {
     public class HttpUserContext : IHttpUserContext
     {

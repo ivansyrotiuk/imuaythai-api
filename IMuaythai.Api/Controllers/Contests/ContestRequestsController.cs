@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using IMuaythai.Auth;
 using IMuaythai.Contests;
+using IMuaythai.HttpServices;
 using IMuaythai.Models.Contests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

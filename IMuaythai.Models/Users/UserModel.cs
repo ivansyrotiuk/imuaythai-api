@@ -28,7 +28,6 @@ namespace IMuaythai.Models.Users
         public string CountryName { get; set; }
         public string Email { get; set; }
         public List<string> Roles { get; set; }
-        public string AvatarImage { get; set; }
         public string GymName { get; set; }
     }
 

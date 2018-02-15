@@ -25,6 +25,7 @@ namespace IMuaythai.DataAccess.Models
         public string Twitter { get; set; }
         public int WaiKhruTime { get; set; }
         public bool AllowUnassociated { get; set; }
+        public string Logo { get; set; }
         public virtual ICollection<Fight> Fights { get; set; }
         public virtual ICollection<ContestCategoriesMapping> ContestCategoriesMappings { get; set; }
         public virtual ICollection<ContestRequest> ContestRequests { get; set; }

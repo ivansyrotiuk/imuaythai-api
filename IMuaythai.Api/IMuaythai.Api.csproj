@@ -47,10 +47,12 @@
   <ItemGroup>
     <ProjectReference Include="..\IMuaythai.Api.Dictionaries\IMuaythai.Dictionaries.csproj" />
     <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
+    <ProjectReference Include="..\IMuaythai.CloudinaryFiles\IMuaythai.CloudinaryFiles.csproj" />
     <ProjectReference Include="..\IMuaythai.Contests\IMuaythai.Contests.csproj" />
     <ProjectReference Include="..\IMuaythai.Dashboard\IMuaythai.Dashboard.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
     <ProjectReference Include="..\IMuaythai.Fights\IMuaythai.Fights.csproj" />
+    <ProjectReference Include="..\IMuaythai.HttpServices\IMuaythai.HttpServices.csproj" />
     <ProjectReference Include="..\IMuaythai.Institutions\IMuaythai.Institutions.csproj" />
     <ProjectReference Include="..\IMuaythai.JudgingServer\IMuaythai.JudgingServer.csproj" />
     <ProjectReference Include="..\IMuaythai.Models\IMuaythai.Models.csproj" />

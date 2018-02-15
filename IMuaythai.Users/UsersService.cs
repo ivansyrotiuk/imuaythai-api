@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using IMuaythai.Auth;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.HttpServices;
 using IMuaythai.Models.Users;
 using IMuaythai.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -98,28 +98,6 @@ namespace IMuaythai.Users
         {
             var user = await _usersRepository.Get(userModel.Id);
              _mapper.Map(userModel, user);
-   
-            //Refactor this brutal code
-            if (userModel.AvatarImage != null)
-            {
-                var imageBase64 = userModel.AvatarImage.Split(',');
-                var bytes = Convert.FromBase64String(imageBase64[1]);
-                if (bytes.Length > 0)
-                {
-                    var context = _userContext.GetHttpContext();
-                    var request = context.Request;
-                    if (!string.IsNullOrEmpty(user.Photo))
-                    {
-                        var pathToImage = "./wwwroot" + user.Photo.Replace($"{request.Scheme}://{request.Host}", "");
-                        System.IO.File.Delete(pathToImage);
-                    }
-                    var imageName = $"images/{Guid.NewGuid().ToString().Substring(0, 10)}.png";
-                    System.IO.File.WriteAllBytes($"./wwwroot/{imageName}", bytes);
-                    var location = new Uri($"{request.Scheme}://{request.Host}");
-
-                    user.Photo = location.AbsoluteUri + imageName;
-                }
-            }
 
             await _usersRepository.Save(user);
 
