@@ -63,7 +63,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("remove")]
-        public async Task<IActionResult> Remove([FromBody]RoundModel round)
+        public async Task<IActionResult> Remove([FromBody]RoundDeleteModel round)
         {
             try
             {

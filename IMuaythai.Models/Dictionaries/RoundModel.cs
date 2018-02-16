@@ -7,5 +7,6 @@
         public int Duration { get; set; }
         public int RoundsCount { get; set; }
         public int BreakDuration { get; set; }
+
     }
 }
