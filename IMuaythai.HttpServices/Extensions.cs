@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 
-namespace IMuaythai.Auth
+namespace IMuaythai.HttpServices
 {
 
     public static class ClaimsPrincipalExtensions

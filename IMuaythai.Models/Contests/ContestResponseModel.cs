@@ -28,6 +28,7 @@ namespace IMuaythai.Models.Contests
         public int? ContestRangeId { get; set; }
         public int? ContestTypeId { get; set; }
         public int WaiKhruTime { get; set; }
+        public string Logo { get; set; }
         public CountryModel Country { get; set; }
         public List<ContestRingModel> Rings { get; set; } 
         public InstitutionResponseModel InstitutionResponse { get; set; }

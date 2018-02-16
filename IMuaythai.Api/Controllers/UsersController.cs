@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Models.Users;
 using IMuaythai.Repositories;
+using IMuaythai.Shared;
 using IMuaythai.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,14 @@ namespace IMuaythai.Api.Controllers
     public class UsersController : Controller
     {
         private readonly IUsersService _usersService;
+        private readonly IFilesService _fileService;
 
         public UsersController(IUsersService usersService, 
-            IUserRoleRequestsRepository userRoleAcceptationsRepository,
+            IUserRoleRequestsRepository userRoleAcceptationsRepository, IFilesService filesService,
             UserManager<ApplicationUser> userManager)
         {
             _usersService = usersService;
+            _fileService = filesService;
         }
 
         [HttpGet]
@@ -118,6 +121,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
+                userModel.Photo = _fileService.UploadFile(userModel.Photo) ?? userModel.Photo;
                 var user = await _usersService.SaveUser(userModel);
                 return Created("Add", user);
             }

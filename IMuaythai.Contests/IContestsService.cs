@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using IMuaythai.Auth;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.HttpServices;
 using IMuaythai.Models.Contests;
 using IMuaythai.Models.Users;
 using IMuaythai.Repositories.Contests;

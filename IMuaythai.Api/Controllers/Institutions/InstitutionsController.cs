@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using IMuaythai.Institutions;
 using IMuaythai.Models.Institutions;
-using IMuaythai.Models.Users;
 using IMuaythai.Shared;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +11,11 @@ namespace IMuaythai.Api.Controllers.Institutions
     public class InstitutionsController : Controller
     {
         private readonly IInstitutionsService _institutionsService;
-        private readonly IFileSaver _fileSaver;
-        public InstitutionsController(IInstitutionsService institutionsService, IFileSaver fileSaver)
+        private readonly IFilesService _filesService;
+        public InstitutionsController(IInstitutionsService institutionsService, IFilesService filesSarvice)
         {
             _institutionsService = institutionsService;
-            _fileSaver = fileSaver;
+            _filesService = filesSarvice;
         }
 
         [HttpGet]
@@ -57,13 +55,7 @@ namespace IMuaythai.Api.Controllers.Institutions
         {
             try
             {
-                var imageBase64 = institutionUpdateModel.Logo?.Split(',');
-                if (imageBase64?.Length > 1)
-                {
-                    var hostUrl = $"{Request.Scheme}://{Request.Host}";
-                    institutionUpdateModel.Logo = _fileSaver.Save(hostUrl, imageBase64[1]);
-                }
-
+                institutionUpdateModel.Logo = _filesService.UploadFile(institutionUpdateModel.Logo) ?? institutionUpdateModel.Logo;
                 var institutionResponse = await _institutionsService.Save(institutionUpdateModel);
                 return Created("Add", institutionResponse);
             }

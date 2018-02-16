@@ -116,6 +116,7 @@ namespace IMuaythai.Api
             services.AddContestServices();
             services.AddDictionariesServices();
             services.AddDashboardServices();
+            services.AddHttpServices();
             services.Configure<EmailConfiguration>(Configuration);
         }
 

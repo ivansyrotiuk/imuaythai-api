@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using IMuaythai.Contests;
 using IMuaythai.Models.Contests;
+using IMuaythai.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMuaythai.Api.Controllers.Contests
@@ -11,10 +12,11 @@ namespace IMuaythai.Api.Controllers.Contests
     public class ContestsController : Controller
     {
         private readonly IContestsService _contestsService;
-     
-        public ContestsController(IContestsService contestsService)
+        private readonly IFilesService _filesService;
+        public ContestsController(IContestsService contestsService, IFilesService filesService)
         {
             _contestsService = contestsService;
+            _filesService = filesService;
         }
 
         [HttpGet]
@@ -48,11 +50,12 @@ namespace IMuaythai.Api.Controllers.Contests
 
         [HttpPost]
         [Route("Save")]
-        public async Task<IActionResult> SaveContest([FromBody]ContestUpdateModel contestResponse)
+        public async Task<IActionResult> SaveContest([FromBody]ContestUpdateModel contestUpdateModel)
         {
             try
             {
-                var savedContest = await _contestsService.SaveContest(contestResponse);
+                contestUpdateModel.Logo = _filesService.UploadFile(contestUpdateModel.Logo) ?? contestUpdateModel.Logo;
+                var savedContest = await _contestsService.SaveContest(contestUpdateModel);
                 return Created("Add", savedContest);
             }
             catch (Exception ex)

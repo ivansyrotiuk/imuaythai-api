@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.Auth;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.HttpServices;
 using IMuaythai.Models.AccountModels;
 using IMuaythai.Models.Users;
 using IMuaythai.Repositories;
