@@ -1,4 +1,5 @@
 ﻿using IMuaythai.JudgingServer;
+using IMuaythai.JudgingServer.Handlers;
 using IMuaythai.JudgingServer.RingMapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,7 @@ namespace IMuaythai.Api.DepedencyInjection
         public static IServiceCollection AddWebSocketManager(this IServiceCollection services)
         {
             services.AddScoped<WebSocketConnectionManager>();
+            services.AddScoped<IMessageHandlerChainFactory, MessageHandlerChainFactory>();
             services.AddScoped(typeof(RingA));
             services.AddScoped(typeof(RingB));
             services.AddScoped(typeof(RingC));

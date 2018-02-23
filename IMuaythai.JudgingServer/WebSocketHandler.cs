@@ -11,11 +11,12 @@ namespace IMuaythai.JudgingServer
     public abstract class WebSocketHandler
     {
         protected WebSocketConnectionManager WebSocketConnectionManager { get; set; }
-        protected JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings()
+        protected JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-        public WebSocketHandler(WebSocketConnectionManager webSocketConnectionManager)
+
+        protected WebSocketHandler(WebSocketConnectionManager webSocketConnectionManager)
         {
             WebSocketConnectionManager = webSocketConnectionManager;
         }
@@ -24,9 +25,9 @@ namespace IMuaythai.JudgingServer
         {
             WebSocketConnectionManager.AddSocket(socket);
 
-            await SendMessageToAllAsync(new Request()
+            await SendMessageToAllAsync(new Message()
             {
-                RequestType = RequestType.Connect,
+                RequestType = MessageType.Connect,
                 Data = $"{WebSocketConnectionManager.GetId(socket)} is now connected"
             }).ConfigureAwait(false);
         }
@@ -34,22 +35,22 @@ namespace IMuaythai.JudgingServer
         public virtual async Task OnDisconnected(WebSocket socket)
         {
             var id = WebSocketConnectionManager.GetId(socket);
-            var message = new Request()
+            var message = new Message()
             {
-                RequestType = RequestType.Disconnect,
+                RequestType = MessageType.Disconnect,
                 Data = $"{id} disconnected"
             };
             await SendMessageToAllAsync(message);
             await WebSocketConnectionManager.RemoveSocket(id).ConfigureAwait(false);
         }
 
-        public virtual async Task SendMessageAsync(WebSocket socket, Request message)
+        public virtual async Task SendMessageAsync(WebSocket socket, Message message)
         {
             if (socket.State != WebSocketState.Open)
                 return;
             try
             {
-                var serializedMessage = JsonConvert.SerializeObject(message, _jsonSerializerSettings);
+                var serializedMessage = JsonConvert.SerializeObject(message, JsonSerializerSettings);
                 await socket.SendAsync(buffer: new ArraySegment<byte>(array: Encoding.ASCII.GetBytes(serializedMessage),
                                                         offset: 0,
                                                         count: serializedMessage.Length),
@@ -65,12 +66,12 @@ namespace IMuaythai.JudgingServer
 
         }
 
-        public virtual async Task SendMessageAsync(string socketId, Request message)
+        public virtual async Task SendMessageAsync(string socketId, Message message)
         {
             await SendMessageAsync(WebSocketConnectionManager.GetSocketById(socketId), message).ConfigureAwait(false);
         }
 
-        public virtual async Task SendMessageToAllAsync(Request message)
+        public virtual async Task SendMessageToAllAsync(Message message)
         {
 
             var sockets = WebSocketConnectionManager.GetAll();
@@ -95,9 +96,9 @@ namespace IMuaythai.JudgingServer
 
         public virtual async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, string serializedInvocationDescriptor)
         {
-            await SendMessageAsync(socket, new Request()
+            await SendMessageAsync(socket, new Message()
             {
-                RequestType = RequestType.Connect,
+                RequestType = MessageType.Connect,
                 Data = serializedInvocationDescriptor
             }).ConfigureAwait(false);
         }

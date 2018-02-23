@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.DataAccess.Services;
