@@ -54,8 +54,6 @@ namespace IMuaythai.Api
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore
             ).AddFluentValidation();
 
-            
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                     .EnableSensitiveDataLogging());

@@ -1,6 +1,6 @@
 ﻿namespace IMuaythai.JudgingServer
 {
-    public enum RequestType
+    public enum MessageType
     {
         Connect,
         JuryConnected,
@@ -18,9 +18,22 @@
         ResumeRound
     }
 
-    public class Request
+    public enum ResponseType
     {
-        public RequestType RequestType { get; set; }
+        Skip,
+        ToOne,
+        ToAll    
+    }
+
+    public class Message
+    {
+        public MessageType RequestType { get; set; }
         public string Data { get; set; }
+    }
+
+    public class HandlerResponse
+    {
+        public ResponseType ResponseType { get; set; }
+        public Message Message { get; set; }
     }
 }
