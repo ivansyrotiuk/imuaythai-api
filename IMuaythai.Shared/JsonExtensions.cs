@@ -8,5 +8,10 @@ namespace IMuaythai.Shared
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
+
+        public static string Serialize(this object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
     }
 }

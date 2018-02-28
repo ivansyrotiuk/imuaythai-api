@@ -10,6 +10,7 @@ namespace IMuaythai.JudgingServer
     {
         private readonly SemaphoreSlim _mutex;
         private string _jurySocketId;
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         protected string Ring { get; set; }
         private readonly IMessageHandler _messageHandler;
 
@@ -34,7 +35,7 @@ namespace IMuaythai.JudgingServer
             {
                 HandleMainJuryConnection(socket, message);
                 var handlerResponse = await _messageHandler.Handle(message);
-                await ExcecuteResponse(handlerResponse);
+                await ExcecuteResponse(socket ,handlerResponse);
             }
             finally
             {
@@ -55,7 +56,7 @@ namespace IMuaythai.JudgingServer
             }
         }
 
-        private async Task ExcecuteResponse(HandlerResponse handlerResponse)
+        private async Task ExcecuteResponse(WebSocket socket, HandlerResponse handlerResponse)
         {
             if (handlerResponse.ResponseType == ResponseType.ToAll)
             {
@@ -64,6 +65,12 @@ namespace IMuaythai.JudgingServer
             if (handlerResponse.ResponseType == ResponseType.ToOne)
             {
                 await SendMessageAsync(_jurySocketId, handlerResponse.Message);
+            }
+
+            if (handlerResponse.ResponseType == ResponseType.ToSelf)
+            {
+                var socketId = WebSocketConnectionManager.GetId(socket);
+                await SendMessageAsync(socketId, handlerResponse.Message);
             }
         }
     }

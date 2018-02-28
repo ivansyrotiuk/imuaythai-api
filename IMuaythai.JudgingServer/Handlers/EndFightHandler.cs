@@ -24,8 +24,7 @@ namespace IMuaythai.JudgingServer.Handlers
             }
 
 
-            FightContext.ResetRounds();
-            FightContext.ResetWarnings();
+            FightContext.ResetState();
 
             await SaveWinner(message.Data);
 
