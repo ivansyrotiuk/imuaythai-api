@@ -48,6 +48,11 @@ namespace IMuaythai.Repositories
             return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.Gym).ToListAsync();
         }
 
+        public Task<List<Institution>> GetGymsByCountry(int countryId)
+        {
+            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.Gym && i.CountryId == countryId).ToListAsync();
+        }
+
         public Task<List<Institution>> GetWorldFederations()
         {
             return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.WorldFederation).ToListAsync();

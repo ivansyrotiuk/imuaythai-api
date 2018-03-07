@@ -10,6 +10,7 @@ namespace IMuaythai.Institutions
     {
         Task<InstitutionResponseModel> Get(int id);
         Task<IEnumerable<UserModel>> GetMembers(int institutionId);
+        Task<IEnumerable<GymResponseModel>> GetGyms(int institutionId);
         Task<IEnumerable<UserModel>> GetFighters(int institutionId);
         Task<IEnumerable<UserModel>> GetJudges(int institutionId);
         Task<IEnumerable<UserModel>> GetCoaches(int institutionId);

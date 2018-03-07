@@ -53,6 +53,12 @@ namespace IMuaythai.Institutions
             return _mapper.Map<IEnumerable<UserModel>>(members);
         }
 
+        public async Task<IEnumerable<GymResponseModel>> GetGyms(int institutionId)
+        {
+            var gyms = await _repository.GetGymsByCountry(Get(institutionId).Result?.CountryId ?? 0);
+            return _mapper.Map<IEnumerable<GymResponseModel>>(gyms.Where(i => i.Id != institutionId));
+        }
+
         public async Task<IEnumerable<UserModel>> GetFighters(int institutionId)
         {
             var users = await _userManager.GetUsersInRoleAsync(RoleNames.Fighter);
