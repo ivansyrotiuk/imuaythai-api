@@ -19,24 +19,29 @@ namespace IMuaythai.Repositories.Dictionaries
 
         public Task<List<SuspensionType>> Find(Func<SuspensionType, bool> predicate)
         {
-            var types = _context.SuspensionTypes.Where(predicate).AsQueryable();
+            var types = _context.SuspensionTypes.Where(predicate).Where(suspensionType => !suspensionType.Deleted).AsQueryable();
             return types.ToListAsync();
         }
 
         public Task<SuspensionType> Get(int id)
         {
-            return _context.SuspensionTypes.FirstOrDefaultAsync(i=>i.Id == id);
+            return _context.SuspensionTypes.Where(suspensionType => !suspensionType.Deleted).FirstOrDefaultAsync(i=>i.Id == id);
         }
 
         public Task<List<SuspensionType>> GetAll()
         {
-            return _context.SuspensionTypes.ToListAsync();
+            return _context.SuspensionTypes.Where(suspensionType => !suspensionType.Deleted).ToListAsync();
         }
 
         public Task Remove(int id)
         {
             var type = _context.SuspensionTypes.FirstOrDefault(i => i.Id == id);
-            _context.SuspensionTypes.Remove(type);
+            if (type == null)
+            {
+                throw new Exception($"SuspensionType with id={id} is not found");
+            }
+
+            type.Deleted = true;
             return _context.SaveChangesAsync();
         }
 

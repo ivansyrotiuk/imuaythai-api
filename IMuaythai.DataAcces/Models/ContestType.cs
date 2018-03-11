@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace IMuaythai.DataAccess.Models
 {
     //Turnament, Cup, Championship
-    public class ContestType
+    public class ContestType: Entity
     {
         [Key]
         public int Id { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IMuaythai.DataAccess.Models
 {
-    public class ContestCategory
+    public class ContestCategory: Entity
     {
         [Key]
         public int Id { get; set;}

@@ -19,6 +19,7 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task<ContestTypePoints> Get(int id)
         {
             return _context.ContestTypePoints
+                .Where(contestTypePoints => !contestTypePoints.Deleted)
                 .Include(p=>p.ContestType)
                 .Include(p => p.ContestRange).FirstOrDefaultAsync(c => c.Id == id);
         }
@@ -26,13 +27,14 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task<List<ContestTypePoints>> GetAll()
         {
             return _context.ContestTypePoints
+                .Where(contestTypePoints => !contestTypePoints.Deleted)
                 .Include(p => p.ContestType)
                 .Include(p => p.ContestRange).ToListAsync();
         }
 
         public Task<List<ContestTypePoints>> Find(Func<ContestTypePoints, bool> predicate)
         {
-            return _context.ContestTypePoints.Where(predicate).AsQueryable().ToListAsync();
+            return _context.ContestTypePoints.Where(predicate).Where(contestTypePoints => !contestTypePoints.Deleted).AsQueryable().ToListAsync();
         }
 
         public Task Save(ContestTypePoints points)
@@ -52,7 +54,12 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task Remove(int id)
         {
             var points = _context.ContestTypePoints.FirstOrDefault(i => i.Id == id);
-            _context.ContestTypePoints.Remove(points);
+            if (points == null)
+            {
+                throw new Exception($"ContestTypePoints with id={id} is not found");
+            }
+
+            points.Deleted = true;
             return _context.SaveChangesAsync();
         }
     }

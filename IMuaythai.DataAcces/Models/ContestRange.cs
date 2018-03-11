@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace IMuaythai.DataAccess.Models
 {
     //local, national, continental, international
-    public class ContestRange
+    public class ContestRange: Entity
     {
         [Key]
         public int Id { get; set; }

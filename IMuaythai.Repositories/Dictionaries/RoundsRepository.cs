@@ -18,17 +18,17 @@ namespace IMuaythai.Repositories.Dictionaries
         }
         public Task<Round> Get(int id)
         {
-            return _context.Rounds.FirstOrDefaultAsync(r => r.Id == id);
+            return _context.Rounds.Where(round => !round.Deleted).FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public Task<List<Round>> GetAll()
         {
-            return _context.Rounds.ToListAsync();
+            return _context.Rounds.Where(round => !round.Deleted).ToListAsync();
         }
 
         public Task<List<Round>> Find(Func<Round, bool> predicate)
         {
-            return _context.Rounds.Where(predicate).AsQueryable().ToListAsync();
+            return _context.Rounds.Where(predicate).Where(round => !round.Deleted).AsQueryable().ToListAsync();
         }
 
         public Task Save(Round round)
@@ -48,7 +48,12 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task Remove(int id)
         {
             var round = _context.Rounds.FirstOrDefault(r => r.Id == id);
-            _context.Rounds.Remove(round);
+            if (round == null)
+            {
+                throw new Exception($"Round with id={id} is not found");
+            }
+
+            round.Deleted = true;
             return _context.SaveChangesAsync();
         }
     }
