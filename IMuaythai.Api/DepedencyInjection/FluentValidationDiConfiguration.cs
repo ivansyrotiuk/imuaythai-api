@@ -43,10 +43,10 @@ namespace IMuaythai.Api.DepedencyInjection
             services.AddTransient<IValidator<ContestResponseModel>, ContestResponseValidator>();
             services.AddTransient<IValidator<ContestUpdateModel>, ContestUpdateValidator>();
             services.AddTransient<IValidator<InstitutionUpdateModel>, InstitutionUpdateValidator>();
-            services.AddTransient<IValidator<FinishRegisterDto>, FinishRegisterDtoValidator>();
+            services.AddTransient<IValidator<FinishRegistrationModel>, FinishRegisterDtoValidator>();
             services.AddTransient<IValidator<ForgotPasswordDto>, ForgotPasswordDtoValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginDtoValidator>();
-            services.AddTransient<IValidator<RegisterDto>, RegisterDtoValidator>();
+            services.AddTransient<IValidator<RegistrationModel>, RegisterDtoValidator>();
             services.AddTransient<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
             services.AddTransient<IValidator<VerifyCodeDto>, VerifyCodeDtoValidator>();
         }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.Auth;
@@ -24,11 +23,10 @@ namespace IMuaythai.Api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-     
+
         private readonly IInstitutionsRepository _institutionsRepository;
         private readonly IUserRoleRequestsRepository _userRoleRequestsRepository;
         private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IJwtTokenGenerator _tokenGenerator;
         private readonly IUsersService _usersService;
@@ -40,7 +38,6 @@ namespace IMuaythai.Api.Controllers
             IInstitutionsRepository institutionsRepository,
             IUserRoleRequestsRepository userRoleRequestsRepository,
             IEmailSender emailSender,
-            ISmsSender smsSender,
             ILoggerFactory loggerFactory,
             IJwtTokenGenerator tokenGenerator,
             IUsersService usersService)
@@ -51,103 +48,92 @@ namespace IMuaythai.Api.Controllers
             _institutionsRepository = institutionsRepository;
             _userRoleRequestsRepository = userRoleRequestsRepository;
             _emailSender = emailSender;
-            _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _tokenGenerator = tokenGenerator;
             _usersService = usersService;
         }
 
-        //
-        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody]LoginDto model)
+        public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-            if (result.Succeeded)
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe,
+                lockoutOnFailure: false);
+            if (!result.Succeeded)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null)
+                if (!result.IsLockedOut)
                 {
-                    user = await _userManager.FindByNameAsync(model.Email);
+                    return BadRequest("Invalid login or password");
                 }
 
-                _logger.LogInformation(1, "User logged in.");
-                var roles = await _userManager.GetRolesAsync(user);
-
-                string encodedToken = _tokenGenerator.GenerateToken(user, roles);
-                var u = new { authToken = encodedToken, rememberMe = model.RememberMe, user = new { id = user.Id, firstName = user.FirstName, surname = user.Surname } };
-                var qr = QRCodeGenerator.GenerateQRCode(u);
-                return Ok(new { authToken = encodedToken, rememberMe = model.RememberMe, qrcode = qr, user = new { id = user.Id, firstName = user.FirstName, surname = user.Surname } });
-            }
-
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning(2, "User account locked out.");
+                _logger.LogWarning("User account locked out.");
                 return BadRequest("User account locked out.");
             }
-            else
+
+            var user = await _userManager.FindByEmailAsync(model.Email) ??
+                       await _userManager.FindByNameAsync(model.Email);
+
+            _logger.LogInformation($"User {model.Email} logged in.");
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var encodedToken = _tokenGenerator.GenerateToken(user, roles);
+            return Ok(new LoginResponseModel
             {
-                return BadRequest("Invalid login or password");
-            }
+                AuthToken = encodedToken,
+                RememberMe = model.RememberMe,
+                QrCode = string.Empty,
+                User = new AutorizedUserResponseModel
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    Surname = user.Surname
+                }
+            });
         }
 
-
-
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterDto model)
+        public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
-
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email
+            };
 
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                // Send an email with this link
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
-
-                await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                   $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
-
-                _logger.LogInformation(3, "User created a new account with password.");
-                return Created("Email confirmation sent", null);
+                return BadRequest(result.Errors.First().Description);
             }
 
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
 
-            // If we got this far, something failed, redisplay form
-            return BadRequest(result.Errors.First().Description);
+            await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
+
+            _logger.LogInformation("User created a new account with password.");
+            return Ok("Email confirmation sent");
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route("register/finish")]
-        public async Task<IActionResult> FinishRegister([FromBody]FinishRegisterDto model)
+        public async Task<IActionResult> FinishRegister([FromBody] FinishRegistrationModel model)
         {
             try
             {
-                string userId = User.GetUserId();
-                var user = await _userManager.FindByIdAsync(userId);
+                var user = await _userManager.FindByIdAsync(User.GetUserId());
                 if (user == null)
                 {
                     return BadRequest("User not found");
                 }
 
                 Institution gym;
-                if (model.OwnGym != true)
-                {
-                    gym = await _institutionsRepository.Get(model.InstitutionId.Value);
-                }
-                else
+                if (model.OwnGym == true)
                 {
                     gym = new Institution
                     {
@@ -156,12 +142,18 @@ namespace IMuaythai.Api.Controllers
                     };
                     await _institutionsRepository.Save(gym);
                 }
+                else
+                {
+                    gym = await _institutionsRepository.Get(model.InstitutionId.Value);
+                }
 
-                UserRoleRequest entity = new UserRoleRequest();
-                entity.RoleId = model.RoleId;
-                entity.UserId = userId;
-                entity.Status = UserRoleRequestStatus.Pending;
-                entity.InstitutionId = gym.Id;
+                var entity = new UserRoleRequest
+                {
+                    RoleId = model.RoleId,
+                    UserId = User.GetUserId(),
+                    Status = UserRoleRequestStatus.Pending,
+                    InstitutionId = gym.Id
+                };
                 await _userRoleRequestsRepository.Save(entity);
 
                 user.InstitutionId = gym.Id;
@@ -183,13 +175,11 @@ namespace IMuaythai.Api.Controllers
 
         }
 
-        //
-        // POST: /Account/Logout
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
+            _logger.LogInformation("User logged out.");
             return Ok();
         }
 
@@ -209,7 +199,6 @@ namespace IMuaythai.Api.Controllers
             }
         }
 
-        // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
         [Route("confirmemail")]
@@ -232,12 +221,10 @@ namespace IMuaythai.Api.Controllers
 
         }
 
-        //
-        // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [Route("forgotpassword")]
-        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordDto model)
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto model)
         {
 
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -258,12 +245,10 @@ namespace IMuaythai.Api.Controllers
             return Ok("Reset password email sent");
         }
 
-        //
-        // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [Route("resetpassword")]
-        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto model)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
             if (user == null)
@@ -279,60 +264,5 @@ namespace IMuaythai.Api.Controllers
 
             return BadRequest("Can't reset password");
         }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("setup")]
-        public async Task<ActionResult> SetupRoles()
-        {
-            List<string> rolesList = new List<string>
-            {
-                //"Admin",
-                //"InstitutionAdmin",
-                //"Fighter",
-                //"Coach",
-                //"Judge",
-                //"Doctor",
-                //"Guest",
-                //"NationalFederation",
-                //"ContinentalFederation",
-                //"WorldFederation",
-            };
-
-            foreach (var role in rolesList)
-            {
-
-                await _roleManager.CreateAsync(new IdentityRole
-                {
-                    Name = role
-                });
-            }
-
-            var user = await _userManager.FindByIdAsync(User.GetUserId());
-            await _userManager.AddToRoleAsync(user, "Admin");
-
-            var roles = _userManager.GetRolesAsync(user);
-
-            return Ok(rolesList);
-        }
-
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("setup_roles")]
-        public async Task<ActionResult> SetupUserRoles()
-        {
-            var fighters = await _userManager.GetUsersInRoleAsync("Fighter");
-            var fightersIds = fighters.Select(f => f.Id);
-            var users = _userManager.Users.Where(u => !fightersIds.Contains(u.Id)).ToList();
-            foreach (var user in users)
-            {
-                await _userManager.AddToRoleAsync(user, "Fighter");
-            }
-
-            return Ok(users);
-
-
-        }
-}
+    }
 }
