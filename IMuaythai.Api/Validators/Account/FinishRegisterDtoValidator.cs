@@ -3,7 +3,7 @@ using IMuaythai.Models.AccountModels;
 
 namespace IMuaythai.Api.Validators.Account
 {
-    public class FinishRegisterDtoValidator : AbstractValidator<FinishRegisterDto>
+    public class FinishRegisterDtoValidator : AbstractValidator<FinishRegistrationModel>
     {
         public FinishRegisterDtoValidator()
         {
