@@ -4,6 +4,7 @@ using System.Linq;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Fights.Diagrams.FightsStructure;
 using IMuaythai.Shared.Extensions;
+using IMuaythai.Users;
 using Newtonsoft.Json.Serialization;
 
 namespace IMuaythai.Fights.Diagrams
@@ -69,12 +70,10 @@ namespace IMuaythai.Fights.Diagrams
 
             if(_rootFightId == parsedFight.Id)
             {
-                parsedFight.Name = "Mistrzostwa Świata Muaythai IFMA w Mińsku";
+                parsedFight.Name = "Final fight";
             }
 
             _games.Add(parsedFight);
-
-
         }
 
         private void AddDepedencyBetweenFights(Game game, Game parsedFight)
@@ -112,11 +111,11 @@ namespace IMuaythai.Fights.Diagrams
         private Game ParseToFightBracket(Fight fight)
         {
             var homeTeam = fight.RedAthlete != null ? BuildTeam(fight.RedAthlete) : null;
-            var homeSeed = BuildSeed(fight);
+            var homeSeed = BuildSeed(fight.RedAthlete);
             var homeScore = fight.FightPoints != null ? BuildScore(fight.FightPoints, fight.RedAthleteId) : null;
 
             var visitorTeam = fight.BlueAthlete != null ? BuildTeam(fight.BlueAthlete) : null;
-            var visitorSeed = BuildSeed(fight);
+            var visitorSeed = BuildSeed(fight.BlueAthlete);
             var visitorScore = fight.FightPoints != null ? BuildScore(fight.FightPoints, fight.BlueAthleteId) : null;
 
             return new Game
@@ -131,7 +130,7 @@ namespace IMuaythai.Fights.Diagrams
                 Id = fight.Id.ToString(),
                 IgnoreStandings = false,
                 LocalDate = DateTime.Now.ToString("dd-MM-yyyy"),
-                Scheduled = DateTime.Now.ToUnixDateTime(),
+                Scheduled = fight.StartDate?.ToUnixDateTime() ?? DateTime.UtcNow.ToUnixDateTime(),
                 Sides = new Sides
                 {
                     Home = new Side
@@ -152,6 +151,7 @@ namespace IMuaythai.Fights.Diagrams
                 VisitorScore = visitorScore,
                 VisitorSeed = visitorSeed,
                 VisitorTeam = visitorTeam,
+                Name = string.Empty
                 //Court = court
             };
         }
@@ -167,11 +167,11 @@ namespace IMuaythai.Fights.Diagrams
             };
         }
 
-        private Seed BuildSeed(Fight fight)
+        private Seed BuildSeed(ApplicationUser fighter)
         {
             return new Seed
             {
-                DisplayName = "Fighter",
+                DisplayName = fighter?.GetFullName() ?? "Fighter",
                 Rank = 2
             };
         }

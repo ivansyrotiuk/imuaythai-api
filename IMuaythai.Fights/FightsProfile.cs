@@ -2,8 +2,8 @@
 using System.Linq;
 using AutoMapper;
 using IMuaythai.DataAccess.Models;
-using IMuaythai.Models.Contests;
 using IMuaythai.Models.Fights;
+using IMuaythai.Users;
 
 namespace IMuaythai.Fights
 {
@@ -24,41 +24,78 @@ namespace IMuaythai.Fights
                 .ForMember(dest => dest.BlueAthleteWon, opt => opt.MapFrom(src => src.BlueAthlete != null && src.BlueAthlete.Id == src.WinnerId));
         }
 
-        private List<FightPointModel> ConvertToFightPointModels(Fight src)
+        private List<FightPointModel> ConvertToFightPointModels(Fight fight)
         {
-            return src?.FightPoints?.GroupBy(p => p.JudgeId).Select(p => new FightPointModel
+            if (fight == null)
             {
-                JudgeId = p.Key,
-                JudgeName = p.FirstOrDefault()?.Judge?.FirstName + " " + p.FirstOrDefault()?.Judge?.Surname,
-                Rounds = p.OrderBy(r => r.RoundId).GroupBy(r => r.RoundId).Select(r => new FightPointModel.RoundPointsModel
+                return new List<FightPointModel>();
+            }
+
+            return fight.FightPoints?.GroupBy(p => p.JudgeId).Select(groupedPoints => new FightPointModel
+            {
+                JudgeId = groupedPoints.Key,
+                JudgeName = groupedPoints.FirstOrDefault()?.Judge?.GetFullName(),
+                Rounds = ConvertToRoundPointsModels(fight, groupedPoints)
+            }).ToList();
+        }
+
+        private static List<FightPointModel.RoundPointsModel> ConvertToRoundPointsModels(Fight fight, IGrouping<string, FightPoint> groupedPoints)
+        {
+            var roundPointsList = new List<FightPointModel.RoundPointsModel>();
+
+            var roundPointsDictionary = GetRoundPointsDictionary(fight, groupedPoints);
+
+            for (var i = 1; i <= fight.Structure.Round.RoundsCount; i++)
+            {
+                var points = roundPointsDictionary.ContainsKey(i) ? roundPointsDictionary[i] : GetEmptyRoundPoints(i);
+                roundPointsList.Add(points);
+            }
+            return roundPointsList;
+        }
+
+        private static Dictionary<int, FightPointModel.RoundPointsModel> GetRoundPointsDictionary(Fight fight, IGrouping<string, FightPoint> groupedPoints)
+        {
+            return groupedPoints.OrderBy(r => r.RoundId).GroupBy(r => r.RoundId).Select(r =>
+                new FightPointModel.RoundPointsModel
                 {
                     RoundId = r.Key,
-                    RedFighterPoints = r.Where(f => f.FighterId == src.RedAthleteId).Select(fp => new FightPointModel.PointsModel
-                    {
-                        Accepted = fp.Accepted,
-                        Cautions = fp.Cautions,
-                        FighterPoints = fp.Points,
-                        Injury = fp.Injury,
-                        InjuryTime = fp.InjuryTime,
-                        J = fp.J,
-                        KnockDown = fp.KnockDown,
-                        Warnings = fp.Warnings,
-                        X = fp.X
-                    }).FirstOrDefault(),
-                    BlueFighterPoints = r.Where(f => f.FighterId == src.BlueAthleteId).Select(fp => new FightPointModel.PointsModel
-                    {
-                        Accepted = fp.Accepted,
-                        Cautions = fp.Cautions,
-                        FighterPoints = fp.Points,
-                        Injury = fp.Injury,
-                        InjuryTime = fp.InjuryTime,
-                        J = fp.J,
-                        KnockDown = fp.KnockDown,
-                        Warnings = fp.Warnings,
-                        X = fp.X
-                    }).FirstOrDefault(),
-                }).ToList()
-            }).ToList() ?? new List<FightPointModel>();
+                    RedFighterPoints = r.Where(f => f.FighterId == fight.RedAthleteId).Select(fp =>
+                        new FightPointModel.PointsModel
+                        {
+                            Accepted = fp.Accepted,
+                            Cautions = fp.Cautions,
+                            FighterPoints = fp.Points,
+                            Injury = fp.Injury,
+                            InjuryTime = fp.InjuryTime,
+                            J = fp.J,
+                            KnockDown = fp.KnockDown,
+                            Warnings = fp.Warnings,
+                            X = fp.X
+                        }).FirstOrDefault(),
+                    BlueFighterPoints = r.Where(f => f.FighterId == fight.BlueAthleteId).Select(fp =>
+                        new FightPointModel.PointsModel
+                        {
+                            Accepted = fp.Accepted,
+                            Cautions = fp.Cautions,
+                            FighterPoints = fp.Points,
+                            Injury = fp.Injury,
+                            InjuryTime = fp.InjuryTime,
+                            J = fp.J,
+                            KnockDown = fp.KnockDown,
+                            Warnings = fp.Warnings,
+                            X = fp.X
+                        }).FirstOrDefault(),
+                }).ToDictionary(t => t.RoundId, t => t);
+        }
+
+        private static FightPointModel.RoundPointsModel GetEmptyRoundPoints(int roundId)
+        {
+            return new FightPointModel.RoundPointsModel
+            {
+                RoundId = roundId,
+                BlueFighterPoints = new FightPointModel.PointsModel(),
+                RedFighterPoints = new FightPointModel.PointsModel()
+            };
         }
     }
 }
