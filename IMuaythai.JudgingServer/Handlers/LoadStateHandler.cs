@@ -25,13 +25,14 @@ namespace IMuaythai.JudgingServer.Handlers
                 FightContext.InitState(fightId);
             }
 
+            var serializedState = FightContext.GetFightState().Serialize();
             return new HandlerResponse
             {
                 ResponseType = ResponseType.ToSelf,
                 Message = new Message
                 {
                     RequestType = MessageType.PersisedState,
-                    Data = FightContext.GetFightState().Serialize()
+                    Data = serializedState
                 }
             };
         }

@@ -1,3 +1,4 @@
+using System.Linq;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.JudgingServer.State;
@@ -10,11 +11,14 @@ namespace IMuaythai.JudgingServer
         void RegisterPoints(FightPoint points);
 
         int GetRoundNumber();
-        void IncrementRoundNumber();
         void ResetState();
         FightState GetFightState();
         int GetFightId();
         void InitState(int id);
+        void StartRound();
+        void EndRound();
+        void PauseRound();
+        void ResumeRound();
 
     }
 
@@ -25,11 +29,6 @@ namespace IMuaythai.JudgingServer
         public FightContext(ApplicationDbContext context)
         {
             _fightState = new FightState(context);
-        }
-
-        public void IncrementRoundNumber()
-        {
-            _fightState.Round++;
         }
 
         public void ResetState()
@@ -62,10 +61,40 @@ namespace IMuaythai.JudgingServer
             _fightState.Initialize(id);
         }
 
+        public void StartRound()
+        {
+            _fightState.Round++;
+            _fightState.SetMode("fight");
+            _fightState.Started = true;
+            _fightState.Paused = false;
+            _fightState.StartTimer();
+        }
+
+        public void EndRound()
+        {
+            _fightState.SetMode("pause");
+            _fightState.Started = false;
+            _fightState.StartTimer();
+        }
+
+        public void PauseRound()
+        {
+            _fightState.Paused = true;
+            _fightState.PauseTimer();
+        }
+
+        public void ResumeRound()
+        {
+            _fightState.Paused = false;
+            _fightState.StartTimer();
+        }
+
         public bool CanStartNewRound()
         {
             var fightWarnings = _fightState.GetWarnings();
-            return fightWarnings["Cautions"] <= 3 && fightWarnings["Warnings"] <= 3 && fightWarnings["KnockDown"] <= 3;
+            if (fightWarnings.Count == 0)
+                return true;
+            return fightWarnings.Sum(f => f.Cautions) <= 3 && fightWarnings.Sum(f => f.Warnings) <= 3 && fightWarnings.Sum(f => f.KnockDown) <= 3;
         }
     }
 }

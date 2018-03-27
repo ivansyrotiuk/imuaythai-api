@@ -12,6 +12,35 @@ namespace IMuaythai.UnitTests
     public class FightStateTests
     {
         [Fact]
+        public void SetMode_ShouldSetModeToPause()
+        {
+            var context = new Mocks().GetDefaultDatabaseContext();
+            
+            var fightEntity = new Fight
+            {
+                Id = 1,
+                BlueAthleteId = "abcd",
+                RedAthleteId = "efgh",
+                Structure = new FightStructure()
+                {
+                    Round = new Round()
+                    {
+                        BreakDuration = 1000,
+                        Duration = 3000,
+                        RoundsCount = 3
+                    }
+                }
+            };
+            context.Fights.Add(fightEntity);
+            context.SaveChanges();
+            
+            var state = new FightState(context);
+            state.Initialize(1);
+            
+            state.SetMode("pause");
+            Assert.Equal(state.RemainingTime, 1000);
+        }
+        [Fact]
         public void Initialize_PassedFightId_ShouldReturnFreshState()
         {
             var fightEntity = new Fight

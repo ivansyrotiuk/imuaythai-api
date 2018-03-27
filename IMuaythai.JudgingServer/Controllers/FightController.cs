@@ -98,9 +98,9 @@ namespace IMuaythai.JudgingServer.Controllers
                 },
                 Timekeeper = new
                 {
-                    fight.TimeKeeper.Id,
-                    fight.TimeKeeper.FirstName,
-                    fight.TimeKeeper.Surname
+                    fight.TimeKeeper?.Id,
+                    fight.TimeKeeper?.FirstName,
+                    fight.TimeKeeper?.Surname
                 }
             };
             

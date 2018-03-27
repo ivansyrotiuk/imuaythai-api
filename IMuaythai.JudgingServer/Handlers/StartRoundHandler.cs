@@ -25,11 +25,9 @@ namespace IMuaythai.JudgingServer.Handlers
                     ResponseType = ResponseType.Skip
                 };
             }
-
-            FightContext.IncrementRoundNumber();
-
+            FightContext.StartRound();
             var roundId = FightContext.GetRoundNumber();
-
+            
             return new HandlerResponse
             {
                 ResponseType = ResponseType.ToAll,

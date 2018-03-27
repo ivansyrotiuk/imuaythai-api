@@ -21,7 +21,10 @@ namespace IMuaythai.JudgingServer.Handlers
             var showPrematureEndPanel = new ShowPrematureEndPanelHandler(prematureEndHandler, fightContext, context);
             var juryConnectedHandler = new JuryConnectedHandler(showPrematureEndPanel, fightContext, context);
             var connectHandler = new LoadStateHandler(juryConnectedHandler, fightContext, context);
-            return new AcceptPointsHandler(connectHandler, fightContext, context);
+            var endRoundHandler = new EndRoundHandler(connectHandler, fightContext,context);
+            var pauseFightHandler = new PauseRoundHandler(endRoundHandler, fightContext, context);
+            var resumeFightHandler = new ResumeRoundHandler(pauseFightHandler, fightContext, context);
+            return new AcceptPointsHandler(resumeFightHandler, fightContext, context);
         }
     }
 
