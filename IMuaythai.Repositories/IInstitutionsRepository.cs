@@ -15,6 +15,7 @@ namespace IMuaythai.Repositories
         Task<List<Institution>> GetContinentalFederations();
         Task<List<Institution>> GetWorldFederations();
         Task<List<Institution>> GetByCountry(Country country);
+        Task<List<Institution>> GetGymsByCountry(int countryId);
         Task<List<Institution>> Find(Expression<Func<Institution, bool>> predicate);
         Task Save(Institution institution);
         Task Remove(int id);

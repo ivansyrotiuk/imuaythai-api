@@ -49,6 +49,22 @@ namespace IMuaythai.Api.Controllers.Institutions
             }
         }
 
+        [HttpGet]
+        [Route("Gyms")]
+        public async Task<IActionResult> GetGyms([FromQuery] int institutionId)
+        {
+            try
+            {
+                var gyms = await _institutionsService.GetGyms(institutionId);
+
+                return Ok(gyms);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("Save")]
         public async Task<IActionResult> Save([FromBody]InstitutionUpdateModel institutionUpdateModel)
