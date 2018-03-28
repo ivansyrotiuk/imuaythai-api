@@ -19,23 +19,28 @@ namespace IMuaythai.Repositories.Dictionaries
 
         public Task<List<KhanLevel>> Find(Func<KhanLevel, bool> predicate)
         {
-            return _context.KhanLevels.Where(predicate).AsQueryable().ToListAsync();
+            return _context.KhanLevels.Where(predicate).Where(khanLevel => !khanLevel.Deleted).AsQueryable().ToListAsync();
         }
 
         public Task<KhanLevel> Get(int id)
         {
-            return _context.KhanLevels.FirstOrDefaultAsync(i=>i.Id == id);
+            return _context.KhanLevels.Where(khanLevel => !khanLevel.Deleted).FirstOrDefaultAsync(i=>i.Id == id);
         }
 
         public Task<List<KhanLevel>> GetAll()
         {
-            return _context.KhanLevels.ToListAsync();
+            return _context.KhanLevels.Where(khanLevel => !khanLevel.Deleted).ToListAsync();
         }
 
         public Task Remove(int id)
         {
             var level = _context.KhanLevels.FirstOrDefault(i => i.Id == id);
-            _context.KhanLevels.Remove(level);
+            if (level == null)
+            {
+                throw new Exception($"KhanLevel with id={id} is not found");
+            }
+
+            level.Deleted = true;
             return _context.SaveChangesAsync();
         }
 

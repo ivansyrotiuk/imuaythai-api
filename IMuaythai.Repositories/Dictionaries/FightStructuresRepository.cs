@@ -19,6 +19,7 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task<FightStructure> Get(int id)
         {
             return _context.FightStructures
+                .Where(structure => !structure.Deleted)
                 .Include(f => f.WeightAgeCategory)
                 .Include(f => f.Round)
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -27,6 +28,7 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task<List<FightStructure>> GetAll()
         {
             return _context.FightStructures
+                .Where(structure => !structure.Deleted)
                 .Include(f => f.WeightAgeCategory)
                 .Include(f => f.Round)
                 .ToListAsync();
@@ -37,7 +39,9 @@ namespace IMuaythai.Repositories.Dictionaries
             return _context.FightStructures
                 .Include(f => f.WeightAgeCategory)
                 .Include(f => f.Round)
-                .Where(predicate).AsQueryable().ToListAsync();
+                .Where(predicate)
+                .Where(structure => !structure.Deleted)
+                .AsQueryable().ToListAsync();
         }
 
         public Task Save(FightStructure structure)
@@ -57,7 +61,12 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task Remove(int id)
         {
             var structure = _context.FightStructures.FirstOrDefault(i => i.Id == id);
-            _context.FightStructures.Remove(structure);
+            if (structure == null)
+            {
+                throw new Exception($"FightStructure with id={id} is not found");
+            }
+
+            structure.Deleted = true;
             return _context.SaveChangesAsync();
         }
     }

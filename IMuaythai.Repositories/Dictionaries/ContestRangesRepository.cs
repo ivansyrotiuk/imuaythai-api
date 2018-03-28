@@ -18,17 +18,17 @@ namespace IMuaythai.Repositories.Dictionaries
         }
         public Task<ContestRange> Get(int id)
         {
-            return _context.ContestRanges.FirstOrDefaultAsync(c => c.Id == id);
+            return _context.ContestRanges.Where(contestRange => !contestRange.Deleted).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public Task<List<ContestRange>> GetAll()
         {
-            return _context.ContestRanges.ToListAsync();
+            return _context.ContestRanges.Where(contestRange => !contestRange.Deleted).ToListAsync();
         }
 
         public Task<List<ContestRange>> Find(Func<ContestRange, bool> predicate)
         {
-            return _context.ContestRanges.Where(predicate).AsQueryable().ToListAsync();
+            return _context.ContestRanges.Where(predicate).Where(contestRange => !contestRange.Deleted).AsQueryable().ToListAsync();
         }
 
         public Task Save(ContestRange contestRange)
@@ -48,7 +48,12 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task Remove(int id)
         {
             var contestRange = _context.ContestRanges.FirstOrDefault(i => i.Id == id);
-            _context.ContestRanges.Remove(contestRange);
+            if (contestRange == null)
+            {
+                throw new Exception($"ContestRange with id={id} is not found");
+            }
+
+            contestRange.Deleted = true;
             return _context.SaveChangesAsync();
         }
     }

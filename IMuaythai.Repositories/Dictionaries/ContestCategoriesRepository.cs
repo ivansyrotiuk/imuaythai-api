@@ -19,6 +19,7 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task<ContestCategory> Get(int id)
         {
             return _context.ContestCategories
+                .Where(contestCategory => !contestCategory.Deleted)
                 .Include(c => c.ContestTypePoints).ThenInclude(p => p.ContestType)
                 .Include(c => c.ContestTypePoints).ThenInclude(p => p.ContestRange)
                 .Include(c => c.FightStructure).ThenInclude(f => f.WeightAgeCategory)
@@ -29,6 +30,7 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task<List<ContestCategory>> GetAll()
         {
             return _context.ContestCategories
+                .Where(contestCategory => !contestCategory.Deleted)
                 .Include(c => c.ContestTypePoints).ThenInclude(p => p.ContestType)
                 .Include(c => c.ContestTypePoints).ThenInclude(p => p.ContestRange)
                 .Include(c => c.FightStructure).ThenInclude(f=>f.WeightAgeCategory)
@@ -43,7 +45,9 @@ namespace IMuaythai.Repositories.Dictionaries
                 .Include(c => c.ContestTypePoints).ThenInclude(p => p.ContestRange)
                 .Include(c => c.FightStructure).ThenInclude(f => f.WeightAgeCategory)
                 .Include(c => c.FightStructure).ThenInclude(f => f.Round)
-                .Where(predicate).AsQueryable().ToListAsync();
+                .Where(predicate)
+                .Where(contestCategory => !contestCategory.Deleted)
+                .AsQueryable().ToListAsync();
         }
 
         public Task Save(ContestCategory contestCategory)
@@ -63,7 +67,12 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task Remove(int id)
         {
             var contestCategory = _context.ContestCategories.FirstOrDefault(i => i.Id == id);
-            _context.ContestCategories.Remove(contestCategory);
+            if (contestCategory == null)
+            {
+                throw new Exception($"ContestCategory with id={id} is not found");
+            }
+
+            contestCategory.Deleted = true;
             return _context.SaveChangesAsync();
         }
     }

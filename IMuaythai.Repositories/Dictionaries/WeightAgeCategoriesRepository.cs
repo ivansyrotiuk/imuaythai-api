@@ -18,17 +18,17 @@ namespace IMuaythai.Repositories.Dictionaries
         }
         public Task<WeightAgeCategory> Get(int id)
         {
-            return _context.WeightAgeCategories.FirstOrDefaultAsync(c => c.Id == id);
+            return _context.WeightAgeCategories.Where(category => !category.Deleted).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public Task<List<WeightAgeCategory>> GetAll()
         {
-            return _context.WeightAgeCategories.ToListAsync();
+            return _context.WeightAgeCategories.Where(category => !category.Deleted).ToListAsync();
         }
 
         public Task<List<WeightAgeCategory>> Find(Func<WeightAgeCategory, bool> predicate)
         {
-            return _context.WeightAgeCategories.Where(predicate).AsQueryable().ToListAsync();
+            return _context.WeightAgeCategories.Where(predicate).Where(category => !category.Deleted).AsQueryable().ToListAsync();
         }
 
         public Task Save(WeightAgeCategory category)
@@ -48,7 +48,12 @@ namespace IMuaythai.Repositories.Dictionaries
         public Task Remove(int id)
         {
             var category = _context.WeightAgeCategories.FirstOrDefault(i => i.Id == id);
-            _context.WeightAgeCategories.Remove(category);
+            if (category == null)
+            {
+                throw new Exception($"WeightAgeCategory with id={id} is not found");
+            }
+
+            category.Deleted = true;
             return _context.SaveChangesAsync();
         }
     }

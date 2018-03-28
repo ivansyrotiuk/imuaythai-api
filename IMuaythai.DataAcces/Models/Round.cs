@@ -1,6 +1,6 @@
 ﻿namespace IMuaythai.DataAccess.Models
 {
-    public class Round
+    public class Round: Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }

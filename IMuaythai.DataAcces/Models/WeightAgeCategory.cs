@@ -2,7 +2,7 @@
 
 namespace IMuaythai.DataAccess.Models
 {
-    public class WeightAgeCategory
+    public class WeightAgeCategory: Entity
     {
         [Key]
         public int Id {get;set;}
