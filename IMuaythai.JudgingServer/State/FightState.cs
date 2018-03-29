@@ -15,7 +15,7 @@ namespace IMuaythai.JudgingServer.State
         private Timer _fightTimer;
         private int _roundTime;
         private int _breakTime;
-        private string _mode = "fight";
+        public string Mode { get; set; } = "fight";
         public bool Started { get; set; }
         public bool Paused { get; set; }
         public Fighter BlueFighter { get; set; }
@@ -91,7 +91,7 @@ namespace IMuaythai.JudgingServer.State
 
         public void SetMode(string mode)
         {
-            _mode = mode;
+            Mode = mode;
             PauseTimer();
             RemainingTime = mode == "fight" ? _roundTime : _breakTime;
         }
@@ -120,12 +120,12 @@ namespace IMuaythai.JudgingServer.State
 
         public void StartTimer()
         {
-            _fightTimer = new Timer(Execute, new AutoResetEvent(false), 1000, 1000);
+            _fightTimer = new Timer(Execute, new AutoResetEvent(false), 1, 1);
         }
 
         public void PauseTimer()
         {
-            _fightTimer.Dispose();
+            _fightTimer?.Dispose();
         }
     }
 }
