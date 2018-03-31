@@ -24,11 +24,7 @@ namespace IMuaythai.JudgingServer.Handlers
             return new HandlerResponse
             {
                 ResponseType = ResponseType.ToOne,
-                Message = new Message
-                {
-                    RequestType = message.RequestType,
-                    Data = "Points has been accepted"
-                }
+                Message = message
             };
         }
 
