@@ -42,8 +42,9 @@ namespace IMuaythai.JudgingServer.Handlers
                 var nextFight = await Context.Fights.FirstOrDefaultAsync(f => f.Id == fight.NextFightId);
                 if (string.IsNullOrEmpty(fight.WinnerId) && points.Accepted)
                 {
-                    fight.WinnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
-                    nextFight.AssignPrevFightWinner(points.FighterId);
+                    var winnerId = points.FighterId == fight.BlueAthleteId ? fight.RedAthleteId : fight.BlueAthleteId;
+                    fight.WinnerId = winnerId;
+                    nextFight.AssignPrevFightWinner(winnerId);
                 }
 
                 Context.FightPoints.Add(points);

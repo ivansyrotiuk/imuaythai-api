@@ -15,13 +15,15 @@
         EndFight,
         SendTime,
         PauseRound,
-        ResumeRound
+        ResumeRound,
+        PersisedState
     }
 
     public enum ResponseType
     {
         Skip,
         ToOne,
+        ToSelf,
         ToAll    
     }
 

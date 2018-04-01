@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+    <PackageReference Include="xunit" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj">
+      <Project>{5840DDF7-6956-4203-945B-557E1DFBCBFF}</Project>
+      <Name>IMuaythai.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IMuaythai.JudgingServer\IMuaythai.JudgingServer.csproj">
+      <Project>{650D9020-DC1F-4A11-B51C-2408531E47CE}</Project>
+      <Name>IMuaythai.JudgingServer</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
