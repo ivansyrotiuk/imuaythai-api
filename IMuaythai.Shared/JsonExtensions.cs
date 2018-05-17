@@ -14,7 +14,8 @@ namespace IMuaythai.Shared
         {
             return JsonConvert.SerializeObject(obj,  new JsonSerializerSettings 
             { 
-                ContractResolver = new CamelCasePropertyNamesContractResolver() 
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             });
         }
     }

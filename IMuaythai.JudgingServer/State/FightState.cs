@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Models;
-using IMuaythai.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMuaythai.JudgingServer.State
@@ -116,6 +114,12 @@ namespace IMuaythai.JudgingServer.State
         {
             Id = Round = 0;
             RedFighter = BlueFighter = null;
+            _fightTimer?.Dispose();
+            _roundTime = 0;
+            _breakTime = 0;
+            Started = false;
+            Paused = false;
+            RemainingTime = 0;
         }
 
         public void StartTimer()

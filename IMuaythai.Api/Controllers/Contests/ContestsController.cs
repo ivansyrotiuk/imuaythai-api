@@ -66,7 +66,7 @@ namespace IMuaythai.Api.Controllers.Contests
 
         [HttpPost]
         [Route("Remove")]
-        public async Task<IActionResult> RemoveContest([FromBody]ContestResponseModel contestResponse)
+        public async Task<IActionResult> RemoveContest([FromBody]ContestRequestModel contestResponse)
         {
             try
             {

@@ -91,6 +91,7 @@ namespace IMuaythai.JudgingServer
 
         public bool CanStartNewRound()
         {
+            return true;
             var fightWarnings = _fightState.GetWarnings();
             if (fightWarnings.Count == 0)
                 return true;
