@@ -6,8 +6,6 @@ dotnet: 2.0.0
 branches:
   only:
     - master
-before_script:
-  - chmod -R a+x scripts
 script:
   - dotnet build IMuaythai.sln -c Release
 notifications:
