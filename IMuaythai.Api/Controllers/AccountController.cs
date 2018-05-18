@@ -111,7 +111,7 @@ namespace IMuaythai.Api.Controllers
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
-
+            callbackUrl = callbackUrl.Insert(callbackUrl.LastIndexOf("/"), "/#");
             await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                 $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
 
