@@ -8,6 +8,11 @@ branches:
     - master
 script:
   - dotnet build IMuaythai.sln -c Release
+deploy:
+  provider: azure_web_apps
+  username: "Imuaythai"
+  password: "Imuaythai24@"
+  site: "api-imuaythai"
 notifications:
   email:
     on_success: never
