@@ -113,7 +113,7 @@ namespace IMuaythai.Api.Controllers
             var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
             callbackUrl = callbackUrl.Insert(callbackUrl.LastIndexOf("/"), "/#");
             await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                $"Please confirm your account by clicking this link: <a href=\"{callbackUrl}\">link</a>");
+                $"Please confirm your account go to this link: {callbackUrl}");
 
             _logger.LogInformation("User created a new account with password.");
             return Ok("Email confirmation sent");
