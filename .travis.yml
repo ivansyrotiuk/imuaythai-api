@@ -19,3 +19,4 @@ notifications:
     email:
         on_success: never
         on_failure: always
+after_deploy: ./after_deploy.sh
