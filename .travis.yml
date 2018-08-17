@@ -6,7 +6,6 @@ dotnet: 2.0.0
 branches:
     only:
         - master
-before_install: ./before_install.sh
 script:
     - dotnet build IMuaythai.sln -c Release
 deploy:
@@ -20,4 +19,5 @@ notifications:
     email:
         on_success: never
         on_failure: always
-after_deploy: ./after_deploy.sh
+after_deploy: ./before_install.sh
+    ./after_deploy.sh
