@@ -4,16 +4,20 @@ sudo: required
 mono: none
 dotnet: 2.0.0
 branches:
-  only:
-    - master
+    only:
+        - master
 script:
-  - dotnet build IMuaythai.sln -c Release
+    - dotnet build IMuaythai.sln -c Release
 deploy:
-  provider: azure_web_apps
-  username: "Imuaythai"
-  password: "Imuaythai24@"
-  site: "api-imuaythai"
+    provider: heroku
+    api_key:
+        secure: BmOuvrSySBGwY37WB/f+WOqa+Sfz4qZrvSu6gujEnNEkti3KGSwhvbTA8ElhlnjTFhRImscimDfbNB52F/SWFpGkO48KrSKQSzr2emm0941bzNvE/qL3I/sAmcTLarX5pjxCL5UdgXMtMPAZVm/viSuVH1WWvpcYPh9FMgDYnGrkNNpn91U8S+Nh+zWcyYYRWNEjISDds6zcvX/cgVLC1mbUOifpwET6vs5kd7OBI8ACJNkzVKKFw3HUncWGGst8VRHjNzwN1wK2I/KeJZ8crlg8vugqQpOOK/T6mefhQBv4WfTAU0TJHLWv2aOTLsJZgBFOGhmioD2Oz5JaGMyraFNJ3qzCnTNpFMdk96BhZkUaa6PEPKicKMLI+eHF0C3XqEEwYa7aKflR+0qNlWufgO8nRLmVhaMzKx6MxjZQ2IYIb9z7XeO0kexdyfvVzEvOjy0rOis9OujLhMXmBkcq/w2OjtluPL45u3bSytzk05o7lzUJ5qZTsu4rpzfXBDQUZIpfwFvQo4jnqqy3JimtLNT76Y9U/vdHTSfa1xd84/+PbswxeTATtXbXDgo6ezB3HdxQ6J4Uwf3uKoLZ8SUwareo4f2A524+Uh7bT8hn0FoQ5bV5/vbLl/7+1tu3NfPJQl59nhnDtqfAZ+ZeFA9FMAc19QKHdFPv3MVkbjW7j80=
+    app: imuaythai-test-api
+    on: master
+    skip_cleanup: true
 notifications:
-  email:
-    on_success: never
-    on_failure: always
+    email:
+        on_success: never
+        on_failure: always
+after_deploy: ./before_install.sh
+    ./after_deploy.sh
