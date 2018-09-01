@@ -18,7 +18,6 @@ namespace IMuaythai.Api.Validators.Users
             RuleFor(x => x.Instagram).Length(0, 500).WithMessage("Instagram is too long");
             RuleFor(x => x.Nationality).Length(0, 500).WithMessage("Nationality is too long");
             RuleFor(x => x.Phone).Length(0, 60).WithMessage("Phone is too long");
-            RuleFor(x => x.Photo).Length(0, 1000).WithMessage("Photo is too long");
             RuleFor(x => x.Surname).Length(0, 500).WithMessage("Surname is too long");
             RuleFor(x => x.Twitter).Length(0, 500).WithMessage("Twitter is too long");
             RuleFor(x => x.VK).Length(0, 500).WithMessage("VK is too long");
