@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
+using IMuaythai.Api.Middleware;
 using IMuaythai.Api.Validators;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Services;
@@ -145,8 +146,10 @@ namespace IMuaythai.Api
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "IMuathai API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "IMuaythai API V1");
             });
+
+            app.ConfigureExceptionMiddleware();
 
             app.UseMvc();
 
