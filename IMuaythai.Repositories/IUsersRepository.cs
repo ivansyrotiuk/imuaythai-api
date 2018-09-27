@@ -37,7 +37,7 @@ namespace IMuaythai.Repositories
 
         public Task<List<ApplicationUser>> GetAll()
         {
-            return _context.Users.ToListAsync();
+            return _context.Users.Where(user => user.Accepted).ToListAsync();
         }
 
         public Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate)
@@ -48,7 +48,7 @@ namespace IMuaythai.Repositories
         public Task<List<ApplicationUser>> GetInstitutionMembers(int institutionId)
         {
             //TODO: there is no Roles in application user anymore. Get Roles from _context.UserRoles
-            return _context.Users.Include(u => u.Roles).Where(u => u.InstitutionId == institutionId).ToListAsync();
+            return _context.Users.Where(user => user.Accepted).Include(u => u.Roles).Where(u => u.InstitutionId == institutionId).ToListAsync();
         }
 
         public Task Save(ApplicationUser user)
