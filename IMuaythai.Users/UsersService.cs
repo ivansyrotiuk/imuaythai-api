@@ -64,25 +64,25 @@ namespace IMuaythai.Users
         public async Task<IEnumerable<FighterModel>> GetFigthers()
         {
             var fighters = await _userManager.GetUsersInRoleAsync("Fighter");
-            return _mapper.Map<IEnumerable<FighterModel>>(fighters);
+            return _mapper.Map<IEnumerable<FighterModel>>(fighters.Where(user => !user.Deleted));
         }
 
         public async Task<IEnumerable<JudgeModel>> GetJudges()
         {
             var judges = await _userManager.GetUsersInRoleAsync("Judge");
-            return _mapper.Map<IEnumerable<JudgeModel>>(judges);
+            return _mapper.Map<IEnumerable<JudgeModel>>(judges.Where(user => !user.Deleted));
         }
 
         public async Task<IEnumerable<JudgeModel>> GetCoaches()
         {
             var coaches = await _userManager.GetUsersInRoleAsync("Coach");
-            return _mapper.Map<IEnumerable<JudgeModel>>(coaches);
+            return _mapper.Map<IEnumerable<JudgeModel>>(coaches.Where(user => !user.Deleted));
         }
 
         public async Task<IEnumerable<JudgeModel>> GetDoctors()
         {
             var doctors = await _userManager.GetUsersInRoleAsync("Doctor");
-            return _mapper.Map<IEnumerable<JudgeModel>>(doctors);
+            return _mapper.Map<IEnumerable<JudgeModel>>(doctors.Where(user => !user.Deleted));
         }
 
         public async Task<UserModel> GetUser(string id)
