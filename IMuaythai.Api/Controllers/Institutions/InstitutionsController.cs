@@ -83,7 +83,7 @@ namespace IMuaythai.Api.Controllers.Institutions
 
         [HttpPost]
         [Route("Remove")]
-        public async Task<IActionResult> Remove([FromBody]InstitutionResponseModel institutionResponse)
+        public async Task<IActionResult> Remove([FromBody]InstitutionRemoveModel institutionResponse)
         {
             try
             {

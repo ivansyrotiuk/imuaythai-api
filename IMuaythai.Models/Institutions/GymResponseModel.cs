@@ -5,4 +5,9 @@
     {
 
     }
+
+    public class InstitutionRemoveModel
+    {
+        public int Id { get; set; }
+    }
 }

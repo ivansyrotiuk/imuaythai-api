@@ -71,7 +71,7 @@ namespace IMuaythai.Repositories
         public Task Remove(int id)
         {
             var intitution = _context.Institutions.FirstOrDefault(i => i.Id == id);
-            _context.Institutions.Remove(intitution);
+            intitution.Deleted = true;
             return _context.SaveChangesAsync();
         }
 
