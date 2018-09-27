@@ -30,37 +30,37 @@ namespace IMuaythai.Repositories
 
         public Task<List<Institution>> GetAll()
         {
-            return _context.Institutions.Include(i => i.Country).ToListAsync();
+            return _context.Institutions.Where(i => !i.Deleted).Include(i => i.Country).ToListAsync();
         }
 
         public Task<List<Institution>> GetContinentalFederations()
         {
-            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.ContinentalFederation).ToListAsync();
+            return _context.Institutions.Where(i => !i.Deleted).Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.ContinentalFederation).ToListAsync();
         }
 
         public Task<List<Institution>> GetNationalFederations()
         {
-            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.NationalFederation).ToListAsync();
+            return _context.Institutions.Where(i => !i.Deleted).Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.NationalFederation).ToListAsync();
         }
 
         public Task<List<Institution>> GetGyms()
         {
-            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.Gym).ToListAsync();
+            return _context.Institutions.Where(i => !i.Deleted).Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.Gym).ToListAsync();
         }
 
         public Task<List<Institution>> GetGymsByCountry(int countryId)
         {
-            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.Gym && i.CountryId == countryId).ToListAsync();
+            return _context.Institutions.Where(i => !i.Deleted).Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.Gym && i.CountryId == countryId).ToListAsync();
         }
 
         public Task<List<Institution>> GetWorldFederations()
         {
-            return _context.Institutions.Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.WorldFederation).ToListAsync();
+            return _context.Institutions.Where(i => !i.Deleted).Include(i => i.Country).Where(i => i.InstitutionType == InstitutionType.WorldFederation).ToListAsync();
         }
 
         public Task<List<Institution>> GetByCountry(Country country)
         {
-            return _context.Institutions.Include(i => i.Country)
+            return _context.Institutions.Where(i => !i.Deleted).Include(i => i.Country)
                 .Where(i => i.CountryId == country.Id && i.InstitutionType == InstitutionType.Gym ||
                             i.CountryId == country.Id && i.InstitutionType == InstitutionType.NationalFederation || 
                             i.Country.Continent == country.Continent && i.InstitutionType == InstitutionType.ContinentalFederation || 

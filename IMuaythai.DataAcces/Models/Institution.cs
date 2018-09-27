@@ -39,6 +39,7 @@ namespace IMuaythai.DataAccess.Models
         public string Twitter { get; set; }
         public int MembersCount { get; set; }
         public InstitutionType InstitutionType { get; set; }
+        public bool Deleted { get; set; }
 
         public virtual ICollection<InstitutionDocumentsMapping> InstitutionDocumentsMappings { get; set; }
         public virtual ICollection<ContestRequest> ContestRequests { get; set; }
