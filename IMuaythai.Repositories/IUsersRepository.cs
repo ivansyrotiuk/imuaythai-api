@@ -91,7 +91,7 @@ namespace IMuaythai.Repositories
         public Task Remove(string id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            user.Deleted = false;
+            user.Deleted = true;
             return _context.SaveChangesAsync();
         }
     }
