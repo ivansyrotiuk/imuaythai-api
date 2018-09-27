@@ -37,18 +37,18 @@ namespace IMuaythai.Repositories
 
         public Task<List<ApplicationUser>> GetAll()
         {
-            return _context.Users.Where(user => user.Accepted).ToListAsync();
+            return _context.Users.Where(user => !user.Deleted).ToListAsync();
         }
 
         public Task<List<ApplicationUser>> Find(Func<ApplicationUser, bool> predicate)
         {
-            return _context.Users.Where(predicate).AsQueryable().ToListAsync();
+            return _context.Users.Where(user => !user.Deleted).Where(predicate).AsQueryable().ToListAsync();
         }
 
         public Task<List<ApplicationUser>> GetInstitutionMembers(int institutionId)
         {
             //TODO: there is no Roles in application user anymore. Get Roles from _context.UserRoles
-            return _context.Users.Where(user => user.Accepted).Include(u => u.Roles).Where(u => u.InstitutionId == institutionId).ToListAsync();
+            return _context.Users.Where(user => !user.Deleted).Include(u => u.Roles).Where(u => u.InstitutionId == institutionId).ToListAsync();
         }
 
         public Task Save(ApplicationUser user)
@@ -91,7 +91,7 @@ namespace IMuaythai.Repositories
         public Task Remove(string id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            _context.Users.Remove(user);
+            user.Deleted = false;
             return _context.SaveChangesAsync();
         }
     }

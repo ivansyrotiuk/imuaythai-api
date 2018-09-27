@@ -37,6 +37,8 @@ namespace IMuaythai.DataAccess.Models
         [StringLength(100)]
         public string CoachLevel { get; set; }
         public bool Accepted { get; set; }
+        public bool Deleted { get; set; }
+
 
         public virtual ICollection<Suspension> Suspensions { get; set; }
         public virtual ICollection<UserDocumentsMapping> UserDocimentsMappings { get; set; }
