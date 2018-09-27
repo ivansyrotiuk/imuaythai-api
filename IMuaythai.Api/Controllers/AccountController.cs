@@ -239,7 +239,9 @@ namespace IMuaythai.Api.Controllers
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             // Send an email with this link
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var callbackUrl = $"{model.CallbackUrl}?userid={user.Id}&code={code}";
+            var cu = model.CallbackUrl;
+            cu = cu.Insert(cu.LastIndexOf("/"), "/#");
+            var callbackUrl = $"{cu}?userid={user.Id}&code={code}";
 
             await _emailSender.SendEmailAsync(model.Email, "Reset password",
                 $"Please reset your password by clicking this link: <a href=\"{callbackUrl}\">link</a>");
