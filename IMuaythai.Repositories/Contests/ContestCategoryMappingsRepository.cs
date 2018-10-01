@@ -33,6 +33,11 @@ namespace IMuaythai.Repositories.Contests
 
         public Task SaveCategoryMappings(int contestId, List<ContestCategoryModel> mappings)
         {
+            if (mappings == null)
+            {
+                return Task.CompletedTask;
+            }
+
             _context.ContestCategoriesMappings.RemoveRange(_context.ContestCategoriesMappings.Where(m => m.ContestId == contestId));
 
             var contestCategoryMappings = mappings.Select(m => new ContestCategoriesMapping

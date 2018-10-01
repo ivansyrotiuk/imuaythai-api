@@ -11,7 +11,7 @@ namespace IMuaythai.Api.Validators.Contest
             RuleFor(x => x.Address).NotNull().WithMessage("Address can not be null");
             RuleFor(x => x.AllowUnassociated).NotNull().WithMessage("AllowUnassociated can not be null");
             RuleFor(x => x.City).NotNull().WithMessage("City can not be null");
-            RuleFor(x => x.CountryId).NotNull().WithMessage("CountryId can not be null");
+            RuleFor(x => x.CountryId).NotNull().NotEqual(0).WithMessage("CountryId can not be null or 0");
             RuleFor(x => x.Date).NotNull().WithMessage("Date can not be null");
             RuleFor(x => x.Duration).NotNull().WithMessage("Duration can not be null");
             RuleFor(x => x.EndRegistrationDate).NotNull().WithMessage("EndRegistrationDate can not be null");
