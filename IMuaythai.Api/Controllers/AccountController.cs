@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.Auth;
@@ -10,6 +11,7 @@ using IMuaythai.Repositories;
 using IMuaythai.Services;
 using IMuaythai.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,6 +32,8 @@ namespace IMuaythai.Api.Controllers
         private readonly ILogger _logger;
         private readonly IJwtTokenGenerator _tokenGenerator;
         private readonly IUsersService _usersService;
+        private readonly IHostingEnvironment _hostingEnvironment;
+
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -51,6 +55,12 @@ namespace IMuaythai.Api.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _tokenGenerator = tokenGenerator;
             _usersService = usersService;
+
+            foreach (DictionaryEntry variable in Environment.GetEnvironmentVariables())
+            {
+                Console.WriteLine($"Var={variable.Key}: {variable.Value}");
+            }
+
         }
 
         [HttpPost]
