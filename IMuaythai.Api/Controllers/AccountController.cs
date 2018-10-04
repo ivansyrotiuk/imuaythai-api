@@ -110,15 +110,25 @@ namespace IMuaythai.Api.Controllers
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var cu = model.CallbackUrl;
-            cu = cu.Insert(cu.LastIndexOf("/"), "/#");
-            var callbackUrl = $"{cu}?userid={user.Id}&code={code}";
-           
+            var callbackLink = MakeCallbackLink(model.CallbackUrl, user, code, "activation link");
+
             await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                $"Please confirm your account go to this link: {callbackUrl}");
+                $"Please confirm your account go to this link: {callbackLink}");
 
             _logger.LogInformation("User created a new account with password.");
             return Ok("Email confirmation sent");
+        }
+
+        private static string MakeCallbackLink(string baseUrl, ApplicationUser user, string code, string text)
+        {
+            if (!baseUrl.Contains("/#/"))
+            {
+                var lastSlash = baseUrl.LastIndexOf("/", StringComparison.InvariantCulture);
+                baseUrl = baseUrl.Insert(lastSlash, "/#");
+            }
+
+            var callbackUrl = $"{baseUrl}?userid={user.Id}&code={code}";
+            return $"<a href=\"{callbackUrl}\">{text}</a>";
         }
 
         [HttpPost]
@@ -193,6 +203,9 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var user = await _usersService.CreateUser(createUserModel);
+                var request = HttpContext.Request;
+                await _emailSender.SendEmailAsync(createUserModel.Email, "Imuaythai",
+                    $"Your IMuaythai account is ready. Go to <a href=\"{request.Scheme}://{request.Host.ToUriComponent()}\">IMuaythai</a>");
                 return Ok(user);
             }
             catch (Exception ex)
@@ -236,15 +249,11 @@ namespace IMuaythai.Api.Controllers
                 return NotFound("User not found");
             }
 
-            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-            // Send an email with this link
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var cu = model.CallbackUrl;
-            cu = cu.Insert(cu.LastIndexOf("/"), "/#");
-            var callbackUrl = $"{cu}?userid={user.Id}&code={code}";
+            var callbackLink = MakeCallbackLink(model.CallbackUrl, user, code, "link");
 
             await _emailSender.SendEmailAsync(model.Email, "Reset password",
-                $"Please reset your password by clicking this link: <a href=\"{callbackUrl}\">link</a>");
+                $"Please reset your password by clicking this link: {callbackLink}");
 
             return Ok("Reset password email sent");
         }
