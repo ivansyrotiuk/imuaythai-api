@@ -1,51 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <UserSecretsId>aspnet-MuaythaiSportManagementSystemApi-53bc9b9d-9d6a-45d4-8429-2a2761773502</UserSecretsId>
-    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
-    <ApplicationIcon />
-    <OutputType>Exe</OutputType>
-    <StartupObject />
-    <Version>1.0.1</Version>
-    <FileVersion>1.0.0.1</FileVersion>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Controllers\HomeController.cs" />
-    <Compile Remove="Controllers\ManageController.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="automapper" Version="6.2.2" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="7.3.3" />
-    <PackageReference Include="MailKit" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
-    <PackageReference Include="morelinq" Version="2.9.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.5" />
-    <PackageReference Include="ZXing.Net" Version="0.16.2" />
-    <PackageReference Include="ZXing.Net" Version="0.16.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
-  </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>IMuaythai.Api.Program</StartupObject>
+    <Version>1.01</Version>
+  </PropertyGroup>
+
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="wwwroot/**" CopyToPublishDirectory="PreserveNewest" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="automapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.0.100" />
+    <PackageReference Include="MailKit" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="morelinq" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net" Version="0.16.4" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="appsettings.json" CopyToPublishDirectory="Always">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\IMuaythai.Api.Dictionaries\IMuaythai.Dictionaries.csproj" />
     <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
@@ -63,9 +48,23 @@
     <ProjectReference Include="..\IMuaythai.Shared\IMuaythai.Shared.csproj" />
     <ProjectReference Include="..\IMuaythai.Users\IMuaythai.Users.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json" CopyToPublishDirectory="Always">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <ItemGroup>
     <None Update="Launchers\Start.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
 </Project>
