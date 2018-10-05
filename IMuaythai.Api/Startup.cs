@@ -1,25 +1,14 @@
 using System;
-using System.Text;
 using AutoMapper;
-using FluentValidation.AspNetCore;
-using IMuaythai.DataAccess.Models;
-using IMuaythai.JudgingServer.RingMapping;
-using IMuaythai.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Swashbuckle.AspNetCore.Swagger;
 using IMuaythai.Api.DepedencyInjection;
 using IMuaythai.Api.Middleware;
-using IMuaythai.Api.Validators;
-using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Services;
+using IMuaythai.JudgingServer.RingMapping;
 
 namespace IMuaythai.Api
 {
@@ -27,75 +16,36 @@ namespace IMuaythai.Api
     {
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath);
 
             if (env.IsDevelopment())
             {
-                //ignore for now
+                builder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            }
+            else
+            {
+                builder.AddEnvironmentVariables();
             }
 
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            foreach (var pair in Configuration.AsEnumerable())
+            {
+                Console.WriteLine($"Config var: {pair.Key}={pair.Value}");
+            }
         }
 
         public static IConfigurationRoot Configuration { get; private set; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
         {
-            // Add framework services.
-            //services.AddOptions();
-            services.AddMvc(options =>
-                options.Filters.Add(typeof(ValidatorActionFilter))).AddJsonOptions(
-                options => options.SerializerSettings.ReferenceLoopHandling =
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            ).AddFluentValidation();
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-                    .EnableSensitiveDataLogging());
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-                {
-                    config.SignIn.RequireConfirmedEmail = true;
-                    config.User.RequireUniqueEmail = true;
-                }).AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            }));
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "IMuaythai API", Version = "v1" });
-            });
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey123456789"));
-
-            services.AddWebSocketManager();
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = key,
-                        ValidateLifetime = false,
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                    options.RequireHttpsMetadata = false;
-                });
+            services.AddMvc();
+            services.AddDbContext(Configuration);
+            services.AddIdentity();
+            services.AddCors();
+            services.AddSwagger();
+            services.AddJwt(Configuration);
 
             services.AddValidators();
             services.AddAutoMapper();
@@ -113,7 +63,7 @@ namespace IMuaythai.Api
             services.AddDictionariesServices();
             services.AddDashboardServices();
             services.AddHttpServices();
-            services.Configure<EmailConfiguration>(Configuration);
+            services.AddConfigurationMapping(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDataTransferService dataTransferService)
@@ -131,7 +81,7 @@ namespace IMuaythai.Api
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(25),
             });
-            app.UseCors("MyPolicy");
+            app.UseCors("ImuaythaiPolicy");
 
             app.MapWebSocketManager("/ringa", serviceProvider.GetService<RingA>());
             app.MapWebSocketManager("/ringb", serviceProvider.GetService<RingB>());
@@ -139,10 +89,7 @@ namespace IMuaythai.Api
 
             app.UseAuthentication();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "IMuaythai API V1");
@@ -151,7 +98,6 @@ namespace IMuaythai.Api
             app.ConfigureExceptionMiddleware();
 
             app.UseMvc();
-
         }
     }
 }
