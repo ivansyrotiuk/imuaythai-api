@@ -44,7 +44,7 @@ namespace IMuaythai.Api.Controllers
             IEmailSender emailSender,
             ILoggerFactory loggerFactory,
             IJwtTokenGenerator tokenGenerator,
-            IUsersService usersService)
+            IUsersService usersService, IHostingEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -55,11 +55,14 @@ namespace IMuaythai.Api.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _tokenGenerator = tokenGenerator;
             _usersService = usersService;
+            _hostingEnvironment = hostingEnvironment;
 
             foreach (DictionaryEntry variable in Environment.GetEnvironmentVariables())
             {
                 Console.WriteLine($"Var={variable.Key}: {variable.Value}");
             }
+
+            Console.WriteLine($"[Env]={_hostingEnvironment.EnvironmentName}");
 
         }
 
