@@ -38,7 +38,7 @@ namespace IMuaythai.Api
 
         public static IConfigurationRoot Configuration { get; private set; }
 
-        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddDbContext(Configuration);
