@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ZXing.Net" Version="0.16.2" />
+    <PackageReference Include="ZXing.Net" Version="0.16.4" />
   </ItemGroup>
 
   <ItemGroup>

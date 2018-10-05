@@ -183,7 +183,7 @@ namespace IMuaythai.Fights
                 var round = category.ContestCategory.FightStructure.Round;
                 int fightTime = (round.Duration + round.BreakDuration) * round.RoundsCount + contest.WaiKhruTime;
 
-                var ring = rings.Where(r => r.From < r.To).MinBy(r => r.From);
+                var ring = rings.Where(r => r.From < r.To).MinBy(r => r.From).FirstOrDefault();
 
                 fight.Fight.StartDate = ring.From;
                 fight.Fight.Ring = ring.Name;
