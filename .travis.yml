@@ -2,7 +2,7 @@ language: csharp
 dist: trusty
 sudo: required
 mono: none
-dotnet: 2.1.402
+dotnet: 2.1.300
 branches:
     only:
         - master
@@ -19,5 +19,3 @@ notifications:
     email:
         on_success: never
         on_failure: always
-after_deploy: ./before_install.sh
-    ./after_deploy.sh
