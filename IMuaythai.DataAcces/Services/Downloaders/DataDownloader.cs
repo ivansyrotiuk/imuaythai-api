@@ -20,19 +20,25 @@ namespace IMuaythai.DataAccess.Services.Downloaders
         protected void DeleteDataFromTable(string tableName)
         {
             var rawSqlString = $"DELETE FROM [dbo].[{tableName}]";
+#pragma warning disable EF1000 // Possible SQL injection vulnerability.
             DestinationContext.Database.ExecuteSqlCommand(rawSqlString);
+#pragma warning restore EF1000 // Possible SQL injection vulnerability.
         }
 
         protected void SetInsertIdentityOn(string tableName)
         {
             var rawSqlString = $"SET IDENTITY_INSERT [dbo].[{tableName}] ON";
+#pragma warning disable EF1000 // Possible SQL injection vulnerability.
             DestinationContext.Database.ExecuteSqlCommand(rawSqlString);
+#pragma warning restore EF1000 // Possible SQL injection vulnerability.
         }
 
         protected void SetInsertIdentityOff(string tableName)
         {
             var rawSqlString = $"SET IDENTITY_INSERT [dbo].[{tableName}] OFF";
+#pragma warning disable EF1000 // Possible SQL injection vulnerability.
             DestinationContext.Database.ExecuteSqlCommand(rawSqlString);
+#pragma warning restore EF1000 // Possible SQL injection vulnerability.
         }
 
         protected void NullReferencePropeties(object obj)

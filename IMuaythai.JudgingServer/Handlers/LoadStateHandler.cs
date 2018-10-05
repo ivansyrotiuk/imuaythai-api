@@ -13,11 +13,11 @@ namespace IMuaythai.JudgingServer.Handlers
             
         }
 
-        public async Task<HandlerResponse> Handle(Message message)
+        public Task<HandlerResponse> Handle(Message message)
         {
             if (message.RequestType != MessageType.PersisedState)
             {
-                return NextHandler?.Handle(message).Result;
+                return Task.FromResult(NextHandler?.Handle(message).Result);
             }
             if (FightContext.GetFightId() == 0)
             {
@@ -26,7 +26,7 @@ namespace IMuaythai.JudgingServer.Handlers
             }
 
             var serializedState = FightContext.GetFightState().Serialize();
-            return new HandlerResponse
+            return Task.FromResult( new HandlerResponse
             {
                 ResponseType = ResponseType.ToSelf,
                 Message = new Message
@@ -34,7 +34,7 @@ namespace IMuaythai.JudgingServer.Handlers
                     RequestType = MessageType.PersisedState,
                     Data = serializedState
                 }
-            };
+            });
         }
     }
 }

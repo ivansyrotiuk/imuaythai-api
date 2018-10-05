@@ -12,14 +12,14 @@ namespace IMuaythai.JudgingServer.Handlers
             
         }
 
-        public async Task<HandlerResponse> Handle(Message message)
+        public Task<HandlerResponse> Handle(Message message)
         {
             if (message.RequestType != MessageType.EndRound)
             {
-                return NextHandler?.Handle(message).Result;
+                return Task.FromResult(NextHandler?.Handle(message).Result);
             }
             FightContext.EndRound();
-            return new HandlerResponse
+            return Task.FromResult(new HandlerResponse
             {
                 ResponseType = ResponseType.ToAll,
                 Message = new Message
@@ -27,7 +27,7 @@ namespace IMuaythai.JudgingServer.Handlers
                     RequestType = message.RequestType,
                     Data = null
                 }
-            };
+            });
         }
     }
 }

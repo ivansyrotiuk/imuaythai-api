@@ -11,24 +11,24 @@ namespace IMuaythai.JudgingServer.Handlers
 
         }
 
-        public async Task<HandlerResponse> Handle(Message message)
+        public Task<HandlerResponse> Handle(Message message)
         {
             if (message.RequestType != MessageType.StartRound)
             {
-                return NextHandler?.Handle(message).Result;
+                return Task.FromResult(NextHandler?.Handle(message).Result);
             }
 
             if (!FightContext.CanStartNewRound())
             {
-                return new HandlerResponse
+                return Task.FromResult(new HandlerResponse
                 {
                     ResponseType = ResponseType.Skip
-                };
+                });
             }
             FightContext.StartRound();
             var roundId = FightContext.GetRoundNumber();
             
-            return new HandlerResponse
+            return Task.FromResult(new HandlerResponse
             {
                 ResponseType = ResponseType.ToAll,
                 Message = new Message
@@ -36,7 +36,7 @@ namespace IMuaythai.JudgingServer.Handlers
                     RequestType = message.RequestType,
                     Data = roundId.ToString()
                 }
-            };
+            });
 
         }
     }

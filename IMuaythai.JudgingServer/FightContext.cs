@@ -92,10 +92,10 @@ namespace IMuaythai.JudgingServer
         public bool CanStartNewRound()
         {
             return true;
-            var fightWarnings = _fightState.GetWarnings();
-            if (fightWarnings.Count == 0)
-                return true;
-            return fightWarnings.Sum(f => f.Cautions) <= 3 && fightWarnings.Sum(f => f.Warnings) <= 3 && fightWarnings.Sum(f => f.KnockDown) <= 3;
+            //var fightWarnings = _fightState.GetWarnings();
+            //if (fightWarnings.Count == 0)
+            //    return true;
+            //return fightWarnings.Sum(f => f.Cautions) <= 3 && fightWarnings.Sum(f => f.Warnings) <= 3 && fightWarnings.Sum(f => f.KnockDown) <= 3;
         }
     }
 }
