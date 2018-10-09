@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using IMuaythai.Auth;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.HttpServices;
 using IMuaythai.Models.Users;

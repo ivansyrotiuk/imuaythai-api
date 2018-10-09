@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{5F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IMuaythai.UnitTests", "IMuaythai.UnitTests\IMuaythai.UnitTests.csproj", "{D9082BF7-CEAB-45A0-8B31-BFFECBCB04D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMuaythai.Exceptions", "IMuaythai.Exceptions\IMuaythai.Exceptions.csproj", "{CCC087DF-ADBA-40C9-A675-7C02C0899EF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{5C99021B-B4C0-44E4-8680-E6A7F50E24A2}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{D9082BF7-CEAB-45A0-8B31-BFFECBCB04D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9082BF7-CEAB-45A0-8B31-BFFECBCB04D5}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCC087DF-ADBA-40C9-A675-7C02C0899EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCC087DF-ADBA-40C9-A675-7C02C0899EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCC087DF-ADBA-40C9-A675-7C02C0899EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCC087DF-ADBA-40C9-A675-7C02C0899EF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +130,7 @@ Global
 		{6C25D689-6C9B-43CC-8D84-0A28C6C22747} = {CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}
 		{05082D94-6C80-4B6B-B339-0D21755BD261} = {CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}
 		{5C99021B-B4C0-44E4-8680-E6A7F50E24A2} = {5FDE52E8-A841-42B2-A600-DBA8A6E989DD}
+		{CCC087DF-ADBA-40C9-A675-7C02C0899EF3} = {CA47251F-42BF-449F-AFC9-1A9DD3CD25B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {662B3F27-14A1-479E-B201-898BF5691883}
