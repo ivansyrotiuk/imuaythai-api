@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using IMuaythai.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -23,17 +24,27 @@ namespace IMuaythai.Api.Middleware
             {
                 await _next(httpContext);
             }
+            catch (AuthException ex)
+            {
+                _logger.LogError($"Auth exception: {ex}");
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest);
+            }
+            catch (NotFoundException ex)
+            {
+                _logger.LogError($"Object not found: {ex}");
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound);
+            }
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong: {ex}");
-                await HandleExceptionAsync(httpContext, ex);
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception, HttpStatusCode statusCode)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.StatusCode = (int)statusCode;
 
             return context.Response.WriteAsync(new ErrorDetails
             {

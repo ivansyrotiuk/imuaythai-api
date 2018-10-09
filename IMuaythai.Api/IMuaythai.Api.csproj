@@ -40,6 +40,7 @@
     <ProjectReference Include="..\IMuaythai.Contests\IMuaythai.Contests.csproj" />
     <ProjectReference Include="..\IMuaythai.Dashboard\IMuaythai.Dashboard.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
+    <ProjectReference Include="..\IMuaythai.Exceptions\IMuaythai.Exceptions.csproj" />
     <ProjectReference Include="..\IMuaythai.Fights\IMuaythai.Fights.csproj" />
     <ProjectReference Include="..\IMuaythai.HttpServices\IMuaythai.HttpServices.csproj" />
     <ProjectReference Include="..\IMuaythai.Institutions\IMuaythai.Institutions.csproj" />
