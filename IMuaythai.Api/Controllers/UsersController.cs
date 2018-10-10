@@ -138,7 +138,7 @@ namespace IMuaythai.Api.Controllers
         {
             try
             {
-                await _usersService.RemoveUser(user);
+                await _usersService.RemoveUser(user.Id);
                 return Ok(user.Id);
             }
             catch (Exception ex)
