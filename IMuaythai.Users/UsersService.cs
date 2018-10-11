@@ -114,7 +114,7 @@ namespace IMuaythai.Users
             user.UserName = $"[{Guid.NewGuid()}]{user.UserName}";
             user.NormalizedUserName = $"[{Guid.NewGuid()}]{user.NormalizedUserName}".ToUpper();
             user.Email = $"[{Guid.NewGuid()}]{user.Email}";
-            user.NormalizedUserName = $"[{Guid.NewGuid()}]{user.NormalizedUserName}".ToUpper();
+            user.NormalizedEmail = $"[{Guid.NewGuid()}]{user.NormalizedUserName}".ToUpper();
             await _usersRepository.Save(user);
             _logger.Log(LogLevel.Information, $"User {userId} has been removed. Trashed username: {user.UserName}");
         }
