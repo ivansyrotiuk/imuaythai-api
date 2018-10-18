@@ -53,10 +53,10 @@ namespace IMuaythai.Auth
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            var encodedToken = _tokenGenerator.GenerateToken(user, roles);
+            var authToken = _tokenGenerator.GenerateToken(user, roles);
             return new LoginResponseModel
             {
-                AuthToken = encodedToken,
+                AuthToken = authToken,
                 RememberMe = model.RememberMe,
                 QrCode = string.Empty,
                 User = new AutorizedUserResponseModel
