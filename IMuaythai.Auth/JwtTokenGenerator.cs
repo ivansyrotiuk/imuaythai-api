@@ -5,7 +5,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using IMuaythai.DataAccess.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IMuaythai.Auth
@@ -16,9 +15,9 @@ namespace IMuaythai.Auth
 
         private readonly JwtConfiguration _configuration;
 
-        public JwtTokenGenerator(IConfigurationRoot configurationRoot)
+        public JwtTokenGenerator(JwtConfiguration configuration)
         {
-            _configuration = configurationRoot.GetSection("Jwt").Get<JwtConfiguration>();
+            _configuration = configuration;
         }
 
         public string GenerateToken(ApplicationUser user, IList<string> roles)

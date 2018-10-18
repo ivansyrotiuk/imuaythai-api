@@ -23,6 +23,7 @@ namespace IMuaythai.Api
             var jwtConfiguration =  configuration.GetSection("Jwt").Get<JwtConfiguration>();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey));
 
+            services.AddSingleton(jwtConfiguration);
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
