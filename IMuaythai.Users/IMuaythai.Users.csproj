@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IMuaythai.Auth\IMuaythai.Auth.csproj" />
     <ProjectReference Include="..\IMuaythai.DataAcces\IMuaythai.DataAccess.csproj" />
     <ProjectReference Include="..\IMuaythai.HttpServices\IMuaythai.HttpServices.csproj" />
     <ProjectReference Include="..\IMuaythai.Models\IMuaythai.Models.csproj" />

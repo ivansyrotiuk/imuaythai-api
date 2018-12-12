@@ -2,7 +2,7 @@
 using IMuaythai.DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace IMuaythai.Auth
+namespace IMuaythai.Users
 {
     public interface IUserRolesManager
     {
