@@ -32,16 +32,22 @@ namespace IMuaythai.Api.Controllers
         [Route("pay")]
         public IActionResult PaymentCallback()
         {
-            using (StreamReader stream = new StreamReader(HttpContext.Request.Body))
+            try
             {
-                string body = stream.ReadToEnd();
-                Console.WriteLine(body);
-                Console.WriteLine(Request.QueryString);
-                _logger.Log(LogLevel.Critical, body);
-                throw new Exception(body + "- " + Request.QueryString);
-            }
+                var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
 
-            return Ok();
+                await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
+
+                return Ok(status);
+            }
+            catch (Exception ex)
+            {
+                var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
+
+                await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", ex.ToString());
+
+                return BadRequest(ex);
+            }
         }
 
         [HttpPost]
