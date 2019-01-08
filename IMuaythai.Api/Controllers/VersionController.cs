@@ -30,7 +30,7 @@ namespace IMuaythai.Api.Controllers
 
         [HttpGet]
         [Route("pay")]
-        public IActionResult PaymentCallback()
+        public async Task<IActionResult> PaymentCallback([FromQuery]PaymentStatus status)
         {
             try
             {
