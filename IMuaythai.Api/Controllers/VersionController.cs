@@ -38,7 +38,7 @@ namespace IMuaythai.Api.Controllers
 
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
                 Console.WriteLine(s);
-
+                _logger.Log(LogLevel.Error, s);
                 return Ok(status);
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace IMuaythai.Api.Controllers
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", ex.ToString());
                 Console.WriteLine(ex);
 
-                return BadRequest(ex);
+                throw;
             }
         }
 
@@ -61,6 +61,7 @@ namespace IMuaythai.Api.Controllers
                 var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
                 Console.WriteLine(s);
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
+                _logger.Log(LogLevel.Error, s);
 
                 return Ok(status);
             }
@@ -71,7 +72,7 @@ namespace IMuaythai.Api.Controllers
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", ex.ToString());
                 Console.WriteLine(ex);
 
-                return BadRequest(ex);
+                throw;
             }
         }
 
