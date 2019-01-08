@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -41,18 +42,30 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("pay")]
-        public IActionResult PaymentCallbackPost()
+        public IActionResult PaymentCallbackPost([FromBody]PaymentStatus status)
         {
-            using (StreamReader stream = new StreamReader(Request.Body))
-            {
-                string body = stream.ReadToEnd();
-                Console.WriteLine(body);
-                Console.WriteLine(Request.QueryString);
-                _logger.Log(LogLevel.Critical, body);
-                throw  new Exception(body + "- " + Request.QueryString);
-            }
+            var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
+           
+            Console.WriteLine(s);
+            _logger.Log(LogLevel.Error, s);
 
-            return Ok();
+            WebClient b = new WebClient();
+            b.UploadString("http://demo1871308.mockable.io/", s);
+
+            return Ok(status);
+        }
+
+        public class PaymentStatus
+        {
+            public int p24_merchant_id { get; set; }
+            public string p24_session_id { get; set; }
+            public int p24_amount { get; set; }
+            public int p24_order_id { get; set; }
+            public int p24_pos_id { get; set; }
+            public int p24_method { get; set; }
+            public string p24_statement { get; set; }
+            public string p24_currency { get; set; }
+            public string p24_sign { get; set; }
         }
     }
 }
