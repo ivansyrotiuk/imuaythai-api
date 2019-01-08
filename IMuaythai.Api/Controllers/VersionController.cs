@@ -37,6 +37,7 @@ namespace IMuaythai.Api.Controllers
                 var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
 
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
+                Console.WriteLine(s);
 
                 return Ok(status);
             }
@@ -45,6 +46,7 @@ namespace IMuaythai.Api.Controllers
                 var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
 
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", ex.ToString());
+                Console.WriteLine(ex);
 
                 return BadRequest(ex);
             }
@@ -57,7 +59,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
                 var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
-
+                Console.WriteLine(s);
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
 
                 return Ok(status);
@@ -67,6 +69,7 @@ namespace IMuaythai.Api.Controllers
                 var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
 
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", ex.ToString());
+                Console.WriteLine(ex);
 
                 return BadRequest(ex);
             }
