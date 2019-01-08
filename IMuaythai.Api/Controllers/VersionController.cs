@@ -48,11 +48,22 @@ namespace IMuaythai.Api.Controllers
         [Route("pay")]
         public async Task<IActionResult> PaymentCallbackPost([FromBody]PaymentStatus status)
         {
-            var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
-     
-            await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
+            try
+            {
+                var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
 
-            return Ok(status);
+                await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
+
+                return Ok(status);
+            }
+            catch (Exception ex)
+            {
+                var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
+
+                await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", ex.ToString());
+
+                return BadRequest(ex);
+            }
         }
 
         public class PaymentStatus
