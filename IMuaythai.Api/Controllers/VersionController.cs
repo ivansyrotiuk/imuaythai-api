@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
+using IMuaythai.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,10 +13,12 @@ namespace IMuaythai.Api.Controllers
     public class VersionController : Controller
     {
         private readonly ILogger _logger;
+        private readonly IEmailSender _emailSender;
 
-        public VersionController(ILoggerFactory loggerFactory)
+        public VersionController(ILoggerFactory loggerFactory, IEmailSender emailSender)
         {
             _logger = loggerFactory.CreateLogger<VersionController>();
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -42,15 +46,11 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("pay")]
-        public IActionResult PaymentCallbackPost([FromBody]PaymentStatus status)
+        public async Task<IActionResult> PaymentCallbackPost([FromBody]PaymentStatus status)
         {
             var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
-           
-            Console.WriteLine(s);
-            _logger.Log(LogLevel.Error, s);
-
-            WebClient b = new WebClient();
-            b.UploadString("http://demo1871308.mockable.io/", s);
+     
+            await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
 
             return Ok(status);
         }
