@@ -29,20 +29,19 @@ namespace IMuaythai.Api.Controllers
 
         [HttpPost]
         [Route("batch/fighters")]
-        public IActionResult CreateFightersBatch([FromBody] CreateUserModel[] createUserModels)
+        public async Task<IActionResult> CreateFightersBatch([FromBody] CreateUserModel[] createUserModels)
         {
             foreach (var model in createUserModels)
             {
-                model.Password = Guid.NewGuid().ToString();
+                model.Password = "@12AAA" + Guid.NewGuid().ToString();
                 model.Accepted = true;
                 model.CountryId = 2;
                 model.Email = $"{Guid.NewGuid()}@gmail.com";
                 model.RoleId = "e64aa945-0324-426f-9e8a-3700f839fcc5";
                 model.InstitutionId = 12;
-            }
 
-            var tasks = createUserModels.Select(m => _usersService.CreateUser(m)).ToArray();
-            Task.WaitAll(tasks);
+                await _usersService.CreateUser(model);
+            }
 
             return Ok();
         }
