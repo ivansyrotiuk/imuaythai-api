@@ -31,7 +31,9 @@ namespace IMuaythai.Api.Controllers
             {
                 string body = stream.ReadToEnd();
                 Console.WriteLine(body);
+                Console.WriteLine(Request.QueryString);
                 _logger.Log(LogLevel.Critical, body);
+                throw new Exception(body + "- " + Request.QueryString);
             }
 
             return Ok();
@@ -41,11 +43,13 @@ namespace IMuaythai.Api.Controllers
         [Route("pay")]
         public IActionResult PaymentCallbackPost()
         {
-            using (StreamReader stream = new StreamReader(HttpContext.Request.Body))
+            using (StreamReader stream = new StreamReader(Request.Body))
             {
                 string body = stream.ReadToEnd();
                 Console.WriteLine(body);
+                Console.WriteLine(Request.QueryString);
                 _logger.Log(LogLevel.Critical, body);
+                throw  new Exception(body + "- " + Request.QueryString);
             }
 
             return Ok();

@@ -44,7 +44,6 @@ namespace IMuaythai.Payments
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
