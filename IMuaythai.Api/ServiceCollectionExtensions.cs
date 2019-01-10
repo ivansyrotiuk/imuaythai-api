@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using IMuaythai.Api.Validators;
 using IMuaythai.Auth;
@@ -13,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using RestEase;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace IMuaythai.Api
@@ -92,5 +95,17 @@ namespace IMuaythai.Api
             services.Configure<EmailConfiguration>(configuration);
             services.Configure<JwtConfiguration>(configuration);
         }
+
+        public static void AddClients(this IServiceCollection services)
+        {
+            var paymentsClient = RestEase.RestClient.For<IPayments24Client>("https://sandbox.przelewy24.pl/");
+            services.AddSingleton<IPayments24Client>(paymentsClient);
+        }
+    }
+
+    public interface IPayments24Client
+    {
+        [Post("trnVerify")]
+        Task<Response<object>> Pay([Body(BodySerializationMethod.UrlEncoded)]Dictionary<string, string> body);
     }
 }

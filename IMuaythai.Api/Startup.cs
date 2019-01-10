@@ -63,6 +63,7 @@ namespace IMuaythai.Api
             services.AddDictionariesServices();
             services.AddDashboardServices();
             services.AddHttpServices();
+            services.AddClients();
             services.AddConfigurationMapping(Configuration);
         }
 
