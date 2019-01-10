@@ -73,10 +73,17 @@ namespace IMuaythai.Api.Controllers
         [HttpPost]
         [Route("pay")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> PaymentCallbackPost([FromForm]PaymentStatus status)
+        public async Task<IActionResult> PaymentCallbackPost()
         {
             try
             {
+                PaymentStatus status;
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+                {
+                    var st = await reader.ReadToEndAsync();
+                    status  = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentStatus>(st);
+                }
+
                 await _payments24Client.Pay(new Dictionary<string, string>
                 {
                     {"p24_merchant_id", status.p24_merchant_id.ToString()},
@@ -98,7 +105,6 @@ namespace IMuaythai.Api.Controllers
             }
             catch (Exception ex)
             {
-                var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
 
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", ex.ToString());
                 Console.WriteLine(ex);
