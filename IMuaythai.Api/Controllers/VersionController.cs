@@ -41,7 +41,7 @@ namespace IMuaythai.Api.Controllers
             try
             {
 
-                await _payments24Client.Pay(new Dictionary<string, string>
+                var response = await _payments24Client.Pay(new Dictionary<string, string>
                 {
                     {"p24_merchant_id", status.p24_merchant_id.ToString()},
                     {"p24_pos_id", status.p24_pos_id.ToString()},
@@ -52,6 +52,8 @@ namespace IMuaythai.Api.Controllers
                     {"p24_sign", PaymentSigner.Sign(status.p24_session_id, status.p24_order_id, status.p24_amount, status.p24_currency, "b5c0e98687b0f43d")}
                 });
 
+                Console.WriteLine(response.StringContent + response.ResponseMessage.StatusCode);
+                _logger.Log(LogLevel.Error, response.StringContent + response.ResponseMessage.StatusCode);
 
                 var s = Newtonsoft.Json.JsonConvert.SerializeObject(status);
                 await _emailSender.SendEmailAsync("waserdx@gmail.com", "test payment", s);
