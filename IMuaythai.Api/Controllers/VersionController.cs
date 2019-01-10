@@ -73,7 +73,7 @@ namespace IMuaythai.Api.Controllers
         [HttpPost]
         [Route("pay")]
 
-        public async Task<IActionResult> PaymentCallbackPost(PaymentStatus status)
+        public async Task<IActionResult> PaymentCallbackPost([FromForm]PaymentStatus status)
         {
             try
             {
