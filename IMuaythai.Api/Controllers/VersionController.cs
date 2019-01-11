@@ -49,7 +49,7 @@ namespace IMuaythai.Api.Controllers
                     {"p24_amount", status.p24_amount},
                     {"p24_currency", status.p24_currency},
                     {"p24_order_id", status.p24_order_id},
-                    {"p24_sign", PaymentSigner.Sign(status.p24_session_id, status.p24_order_id, status.p24_amount, status.p24_currency, "b5c0e98687b0f43d")}
+                    {"p24_sign", status.p24_sign /*PaymentSigner.Sign(status.p24_session_id, status.p24_order_id, status.p24_amount, status.p24_currency, "b5c0e98687b0f43d")*/}
                 };
 
                 var response = await _payments24Client.Pay(form);
