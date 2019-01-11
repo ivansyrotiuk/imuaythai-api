@@ -49,7 +49,7 @@ namespace IMuaythai.Api.Controllers
                     {"p24_amount", status.p24_amount},
                     {"p24_currency", status.p24_currency},
                     {"p24_order_id", status.p24_order_id},
-                    {"p24_sign", status.p24_sign /*PaymentSigner.Sign(status.p24_session_id, status.p24_order_id, status.p24_amount, status.p24_currency, "b5c0e98687b0f43d")*/}
+                    {"p24_sign", status.p24_sign}
                 };
 
                 var response = await _payments24Client.Pay(form);
@@ -88,18 +88,5 @@ namespace IMuaythai.Api.Controllers
         public string p24_statement { get; set; }
         public string p24_currency { get; set; }
         public string p24_sign { get; set; }
-    }
-
-    public static class PaymentSigner
-    {
-        public static string Sign(string sessionId, int orderId, int amount, string currency, string crc)
-        {
-            using (var md5 = MD5.Create())
-            {
-                var input = $"{sessionId}|{orderId}|{amount}|{currency}|{crc}";
-                var result = string.Join("", md5.ComputeHash(Encoding.ASCII.GetBytes(input)).Select(x => x.ToString("X2")));
-                return result;
-            }
-        }
     }
 }
