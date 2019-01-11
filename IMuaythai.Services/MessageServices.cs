@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using SendGrid;
@@ -12,10 +13,12 @@ namespace IMuaythai.Services
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
         public EmailConfiguration Options {get;}
+        private readonly ILogger _logger;
 
-        public AuthMessageSender(IOptions<EmailConfiguration> emailOptionsAccessor)
+        public AuthMessageSender(IOptions<EmailConfiguration> emailOptionsAccessor, ILoggerFactory factory)
         {
             Options = emailOptionsAccessor.Value;
+            _logger = factory.CreateLogger<AuthMessageSender>();
         }
         public async Task SendEmailAsync(string email, string subject, string message)
         {
@@ -31,6 +34,8 @@ namespace IMuaythai.Services
             var response = await client.SendEmailAsync(msg);
             if (response.StatusCode != HttpStatusCode.OK)
             {
+                var content = await response.Body.ReadAsStringAsync();
+                _logger.Log(LogLevel.Error, $"{response.StatusCode}: {content}");
                 //SendByNativeSmtp(email, subject, message);
             }
         }

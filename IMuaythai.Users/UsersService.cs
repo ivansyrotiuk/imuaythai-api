@@ -8,6 +8,7 @@ using IMuaythai.HttpServices;
 using IMuaythai.Models.Users;
 using IMuaythai.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace IMuaythai.Users
 {
@@ -18,14 +19,16 @@ namespace IMuaythai.Users
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IHttpUserContext _userContext;
+        private readonly ILogger _logger;
 
-        public UsersService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IUsersRepository usersRepository, IHttpUserContext userContext )
+        public UsersService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper, IUsersRepository usersRepository, IHttpUserContext userContext, ILoggerFactory factory )
         {
             _userManager = userManager;    
             _roleManager = roleManager;
             _mapper = mapper;
             _usersRepository = usersRepository;
             _userContext = userContext;
+            _logger = factory.CreateLogger<UsersService>();
         }
 
         public async Task<ApplicationUser> CreateUser(CreateUserModel createUserModel)
@@ -104,9 +107,16 @@ namespace IMuaythai.Users
             return _mapper.Map<UserModel>(user);
         }
 
-        public async Task RemoveUser(UserModel user)
+        public async Task RemoveUser(string userId)
         {
-            await _usersRepository.Remove(user.Id);
+            var user = await _usersRepository.Get(userId);
+            user.Deleted = true;
+            user.UserName = $"[{Guid.NewGuid()}]{user.UserName}";
+            user.NormalizedUserName = $"[{Guid.NewGuid()}]{user.NormalizedUserName}".ToUpper();
+            user.Email = $"[{Guid.NewGuid()}]{user.Email}";
+            user.NormalizedEmail = $"[{Guid.NewGuid()}]{user.NormalizedUserName}".ToUpper();
+            await _usersRepository.Save(user);
+            _logger.Log(LogLevel.Information, $"User {userId} has been removed. Trashed username: {user.UserName}");
         }
 
         public async Task<IEnumerable<UserModel>> GetUsers()

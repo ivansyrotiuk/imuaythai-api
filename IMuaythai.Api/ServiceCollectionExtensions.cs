@@ -10,7 +10,6 @@ using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Models;
 using IMuaythai.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +27,7 @@ namespace IMuaythai.Api
             var jwtConfiguration =  configuration.GetSection("Jwt").Get<JwtConfiguration>();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.SecretKey));
 
+            services.AddSingleton(jwtConfiguration);
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -38,9 +38,16 @@ namespace IMuaythai.Api
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
-                        ValidateLifetime = false,
-                        ValidateIssuer = false,
-                        ValidateAudience = false
+
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(5),
+                        RequireExpirationTime = true,
+
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtConfiguration.Issuer,
+
+                        ValidateAudience = true,
+                        ValidAudience = jwtConfiguration.Audience,
                     };
                     options.RequireHttpsMetadata = false;
                 });

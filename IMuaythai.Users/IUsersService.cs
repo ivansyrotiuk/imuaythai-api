@@ -14,7 +14,7 @@ namespace IMuaythai.Users
         Task<IEnumerable<JudgeModel>> GetDoctors();
         Task<UserModel> GetUser(string id);
         Task<UserModel> SaveUser(UserModel user);
-        Task RemoveUser(UserModel user);
+        Task RemoveUser(string userId);
         Task<IEnumerable<UserModel>> GetUsers();
     }
 }

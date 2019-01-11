@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using IMuaythai.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace IMuaythai.Api.Middleware
 {
@@ -46,11 +47,12 @@ namespace IMuaythai.Api.Middleware
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
 
-            return context.Response.WriteAsync(new ErrorDetails
+            var errorDetails = new ErrorDetails
             {
                 StatusCode = context.Response.StatusCode,
                 Message = exception.Message
-            }.ToString());
+            };
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(errorDetails));
         }
     }
 }
