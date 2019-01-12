@@ -46,6 +46,7 @@ namespace IMuaythai.Api.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("payment/confirm")]
         public async Task<IActionResult> ConfirmPayment([FromForm]PaymentStatus status)
         {
