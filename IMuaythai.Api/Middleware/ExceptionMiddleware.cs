@@ -28,15 +28,18 @@ namespace IMuaythai.Api.Middleware
             catch (AuthException ex)
             {
                 _logger.LogError($"Auth exception: {ex}");
+                Console.WriteLine(ex);
                 await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest);
             }
             catch (NotFoundException ex)
             {
+                Console.WriteLine(ex);
                 _logger.LogError($"Object not found: {ex}");
                 await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound);
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 _logger.LogError($"Something went wrong: {ex}");
                 await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError);
             }
