@@ -9,6 +9,7 @@ using IMuaythai.Api.DepedencyInjection;
 using IMuaythai.Api.Middleware;
 using IMuaythai.DataAccess.Services;
 using IMuaythai.JudgingServer.RingMapping;
+using IMuaythai.Licenses;
 
 namespace IMuaythai.Api
 {
@@ -46,6 +47,7 @@ namespace IMuaythai.Api
             services.AddCors();
             services.AddSwagger();
             services.AddJwt(Configuration);
+            services.AddConfigurationMapping(Configuration);
 
             services.AddValidators();
             services.AddAutoMapper();
@@ -59,12 +61,12 @@ namespace IMuaythai.Api
             services.AddInstitutionsServices();
             services.AddWebSocketManager();
             services.AddUsersServices();
+            services.AddLicenseServices();
             services.AddContestServices();
             services.AddDictionariesServices();
             services.AddDashboardServices();
             services.AddHttpServices();
-            services.AddClients();
-            services.AddConfigurationMapping(Configuration);
+            services.AddClients(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, IDataTransferService dataTransferService)
@@ -94,6 +96,7 @@ namespace IMuaythai.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "IMuaythai API V1");
+              
             });
 
             app.ConfigureExceptionMiddleware();

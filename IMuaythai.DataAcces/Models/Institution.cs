@@ -46,6 +46,7 @@ namespace IMuaythai.DataAccess.Models
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<ExecutionBoard> ExecutionBoards { get; set; }
         public virtual ICollection<Contest> Contests { get; set; }
+        public virtual ICollection<GymLicense> Licenses { get; set; }
         public virtual Country Country { get; set; }
         public virtual ApplicationUser HeadCoach { get; set; }
     }

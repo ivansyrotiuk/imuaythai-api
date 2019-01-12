@@ -20,10 +20,12 @@ namespace IMuaythai.Auth
             _configuration = configuration;
         }
 
+
         public string GenerateToken(ApplicationUser user, IList<string> roles)
         {
             var claims = new List<Claim>
             {
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(DatetimeFormat)),
@@ -34,7 +36,7 @@ namespace IMuaythai.Auth
                 new Claim(ImuaythaiJwtRegisteredClaimNames.UserId, user.Id),
                 new Claim(ImuaythaiJwtRegisteredClaimNames.InstitutionId, Convert.ToString(user.InstitutionId)),
             };
-
+            
             var roleClaims = CreateRoleClaims(roles);
             claims.AddRange(roleClaims);
 

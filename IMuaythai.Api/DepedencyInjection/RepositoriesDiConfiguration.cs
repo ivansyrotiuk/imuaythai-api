@@ -1,4 +1,5 @@
-﻿using IMuaythai.Repositories;
+﻿using IMuaythai.Licenses;
+using IMuaythai.Repositories;
 using IMuaythai.Repositories.Contests;
 using IMuaythai.Repositories.Dictionaries;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ namespace IMuaythai.Api.DepedencyInjection
             services.AddScoped<IContestRingsRepository, ContestRingsRepository>();
             services.AddScoped<IFightsRepository, FightsRepository>();
             services.AddScoped<IDocumentsRepository, DocumentsRepository>();
+            services.AddScoped<ILicenseTypesRepository, LicenseTypesRepository>();
+            services.AddScoped<ILicensesRepository, LicensesRepository>();
         }
     }
 }

@@ -30,7 +30,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="RestEase" Version="1.4.7" />
 
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4" PrivateAssets="all">
@@ -51,6 +51,7 @@
     <ProjectReference Include="..\IMuaythai.HttpServices\IMuaythai.HttpServices.csproj" />
     <ProjectReference Include="..\IMuaythai.Institutions\IMuaythai.Institutions.csproj" />
     <ProjectReference Include="..\IMuaythai.JudgingServer\IMuaythai.JudgingServer.csproj" />
+    <ProjectReference Include="..\IMuaythai.Licenses\IMuaythai.Licenses.csproj" />
     <ProjectReference Include="..\IMuaythai.Models\IMuaythai.Models.csproj" />
     <ProjectReference Include="..\IMuaythai.Repositories\IMuaythai.Repositories.csproj" />
     <ProjectReference Include="..\IMuaythai.Services\IMuaythai.Services.csproj" />

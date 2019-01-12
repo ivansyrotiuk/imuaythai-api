@@ -20,6 +20,7 @@ namespace IMuaythai.Api.Controllers
             _fileSaver = fileSaver;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
 
@@ -28,6 +29,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [Route("user/{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetUserDocuments(string id)
         {
             var documents = await _documentsRepository.GetAllForUser(id);
@@ -35,6 +37,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [Route("contest/{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetContestDocuments(int id)
         {
             var documents = await _documentsRepository.GetAllForContest(id);
@@ -42,6 +45,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [Route("institution/{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetInstitutionDocuments(int id)
         {
             var documents = await _documentsRepository.GetAllForInstitution(id);
@@ -49,6 +53,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [Route("save")]
+        [HttpPost]
         public async Task<IActionResult> Save([FromBody] List<DocumentModel> documents)
         {
             var documentEntities = new List<Document>();

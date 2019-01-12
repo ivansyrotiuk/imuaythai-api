@@ -1,4 +1,6 @@
-﻿namespace IMuaythai.DataAccess.Models
+﻿using System.Collections.Generic;
+
+namespace IMuaythai.DataAccess.Models
 {
     public class Country
     {

@@ -8,6 +8,7 @@ using IMuaythai.Api.Validators;
 using IMuaythai.Auth;
 using IMuaythai.DataAccess.Contexts;
 using IMuaythai.DataAccess.Models;
+using IMuaythai.Licenses;
 using IMuaythai.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -39,14 +40,14 @@ namespace IMuaythai.Api
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
 
-                        ValidateLifetime = true,
+                        ValidateLifetime = false,
                         ClockSkew = TimeSpan.FromMinutes(5),
-                        RequireExpirationTime = true,
+                        RequireExpirationTime = false,
 
-                        ValidateIssuer = true,
+                        ValidateIssuer = false,
                         ValidIssuer = jwtConfiguration.Issuer,
 
-                        ValidateAudience = true,
+                        ValidateAudience = false,
                         ValidAudience = jwtConfiguration.Audience,
                     };
                     options.RequireHttpsMetadata = false;
@@ -102,18 +103,18 @@ namespace IMuaythai.Api
         {
             services.Configure<EmailConfiguration>(configuration);
             services.Configure<JwtConfiguration>(configuration);
+            services.Configure<PaymentsConfiguration>(configuration);
+
+            var paymentsConfiguration = configuration.GetSection("Payments").Get<PaymentsConfiguration>();
+            services.AddSingleton(paymentsConfiguration);
+
         }
 
-        public static void AddClients(this IServiceCollection services)
+        public static void AddClients(this IServiceCollection services, IConfiguration configuration)
         {
-            var paymentsClient = RestEase.RestClient.For<IPayments24Client>("https://sandbox.przelewy24.pl/");
+            var paymentConfiguration = configuration.GetSection("Payments").Get<PaymentsConfiguration>();
+            var paymentsClient = RestClient.For<IPayments24Client>(paymentConfiguration.PaymentsUrl);
             services.AddSingleton<IPayments24Client>(paymentsClient);
         }
-    }
-
-    public interface IPayments24Client
-    {
-        [Post("trnVerify")]
-        Task<Response<object>> Pay([Body(BodySerializationMethod.UrlEncoded)]Dictionary<string, object> body);
     }
 }

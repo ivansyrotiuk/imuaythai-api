@@ -45,6 +45,9 @@ namespace IMuaythai.DataAccess.Models
         public virtual ICollection<ExecutionBoard> ExecutionBoards { get; set; }
         public virtual ICollection<ContestRequest> ContestRequests { get; set; }
         public virtual ICollection<ContestRequest> AcceptedContestRequests { get; set; }
+        public virtual ICollection<FighterLicense> FighterLicenses { get; set; }
+        public virtual ICollection<JudgeLicense> JudgeLicenses { get; set; }
+        public virtual ICollection<CoachLicense> CoachLicenses { get; set; }
         public virtual ICollection<Fight> AsRedFights { get; set; }
         public virtual ICollection<Fight> AsBlueFights { get; set; }
         public virtual ICollection<Fight> AsTimeKeeperFights { get; set; }

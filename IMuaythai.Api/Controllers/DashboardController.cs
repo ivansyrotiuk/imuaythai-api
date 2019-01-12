@@ -16,6 +16,7 @@ namespace IMuaythai.Api.Controllers
         }
 
         [Route("")]
+        [HttpGet]
         public async Task<IActionResult> GetContestEvents()
         {
             var events = await _contestEventsService.GetContestEvents();
