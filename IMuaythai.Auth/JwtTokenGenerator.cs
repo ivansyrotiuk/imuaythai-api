@@ -23,6 +23,8 @@ namespace IMuaythai.Auth
 
         public string GenerateToken(ApplicationUser user, IList<string> roles)
         {
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
+
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
@@ -37,7 +39,7 @@ namespace IMuaythai.Auth
                 new Claim(ImuaythaiJwtRegisteredClaimNames.InstitutionId, Convert.ToString(user.InstitutionId)),
             };
             
-            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
+           
 
             var roleClaims = CreateRoleClaims(roles);
             claims.AddRange(roleClaims);
