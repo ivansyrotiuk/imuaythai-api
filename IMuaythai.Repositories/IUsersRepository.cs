@@ -32,6 +32,9 @@ namespace IMuaythai.Repositories
             return _context.Users
                 .Include(u => u.Institution)
                 .Include(u => u.Country)
+                .Include(u => u.JudgeLicenses)
+                .Include(u => u.FighterLicenses)
+                .Include(u => u.CoachLicenses)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 

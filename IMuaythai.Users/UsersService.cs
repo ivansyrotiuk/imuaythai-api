@@ -91,6 +91,10 @@ namespace IMuaythai.Users
         public async Task<UserModel> GetUser(string id)
         {
             var user = await _usersRepository.Get(id);
+            user.CoachLicenses = user.CoachLicenses.Where(l => l.Paid).ToList();
+            user.FighterLicenses = user.FighterLicenses.Where(l => l.Paid).ToList();
+            user.JudgeLicenses = user.JudgeLicenses.Where(l => l.Paid).ToList();
+
             var userRoles = await _userManager.GetRolesAsync(user);
             var userModel = _mapper.Map<UserModel>(user);
             userModel.Roles = userRoles.ToList();

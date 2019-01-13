@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IMuaythai.Models.Dictionaries;
+using IMuaythai.Models.Licenses;
 
 namespace IMuaythai.Models.Users
 {
@@ -29,6 +30,10 @@ namespace IMuaythai.Models.Users
         public string Email { get; set; }
         public List<string> Roles { get; set; }
         public string GymName { get; set; }
+
+        public IEnumerable<UserLicense> FighterLicenses { get;set; }
+        public IEnumerable<UserLicense> JudgeLicenses { get; set; }
+        public IEnumerable<UserLicense> CoachLicenses { get; set; }
     }
 
     public class FighterModel : UserModel

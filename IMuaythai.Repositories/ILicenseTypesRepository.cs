@@ -35,41 +35,79 @@ namespace IMuaythai.Repositories
         {
             _context.LicenseTypes.AddRange(new[]
             {
+                //new LicenseType
+                //{
+                //    CountryId = 177,
+                //    Currency = "PLN",
+                //    Duration = 365,
+                //    Kind = LicenseKinds.Fighter,
+                //    OneOff = false,
+                //    Price = 50
+                //},
+                //new LicenseType
+                //{
+                //    CountryId = 177,
+                //    Currency = "PLN",
+                //    Duration = 365,
+                //    Kind = LicenseKinds.Judge,
+                //    OneOff = false,
+                //    Price = 60
+                //},
+                //new LicenseType
+                //{
+                //    CountryId = 177,
+                //    Currency = "PLN",
+                //    Duration = 365,
+                //    Kind = LicenseKinds.Coach,
+                //    OneOff = false,
+                //    Price = 40
+                //},
+                //new LicenseType
+                //{
+                //    CountryId = 177,
+                //    Currency = "PLN",
+                //    Duration = 365,
+                //    Kind = LicenseKinds.Gym,
+                //    OneOff = false,
+                //    Price = 600
+                //},
+
+                ///////////////////////////////
                 new LicenseType
                 {
                     CountryId = 177,
                     Currency = "PLN",
-                    Duration = 365,
+                    Duration = 1,
                     Kind = LicenseKinds.Fighter,
-                    OneOff = false,
-                    Price = 50
+                    OneOff = true,
+                    Price = 57
                 },
                 new LicenseType
                 {
                     CountryId = 177,
                     Currency = "PLN",
-                    Duration = 365,
+                    Duration = 1,
                     Kind = LicenseKinds.Judge,
-                    OneOff = false,
-                    Price = 60
+                    OneOff = true,
+                    Price = 67
                 },
                 new LicenseType
                 {
                     CountryId = 177,
                     Currency = "PLN",
-                    Duration = 365,
+                    Duration = 1,
                     Kind = LicenseKinds.Coach,
-                    OneOff = false,
-                    Price = 40
+                    OneOff = true,
+                    Price = 47
                 },
                 new LicenseType
                 {
                     CountryId = 177,
                     Currency = "PLN",
-                    Duration = 365,
+                    Duration = 1,
                     Kind = LicenseKinds.Gym,
-                    OneOff = false,
-                    Price = 600
+                    OneOff = true,
+                    Price = 677
                 },
             });
 

@@ -13,31 +13,12 @@ namespace IMuaythai.Licenses
             CreateMap<CoachLicense, CoachLicenseResponseModel>();
             CreateMap<GymLicense, GymLicenseResponseModel>();
             CreateMap<LicenseType, LicenseTypeResponseModel>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => ResolveLicenseTypeName(src)));
-        }
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => LicenseTypeNameResolver.ResolveLicenseTypeName(src)));
 
-        private static string ResolveLicenseTypeName(LicenseType src)
-        {
-            var ownership = string.Empty;
-            switch (src.Kind)
-            {
-                case LicenseKinds.Fighter:
-                    ownership = "zawodnika";
-                    break;
-                case LicenseKinds.Coach:
-                    ownership = "trenera";
-                    break;
-                case LicenseKinds.Judge:
-                    ownership = "sędziego";
-                    break;
-                case LicenseKinds.Gym:
-                    ownership = "klubowa";
-                    break;
-            }
-
-            var duration = src.OneOff ? "jednorazowa" : $"na {src.Duration} dni";
-
-            return $"Licencja {ownership} {duration}";
+            CreateMap<FighterLicense, UserLicense>();
+            CreateMap<JudgeLicense, UserLicense>();
+            CreateMap<GymLicense, UserLicense>();
+            CreateMap<CoachLicense, UserLicense>();
         }
     }
 }

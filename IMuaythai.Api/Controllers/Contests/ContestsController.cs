@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using IMuaythai.Contests;
 using IMuaythai.Models.Contests;
@@ -22,15 +23,17 @@ namespace IMuaythai.Api.Controllers.Contests
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            try
-            {
-                var contests = await _contestsService.GetContests();
-                return Ok(contests);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var contests = await _contestsService.GetContests();
+            return Ok(contests);
+        }
+
+        [HttpGet]
+        [Route("current")]
+        public async Task<IActionResult> GetCurrentContests()
+        {
+            var contests = await _contestsService.GetContests();
+            var currentContests = contests.Where(c => c.Date > DateTime.Today).ToArray();
+            return Ok(currentContests);
         }
 
         [HttpGet]

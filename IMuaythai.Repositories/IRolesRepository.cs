@@ -13,6 +13,7 @@ namespace IMuaythai.Repositories
         Task<List<IdentityRole>> GetAll();
         Task<List<IdentityRole>> GetPublicRoles();
         Task<List<IdentityRole>> GetContestRoles();
+        Task<List<IdentityRole>> GetUserRoles(string userId);
     }
 
     public class RolesRepository : IRolesRepository
@@ -37,6 +38,12 @@ namespace IMuaythai.Repositories
         public Task<List<IdentityRole>> GetContestRoles()
         {
             return _context.Roles.Where(r => r.NormalizedName.Contains( "FIGHTER") || r.NormalizedName.Contains("JUDGE") || r.NormalizedName.Contains("DOCTOR")).ToListAsync();
+        }
+
+        public Task<List<IdentityRole>> GetUserRoles(string userId)
+        {
+            var userRolesMapping = _context.UserRoles.Where(userRole => userRole.UserId == userId).Select(userRole => userRole.RoleId);
+            return _context.Roles.Where(r => userRolesMapping.Contains(r.Id)).ToListAsync();
         }
 
         public Task<List<IdentityRole>> GetPublicRoles()

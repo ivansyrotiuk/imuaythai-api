@@ -39,7 +39,7 @@ namespace IMuaythai.Api.Controllers
         [Route("payment")]
         public async Task<IActionResult> GetPayment([FromQuery]int licenseId)
         {
-            var user = await _userContext.GetUser() ?? new ApplicationUser();
+            var user = await _userContext.GetUser();
             var payment = await _licensePaymentService.GetPayment(licenseId, user);
             return Ok(payment);
         }
@@ -58,11 +58,13 @@ namespace IMuaythai.Api.Controllers
         [Route("types")]
         public async Task<IActionResult> GetLicenseTypes()
         {
-            var types = await _licenseTypesService.GetLicenseTypes();
+            var user = await _userContext.GetUser();
+            var types = await _licenseTypesService.GetLicenseTypes(user);
             return Ok(types);
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("types/create")]
         public async Task<IActionResult> CreateTypes()
         {

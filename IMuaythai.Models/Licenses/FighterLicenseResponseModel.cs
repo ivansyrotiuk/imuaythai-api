@@ -46,5 +46,7 @@ namespace IMuaythai.Models.Licenses
         public string Currency { get; set; }
         public bool OneOff { get; set; }
         public string Name { get; set; }
+        public LicenseKinds Kind { get; set; }
+        public int? InstitutionId { get; set; }
     }
 }

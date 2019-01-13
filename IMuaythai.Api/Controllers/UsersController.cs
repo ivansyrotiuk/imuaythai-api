@@ -102,19 +102,13 @@ namespace IMuaythai.Api.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetUser([FromRoute]string id)
+        public async Task<IActionResult> GetUser([FromRoute] string id)
         {
-            try
-            {
-                var user = await _usersService.GetUser(id);
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            var user = await _usersService.GetUser(id);
+            return Ok(user);
         }
-       
+
         [HttpPost]
         [Route("Save")]
         public async Task<IActionResult> SaveUser([FromBody]UserModel userModel)

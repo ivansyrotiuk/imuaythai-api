@@ -20,15 +20,17 @@ namespace IMuaythai.Licenses
     {
         private readonly IPaymentSigner _paymentSigner;
         private readonly ILicensesRepository _licensesRepository;
+        private readonly ILicenseTypesRepository _licenseTypesRepository;
         private readonly ILogger _logger;
         private readonly IPayments24Client _payments24Client;
         private readonly PaymentsConfiguration _paymentsConfiguration;
 
-        public LicensePaymentService(PaymentsConfiguration configuration, ILoggerFactory loggerFactory, IPaymentSigner paymentSigner, ILicensesRepository licensesRepository, IPayments24Client payments24Client)
+        public LicensePaymentService(PaymentsConfiguration configuration, ILoggerFactory loggerFactory, IPaymentSigner paymentSigner, ILicensesRepository licensesRepository, IPayments24Client payments24Client, ILicenseTypesRepository licenseTypesRepository)
         {
             _paymentSigner = paymentSigner;
             _licensesRepository = licensesRepository;
             _payments24Client = payments24Client;
+            _licenseTypesRepository = licenseTypesRepository;
             _paymentsConfiguration = configuration;
             _logger = loggerFactory.CreateLogger<LicensePaymentService>();
         }
@@ -36,6 +38,7 @@ namespace IMuaythai.Licenses
         public async Task<LicensePayment> GetPayment(int licenseId, ApplicationUser user)
         {
             var license = await _licensesRepository.GetLicense(licenseId);
+            var licenseType = await _licenseTypesRepository.Get(license.LicenseTypeId);
             var amount = (int)(license.Price * 100);
             var payment = new LicensePayment
             {
@@ -44,7 +47,7 @@ namespace IMuaythai.Licenses
                 Amount = amount,
                 City = "-",
                 Client = $"{user.FirstName} {user.Surname}",
-                Description = $"IMuaythai license #{license.Id}",
+                Description = LicenseTypeNameResolver.ResolveLicenseTypeName(licenseType),
                 Email = user.Email,
                 Language = "pl",
                 Country = "PL",
