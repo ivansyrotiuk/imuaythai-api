@@ -93,9 +93,8 @@ namespace IMuaythai.Api
         public static void AddMvc(this IServiceCollection services)
         {
             services.AddMvc(options =>
-                options.Filters.Add(typeof(ValidatorActionFilter))).AddJsonOptions(
-                options => options.SerializerSettings.ReferenceLoopHandling =
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                options.Filters.Add(typeof(ValidatorActionFilter))
+            ).AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             ).AddFluentValidation();
         }
 
