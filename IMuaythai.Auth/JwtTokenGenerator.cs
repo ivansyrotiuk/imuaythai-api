@@ -23,9 +23,6 @@ namespace IMuaythai.Auth
 
         public string GenerateToken(ApplicationUser user, IList<string> roles)
         {
-            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
-            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_configuration));
-
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),

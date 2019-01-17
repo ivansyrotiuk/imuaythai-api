@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace IMuaythai.DataAccess.Models
 {
@@ -58,6 +59,7 @@ namespace IMuaythai.DataAccess.Models
         public virtual ICollection<FightPoint> JudgeFightPoints { get; set; }
         public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
 
+        [JsonIgnore]
         public virtual Institution Institution { get; set; }
         public virtual Country Country { get; set; }
         public virtual KhanLevel KhanLevel { get; set; }
