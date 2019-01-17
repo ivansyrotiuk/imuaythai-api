@@ -59,8 +59,7 @@ namespace IMuaythai.Api.Controllers
         public async Task<ActionResult> CreateUser([FromBody] CreateUserModel createUserModel)
         {
             var user = await _authService.CreateUser(createUserModel);
-                return Ok(user);
-            
+            return Ok(user);
         }
 
         [HttpGet]

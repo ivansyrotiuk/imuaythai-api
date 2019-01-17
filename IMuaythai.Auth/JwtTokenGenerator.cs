@@ -24,6 +24,7 @@ namespace IMuaythai.Auth
         public string GenerateToken(ApplicationUser user, IList<string> roles)
         {
             Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(_configuration));
 
             var claims = new List<Claim>
             {
@@ -32,8 +33,8 @@ namespace IMuaythai.Auth
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(DatetimeFormat)),
                 new Claim(JwtRegisteredClaimNames.Iss, _configuration.Issuer),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
-                new Claim(JwtRegisteredClaimNames.FamilyName, user.Surname),
+                new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.FamilyName, user.Surname ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Iss, _configuration.Issuer),
                 new Claim(ImuaythaiJwtRegisteredClaimNames.UserId, user.Id),
                 new Claim(ImuaythaiJwtRegisteredClaimNames.InstitutionId, Convert.ToString(user.InstitutionId)),
