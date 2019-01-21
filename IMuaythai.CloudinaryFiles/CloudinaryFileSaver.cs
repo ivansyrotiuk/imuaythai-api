@@ -19,7 +19,7 @@ namespace IMuaythai.CloudinaryFiles
             };
             var uploadResult = cloudinary.Upload(upload);
 
-            return uploadResult.Uri.AbsoluteUri;
+            return uploadResult.Uri.AbsoluteUri.Replace("http://", "https://");
         }
 
         private Cloudinary GetCloudinaryUploader()
