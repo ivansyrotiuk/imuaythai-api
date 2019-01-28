@@ -26,4 +26,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Migrations\20190128193704_AddedNameToLicenseType.Designer.cs">
+      <DependentUpon>20190128193704_AddedNameToLicenseType.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

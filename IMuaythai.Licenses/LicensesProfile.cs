@@ -12,9 +12,7 @@ namespace IMuaythai.Licenses
             CreateMap<JudgeLicense, JudgeLicenseResponseModel>();
             CreateMap<CoachLicense, CoachLicenseResponseModel>();
             CreateMap<GymLicense, GymLicenseResponseModel>();
-            CreateMap<LicenseType, LicenseTypeResponseModel>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => LicenseTypeNameResolver.ResolveLicenseTypeName(src)));
-
+            CreateMap<LicenseType, LicenseTypeResponseModel>();
             CreateMap<FighterLicense, UserLicense>();
             CreateMap<JudgeLicense, UserLicense>();
             CreateMap<GymLicense, UserLicense>();
