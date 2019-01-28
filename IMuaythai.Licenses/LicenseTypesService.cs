@@ -59,7 +59,7 @@ namespace IMuaythai.Licenses
                 }
             }
 
-            return result;
+            return result.OrderBy(type => type.Kind).ToArray();
         }
 
         public Task CreateLicenseTypes()
